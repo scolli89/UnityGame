@@ -32,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
         //this is called at a constant rate, 50 times/ second. Not tied to frame rate
         // better to calculate collisions this way because of frame rate drops or something
         rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+        
 
     }
 }
