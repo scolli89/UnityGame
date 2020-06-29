@@ -1,0 +1,106 @@
+Things we talked about;
+Active skills
+	> abilities
+	> defensive
+	> stratigic
+	> offensive
+	> Support
+	> World manipulation (Bridge building) 
+Passive skills:
+	> what would these be?
+
+
+
+Dodge Skills: (roll, parry, duck)
+	> iframes (pretty sure angry arrows does not have iframes)
+	> speed
+	> distance
+	> attacks have active frames
+	>
+Movement speed
+	> walk speed
+	> run ?
+	> Dodge speed
+	
+Projectile
+	> Size
+	> Speed
+	> Strength/damage
+	> Collision ability (What happens when two projectiles meet?)
+Health
+	> Size/ hp points
+	> 
+
+
+What is a class? 
+	-> just a active skill?
+	-> are they all things
+	-> 
+	-> How much control do we let the player have when creating a class? All/ or none
+	-> balancing is a whole issue. 
+	
+
+
+
+
+
+
+
+
+class type ideas:
+base guy:
+	projectile:
+	active:
+	passive:
+	dodge:
+
+healer:
+	active: heal other players
+	passive:
+	modifiers: move slower,
+archer:
+	active: triple shot
+	passive:
+	modifiers: move faster, faster shot. regular health
+wall builder: 
+	active: build temparary barrior for defensive
+	passive: 
+	modifiers: higher health
+bridge builder:
+	active:build bridges over impassable objects(rivers, ravines)
+	passive:
+
+landminer:
+	active: place land mines
+	secondary: disable landmines (add to inventory?)
+	passive:
+
+trap man:
+	active: place trap
+
+necromancer:
+	active: revive player. 
+	passive: 
+Rogue:
+	active: stealth/slow movement
+	active: smoke bomb, lose focus. 
+	passive: cannot be hit by teammates arrows. 
+
+
+
+Minimum viable product.
+-> One class.
+-> No abilities/ Angry arrows like build. 
+-> Get the arrows, the movement. 
+-> Open space. 
+-> getting the rolls going. (Without iframes) 
+-> Assets, need basic hero, arrow, bow, ground sprites. 
+
+
+
+
+
+
+
+
+	

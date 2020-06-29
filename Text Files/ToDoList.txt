@@ -1,0 +1,48 @@
+TODO List! 
+What do we need to do first?
+
+> Need to set up a basic testing environment.
+	> We need to import a tile set. 
+	> Background tiles
+	> Boarder tiles that prevent exit from the stage. 
+	> Walled tiles. 
+
+> Get a guy moving around.
+	> We need to import a character sprites 
+	> We need to write the script to move the guy
+	> Set up the sprite animation of the characte
+
+> Get the guy to interact with the environment. 
+	> Prevent walking through walls for a start
+
+> Need to get shooting to work.
+	> Bow and arrow sprites.
+	> Aiming
+	> Firing
+	> wall hit detection. 
+
+> Need to get basic combat working. 
+	> Health bar
+	> Hit detection
+	> Death
+	> Death by environemnt? (Drowning, Out of bounds) 
+	> Respawning
+		 		
+> We need a menu screen.
+	> Controller support
+	> Visual settings
+	> Other stuff
+
+> Create the rest of the game
+	> Class system.
+	> Enemy AI
+	> Saving Game  progression_ 
+	> PVP setup
+	> Controller support
+	> Game modes
+	> Map and level design
+	> Boss battles ? 
+
+
+
+	
