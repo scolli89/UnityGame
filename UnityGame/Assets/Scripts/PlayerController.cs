@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayeController : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
 
     [Space]
     [Header("Character Attributes:")]
     public float MOVEMENT_BASE_SPEED = 1.0f;
     public float CROSSHAIR_DISTANCE = 10.0f;
+    public int playerId;
     [Space]
     [Header("Character Statistics:")]
     public float movementSpeed;
@@ -90,11 +91,11 @@ public class PlayeController : MonoBehaviour
 
     void Animate()
     {
-        // if(movementDirection != Vector2.zero){
-        //     animator.SetFloat("Horizontal",movementDirection.x);
-        //     animator.SetFloat("vertical",movementDirection.y);
-        // }
-        // animator.SetFloat("Speed",movementSpeed);
+        if(movementDirection != Vector2.zero){
+             animator.SetFloat("Horizontal",movementDirection.x);
+             animator.SetFloat("Vertical",movementDirection.y);
+        }
+        animator.SetFloat("Speed",movementSpeed);
     }
 
 
