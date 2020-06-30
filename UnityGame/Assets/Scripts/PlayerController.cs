@@ -4,27 +4,32 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public int playerId;
 
     [Space]
     [Header("Character Attributes:")]
     public float MOVEMENT_BASE_SPEED = 1.0f;
-    public float CROSSHAIR_DISTANCE = 10.0f;
-    public int playerId;
+    public float ARROW_BASE_SPEED = 1.0f;
+    public float CROSSHAIR_DISTANCE = 5.0f;
+    public float AIMING_BASE_PENALTY = 0.1f;
+    
     [Space]
     [Header("Character Statistics:")]
     public float movementSpeed;
     private Vector2 movementDirection;
+    private Vector2 aimDirection;
     public bool endOfAiming;
+    public bool isAiming;
     
     [Space]
-    [Header("Character Statistics:")]
+    [Header("References:")]
     private Rigidbody2D rb;
     public Animator animator;
     public GameObject crosshair;
 
-     [Space]
-    [Header("Character Statistics:")]
-    public bool yes;
+    [Space]
+    [Header("Prefabs:")]
+    public GameObject arrowPrefab;
 
     
 
@@ -33,6 +38,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        crosshair.SetActive(false);
     }
 
     // Update is called once per frame
@@ -44,8 +50,7 @@ public class PlayerController : MonoBehaviour
        
 
         ProcessInputs();
-        // Move is called in FixedUpdate
-        //Move();
+        Move(); // Move is called in FixedUpdate
         Animate();
         Aim();
         Shoot();
@@ -66,22 +71,14 @@ public class PlayerController : MonoBehaviour
         movementDirection.Normalize();
 
         endOfAiming = Input.GetButtonUp("Fire1");
+        isAiming = Input.GetButton("Fire1");
         // fire1 is mapped to the left click button. 
-        
-        
 
-
-
-    }
-    void FixedUpdate()
-    {
-        //this is called at a constant rate, 50 times/ second. Not tied to frame rate
-        // better to calculate collisions this way because of frame rate drops or something
-
-        //rb.MovePosition(rb.position + movementDirection * movementSpeed * Time.fixedDeltaTime);
-        
-        Move();
-
+        if(isAiming) {
+            crosshair.SetActive(true);
+            movementSpeed *= AIMING_BASE_PENALTY;
+        }
+    
     }
 
     void Move()
@@ -102,19 +99,28 @@ public class PlayerController : MonoBehaviour
     void Aim()
     {
         if (movementDirection != Vector2.zero){
-            crosshair.transform.localPosition = movementDirection * CROSSHAIR_DISTANCE;
+            aimDirection = new Vector2(Input.GetAxis("MoveHorizontal"),Input.GetAxis("MoveVertical"));
+            aimDirection.Normalize();
+            crosshair.transform.localPosition = aimDirection * CROSSHAIR_DISTANCE;
+            //crosshair.transform.localPosition = movementDirection * CROSSHAIR_DISTANCE;
         }
 
     }
 
-    void Shoot(){
+  
+    void Shoot()
+    {
+        Vector2 shootingDirection = crosshair.transform.localPosition;
+        shootingDirection.Normalize();
         
 
         if(endOfAiming){
-
-            Vector2 shootingDirection = crosshair.transform.localPosition;
-            shootingDirection.Normalize();
+            GameObject arrow = Instantiate(arrowPrefab,transform.position, Quaternion.identity);
+            arrow.GetComponent<Rigidbody2D>().velocity = shootingDirection * ARROW_BASE_SPEED; // adjust velocity
+            arrow.transform.Rotate(0,0,Mathf.Atan2(shootingDirection.y,shootingDirection.x) * Mathf.Rad2Deg);
+            Destroy(arrow,2.0f);
             Debug.Log("Fire");
+            crosshair.SetActive(false);
         }
 
     }

@@ -13,6 +13,7 @@ What do we need to do first?
 	> Aiming
 	> Firing
 	> wall hit detection. 
+	> animations for aiming and shooting. 
 
 > Need to get basic combat working. 
 	> Health bar
