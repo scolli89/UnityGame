@@ -1,19 +1,12 @@
 TODO List! 
 What do we need to do first?
 
-> Need to set up a basic testing environment.
-	> We need to import a tile set. 
-	> Background tiles
-	> Boarder tiles that prevent exit from the stage. 
-	> Walled tiles. 
-
 > Get a guy moving around.
-	> We need to import a character sprites 
-	> We need to write the script to move the guy
 	> Set up the sprite animation of the characte
 
 > Get the guy to interact with the environment. 
-	> Prevent walking through walls for a start
+	> Levers, Pressur plates, switches ? 
+	> HAving those things AAA do stuff
 
 > Need to get shooting to work.
 	> Bow and arrow sprites.
@@ -43,6 +36,21 @@ What do we need to do first?
 	> Map and level design
 	> Boss battles ? 
 
+TO DONE! LIST
 
+
+
+> Need to set up a basic testing environment.
+	> We need to import a tile set. 
+	> Background tiles
+	> Boarder tiles that prevent exit from the stage. 
+	> Walled tiles. 
+
+> Get a guy moving around.
+	> We need to import a character sprites 
+	> We need to write the script to move the guy
+
+> Get the guy to interact with the environment. 
+	> Prevent walking through walls for a start
 
 	
