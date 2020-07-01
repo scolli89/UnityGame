@@ -50,7 +50,6 @@ public class cannonController : MonoBehaviour
 
         } else {
             if(checkDistance()){
-                Debug.Log("F");
                 fireArrow();
                 justFired = true; 
             }
@@ -62,11 +61,9 @@ public class cannonController : MonoBehaviour
         //if player is too close, fire arrow down. 
         if( Mathf.Abs(player.transform.position.x - transform.position.x) < DISTANCE_FROM_PLAYER &&
                 Mathf.Abs(player.transform.position.y - transform.position.y) < DISTANCE_FROM_PLAYER ){
-                    Debug.Log("T");
             return true; 
         }
         // otherwise 
-        Debug.Log("F");
         return false;   
     }
 
