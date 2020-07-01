@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     public float ARROW_BASE_SPEED = 1.0f;
     public float CROSSHAIR_DISTANCE = 5.0f;
     public float AIMING_BASE_PENALTY = 0.1f;
+    public float ARROW_DOWN_OFFSET = 1.0f;
     
     [Space]
     [Header("Character Statistics:")]
@@ -113,9 +114,18 @@ public class PlayerController : MonoBehaviour
         Vector2 shootingDirection = crosshair.transform.localPosition;
         shootingDirection.Normalize();
         
+        
 
         if(endOfAiming){
-            GameObject arrow = Instantiate(arrowPrefab,transform.position, Quaternion.identity);
+            // need to determine which if the player is shooting down. 
+            Vector3 iPosition = transform.position; 
+            if(shootingDirection.y < 0){
+                iPosition.y = iPosition.y - ARROW_DOWN_OFFSET;  
+            }
+
+
+            Debug.Log("Shooting Direction: " + shootingDirection);
+            GameObject arrow = Instantiate(arrowPrefab,iPosition, Quaternion.identity);
             arrow.GetComponent<Rigidbody2D>().velocity = shootingDirection * ARROW_BASE_SPEED; // adjust velocity
             arrow.transform.Rotate(0,0,Mathf.Atan2(shootingDirection.y,shootingDirection.x) * Mathf.Rad2Deg);
             Destroy(arrow,2.0f);
