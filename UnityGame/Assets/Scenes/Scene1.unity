@@ -3812,7 +3812,7 @@ MonoBehaviour:
   ARROW_DOWN_OFFSET: 1
   DISTANCE_FROM_PLAYER: 5
   player: {fileID: 1345041994}
-  arrowPrefab: {fileID: 2817695094258861393, guid: 9de6fbc149b8cf54a814911a4a121175,
+  projectilePrefab: {fileID: 7506664976520544863, guid: ba8c818215f56704a92b44b6a377b17a,
     type: 3}
 --- !u!212 &664000450
 SpriteRenderer:
@@ -3853,8 +3853,8 @@ SpriteRenderer:
   m_SortingLayerID: 2103540157
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: c36727044cdd8ed48b34430ab9e114ae, type: 3}
-  m_Color: {r: 1, g: 0, b: 0.8515253, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 458fb4efaacb04443a198604e63bf65d, type: 3}
+  m_Color: {r: 0.8396226, g: 0.41585082, b: 0.75866383, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -4978,7 +4978,8 @@ MonoBehaviour:
   CROSSHAIR_DISTANCE: 5
   AIMING_BASE_PENALTY: 0
   ARROW_DOWN_OFFSET: 1
-  usingKeyBoard: 1
+  usingKeyBoard: 0
+  arrowsRemaining: 12
   movementSpeed: 0
   endOfAiming: 0
   isAiming: 0

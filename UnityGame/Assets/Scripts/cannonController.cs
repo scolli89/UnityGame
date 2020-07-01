@@ -8,6 +8,7 @@ public class cannonController : MonoBehaviour
     [Space]
     [Header("Cannon Statistics:")]
     public Vector2 shootingDirection;
+    public bool shootAtPlayer; 
     public float fireRate; // in frames 
     public bool justFired;
     private float count;
@@ -28,7 +29,7 @@ public class cannonController : MonoBehaviour
 
     [Space]
     [Header("Prefabs:")]
-    public GameObject arrowPrefab;
+    public GameObject projectilePrefab;
 
 
     void Start()
@@ -50,7 +51,7 @@ public class cannonController : MonoBehaviour
 
         } else {
             if(checkDistance()){
-                fireArrow();
+                fire();
                 justFired = true; 
             }
         }
@@ -68,7 +69,17 @@ public class cannonController : MonoBehaviour
     }
 
 
-    void fireArrow(){
+    void fire(){
+
+        if(shootAtPlayer){
+
+        }
+        else{
+            
+        }
+
+
+
         // fires arrow Vector3 iPosition = transform.position; 
             Vector3 iPosition = transform.position;
             if(shootingDirection.y < 0){ //down
@@ -83,7 +94,7 @@ public class cannonController : MonoBehaviour
             }
 
         
-        GameObject arrow = Instantiate(arrowPrefab,iPosition, Quaternion.identity);
+        GameObject arrow = Instantiate(projectilePrefab,iPosition, Quaternion.identity);
         arrow.GetComponent<Rigidbody2D>().velocity = shootingDirection * ARROW_BASE_SPEED; // adjust velocity
         arrow.transform.Rotate(0,0,Mathf.Atan2(shootingDirection.y,shootingDirection.x) * Mathf.Rad2Deg);
         Destroy(arrow,2.0f);
