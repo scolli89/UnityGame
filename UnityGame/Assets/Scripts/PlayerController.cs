@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
     [Space]
     [Header("Character Statistics:")]
     public int arrowsRemaining = 12;
+    public int health = 6; 
+    private int lastHealth = 6;
     public float movementSpeed;
     private Vector2 movementDirection;
     private Vector2 aimDirection;
@@ -29,6 +31,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     public Animator animator;
     public GameObject crosshair;
+    public GameObject healthBar;
 
     [Space]
     [Header("Prefabs:")]
@@ -51,15 +54,32 @@ public class PlayerController : MonoBehaviour
         // get the change 
 
 
-
+        updateHealth();
         ProcessInputs();
         Move(); // Move is called in FixedUpdate
         Animate();
         //Aim();
         Shoot();
+        
+
+        
 
 
     }
+
+
+    void updateHealth(){
+        // this works assuming health is changed somewhere else. 
+        if(health != lastHealth ){
+            lastHealth = health;
+            healthBar.GetComponent<HealthBarController>().setHealth(health); 
+
+        }
+        
+
+    }
+
+
 
     void ProcessInputs()
     {
@@ -159,12 +179,6 @@ public class PlayerController : MonoBehaviour
         //crosshair.transform.localPosition = movementDirection * CROSSHAIR_DISTANCE;
     }
 
-
-
-
-
-
-
     void Shoot()
     {
 
@@ -196,4 +210,17 @@ public class PlayerController : MonoBehaviour
         }
 
     }
+
+
+     private void OnCollisionEnter2D(Collision2D other){
+
+         Debug.Log("Bonk");
+         if(other.gameObject.tag == "bullet"){
+             Destroy(other.gameObject);
+             health--; 
+
+         }
+     }
+        
+    
 }
