@@ -46,7 +46,10 @@ public class HealthBarController : MonoBehaviour
         else if (h == 1)
         {
             spriteRenderer.sprite = health1;
+        } else if(h == 0){
+            spriteRenderer.sprite = null; 
         }
+
     }
 
     // Update is called once per frame

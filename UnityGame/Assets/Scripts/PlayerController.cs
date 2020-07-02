@@ -18,8 +18,9 @@ public class PlayerController : MonoBehaviour
     [Space]
     [Header("Character Statistics:")]
     public int arrowsRemaining = 12;
+    private int lastArrowsRemaining;
     public int health = 6; 
-    private int lastHealth = 6;
+    private int lastHealth;
     public float movementSpeed;
     private Vector2 movementDirection;
     private Vector2 aimDirection;
@@ -32,6 +33,11 @@ public class PlayerController : MonoBehaviour
     public Animator animator;
     public GameObject crosshair;
     public GameObject healthBar;
+    private HealthBarController healthBarScript;
+    public GameObject ammoBar; 
+    private AmmoController ammoBarScript;
+    
+
 
     [Space]
     [Header("Prefabs:")]
@@ -44,7 +50,17 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        lastHealth  = health;
+        healthBarScript = healthBar.GetComponent<HealthBarController>();
+        healthBarScript.setHealth(health);
+
+        ammoBarScript = ammoBar.GetComponent<AmmoController>();
+        ammoBarScript.setAmmo(arrowsRemaining);
+        lastArrowsRemaining = arrowsRemaining;
+
         crosshair.SetActive(false);
+        
+       
     }
 
     // Update is called once per frame
@@ -72,15 +88,10 @@ public class PlayerController : MonoBehaviour
         // this works assuming health is changed somewhere else. 
         if(health != lastHealth ){
             lastHealth = health;
-            healthBar.GetComponent<HealthBarController>().setHealth(health); 
-
+            //healthBar.GetComponent<HealthBarController>().setHealth(health); 
+            healthBarScript.setHealth(health);
         }
-        
-
     }
-
-
-
     void ProcessInputs()
     {
 
@@ -187,6 +198,8 @@ public class PlayerController : MonoBehaviour
             if (arrowsRemaining > 0)
             {
                 arrowsRemaining--;
+                //ammoBar.GetComponent<AmmoController>().setAmmo(arrowsRemaining);
+                ammoBarScript.setAmmo(arrowsRemaining);
                 Vector2 shootingDirection = crosshair.transform.localPosition;
                 shootingDirection.Normalize();
                 // need to determine which if the player is shooting down. 
