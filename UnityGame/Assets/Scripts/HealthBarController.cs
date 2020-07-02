@@ -5,6 +5,8 @@ using UnityEngine;
 public class HealthBarController : MonoBehaviour
 {
 
+//todo make this an array
+
     public Sprite health6;
     public Sprite health5;
     public Sprite health4;
@@ -17,6 +19,7 @@ public class HealthBarController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log("health start");
         spriteRenderer = this.GetComponent<SpriteRenderer>();
     }
     public void setHealth(int h)

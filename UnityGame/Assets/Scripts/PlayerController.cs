@@ -52,10 +52,10 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         lastHealth  = health;
         healthBarScript = healthBar.GetComponent<HealthBarController>();
-        healthBarScript.setHealth(health);
+        setHealthAmount(health);
 
         ammoBarScript = ammoBar.GetComponent<AmmoController>();
-        ammoBarScript.setAmmo(arrowsRemaining);
+        setAmmoAmount(arrowsRemaining);
         lastArrowsRemaining = arrowsRemaining;
 
         crosshair.SetActive(false);
@@ -89,7 +89,7 @@ public class PlayerController : MonoBehaviour
         if(health != lastHealth ){
             lastHealth = health;
             //healthBar.GetComponent<HealthBarController>().setHealth(health); 
-            healthBarScript.setHealth(health);
+            setHealthAmount(health);
         }
     }
     void ProcessInputs()
@@ -199,7 +199,9 @@ public class PlayerController : MonoBehaviour
             {
                 arrowsRemaining--;
                 //ammoBar.GetComponent<AmmoController>().setAmmo(arrowsRemaining);
-                ammoBarScript.setAmmo(arrowsRemaining);
+                
+                setAmmoAmount(arrowsRemaining);
+                // put this in a function call
                 Vector2 shootingDirection = crosshair.transform.localPosition;
                 shootingDirection.Normalize();
                 // need to determine which if the player is shooting down. 
@@ -235,5 +237,11 @@ public class PlayerController : MonoBehaviour
          }
      }
         
+    void setAmmoAmount(int n){
+        ammoBarScript.setAmmo(n);
+    }
+    void setHealthAmount(int n){
+        healthBarScript.setHealth(n);
+    }
     
 }
