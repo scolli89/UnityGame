@@ -4,23 +4,30 @@ using UnityEngine;
 
 public class AmmoController : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [Space]
+    [Header("References:")]
+    [Header("References:")]
+    private static SpriteRenderer tensSprite;
+    private static SpriteRenderer onesSprite;
+    public static GameObject ones;
+    public static GameObject tens;
+    
+    
+    
     [Space]
     [Header("Sprites:")]
 
     public Sprite[] spriteArray;
+
+    public Sprite errorSprite;
    
-    [Space]
-    [Header("References:")]
-    private SpriteRenderer tensSprite;
-    private SpriteRenderer onesSprite;
-    public GameObject ones;
-    public GameObject tens;
+    
 
     void Start()
     {
-        onesSprite = ones.GetComponent<SpriteRenderer>();
-        tensSprite = tens.GetComponent<SpriteRenderer>();
+        Debug.Log("Ammo Start");
+        onesSprite = this.gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>();
+        tensSprite = this.gameObject.transform.GetChild(1).GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -35,6 +42,13 @@ public class AmmoController : MonoBehaviour
         values[1] = ammo % 100; 
         values[1] -= values[0];
         values[1] /= 10; 
+
+        if(values[0] > 9 || values[0] < 0){
+            onesSprite.sprite = errorSprite; 
+        } 
+        else if( values[1] > 9 || values[1] < 0){
+            tensSprite.sprite = errorSprite;
+        }
 
         onesSprite.sprite = spriteArray[values[0]];
         tensSprite.sprite = spriteArray[values[1]];

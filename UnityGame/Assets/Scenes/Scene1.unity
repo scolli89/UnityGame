@@ -188,8 +188,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 2103540157
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 4307177417163183746, guid: 2d9129377cccfbe48a0af285082b52af,
     type: 3}
@@ -4017,8 +4017,7 @@ MonoBehaviour:
   - {fileID: -5587311434309891481, guid: 2d9129377cccfbe48a0af285082b52af, type: 3}
   - {fileID: -5752808356724389118, guid: 2d9129377cccfbe48a0af285082b52af, type: 3}
   - {fileID: 3384210181554619638, guid: 2d9129377cccfbe48a0af285082b52af, type: 3}
-  ones: {fileID: 1336702509}
-  tens: {fileID: 164197775}
+  errorSprite: {fileID: 21300000, guid: c36727044cdd8ed48b34430ab9e114ae, type: 3}
 --- !u!1 &1284864354
 GameObject:
   m_ObjectHideFlags: 0
@@ -5081,8 +5080,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 2103540157
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: -6806095507700976048, guid: 2d9129377cccfbe48a0af285082b52af,
     type: 3}
@@ -5203,7 +5202,7 @@ MonoBehaviour:
   CROSSHAIR_DISTANCE: 5
   AIMING_BASE_PENALTY: 0
   ARROW_DOWN_OFFSET: 1
-  usingKeyBoard: 0
+  usingKeyBoard: 1
   arrowsRemaining: 12
   health: 6
   movementSpeed: 0
@@ -5396,8 +5395,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 2103540157
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: afd23b46c384ee54fae489ae74b16d4a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -5422,12 +5421,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0c2163bb8ae9f344929eee4c5b80715, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health6: {fileID: 21300000, guid: afd23b46c384ee54fae489ae74b16d4a, type: 3}
-  health5: {fileID: 21300000, guid: 862d9c85f37626540bf5394b0203ecc1, type: 3}
-  health4: {fileID: 21300000, guid: d77e41b44d198b54e8b1a707cb8055ba, type: 3}
-  health3: {fileID: 21300000, guid: c9f2b6859b910704da318b3d272ed781, type: 3}
-  health2: {fileID: 21300000, guid: daf62c161c4651f4d8b4737c374e9f5b, type: 3}
-  health1: {fileID: 21300000, guid: 64df515ffda09d64c9f35544426d07f0, type: 3}
+  spriteArray:
+  - {fileID: 21300000, guid: 9bdb91a106c81054c94de94bae7641da, type: 3}
+  - {fileID: 21300000, guid: 64df515ffda09d64c9f35544426d07f0, type: 3}
+  - {fileID: 21300000, guid: daf62c161c4651f4d8b4737c374e9f5b, type: 3}
+  - {fileID: 21300000, guid: c9f2b6859b910704da318b3d272ed781, type: 3}
+  - {fileID: 21300000, guid: d77e41b44d198b54e8b1a707cb8055ba, type: 3}
+  - {fileID: 21300000, guid: 862d9c85f37626540bf5394b0203ecc1, type: 3}
+  - {fileID: 21300000, guid: afd23b46c384ee54fae489ae74b16d4a, type: 3}
 --- !u!1 &2089304030
 GameObject:
   m_ObjectHideFlags: 0

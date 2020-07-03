@@ -33,11 +33,11 @@ public class PlayerController : MonoBehaviour
     public Animator animator;
     public GameObject crosshair;
     public GameObject healthBar;
-    private HealthBarController healthBarScript;
+    private HealthBarController healthBarController;
     public GameObject ammoBar; 
-    private AmmoController ammoBarScript;
+    private static AmmoController ammoController;
     
-
+    private bool firstUpdate = true;
 
     [Space]
     [Header("Prefabs:")]
@@ -49,12 +49,17 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log("Player Start");
         rb = GetComponent<Rigidbody2D>();
         lastHealth  = health;
-        healthBarScript = healthBar.GetComponent<HealthBarController>();
+        //healthBarController = healthBar.GetComponent<HealthBarController>();
+        healthBarController = this.gameObject.transform.GetChild(2).GetComponent<HealthBarController>();
+        Debug.Log(healthBarController);
         setHealthAmount(health);
 
-        ammoBarScript = ammoBar.GetComponent<AmmoController>();
+        //ammoController = ammoBar.GetComponent<AmmoController>();
+        ammoController = this.gameObject.transform.GetChild(3).GetComponent<AmmoController>();
+        Debug.Log(ammoController);
         setAmmoAmount(arrowsRemaining);
         lastArrowsRemaining = arrowsRemaining;
 
@@ -70,7 +75,7 @@ public class PlayerController : MonoBehaviour
         // get the change 
 
 
-        updateHealth();
+       // updateUI();
         ProcessInputs();
         Move(); // Move is called in FixedUpdate
         Animate();
@@ -84,12 +89,21 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    void updateHealth(){
+    void updateUI(){
         // this works assuming health is changed somewhere else. 
+        if(firstUpdate){
+            setHealthAmount(health);
+            setAmmoAmount(arrowsRemaining);
+            firstUpdate = false;
+        }
         if(health != lastHealth ){
             lastHealth = health;
             //healthBar.GetComponent<HealthBarController>().setHealth(health); 
             setHealthAmount(health);
+        }
+        if(arrowsRemaining != lastArrowsRemaining){
+            lastArrowsRemaining = arrowsRemaining;
+            setAmmoAmount(arrowsRemaining);
         }
     }
     void ProcessInputs()
@@ -184,7 +198,7 @@ public class PlayerController : MonoBehaviour
         }
 
         aimDirection.Normalize();
-        Debug.Log("AimDirection" + aimDirection);
+        //Debug.Log("AimDirection" + aimDirection);
 
         crosshair.transform.localPosition = aimDirection * CROSSHAIR_DISTANCE;
         //crosshair.transform.localPosition = movementDirection * CROSSHAIR_DISTANCE;
@@ -199,7 +213,7 @@ public class PlayerController : MonoBehaviour
             {
                 arrowsRemaining--;
                 //ammoBar.GetComponent<AmmoController>().setAmmo(arrowsRemaining);
-                
+                Debug.Log("Arrows Remaing" + arrowsRemaining);
                 setAmmoAmount(arrowsRemaining);
                 // put this in a function call
                 Vector2 shootingDirection = crosshair.transform.localPosition;
@@ -229,19 +243,20 @@ public class PlayerController : MonoBehaviour
 
      private void OnCollisionEnter2D(Collision2D other){
 
-         Debug.Log("Bonk");
+        // Debug.Log("Bonk");
          if(other.gameObject.tag == "bullet"){
              Destroy(other.gameObject);
-             health--; 
+             //health--; 
+             setHealthAmount(--health);
 
          }
      }
         
-    void setAmmoAmount(int n){
-        ammoBarScript.setAmmo(n);
+    public void setAmmoAmount(int n){
+        ammoController.setAmmo(n);
     }
-    void setHealthAmount(int n){
-        healthBarScript.setHealth(n);
+    public void setHealthAmount(int n){
+        healthBarController.setHealth(n);
     }
     
 }
