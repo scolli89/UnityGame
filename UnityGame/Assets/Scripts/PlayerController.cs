@@ -11,21 +11,39 @@ public class PlayerController : MonoBehaviour
     public float MOVEMENT_BASE_SPEED = 1.0f;
     public float ARROW_BASE_SPEED = 1.0f;
     public float CROSSHAIR_DISTANCE = 5.0f;
+
+    public float BUILDER_POWER_DISTANCE = 2.0f;
     public float AIMING_BASE_PENALTY = 0.1f;
-    public float ARROW_DOWN_OFFSET = 1.0f;
+    public float ARROW_DOWN_OFFSET = 2.5f;
+    public float ARROW_WAIT_TIME = 0.1f;
+
+
+    const string BUILDER_CLASS_NAME = "BUILDER";
+    const string BUILDER_MOD_ONE = "B_MOD_ONE";
+    const string BUILDER_MOD_TWO = "B_MOD_TWO";
+    const string BUILDER_MOD_THREE = "B_MOD_THREE";
+    const string HEALER_CLASS_NAME = "HEALER";
+    const string SHOCK_CLASS_NAME = "SHOCK";
     public bool usingKeyBoard;
 
     [Space]
     [Header("Character Statistics:")]
     public int arrowsRemaining = 12;
     private int lastArrowsRemaining;
-    public int health = 6; 
+    public int health = 6;
     private int lastHealth;
     public float movementSpeed;
     private Vector2 movementDirection;
     private Vector2 aimDirection;
     public bool endOfAiming;
     public bool isAiming;
+    public bool usingPower;
+    public bool endUsingPower;
+
+    [Space]
+    [Header("Character Class:")]
+    public string className;
+    public string modName;
 
     [Space]
     [Header("References:")]
@@ -34,14 +52,16 @@ public class PlayerController : MonoBehaviour
     public GameObject crosshair;
     public GameObject healthBar;
     private HealthBarController healthBarController;
-    public GameObject ammoBar; 
+    public GameObject ammoBar;
     private static AmmoController ammoController;
-    
+
     private bool firstUpdate = true;
 
     [Space]
     [Header("Prefabs:")]
     public GameObject arrowPrefab;
+
+    public GameObject classPrefab;
 
     Vector3 worldPosition;
 
@@ -56,7 +76,7 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("Player Start");
         rb = GetComponent<Rigidbody2D>();
-        lastHealth  = health;
+        lastHealth = health;
         //healthBarController = healthBar.GetComponent<HealthBarController>();
         healthBarController = this.gameObject.transform.GetChild(2).GetComponent<HealthBarController>();
         Debug.Log(healthBarController);
@@ -69,8 +89,13 @@ public class PlayerController : MonoBehaviour
         lastArrowsRemaining = arrowsRemaining;
 
         crosshair.SetActive(false);
-        
-       
+
+        // SET CLASS
+        setClass(BUILDER_CLASS_NAME);
+        setMod(BUILDER_MOD_ONE);
+
+
+
     }
 
     // Update is called once per frame
@@ -86,28 +111,33 @@ public class PlayerController : MonoBehaviour
         Animate();
         //Aim();
         Shoot();
-        
+        usePower();
 
-        
+
+
 
 
     }
 
 
-    void updateUI(){
+    void updateUI()
+    {
         // this works assuming health is changed somewhere else.
         // this works because reasons. like async calls.  
-        if(firstUpdate){
+        if (firstUpdate)
+        {
             setHealthAmount(health);
             setAmmoAmount(arrowsRemaining);
             firstUpdate = false;
         }
-        if(health != lastHealth ){
+        if (health != lastHealth)
+        {
             lastHealth = health;
             //healthBar.GetComponent<HealthBarController>().setHealth(health); 
             setHealthAmount(health);
         }
-        if(arrowsRemaining != lastArrowsRemaining){
+        if (arrowsRemaining != lastArrowsRemaining)
+        {
             lastArrowsRemaining = arrowsRemaining;
             setAmmoAmount(arrowsRemaining);
         }
@@ -123,6 +153,10 @@ public class PlayerController : MonoBehaviour
             movementDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
             movementSpeed = Mathf.Clamp(movementDirection.magnitude, 0.0f, 1.0f);
             movementDirection.Normalize();
+
+            //powers
+            usingPower = Input.GetMouseButton(1);
+            endUsingPower = Input.GetMouseButtonUp(1);
         }
         else
         {
@@ -131,8 +165,14 @@ public class PlayerController : MonoBehaviour
             movementSpeed = Mathf.Clamp(movementDirection.magnitude, 0.0f, 1.0f);
             movementDirection.Normalize();
 
+            // powers
+            usingPower = Input.GetButton("UsePower");
+            endUsingPower = Input.GetButtonUp("UsePower");
 
         }
+
+
+
 
         endOfAiming = Input.GetButtonUp("Fire1");
         isAiming = Input.GetButton("Fire1");
@@ -140,9 +180,18 @@ public class PlayerController : MonoBehaviour
 
         if (isAiming)
         {
-            Aim();
             crosshair.SetActive(true);
+            Aim();
+
             movementSpeed *= AIMING_BASE_PENALTY;
+        }
+
+        if (usingPower)
+        {
+            crosshair.SetActive(true);
+            AimPower();
+            movementSpeed *= AIMING_BASE_PENALTY;
+
         }
 
         //movementDirection.x = Input.GetAxisRaw("Horizontal");
@@ -210,6 +259,44 @@ public class PlayerController : MonoBehaviour
         //crosshair.transform.localPosition = movementDirection * CROSSHAIR_DISTANCE;
     }
 
+    void AimPower()
+    {
+        if (usingKeyBoard)
+        {
+
+            // Vector3 point = new Vector3();
+            // Event currentEvent = Event.current;
+            // Vector2 mousePos = new Vector2();
+
+            // Camera cam = Camera.main;
+            // // Get the mouse position from Event.
+            // // Note that the y position from Event is inverted.
+            // mousePos.x = Input.mousePosition.x;
+            // mousePos.y = cam.pixelHeight - Input.mousePosition.y;
+            // point = cam.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, cam.nearClipPlane));
+
+            // aimDirection = new Vector2(point.x, point.y);
+
+            Vector3 shootdirection = Input.mousePosition;
+            shootdirection.z = 0.0f;
+            shootdirection = Camera.main.ScreenToWorldPoint(shootdirection);
+            shootdirection = shootdirection - transform.position;
+            aimDirection = new Vector2(shootdirection.x, shootdirection.y);
+
+            //aimDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        }
+        else
+        {
+            aimDirection = new Vector2(Input.GetAxis("MoveHorizontal"), Input.GetAxis("MoveVertical"));
+
+        }
+
+        aimDirection.Normalize();
+        //Debug.Log("AimDirection" + aimDirection);
+
+        crosshair.transform.localPosition = aimDirection * BUILDER_POWER_DISTANCE;
+        //crosshair.transform.localPosition = movementDirection * CROSSHAIR_DISTANCE;
+    }
     void Shoot()
     {
 
@@ -225,12 +312,9 @@ public class PlayerController : MonoBehaviour
                 Vector2 shootingDirection = crosshair.transform.localPosition;
                 shootingDirection.Normalize();
                 // need to determine which if the player is shooting down. 
-                Vector3 iPosition = transform.position;
-                if (shootingDirection.y < 0)
-                {
-                    iPosition.y = iPosition.y - ARROW_DOWN_OFFSET;
-                }
-
+                Vector2 iPosition = transform.position;
+                iPosition = iPosition + shootingDirection * ARROW_DOWN_OFFSET; // this prevents it from hitting the player
+               
 
                 GameObject arrow = Instantiate(arrowPrefab, iPosition, Quaternion.identity);
                 arrow.GetComponent<Rigidbody2D>().velocity = shootingDirection * ARROW_BASE_SPEED; // adjust velocity
@@ -245,24 +329,102 @@ public class PlayerController : MonoBehaviour
         }
 
     }
+    void usePower()
+    {
+        // i don't know if this is the best way to do it. 
+        // i think that maybe have a gameobject with a seoerate builder power script. 
+        // then maybe call the builder power one that script rather than build it all into the player controller. 
+        // not sure what is more optimal. 
+        if (endUsingPower)
+        {
+
+            if (className.Equals(BUILDER_CLASS_NAME))
+            {
+
+                if (modName.Equals(BUILDER_MOD_ONE))
+                {
+                    //TIME TO BUILD 
+                    Vector2 aimDirection = crosshair.transform.localPosition;
+                    Vector2 buildOffset = new Vector2(this.transform.position.x,this.transform.position.y);
+                    Vector2 iPosition = aimDirection + buildOffset;
+                    //iPosition.Normalize();
+                   
+                    GameObject wall = Instantiate(classPrefab, iPosition, Quaternion.identity);
+                    wall.transform.Rotate(0, 0, Mathf.Atan2(aimDirection.y, aimDirection.x) *Mathf.Rad2Deg + 90 );
+
+                    //original
+                    //wall.transform.Rotate(0,0,Mathf.Atan2(aimDirection.y, aimDirection.x) *Mathf.Rad2Deg );
+
+                }
+                else if (modName.Equals(BUILDER_MOD_TWO))
+                {
+
+                }
+                else if (modName.Equals(BUILDER_MOD_THREE))
+                {
+
+                }
 
 
-     private void OnCollisionEnter2D(Collision2D other){
+
+
+
+            }
+            else if (className.Equals(HEALER_CLASS_NAME))
+            {
+
+            }
+            else if (className.Equals(SHOCK_CLASS_NAME))
+            {
+
+            }
+
+            crosshair.SetActive(false);
+            
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
 
         // Debug.Log("Bonk");
-         if(other.gameObject.tag == "bullet"){
-             Destroy(other.gameObject);
-             health--; 
-             //setHealthAmount(--health);
+        if (other.gameObject.tag == "bullet")
+        {
+            Destroy(other.gameObject);
+            health--;
+            //setHealthAmount(--health);
 
-         }
-     }
-        
-    public void setAmmoAmount(int n){
+        }
+    }
+
+
+
+
+    public void setAmmoAmount(int n)
+    {
         ammoController.setAmmo(n);
     }
-    public void setHealthAmount(int n){
+    public void setHealthAmount(int n)
+    {
         healthBarController.setHealth(n);
     }
-    
+
+    public void setClass(string className)
+    {
+        this.className = className;
+    }
+    public string getClass()
+    {
+        return className;
+    }
+    public void setMod(string modName)
+    {
+        this.modName = modName;
+    }
+    public string getMod()
+    {
+        return modName;
+    }
+
+
 }
