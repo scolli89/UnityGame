@@ -36,6 +36,88 @@ What do we need to do first?
 	> Game modes
 	> Map and level design
 	> Boss battles ? 
+>> Wishlist
+	>> have player UI elements ( health (which we are possibly thinking changing to shields and 1 health) and ammo.) toggle with a button push. 
+		>>> shield displays/ shield numbers
+		>>> number of power up charges. 
+	>> Make the theme a space scifi with lasers and stuff?
+
+	>> instead of a roll - use a dash: megaman dash frame, functions the same as roll, less animating. 	
+
+	>> Character creation : 
+		> 1 class
+		> 1 Class mod
+		> 1 passive
+		> 1 fire style
+
+		Class : Healer 
+		Base Active : Heal close range players
+		Mod 1: allow to heal from a distance by shooting
+		Mod 2:heal yourself over time
+		Mod 3:reserruct (yourself or someone else ?)
+		XXXXXXX mod 4: heal player walls. 
+
+		Class : Builder
+		Base Active : Build temporary barrior
+		Mod 1: builder can build from (longer away or a bigger wall)
+		Mod 2: one way wall,
+		Mod 3: bubble shield
+
+		Class : Shockwave  
+		Base Active : Shockwave: who pushes people away with a shock wave or whatever. 
+		Mod 1: shockwave bigger
+		Mod 2: shockwave disables class abilities
+		Mod 3:  shockwave is smaller, reflects projectiles?
+
+		Passives:
+		1: take more hits/ more shields / more health
+		2: Movement Speed increase
+		3: longer roll/ invicible roll/ teleport roll(teleport out of the map and die? ) / it is better, but you don't add an extra button to it. 
+		4: 
+		5:
+		6:
+		7:
+		8:
+		9:
+
+		Fire Styles:
+		1: basic - decent fire rate moderate damage.
+		2: Charged - Slower to shoot , deals more damage.
+		3: forked - splits along the way.
+		4: erasing shot - over powers other lasers, really slow.
+		5: Corner turning shots - travels straight, then turns either by player or route 
+		6:  remote control bomb
+	
+		
+		
+
+
+
+>> options to controll/balance class ability:
+	> cool down timer, different for each in terms of balancing
+		> limited ammo to encourage movement
+		> ammo/power up located around map
+			> randomly
+			> calculated as furthest away from players
+			> predetermined location under timer
+
+	> charges on abilities : NOT take a passive abilities to give more uses to your class ability at the start of the game. 
+		> more powerful abilities use more charges
+		> charges are dropped at different points on the map
+			> randomly
+			> calculated as furthest away from players
+			> predetermined location under timer
+
+
+
+
+
+
+
+
+
+
+
 
 TO DONE! LIST
 

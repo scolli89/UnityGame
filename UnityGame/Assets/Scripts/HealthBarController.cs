@@ -14,11 +14,13 @@ public class HealthBarController : MonoBehaviour
     void Start()
     {
         Debug.Log("health start");
-        Debug.Log(this);
+        
         spriteRenderer = GetComponent<SpriteRenderer>();
+        Debug.Log("HB" + spriteRenderer);
     }
     public void setHealth(int h)
     {
+        Debug.Log("h" + h);
         if (h < 0)
         {
             spriteRenderer.sprite = spriteArray[0];

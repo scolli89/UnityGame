@@ -47,6 +47,11 @@ public class PlayerController : MonoBehaviour
 
 
     // Start is called before the first frame update
+
+    // todos
+    // 
+
+
     void Start()
     {
         Debug.Log("Player Start");
@@ -55,12 +60,12 @@ public class PlayerController : MonoBehaviour
         //healthBarController = healthBar.GetComponent<HealthBarController>();
         healthBarController = this.gameObject.transform.GetChild(2).GetComponent<HealthBarController>();
         Debug.Log(healthBarController);
-        setHealthAmount(health);
+        //setHealthAmount(health);
 
         //ammoController = ammoBar.GetComponent<AmmoController>();
         ammoController = this.gameObject.transform.GetChild(3).GetComponent<AmmoController>();
         Debug.Log(ammoController);
-        setAmmoAmount(arrowsRemaining);
+        //setAmmoAmount(arrowsRemaining);
         lastArrowsRemaining = arrowsRemaining;
 
         crosshair.SetActive(false);
@@ -75,7 +80,7 @@ public class PlayerController : MonoBehaviour
         // get the change 
 
 
-       // updateUI();
+        updateUI();
         ProcessInputs();
         Move(); // Move is called in FixedUpdate
         Animate();
@@ -90,7 +95,8 @@ public class PlayerController : MonoBehaviour
 
 
     void updateUI(){
-        // this works assuming health is changed somewhere else. 
+        // this works assuming health is changed somewhere else.
+        // this works because reasons. like async calls.  
         if(firstUpdate){
             setHealthAmount(health);
             setAmmoAmount(arrowsRemaining);
@@ -214,7 +220,7 @@ public class PlayerController : MonoBehaviour
                 arrowsRemaining--;
                 //ammoBar.GetComponent<AmmoController>().setAmmo(arrowsRemaining);
                 Debug.Log("Arrows Remaing" + arrowsRemaining);
-                setAmmoAmount(arrowsRemaining);
+                //setAmmoAmount(arrowsRemaining);
                 // put this in a function call
                 Vector2 shootingDirection = crosshair.transform.localPosition;
                 shootingDirection.Normalize();
@@ -246,8 +252,8 @@ public class PlayerController : MonoBehaviour
         // Debug.Log("Bonk");
          if(other.gameObject.tag == "bullet"){
              Destroy(other.gameObject);
-             //health--; 
-             setHealthAmount(--health);
+             health--; 
+             //setHealthAmount(--health);
 
          }
      }
