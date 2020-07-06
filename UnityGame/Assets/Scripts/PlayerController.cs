@@ -14,8 +14,8 @@ public class PlayerController : MonoBehaviour
 
     public float BUILDER_POWER_DISTANCE = 2.0f;
     public float AIMING_BASE_PENALTY = 0.1f;
-    public float ARROW_DOWN_OFFSET = 2.5f;
-    public float ARROW_WAIT_TIME = 0.1f;
+    public float ARROW_OFFSET = 1.2f;
+    
 
 
     const string BUILDER_CLASS_NAME = "BUILDER";
@@ -54,6 +54,9 @@ public class PlayerController : MonoBehaviour
     private HealthBarController healthBarController;
     public GameObject ammoBar;
     private static AmmoController ammoController;
+
+    private static PlayerClass playerClass;
+  
 
     private bool firstUpdate = true;
 
@@ -94,6 +97,20 @@ public class PlayerController : MonoBehaviour
         setClass(BUILDER_CLASS_NAME);
         setMod(BUILDER_MOD_ONE);
 
+        if(getClass().Equals(BUILDER_CLASS_NAME)){
+            playerClass = this.gameObject.transform.GetChild(4).GetComponent<BuilderClassBasic>();
+        }
+        else if(getClass().Equals(HEALER_CLASS_NAME)){
+           // playerClass = this.gameObject.transform.GetChild(4).GetComponent<BuilderClassController>();
+        }
+        else if(getClass().Equals(SHOCK_CLASS_NAME)){
+           // playerClass = this.gameObject.transform.GetChild(4).GetComponent<BuilderClassController>();
+        }
+        
+
+        
+
+        // get player class
 
 
     }
@@ -313,7 +330,7 @@ public class PlayerController : MonoBehaviour
                 shootingDirection.Normalize();
                 // need to determine which if the player is shooting down. 
                 Vector2 iPosition = transform.position;
-                iPosition = iPosition + shootingDirection * ARROW_DOWN_OFFSET; // this prevents it from hitting the player
+                iPosition = iPosition + shootingDirection * ARROW_OFFSET; // this prevents it from hitting the player
                
 
                 GameObject arrow = Instantiate(arrowPrefab, iPosition, Quaternion.identity);
@@ -338,48 +355,62 @@ public class PlayerController : MonoBehaviour
         if (endUsingPower)
         {
 
-            if (className.Equals(BUILDER_CLASS_NAME))
-            {
+            // check if there is enough ammo for their power. 
+            int ammoReq = playerClass.getAmmoReq();
+            if(arrowsRemaining >= ammoReq ){
+                arrowsRemaining -= ammoReq;
+                playerClass.usePower(crosshair.transform.localPosition, classPrefab); 
+            } else {
+                // consider giving an error message to player?
+                // flash their ammo red or something to make it noticable that they have nothing
 
-                if (modName.Equals(BUILDER_MOD_ONE))
-                {
-                    //TIME TO BUILD 
-                    Vector2 aimDirection = crosshair.transform.localPosition;
-                    Vector2 buildOffset = new Vector2(this.transform.position.x,this.transform.position.y);
-                    Vector2 iPosition = aimDirection + buildOffset;
-                    //iPosition.Normalize();
+            }
+
+            //playerClass.usePower(crosshair.transform.localPosition, classPrefab); 
+            
+
+            // if (className.Equals(BUILDER_CLASS_NAME))
+            // {
+
+            //     if (modName.Equals(BUILDER_MOD_ONE))
+            //     {
+            //         //TIME TO BUILD 
+            //         Vector2 aimDirection = crosshair.transform.localPosition;
+            //         Vector2 buildOffset = new Vector2(this.transform.position.x,this.transform.position.y);
+            //         Vector2 iPosition = aimDirection + buildOffset;
+            //         //iPosition.Normalize();
                    
-                    GameObject wall = Instantiate(classPrefab, iPosition, Quaternion.identity);
-                    wall.transform.Rotate(0, 0, Mathf.Atan2(aimDirection.y, aimDirection.x) *Mathf.Rad2Deg + 90 );
+            //         GameObject wall = Instantiate(classPrefab, iPosition, Quaternion.identity);
+            //         //wall.transform.Rotate(0, 0, Mathf.Atan2(aimDirection.y, aimDirection.x) *Mathf.Rad2Deg + 90 );
 
-                    //original
-                    //wall.transform.Rotate(0,0,Mathf.Atan2(aimDirection.y, aimDirection.x) *Mathf.Rad2Deg );
+            //         //original
+            //         wall.transform.Rotate(0,0,Mathf.Atan2(aimDirection.y, aimDirection.x) *Mathf.Rad2Deg );
 
-                }
-                else if (modName.Equals(BUILDER_MOD_TWO))
-                {
+            //     }
+            //     else if (modName.Equals(BUILDER_MOD_TWO))
+            //     {
 
-                }
-                else if (modName.Equals(BUILDER_MOD_THREE))
-                {
+            //     }
+            //     else if (modName.Equals(BUILDER_MOD_THREE))
+            //     {
 
-                }
-
-
+            //     }
 
 
 
-            }
-            else if (className.Equals(HEALER_CLASS_NAME))
-            {
 
-            }
-            else if (className.Equals(SHOCK_CLASS_NAME))
-            {
 
-            }
+            // }
+            // else if (className.Equals(HEALER_CLASS_NAME))
+            // {
 
+            // }
+            // else if (className.Equals(SHOCK_CLASS_NAME))
+            // {
+
+            // }
             crosshair.SetActive(false);
+            
             
         }
     }
