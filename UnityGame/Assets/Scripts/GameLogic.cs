@@ -13,7 +13,6 @@ public class GameLogic : MonoBehaviour
         GameObject spawnPoint = GetRandomSpawnPoint();
         // youtu.be/o6I2HdGxhME?t=397
         // youtu.be/o6I2HdGxhME?t=582
-        // got to 10:43
         archer.transform.position = spawnPoint.transform.position;
     }
 
