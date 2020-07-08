@@ -24,11 +24,13 @@ public class HealerClassBasic : PlayerClass
         //Vector2 iPosition = aimDirection + buildOffset;
         //iPosition.Normalize();
 
-        GameObject aura = Instantiate(classPrefab, iPosition, Quaternion.identity);
-        //wall.transform.Rotate(0, 0, Mathf.Atan2(aimDirection.y, aimDirection.x) *Mathf.Rad2Deg + 90 );
-
-        //original
-        //aura.transform.Rotate(0, 0, Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg);
+        //GameObject aura = Instantiate(classPrefab, iPosition, Quaternion.identity);
+        Transform aura = ((GameObject)Instantiate (classPrefab, iPosition, transform.rotation)).transform;
+        aura.parent = transform; 
+        PlayerController pc = this.gameObject.GetComponentInParent<PlayerController>();
+        pc.healing = true;  
+        
+    
 
     }
 
