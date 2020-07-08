@@ -142,20 +142,16 @@ public class PlayerController : MonoBehaviour
     {
         //this is called once a frame. Tied to frame rate. 
         // get the change 
-
-
-        updateUI();
-        ProcessInputs();
-        Move(); // Move is called in FixedUpdate
-        Animate();
-        //Aim();
-        Shoot();
-        usePower();
-
-
-
-
-
+        if (!PauseMenu.GameIsPaused)
+        {
+            updateUI();
+            ProcessInputs();
+            Move(); // Move is called in FixedUpdate
+            Animate();
+            //Aim();
+            Shoot();
+            usePower();
+        }
     }
 
     private void FixedUpdate()
