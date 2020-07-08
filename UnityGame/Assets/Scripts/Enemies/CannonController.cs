@@ -40,26 +40,29 @@ public class CannonController : MonoBehaviour
     // Update is called once per frame, but it is tied to frame rate. 
     void Update()
     {
-        if (justFired)
+        if (!PauseMenu.GameIsPaused)
         {
-
-            if (count < fireRate)
+            if (justFired)
             {
-                count++;
+
+                if (count < fireRate)
+                {
+                    count++;
+                }
+                else
+                {
+                    count = 0;
+                    justFired = false;
+                }
+
             }
             else
             {
-                count = 0;
-                justFired = false;
-            }
-
-        }
-        else
-        {
-            if (checkDistance())
-            {
-                fire();
-                justFired = true;
+                if (checkDistance())
+                {
+                    fire();
+                    justFired = true;
+                }
             }
         }
     }
