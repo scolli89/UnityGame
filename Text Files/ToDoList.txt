@@ -36,6 +36,9 @@ What do we need to do first?
 	> Game modes
 	> Map and level design
 	> Boss battles ? 
+
+>> Pause menu
+
 >> Wishlist
 	>> have player UI elements ( health (which we are possibly thinking changing to shields and 1 health) and ammo.) toggle with a button push. 
 		>>> shield displays/ shield numbers

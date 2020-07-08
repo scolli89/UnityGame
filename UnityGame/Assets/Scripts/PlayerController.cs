@@ -27,8 +27,8 @@ public class PlayerController : MonoBehaviour
     const string BUILDER_MOD_ONE = "B_MOD_ONE";
     const string BUILDER_MOD_TWO = "B_MOD_TWO";
     const string BUILDER_MOD_THREE = "B_MOD_THREE";
-    
-    
+
+
     public bool usingKeyBoard;
 
     [Space]
@@ -40,14 +40,24 @@ public class PlayerController : MonoBehaviour
     public float movementSpeed;
     private Vector2 movementDirection;
     private Vector2 aimDirection;
-    public bool endOfAiming;
-    public bool isAiming;
-    public bool usingPower;
-    public bool endUsingPower;
+    public bool endOfAiming = false;
+    public bool isAiming = false;
+    public bool usingPower = false;
+
+    public bool endUsingPower = false;
 
     public bool healing = false;
     public int healingCount = 0;
     public int healingTime = 50;  //  healingTime/ 50 = seconds. 
+
+    [Space]
+    [Header("Dash Variables:")]
+    public bool isDashing;// = false;
+    public float dashSpeed = 200.0f;
+    private float dashTime; 
+    public float startDashTime = 0.2f;
+
+
 
     [Space]
     [Header("Character Class:")]
@@ -103,8 +113,9 @@ public class PlayerController : MonoBehaviour
         crosshair.SetActive(false);
 
         // SET CLASS
-        setClass(BUILDER_CLASS_BASIC);
         setClass(HEALER_CLASS_BASIC);
+        //setClass(BUILDER_CLASS_BASIC);
+
         setMod(BUILDER_MOD_ONE);
 
         if (getClass().Equals(BUILDER_CLASS_BASIC))
@@ -120,11 +131,9 @@ public class PlayerController : MonoBehaviour
             // playerClass = this.gameObject.transform.GetChild(4).GetComponent<BuilderClassController>();
         }
 
+        // DASH SET UP
 
-
-
-        // get player class
-
+        dashTime = startDashTime;
 
     }
 
@@ -208,6 +217,7 @@ public class PlayerController : MonoBehaviour
             //powers
             usingPower = Input.GetMouseButton(1);
             endUsingPower = Input.GetMouseButtonUp(1);
+            isDashing = Input.GetKeyDown(KeyCode.Space);
         }
         else
         {
@@ -222,11 +232,15 @@ public class PlayerController : MonoBehaviour
 
         }
 
+        
 
 
+        if (!isDashing)
+        {
+            endOfAiming = Input.GetButtonUp("Fire1");
+            isAiming = Input.GetButton("Fire1");
+        }
 
-        endOfAiming = Input.GetButtonUp("Fire1");
-        isAiming = Input.GetButton("Fire1");
         // fire1 is mapped to the left click button. 
 
         if (isAiming)
@@ -256,7 +270,38 @@ public class PlayerController : MonoBehaviour
 
     void Move()
     {
-        rb.velocity = movementDirection * movementSpeed * MOVEMENT_BASE_SPEED;
+
+        if (isDashing)
+        {
+            if (movementDirection.magnitude == 0)
+            {
+
+            }
+            else
+            {
+                if (dashTime <= 0)
+                {
+                    //dashDirection = 0;
+                    movementDirection = Vector2.zero;
+                    dashTime = startDashTime;
+                    rb.velocity = Vector2.zero;
+                }
+                else
+                {
+                    dashTime -= Time.deltaTime;
+                    rb.velocity = movementDirection * dashSpeed;
+                }
+            }
+
+
+
+
+        }
+        else
+        {
+            rb.velocity = movementDirection * movementSpeed * MOVEMENT_BASE_SPEED;
+        }
+
     }
 
     void Animate()
@@ -490,7 +535,7 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.tag == "HealingAura")
         {
-            Debug.Log("LEaving");
+            Debug.Log("Leaving");
             healing = false;
             //StopCoroutine("HealingPlayer");
         }
@@ -529,7 +574,5 @@ public class PlayerController : MonoBehaviour
     {
         return modName;
     }
-
-
 
 }
