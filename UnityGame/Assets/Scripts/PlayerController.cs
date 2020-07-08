@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour
     const string BUILDER_CLASS_BASIC = "BUILDER";
 
     const string HEALER_CLASS_BASIC = "HEALER";
+    const string HEALER_CLASS_SHOOT = "HEALER_SHOOT";
+
     const string SHOCK_CLASS_NAME = "SHOCK";
 
     const string BUILDER_MOD_ONE = "B_MOD_ONE";
@@ -115,6 +117,7 @@ public class PlayerController : MonoBehaviour
         // SET CLASS
         setClass(HEALER_CLASS_BASIC);
         //setClass(BUILDER_CLASS_BASIC);
+        //setClass(HEALER_CLASS_SHOOT);
 
         setMod(BUILDER_MOD_ONE);
 
@@ -126,9 +129,9 @@ public class PlayerController : MonoBehaviour
         {
             playerClass = this.gameObject.transform.GetChild(4).GetComponent<HealerClassBasic>();
         }
-        else if (getClass().Equals(SHOCK_CLASS_NAME))
+        else if (getClass().Equals(HEALER_CLASS_SHOOT))
         {
-            // playerClass = this.gameObject.transform.GetChild(4).GetComponent<BuilderClassController>();
+            playerClass = this.gameObject.transform.GetChild(4).GetComponent<HealerClassShoot>();
         }
 
         // DASH SET UP
@@ -200,10 +203,6 @@ public class PlayerController : MonoBehaviour
     }
     void ProcessInputs()
     {
-
-
-
-
         if (usingKeyBoard)
         {
             movementDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
@@ -523,6 +522,12 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("Entering");
             healing = true;
+            //StartCoroutine("HealingPlayer");
+        }
+        else if (other.gameObject.tag == "HealingBullet")
+        {
+            Debug.Log("Healing Laser");
+            health++;
             //StartCoroutine("HealingPlayer");
         }
     }
