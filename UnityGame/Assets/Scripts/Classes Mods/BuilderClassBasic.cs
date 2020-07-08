@@ -20,7 +20,7 @@ public class BuilderClassBasic : PlayerClass
 
     // Start is called before the first frame update
 
-    public override void usePower(Vector2 v,GameObject g)
+    public override void usePower(Vector2 v)//,GameObject g)
     {
         Debug.Log("BUILDING SHIT");
         //TIME TO BUILD 

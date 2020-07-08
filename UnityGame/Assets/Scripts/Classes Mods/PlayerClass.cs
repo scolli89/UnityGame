@@ -11,7 +11,7 @@ public class PlayerClass : MonoBehaviour
         className = null;
         classMod = null;
     }
-    public virtual void usePower(Vector2 v, GameObject g){
+    public virtual void usePower(Vector2 v){//, GameObject g){
         Debug.Log(" PLAYER CLASS Using Power");
     }
     public virtual int getAmmoReq(){
