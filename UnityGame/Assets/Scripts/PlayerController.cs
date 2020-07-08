@@ -15,15 +15,20 @@ public class PlayerController : MonoBehaviour
     public float BUILDER_POWER_DISTANCE = 2.0f;
     public float AIMING_BASE_PENALTY = 0.1f;
     public float ARROW_OFFSET = 1.2f;
-    
+    public float HEALING_WAIT = 2.0f;
 
 
-    const string BUILDER_CLASS_NAME = "BUILDER";
+
+    const string BUILDER_CLASS_BASIC = "BUILDER";
+
+    const string HEALER_CLASS_BASIC = "HEALER";
+    const string SHOCK_CLASS_NAME = "SHOCK";
+
     const string BUILDER_MOD_ONE = "B_MOD_ONE";
     const string BUILDER_MOD_TWO = "B_MOD_TWO";
     const string BUILDER_MOD_THREE = "B_MOD_THREE";
-    const string HEALER_CLASS_NAME = "HEALER";
-    const string SHOCK_CLASS_NAME = "SHOCK";
+    
+    
     public bool usingKeyBoard;
 
     [Space]
@@ -39,6 +44,10 @@ public class PlayerController : MonoBehaviour
     public bool isAiming;
     public bool usingPower;
     public bool endUsingPower;
+
+    public bool healing = false;
+    public int healingCount = 0;
+    public int healingTime = 50;  //  healingTime/ 50 = seconds. 
 
     [Space]
     [Header("Character Class:")]
@@ -56,7 +65,7 @@ public class PlayerController : MonoBehaviour
     private static AmmoController ammoController;
 
     private static PlayerClass playerClass;
-  
+
 
     private bool firstUpdate = true;
 
@@ -64,7 +73,7 @@ public class PlayerController : MonoBehaviour
     [Header("Prefabs:")]
     public GameObject arrowPrefab;
 
-    public GameObject classPrefab;
+    // public GameObject classPrefab;
 
     Vector3 worldPosition;
 
@@ -82,33 +91,37 @@ public class PlayerController : MonoBehaviour
         lastHealth = health;
         //healthBarController = healthBar.GetComponent<HealthBarController>();
         healthBarController = this.gameObject.transform.GetChild(2).GetComponent<HealthBarController>();
-        Debug.Log(healthBarController);
+        //Debug.Log(healthBarController);
         //setHealthAmount(health);
 
         //ammoController = ammoBar.GetComponent<AmmoController>();
         ammoController = this.gameObject.transform.GetChild(3).GetComponent<AmmoController>();
-        Debug.Log(ammoController);
+        //Debug.Log(ammoController);
         //setAmmoAmount(arrowsRemaining);
         lastArrowsRemaining = arrowsRemaining;
 
         crosshair.SetActive(false);
 
         // SET CLASS
-        setClass(BUILDER_CLASS_NAME);
+        setClass(BUILDER_CLASS_BASIC);
+        setClass(HEALER_CLASS_BASIC);
         setMod(BUILDER_MOD_ONE);
 
-        if(getClass().Equals(BUILDER_CLASS_NAME)){
+        if (getClass().Equals(BUILDER_CLASS_BASIC))
+        {
             playerClass = this.gameObject.transform.GetChild(4).GetComponent<BuilderClassBasic>();
         }
-        else if(getClass().Equals(HEALER_CLASS_NAME)){
-           // playerClass = this.gameObject.transform.GetChild(4).GetComponent<BuilderClassController>();
+        else if (getClass().Equals(HEALER_CLASS_BASIC))
+        {
+            playerClass = this.gameObject.transform.GetChild(4).GetComponent<HealerClassBasic>();
         }
-        else if(getClass().Equals(SHOCK_CLASS_NAME)){
-           // playerClass = this.gameObject.transform.GetChild(4).GetComponent<BuilderClassController>();
+        else if (getClass().Equals(SHOCK_CLASS_NAME))
+        {
+            // playerClass = this.gameObject.transform.GetChild(4).GetComponent<BuilderClassController>();
         }
-        
 
-        
+
+
 
         // get player class
 
@@ -136,7 +149,28 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    private void FixedUpdate()
+    {
+        if (healing)
+        {
+            if (health >= 6)
+            {
+                healing = false;
+                return;
+            }
+            else
+            {
+                healingCount++;
+                if (healingCount >= healingTime)
+                {
+                    health++;
+                    healingCount = 0;
 
+                }
+            }
+
+        }
+    }
     void updateUI()
     {
         // this works assuming health is changed somewhere else.
@@ -331,7 +365,7 @@ public class PlayerController : MonoBehaviour
                 // need to determine which if the player is shooting down. 
                 Vector2 iPosition = transform.position;
                 iPosition = iPosition + shootingDirection * ARROW_OFFSET; // this prevents it from hitting the player
-               
+
 
                 GameObject arrow = Instantiate(arrowPrefab, iPosition, Quaternion.identity);
                 arrow.GetComponent<Rigidbody2D>().velocity = shootingDirection * ARROW_BASE_SPEED; // adjust velocity
@@ -357,17 +391,20 @@ public class PlayerController : MonoBehaviour
 
             // check if there is enough ammo for their power. 
             int ammoReq = playerClass.getAmmoReq();
-            if(arrowsRemaining >= ammoReq ){
+            if (arrowsRemaining >= ammoReq)
+            {
                 arrowsRemaining -= ammoReq;
-                playerClass.usePower(crosshair.transform.localPosition, classPrefab); 
-            } else {
+                playerClass.usePower(crosshair.transform.localPosition);//, classPrefab);
+            }
+            else
+            {
                 // consider giving an error message to player?
                 // flash their ammo red or something to make it noticable that they have nothing
 
             }
 
             //playerClass.usePower(crosshair.transform.localPosition, classPrefab); 
-            
+
 
             // if (className.Equals(BUILDER_CLASS_NAME))
             // {
@@ -379,7 +416,7 @@ public class PlayerController : MonoBehaviour
             //         Vector2 buildOffset = new Vector2(this.transform.position.x,this.transform.position.y);
             //         Vector2 iPosition = aimDirection + buildOffset;
             //         //iPosition.Normalize();
-                   
+
             //         GameObject wall = Instantiate(classPrefab, iPosition, Quaternion.identity);
             //         //wall.transform.Rotate(0, 0, Mathf.Atan2(aimDirection.y, aimDirection.x) *Mathf.Rad2Deg + 90 );
 
@@ -410,26 +447,54 @@ public class PlayerController : MonoBehaviour
 
             // }
             crosshair.SetActive(false);
-            
-            
+
+
         }
     }
 
+
+    // collsion box
     private void OnCollisionEnter2D(Collision2D other)
     {
 
-        // Debug.Log("Bonk");
+        Debug.Log("Conk");
+        // if (other.gameObject.tag == "bullet")
+        // {
+        //     Destroy(other.gameObject);
+        //     health--;
+        //     //setHealthAmount(--health);
+        //     Debug.Log("Donk");
+        // }
+    }
+    //hurt boxs
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+
         if (other.gameObject.tag == "bullet")
         {
+            Debug.Log("Bonk");
             Destroy(other.gameObject);
             health--;
             //setHealthAmount(--health);
 
         }
+        else if (other.gameObject.tag == "HealingAura")
+        {
+            Debug.Log("Entering");
+            healing = true;
+            //StartCoroutine("HealingPlayer");
+        }
     }
 
-
-
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "HealingAura")
+        {
+            Debug.Log("LEaving");
+            healing = false;
+            //StopCoroutine("HealingPlayer");
+        }
+    }
 
     public void setAmmoAmount(int n)
     {
@@ -440,6 +505,14 @@ public class PlayerController : MonoBehaviour
         healthBarController.setHealth(n);
     }
 
+    public void setHealth(int health)
+    {
+        this.health = health;
+    }
+    public int getHealth()
+    {
+        return health;
+    }
     public void setClass(string className)
     {
         this.className = className;
@@ -456,6 +529,7 @@ public class PlayerController : MonoBehaviour
     {
         return modName;
     }
+
 
 
 }

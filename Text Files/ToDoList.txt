@@ -51,8 +51,8 @@ What do we need to do first?
 		> 1 fire style
 
 		Class : Healer 
-		Base Active : Heal close range players
-		Mod 1: allow to heal from a distance by shooting
+		Base Active : Heal close range players : specific mechanic? place a tile and the tile heals, or make an aura around the healer. 
+		Mod 1: allow to heal from a distance by shooting : is really easy to do.
 		Mod 2:heal yourself over time
 		Mod 3:reserruct (yourself or someone else ?)
 		XXXXXXX mod 4: heal player walls. 
