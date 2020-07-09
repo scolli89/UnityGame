@@ -1,10 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.InputSystem.InputAction;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
     public int playerId;
+
+    public int press = 0;
 
     [Space]
     [Header("Character Attributes:")]
@@ -57,8 +61,6 @@ public class PlayerController : MonoBehaviour
     private float dashTime; 
     public float startDashTime = 0.2f;
 
-
-
     [Space]
     [Header("Character Class:")]
     public string className;
@@ -93,6 +95,18 @@ public class PlayerController : MonoBehaviour
     // todos
     // 
 
+    // *****
+    /*
+     
+     The new input system has it that the "OnX()" Functions are where the booleans are set.
+    This is to remove the Input.Getters from the ProccessInputs. Nothing more. 
+    The code should run like before. 
+
+     
+     */
+    //***
+
+
 
     void Start()
     {
@@ -113,8 +127,8 @@ public class PlayerController : MonoBehaviour
         crosshair.SetActive(false);
 
         // SET CLASS
-        setClass(HEALER_CLASS_BASIC);
-        //setClass(BUILDER_CLASS_BASIC);
+        //setClass(HEALER_CLASS_BASIC);
+        setClass(BUILDER_CLASS_BASIC);
 
         setMod(BUILDER_MOD_ONE);
 
@@ -144,12 +158,12 @@ public class PlayerController : MonoBehaviour
         // get the change 
         if (!PauseMenu.GameIsPaused)
         {
-            updateUI();
-            ProcessInputs();
+            updateUI(); // doesnt depend on input
+
+            ProcessInputs(); // Aim() and AimPower are called within ProcessInputs. 
             Move(); // Move is called in FixedUpdate
             Animate();
-            //Aim();
-            Shoot();
+            
             usePower();
         }
     }
@@ -198,75 +212,80 @@ public class PlayerController : MonoBehaviour
             setAmmoAmount(arrowsRemaining);
         }
     }
+
     void ProcessInputs()
     {
+        // with the new system, we will have already gotten the input booleans. Ie isDashing, 
 
-
-
-
-        if (usingKeyBoard)
+        if (isDashing)
         {
-            movementDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-            movementSpeed = Mathf.Clamp(movementDirection.magnitude, 0.0f, 1.0f);
-            movementDirection.Normalize();
-
-            //powers
-            usingPower = Input.GetMouseButton(1);
-            endUsingPower = Input.GetMouseButtonUp(1);
-            isDashing = Input.GetKeyDown(KeyCode.Space);
+            //DASH() or something 
         }
-        else
-        {
-            movementDirection = new Vector2(Input.GetAxis("MoveHorizontal"), Input.GetAxis("MoveVertical"));
-            //movementDirection = new Vector2( Input.GetAxisRaw("Horizontal"),Input.GetAxisRaw("Vertical"));
-            movementSpeed = Mathf.Clamp(movementDirection.magnitude, 0.0f, 1.0f);
-            movementDirection.Normalize();
-
-            // powers
-            usingPower = Input.GetButton("UsePower");
-            endUsingPower = Input.GetButtonUp("UsePower");
-
-        }
-
-        
-
-
-        if (!isDashing)
-        {
-            endOfAiming = Input.GetButtonUp("Fire1");
-            isAiming = Input.GetButton("Fire1");
-        }
-
-        // fire1 is mapped to the left click button. 
-
-        if (isAiming)
+        else if (isAiming)
         {
             crosshair.SetActive(true);
+            
             Aim();
-
             movementSpeed *= AIMING_BASE_PENALTY;
         }
-
-        if (usingPower)
+        else if (usingPower)
         {
             crosshair.SetActive(true);
+            
             AimPower();
             movementSpeed *= AIMING_BASE_PENALTY;
+        } 
+    }
 
+    public void OnMove(CallbackContext context)
+    {
+        movementDirection = context.ReadValue<Vector2>();
+        movementSpeed = Mathf.Clamp(movementDirection.magnitude, 0.0f, 1.0f);
+        movementDirection.Normalize();
+    }
+
+    public void OnPower()
+    {
+
+    }
+
+    
+    // because input manager package is garbage and hold doesn't work
+    public void StupidAssFix()
+    {
+        press++;
+        if (press == 2)
+        {
+            OnAim();
         }
+        else if (press > 2)
+        {
+            OnFire();
+            press = -1;
+        }
+    }
 
-        //movementDirection.x = Input.GetAxisRaw("Horizontal");
-        //movementDirection.y = Input.GetAxisRaw("Vertical");
-        //Debug.Log(movementDirection)
+    // called on hold of aim button
+    public void OnAim()
+    {
+        Debug.Log("Button HOLD");
+        isAiming = true;
+    }
 
-        //Vector3 movement = new Vector3(Input.GetAxis("MoveHorizontal"),Input.GetAxis("MoveVertical"),0.0f);
+    //called when aim button is released
+    public void OnFire()
+    {
+        Debug.Log("Button release");
+        endOfAiming = true;
+    }
 
-
+    public void OnDash()
+    {
+        isDashing = true;
     }
 
     void Move()
     {
-
         if (isDashing)
         {
             if (movementDirection.magnitude == 0)
@@ -310,38 +329,19 @@ public class PlayerController : MonoBehaviour
         animator.SetFloat("Speed", movementSpeed);
     }
 
-
     void Aim()
     {
-
         if (usingKeyBoard)
         {
-
-            // Vector3 point = new Vector3();
-            // Event currentEvent = Event.current;
-            // Vector2 mousePos = new Vector2();
-
-            // Camera cam = Camera.main;
-            // // Get the mouse position from Event.
-            // // Note that the y position from Event is inverted.
-            // mousePos.x = Input.mousePosition.x;
-            // mousePos.y = cam.pixelHeight - Input.mousePosition.y;
-            // point = cam.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, cam.nearClipPlane));
-
-            // aimDirection = new Vector2(point.x, point.y);
-
-            Vector3 shootdirection = Input.mousePosition;
+            Vector3 shootdirection = Mouse.current.position.ReadValue(); 
             shootdirection.z = 0.0f;
             shootdirection = Camera.main.ScreenToWorldPoint(shootdirection);
             shootdirection = shootdirection - transform.position;
             aimDirection = new Vector2(shootdirection.x, shootdirection.y);
-
-            //aimDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         }
         else
         {
-            aimDirection = new Vector2(Input.GetAxis("MoveHorizontal"), Input.GetAxis("MoveVertical"));
-
+            aimDirection = movementDirection;
         }
 
         aimDirection.Normalize();
@@ -349,38 +349,27 @@ public class PlayerController : MonoBehaviour
 
         crosshair.transform.localPosition = aimDirection * CROSSHAIR_DISTANCE;
         //crosshair.transform.localPosition = movementDirection * CROSSHAIR_DISTANCE;
+
+        if (endOfAiming == true)
+        {
+            isAiming = false;
+            Shoot(); 
+        }
     }
 
     void AimPower()
     {
         if (usingKeyBoard)
         {
-
-            // Vector3 point = new Vector3();
-            // Event currentEvent = Event.current;
-            // Vector2 mousePos = new Vector2();
-
-            // Camera cam = Camera.main;
-            // // Get the mouse position from Event.
-            // // Note that the y position from Event is inverted.
-            // mousePos.x = Input.mousePosition.x;
-            // mousePos.y = cam.pixelHeight - Input.mousePosition.y;
-            // point = cam.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, cam.nearClipPlane));
-
-            // aimDirection = new Vector2(point.x, point.y);
-
-            Vector3 shootdirection = Input.mousePosition;
+            Vector3 shootdirection = Mouse.current.position.ReadValue(); // mousePosition;
             shootdirection.z = 0.0f;
             shootdirection = Camera.main.ScreenToWorldPoint(shootdirection);
             shootdirection = shootdirection - transform.position;
             aimDirection = new Vector2(shootdirection.x, shootdirection.y);
-
-            //aimDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         }
         else
         {
-            aimDirection = new Vector2(Input.GetAxis("MoveHorizontal"), Input.GetAxis("MoveVertical"));
-
+            aimDirection = movementDirection;
         }
 
         aimDirection.Normalize();
@@ -389,38 +378,29 @@ public class PlayerController : MonoBehaviour
         crosshair.transform.localPosition = aimDirection * BUILDER_POWER_DISTANCE;
         //crosshair.transform.localPosition = movementDirection * CROSSHAIR_DISTANCE;
     }
+
     void Shoot()
     {
-
         if (endOfAiming)
         {
-            if (arrowsRemaining > 0)
-            {
-                arrowsRemaining--;
-                //ammoBar.GetComponent<AmmoController>().setAmmo(arrowsRemaining);
-                Debug.Log("Arrows Remaing" + arrowsRemaining);
-                //setAmmoAmount(arrowsRemaining);
-                // put this in a function call
-                Vector2 shootingDirection = crosshair.transform.localPosition;
-                shootingDirection.Normalize();
-                // need to determine which if the player is shooting down. 
-                Vector2 iPosition = transform.position;
-                iPosition = iPosition + shootingDirection * ARROW_OFFSET; // this prevents it from hitting the player
+            Vector2 shootingDirection = crosshair.transform.localPosition;
+            shootingDirection.Normalize();
+            // need to determine which if the player is shooting down. 
+            Vector2 iPosition = transform.position;
+            iPosition = iPosition + shootingDirection * ARROW_OFFSET; // this prevents it from hitting the player
 
-
-                GameObject arrow = Instantiate(arrowPrefab, iPosition, Quaternion.identity);
-                arrow.GetComponent<Rigidbody2D>().velocity = shootingDirection * ARROW_BASE_SPEED; // adjust velocity
-                arrow.transform.Rotate(0, 0, Mathf.Atan2(shootingDirection.y, shootingDirection.x) * Mathf.Rad2Deg);
-                Destroy(arrow, 2.0f);
-            }
-            else
-            {
-                Debug.Log("OUT OF ARROWS");
-            }
+            GameObject arrow = Instantiate(arrowPrefab, iPosition, Quaternion.identity);
+            arrow.GetComponent<Rigidbody2D>().velocity = shootingDirection * ARROW_BASE_SPEED; // adjust velocity
+            arrow.transform.Rotate(0, 0, Mathf.Atan2(shootingDirection.y, shootingDirection.x) * Mathf.Rad2Deg);
+            
+            // turn everything back to normal walking. 
             crosshair.SetActive(false);
+            isAiming = false;
+            endOfAiming = false;
+            Destroy(arrow, 2.0f);
         }
-
     }
+
     void usePower()
     {
         // i don't know if this is the best way to do it. 
@@ -488,8 +468,6 @@ public class PlayerController : MonoBehaviour
 
             // }
             crosshair.SetActive(false);
-
-
         }
     }
 
