@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class CannonController : MonoBehaviour
@@ -42,12 +43,45 @@ public class CannonController : MonoBehaviour
     {
         if (!PauseMenu.GameIsPaused)
         {
-            if (justFired)
+            float deg = 0.0f;
+
+            if (shootAtPlayer)
             {
 
-                if (count < fireRate)
+                float opposite;
+                float ajacent;
+                opposite = player.transform.position.x - transform.position.x;
+                ajacent = player.transform.position.y - transform.position.y;
+                float rot;
+                rot = Mathf.Atan(opposite / ajacent);
+                if (ajacent < 0)
                 {
-                    count++;
+                    rot = -rot;
+                }
+                else
+                {
+                    rot = Mathf.PI / 2 + ((Mathf.PI / 2) - rot);
+                }
+                deg = rot * Mathf.Rad2Deg;
+                transform.eulerAngles = new Vector3(0, 0, deg);
+                // transform.Rotate(rota//);
+            }
+
+            if (justFired)
+            {
+                if (justFired)
+                {
+
+                    if (count < fireRate)
+                    {
+                        count++;
+                    }
+                    else
+                    {
+                        count = 0;
+                        justFired = false;
+                    }
+
                 }
                 else
                 {
@@ -60,7 +94,7 @@ public class CannonController : MonoBehaviour
             {
                 if (checkDistance())
                 {
-                    fire();
+                    fire(deg);
                     justFired = true;
                 }
             }
@@ -81,18 +115,9 @@ public class CannonController : MonoBehaviour
     }
 
 
-    void fire()
+    void fire(float degree)
     {
 
-        if (shootAtPlayer)
-        {
-            // aim at make ball go towards player direction. 
-            // rotate the sprite to look at player. 
-
-            shootingDirection = player.transform.position- transform.position;
-            shootingDirection.Normalize();
-            
-        }
 
         Vector3 iPosition = transform.position;
         if (shootingDirection.y < 0)
@@ -112,7 +137,16 @@ public class CannonController : MonoBehaviour
             iPosition.x = iPosition.x - ARROW_DOWN_OFFSET;
         }
 
+        iPosition = transform.position;
+        if (shootAtPlayer)
+        {
+            // aim at make ball go towards player direction. 
+            // rotate the sprite to look at player. 
 
+            shootingDirection = (player.transform.position - iPosition);
+            shootingDirection.Normalize();
+
+        }
         GameObject arrow = Instantiate(projectilePrefab, iPosition, Quaternion.identity);
         arrow.GetComponent<Rigidbody2D>().velocity = shootingDirection * ARROW_BASE_SPEED; // adjust velocity
         arrow.transform.Rotate(0, 0, Mathf.Atan2(shootingDirection.y, shootingDirection.x) * Mathf.Rad2Deg);
