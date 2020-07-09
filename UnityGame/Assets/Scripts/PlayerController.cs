@@ -115,9 +115,9 @@ public class PlayerController : MonoBehaviour
         crosshair.SetActive(false);
 
         // SET CLASS
-        setClass(HEALER_CLASS_BASIC);
+        //setClass(HEALER_CLASS_BASIC);
         //setClass(BUILDER_CLASS_BASIC);
-        //setClass(HEALER_CLASS_SHOOT);
+        setClass(HEALER_CLASS_SHOOT);
 
         setMod(BUILDER_MOD_ONE);
 
