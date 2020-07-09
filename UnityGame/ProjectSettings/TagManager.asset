@@ -6,6 +6,7 @@ TagManager:
   tags:
   - bullet
   - HealingAura
+  - HealingBullet
   layers:
   - Default
   - TransparentFX
