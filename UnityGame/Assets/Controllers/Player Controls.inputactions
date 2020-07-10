@@ -35,7 +35,7 @@
                     "id": "ed4bdb05-92cc-4477-a96f-1245cdbfa8d9",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Press(behavior=2)"
+                    "interactions": ""
                 },
                 {
                     "name": "Pause",
@@ -174,7 +174,7 @@
                     "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Xbox and Keyboard",
                     "action": "Use Power",
                     "isComposite": false,
                     "isPartOfComposite": false

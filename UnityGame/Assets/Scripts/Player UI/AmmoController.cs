@@ -30,28 +30,36 @@ public class AmmoController : MonoBehaviour
         tensSprite = this.gameObject.transform.GetChild(1).GetComponent<SpriteRenderer>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void setAmmo(int ammo){
-        int[] values = new int[2]; 
-        values[0] = ammo % 10;
-        values[1] = ammo % 100; 
-        values[1] -= values[0];
-        values[1] /= 10; 
 
-        if(values[0] > 9 || values[0] < 0){
-            onesSprite.sprite = errorSprite; 
-        } 
-        else if( values[1] > 9 || values[1] < 0){
-            tensSprite.sprite = errorSprite;
+        if (onesSprite == null || tensSprite == null)
+        {
+            /* getting an error where the player was calling UpdateUI() and it was throwing a null exception  because
+           * it hadnt been assigned yet. The object existed but its start funciton was not yet called. 
+           */
+            Debug.Log("ammo null catch ");
+            Start();
         }
+        else
+        {
+            int[] values = new int[2];
+            values[0] = ammo % 10;
+            values[1] = ammo % 100;
+            values[1] -= values[0];
+            values[1] /= 10;
 
-        onesSprite.sprite = spriteArray[values[0]];
-        tensSprite.sprite = spriteArray[values[1]];
+            if (values[0] > 9 || values[0] < 0)
+            {
+                onesSprite.sprite = errorSprite;
+            }
+            else if (values[1] > 9 || values[1] < 0)
+            {
+                tensSprite.sprite = errorSprite;
+            }
+
+            onesSprite.sprite = spriteArray[values[0]];
+            tensSprite.sprite = spriteArray[values[1]];
+        }
         
       //143 modulo 10 is 3, 
       //143 modulo 100 is 43, 

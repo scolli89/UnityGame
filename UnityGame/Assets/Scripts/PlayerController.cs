@@ -97,12 +97,15 @@ public class PlayerController : MonoBehaviour
 
     // *****
     /*
-     
-     The new input system has it that the "OnX()" Functions are where the booleans are set.
+    Notes:
+    The new input system has it that the "OnX()" Functions are where the booleans are set.
     This is to remove the Input.Getters from the ProccessInputs. Nothing more. 
     The code should run like before. 
 
-     
+    Input manager is set to only join a new player on pause (start or p) button since
+    on any button causes an error where a second arrow is shot from the player's spawn
+    position every time they fire an arrow
+
      */
     //***
 
@@ -114,12 +117,12 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         lastHealth = health;
         //healthBarController = healthBar.GetComponent<HealthBarController>();
-        healthBarController = this.gameObject.transform.GetChild(2).GetComponent<HealthBarController>();
+        healthBarController = this.gameObject.transform.GetChild(1).GetComponent<HealthBarController>();
         //Debug.Log(healthBarController);
         //setHealthAmount(health);
 
         //ammoController = ammoBar.GetComponent<AmmoController>();
-        ammoController = this.gameObject.transform.GetChild(3).GetComponent<AmmoController>();
+        ammoController = this.gameObject.transform.GetChild(2).GetComponent<AmmoController>();
         //Debug.Log(ammoController);
         //setAmmoAmount(arrowsRemaining);
         lastArrowsRemaining = arrowsRemaining;
@@ -134,15 +137,15 @@ public class PlayerController : MonoBehaviour
 
         if (getClass().Equals(BUILDER_CLASS_BASIC))
         {
-            playerClass = this.gameObject.transform.GetChild(4).GetComponent<BuilderClassBasic>();
+            playerClass = this.gameObject.transform.GetChild(3).GetComponent<BuilderClassBasic>();
         }
         else if (getClass().Equals(HEALER_CLASS_BASIC))
         {
-            playerClass = this.gameObject.transform.GetChild(4).GetComponent<HealerClassBasic>();
+            playerClass = this.gameObject.transform.GetChild(3).GetComponent<HealerClassBasic>();
         }
         else if (getClass().Equals(SHOCK_CLASS_NAME))
         {
-            // playerClass = this.gameObject.transform.GetChild(4).GetComponent<BuilderClassController>();
+            // playerClass = this.gameObject.transform.GetChild(3).GetComponent<BuilderClassController>();
         }
 
         // DASH SET UP
@@ -158,13 +161,15 @@ public class PlayerController : MonoBehaviour
         // get the change 
         if (!PauseMenu.GameIsPaused)
         {
-            updateUI(); // doesnt depend on input
+            
 
             ProcessInputs(); // Aim() and AimPower are called within ProcessInputs. 
             Move(); // Move is called in FixedUpdate
             Animate();
             
             usePower();
+
+            updateUI(); // doesnt depend on input
         }
     }
 
@@ -192,10 +197,12 @@ public class PlayerController : MonoBehaviour
     }
     void updateUI()
     {
+        
         // this works assuming health is changed somewhere else.
         // this works because reasons. like async calls.  
         if (firstUpdate)
         {
+            Debug.Log("Update UI");
             setHealthAmount(health);
             setAmmoAmount(arrowsRemaining);
             firstUpdate = false;
@@ -237,6 +244,36 @@ public class PlayerController : MonoBehaviour
         } 
     }
 
+    // because input manager package is garbage and hold doesn't work
+    public void StupidAssFix() //for some reason the function is called twice on every button press, and twice on every button release
+    {
+        press++;
+        if (press == 2)
+        {
+            //can assume player is holding the button
+            OnAim();
+        }
+        else if (press > 2)
+        {
+            OnFire();
+            press = 0;
+        }
+    }
+
+    public void StupidAssFixPowers()
+    {
+        press++;
+        if (press == 2)
+        {
+            OnAimPower();
+        }
+        else if (press > 2)
+        {
+            OnPower();
+            press = 0;
+        }
+    }
+
     public void OnMove(CallbackContext context)
     {
         movementDirection = context.ReadValue<Vector2>();
@@ -244,40 +281,31 @@ public class PlayerController : MonoBehaviour
         movementDirection.Normalize();
     }
 
-    public void OnPower()
-    {
-
-    }
-
-    
-    // because input manager package is garbage and hold doesn't work
-    public void StupidAssFix()
-    {
-        press++;
-        if (press == 2)
-        {
-            OnAim();
-        }
-        else if (press > 2)
-        {
-            OnFire();
-            press = -1;
-        }
-    }
-
     // called on hold of aim button
     public void OnAim()
     {
-        Debug.Log("Button HOLD");
         isAiming = true;
     }
 
     //called when aim button is released
     public void OnFire()
     {
-        Debug.Log("Button release");
+        isAiming = false;
         endOfAiming = true;
+        Shoot();
     }
+
+    public void OnAimPower()
+    {
+        usingPower = true;
+    }
+
+    public void OnPower()
+    {
+        usingPower = false;
+        endUsingPower = true;
+        usePower();
+    }    
 
     public void OnDash()
     {
@@ -349,12 +377,6 @@ public class PlayerController : MonoBehaviour
 
         crosshair.transform.localPosition = aimDirection * CROSSHAIR_DISTANCE;
         //crosshair.transform.localPosition = movementDirection * CROSSHAIR_DISTANCE;
-
-        if (endOfAiming == true)
-        {
-            isAiming = false;
-            Shoot(); 
-        }
     }
 
     void AimPower()
@@ -409,7 +431,6 @@ public class PlayerController : MonoBehaviour
         // not sure what is more optimal. 
         if (endUsingPower)
         {
-
             // check if there is enough ammo for their power. 
             int ammoReq = playerClass.getAmmoReq();
             if (arrowsRemaining >= ammoReq)
@@ -468,6 +489,8 @@ public class PlayerController : MonoBehaviour
 
             // }
             crosshair.SetActive(false);
+            usingPower = false;
+            endUsingPower = false;
         }
     }
 

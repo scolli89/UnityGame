@@ -21,7 +21,15 @@ public class HealthBarController : MonoBehaviour
     public void setHealth(int h)
     {
        // Debug.Log("h" + h);
-        if (h < 0)
+        if(spriteRenderer == null)
+        {
+            /* getting an error where the player was calling UpdateUI() and it was throwing a null exception on line ~40 because
+            * it hadnt been assigned yet. The object existed but its start funciton was not yet called. 
+            */
+            Debug.Log("health null catch ");
+            Start(); 
+        }
+        else if (h < 0)
         {
             spriteRenderer.sprite = spriteArray[0];
         }
