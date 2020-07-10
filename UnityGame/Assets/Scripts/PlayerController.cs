@@ -1,10 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.InputSystem.InputAction;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
     public int playerId;
+
+    public int press = 0;
 
     [Space]
     [Header("Character Attributes:")]
@@ -59,8 +63,6 @@ public class PlayerController : MonoBehaviour
     private float dashTime; 
     public float startDashTime = 0.2f;
 
-
-
     [Space]
     [Header("Character Class:")]
     public string className;
@@ -95,6 +97,21 @@ public class PlayerController : MonoBehaviour
     // todos
     // 
 
+    // *****
+    /*
+    Notes:
+    The new input system has it that the "OnX()" Functions are where the booleans are set.
+    This is to remove the Input.Getters from the ProccessInputs. Nothing more. 
+    The code should run like before. 
+
+    Input manager is set to only join a new player on pause (start or p) button since
+    on any button causes an error where a second arrow is shot from the player's spawn
+    position every time they fire an arrow
+
+     */
+    //***
+
+
 
     void Start()
     {
@@ -102,12 +119,12 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         lastHealth = health;
         //healthBarController = healthBar.GetComponent<HealthBarController>();
-        healthBarController = this.gameObject.transform.GetChild(2).GetComponent<HealthBarController>();
+        healthBarController = this.gameObject.transform.GetChild(1).GetComponent<HealthBarController>();
         //Debug.Log(healthBarController);
         //setHealthAmount(health);
 
         //ammoController = ammoBar.GetComponent<AmmoController>();
-        ammoController = this.gameObject.transform.GetChild(3).GetComponent<AmmoController>();
+        ammoController = this.gameObject.transform.GetChild(2).GetComponent<AmmoController>();
         //Debug.Log(ammoController);
         //setAmmoAmount(arrowsRemaining);
         lastArrowsRemaining = arrowsRemaining;
@@ -116,22 +133,24 @@ public class PlayerController : MonoBehaviour
 
         // SET CLASS
         //setClass(HEALER_CLASS_BASIC);
-        //setClass(BUILDER_CLASS_BASIC);
-        setClass(HEALER_CLASS_SHOOT);
+        setClass(BUILDER_CLASS_BASIC);
+        //setClass(HEALER_CLASS_SHOOT);
+        
 
         setMod(BUILDER_MOD_ONE);
 
         if (getClass().Equals(BUILDER_CLASS_BASIC))
         {
-            playerClass = this.gameObject.transform.GetChild(4).GetComponent<BuilderClassBasic>();
+            playerClass = this.gameObject.transform.GetChild(3).GetComponent<BuilderClassBasic>();
         }
         else if (getClass().Equals(HEALER_CLASS_BASIC))
         {
-            playerClass = this.gameObject.transform.GetChild(4).GetComponent<HealerClassBasic>();
+            playerClass = this.gameObject.transform.GetChild(3).GetComponent<HealerClassBasic>();
         }
         else if (getClass().Equals(HEALER_CLASS_SHOOT))
         {
-            playerClass = this.gameObject.transform.GetChild(4).GetComponent<HealerClassShoot>();
+            playerClass = this.gameObject.transform.GetChild(3).GetComponent<HealerClassShoot>();
+            
         }
 
         // DASH SET UP
@@ -147,13 +166,15 @@ public class PlayerController : MonoBehaviour
         // get the change 
         if (!PauseMenu.GameIsPaused)
         {
-            updateUI();
-            ProcessInputs();
+            
+
+            ProcessInputs(); // Aim() and AimPower are called within ProcessInputs. 
             Move(); // Move is called in FixedUpdate
             Animate();
-            //Aim();
-            Shoot();
+            
             usePower();
+
+            updateUI(); // doesnt depend on input
         }
     }
 
@@ -181,10 +202,12 @@ public class PlayerController : MonoBehaviour
     }
     void updateUI()
     {
+        
         // this works assuming health is changed somewhere else.
         // this works because reasons. like async calls.  
         if (firstUpdate)
         {
+            Debug.Log("Update UI");
             setHealthAmount(health);
             setAmmoAmount(arrowsRemaining);
             firstUpdate = false;
@@ -201,71 +224,101 @@ public class PlayerController : MonoBehaviour
             setAmmoAmount(arrowsRemaining);
         }
     }
+
     void ProcessInputs()
     {
-        if (usingKeyBoard)
+        // with the new system, we will have already gotten the input booleans. Ie isDashing, 
+
+        if (isDashing)
         {
-            movementDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-            movementSpeed = Mathf.Clamp(movementDirection.magnitude, 0.0f, 1.0f);
-            movementDirection.Normalize();
-
-            //powers
-            usingPower = Input.GetMouseButton(1);
-            endUsingPower = Input.GetMouseButtonUp(1);
-            isDashing = Input.GetKeyDown(KeyCode.Space);
+            //DASH() or something 
         }
-        else
-        {
-            movementDirection = new Vector2(Input.GetAxis("MoveHorizontal"), Input.GetAxis("MoveVertical"));
-            //movementDirection = new Vector2( Input.GetAxisRaw("Horizontal"),Input.GetAxisRaw("Vertical"));
-            movementSpeed = Mathf.Clamp(movementDirection.magnitude, 0.0f, 1.0f);
-            movementDirection.Normalize();
-
-            // powers
-            usingPower = Input.GetButton("UsePower");
-            endUsingPower = Input.GetButtonUp("UsePower");
-
-        }
-
-        
-
-
-        if (!isDashing)
-        {
-            endOfAiming = Input.GetButtonUp("Fire1");
-            isAiming = Input.GetButton("Fire1");
-        }
-
-        // fire1 is mapped to the left click button. 
-
-        if (isAiming)
+        else if (isAiming)
         {
             crosshair.SetActive(true);
+            
             Aim();
-
             movementSpeed *= AIMING_BASE_PENALTY;
         }
-
-        if (usingPower)
+        else if (usingPower)
         {
             crosshair.SetActive(true);
+            
             AimPower();
             movementSpeed *= AIMING_BASE_PENALTY;
+        } 
+    }
 
+    // because input manager package is garbage and hold doesn't work
+    public void StupidAssFix() //for some reason the function is called twice on every button press, and twice on every button release
+    {
+        press++;
+        if (press == 2)
+        {
+            //can assume player is holding the button
+            OnAim();
         }
+        else if (press > 2)
+        {
+            OnFire();
+            press = 0;
+        }
+    }
 
-        //movementDirection.x = Input.GetAxisRaw("Horizontal");
-        //movementDirection.y = Input.GetAxisRaw("Vertical");
-        //Debug.Log(movementDirection)
+    public void StupidAssFixPowers()
+    {
+        press++;
+        if (press == 2)
+        {
+            OnAimPower();
+        }
+        else if (press > 2)
+        {
+            OnPower();
+            press = 0;
+        }
+    }
 
-        //Vector3 movement = new Vector3(Input.GetAxis("MoveHorizontal"),Input.GetAxis("MoveVertical"),0.0f);
+    public void OnMove(CallbackContext context)
+    {
+        movementDirection = context.ReadValue<Vector2>();
+        movementSpeed = Mathf.Clamp(movementDirection.magnitude, 0.0f, 1.0f);
+        movementDirection.Normalize();
+    }
 
+    // called on hold of aim button
+    public void OnAim()
+    {
+        isAiming = true;
+    }
 
+    //called when aim button is released
+    public void OnFire()
+    {
+        isAiming = false;
+        endOfAiming = true;
+        Shoot();
+    }
+
+    public void OnAimPower()
+    {
+        usingPower = true;
+    }
+
+    public void OnPower()
+    {
+        usingPower = false;
+        endUsingPower = true;
+        usePower();
+    }    
+
+    public void OnDash()
+    {
+        isDashing = true;
     }
 
     void Move()
     {
-
         if (isDashing)
         {
             if (movementDirection.magnitude == 0)
@@ -309,38 +362,19 @@ public class PlayerController : MonoBehaviour
         animator.SetFloat("Speed", movementSpeed);
     }
 
-
     void Aim()
     {
-
         if (usingKeyBoard)
         {
-
-            // Vector3 point = new Vector3();
-            // Event currentEvent = Event.current;
-            // Vector2 mousePos = new Vector2();
-
-            // Camera cam = Camera.main;
-            // // Get the mouse position from Event.
-            // // Note that the y position from Event is inverted.
-            // mousePos.x = Input.mousePosition.x;
-            // mousePos.y = cam.pixelHeight - Input.mousePosition.y;
-            // point = cam.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, cam.nearClipPlane));
-
-            // aimDirection = new Vector2(point.x, point.y);
-
-            Vector3 shootdirection = Input.mousePosition;
+            Vector3 shootdirection = Mouse.current.position.ReadValue(); 
             shootdirection.z = 0.0f;
             shootdirection = Camera.main.ScreenToWorldPoint(shootdirection);
             shootdirection = shootdirection - transform.position;
             aimDirection = new Vector2(shootdirection.x, shootdirection.y);
-
-            //aimDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         }
         else
         {
-            aimDirection = new Vector2(Input.GetAxis("MoveHorizontal"), Input.GetAxis("MoveVertical"));
-
+            aimDirection = movementDirection;
         }
 
         aimDirection.Normalize();
@@ -354,32 +388,15 @@ public class PlayerController : MonoBehaviour
     {
         if (usingKeyBoard)
         {
-
-            // Vector3 point = new Vector3();
-            // Event currentEvent = Event.current;
-            // Vector2 mousePos = new Vector2();
-
-            // Camera cam = Camera.main;
-            // // Get the mouse position from Event.
-            // // Note that the y position from Event is inverted.
-            // mousePos.x = Input.mousePosition.x;
-            // mousePos.y = cam.pixelHeight - Input.mousePosition.y;
-            // point = cam.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, cam.nearClipPlane));
-
-            // aimDirection = new Vector2(point.x, point.y);
-
-            Vector3 shootdirection = Input.mousePosition;
+            Vector3 shootdirection = Mouse.current.position.ReadValue(); // mousePosition;
             shootdirection.z = 0.0f;
             shootdirection = Camera.main.ScreenToWorldPoint(shootdirection);
             shootdirection = shootdirection - transform.position;
             aimDirection = new Vector2(shootdirection.x, shootdirection.y);
-
-            //aimDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         }
         else
         {
-            aimDirection = new Vector2(Input.GetAxis("MoveHorizontal"), Input.GetAxis("MoveVertical"));
-
+            aimDirection = movementDirection;
         }
 
         aimDirection.Normalize();
@@ -388,38 +405,29 @@ public class PlayerController : MonoBehaviour
         crosshair.transform.localPosition = aimDirection * BUILDER_POWER_DISTANCE;
         //crosshair.transform.localPosition = movementDirection * CROSSHAIR_DISTANCE;
     }
+
     void Shoot()
     {
-
         if (endOfAiming)
         {
-            if (arrowsRemaining > 0)
-            {
-                arrowsRemaining--;
-                //ammoBar.GetComponent<AmmoController>().setAmmo(arrowsRemaining);
-                Debug.Log("Arrows Remaing" + arrowsRemaining);
-                //setAmmoAmount(arrowsRemaining);
-                // put this in a function call
-                Vector2 shootingDirection = crosshair.transform.localPosition;
-                shootingDirection.Normalize();
-                // need to determine which if the player is shooting down. 
-                Vector2 iPosition = transform.position;
-                iPosition = iPosition + shootingDirection * ARROW_OFFSET; // this prevents it from hitting the player
+            Vector2 shootingDirection = crosshair.transform.localPosition;
+            shootingDirection.Normalize();
+            // need to determine which if the player is shooting down. 
+            Vector2 iPosition = transform.position;
+            iPosition = iPosition + shootingDirection * ARROW_OFFSET; // this prevents it from hitting the player
 
-
-                GameObject arrow = Instantiate(arrowPrefab, iPosition, Quaternion.identity);
-                arrow.GetComponent<Rigidbody2D>().velocity = shootingDirection * ARROW_BASE_SPEED; // adjust velocity
-                arrow.transform.Rotate(0, 0, Mathf.Atan2(shootingDirection.y, shootingDirection.x) * Mathf.Rad2Deg);
-                Destroy(arrow, 2.0f);
-            }
-            else
-            {
-                Debug.Log("OUT OF ARROWS");
-            }
+            GameObject arrow = Instantiate(arrowPrefab, iPosition, Quaternion.identity);
+            arrow.GetComponent<Rigidbody2D>().velocity = shootingDirection * ARROW_BASE_SPEED; // adjust velocity
+            arrow.transform.Rotate(0, 0, Mathf.Atan2(shootingDirection.y, shootingDirection.x) * Mathf.Rad2Deg);
+            
+            // turn everything back to normal walking. 
             crosshair.SetActive(false);
+            isAiming = false;
+            endOfAiming = false;
+            Destroy(arrow, 2.0f);
         }
-
     }
+
     void usePower()
     {
         // i don't know if this is the best way to do it. 
@@ -428,7 +436,6 @@ public class PlayerController : MonoBehaviour
         // not sure what is more optimal. 
         if (endUsingPower)
         {
-
             // check if there is enough ammo for their power. 
             int ammoReq = playerClass.getAmmoReq();
             if (arrowsRemaining >= ammoReq)
@@ -487,8 +494,8 @@ public class PlayerController : MonoBehaviour
 
             // }
             crosshair.SetActive(false);
-
-
+            usingPower = false;
+            endUsingPower = false;
         }
     }
 
