@@ -20,6 +20,7 @@ public class CannonController : MonoBehaviour
     public float ARROW_BASE_SPEED = 1.0f;
     public float ARROW_DOWN_OFFSET = 1.0f;
     public float DISTANCE_FROM_PLAYER = 1.0f;
+    public float ARROW_OFFSET = 1.2f;
 
 
 
@@ -119,7 +120,7 @@ public class CannonController : MonoBehaviour
     {
 
 
-        Vector3 iPosition = transform.position;
+        Vector2 iPosition = transform.position;
         if (shootingDirection.y < 0)
         { //down
             iPosition.y = iPosition.y - ARROW_DOWN_OFFSET;
@@ -143,12 +144,20 @@ public class CannonController : MonoBehaviour
             // aim at make ball go towards player direction. 
             // rotate the sprite to look at player. 
 
-            shootingDirection = (player.transform.position - iPosition);
+            shootingDirection = new Vector2(player.transform.position.x,player.transform.position.y) - iPosition;
             shootingDirection.Normalize();
 
         }
+
+       
+
+        iPosition = iPosition + shootingDirection * ARROW_OFFSET; // this prevents it from hitting the player
+
+
         GameObject arrow = Instantiate(projectilePrefab, iPosition, Quaternion.identity);
-        arrow.GetComponent<Rigidbody2D>().velocity = shootingDirection * ARROW_BASE_SPEED; // adjust velocity
+        ArrowController arrowController = arrow.GetComponent<ArrowController>();
+        arrowController.shooter = gameObject;
+        arrowController.velocity = shootingDirection * ARROW_BASE_SPEED; // adjust velocity
         arrow.transform.Rotate(0, 0, Mathf.Atan2(shootingDirection.y, shootingDirection.x) * Mathf.Rad2Deg);
         Destroy(arrow, 2.0f);
 

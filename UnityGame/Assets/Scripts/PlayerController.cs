@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     const string HEALER_CLASS_BASIC = "HEALER";
     const string HEALER_CLASS_SHOOT = "HEALER_SHOOT";
 
-    const string SHOCK_CLASS_NAME = "SHOCK";
+    const string SHOCK_CLASS_BASIC = "SHOCK";
 
     const string BUILDER_MOD_ONE = "B_MOD_ONE";
     const string BUILDER_MOD_TWO = "B_MOD_TWO";
@@ -41,13 +41,14 @@ public class PlayerController : MonoBehaviour
     private int lastHealth;
     public float movementSpeed;
     private Vector2 movementDirection;
+    private Vector2 pushBackDirection;
     private Vector2 aimDirection;
     public bool endOfAiming = false;
     public bool isAiming = false;
     public bool usingPower = false;
-
     public bool endUsingPower = false;
-
+    public bool isShocked = false;
+    public float PUSH_BACK_FORCE = 10f;
     public bool healing = false;
     public int healingCount = 0;
     public int healingTime = 50;  //  healingTime/ 50 = seconds. 
@@ -56,7 +57,7 @@ public class PlayerController : MonoBehaviour
     [Header("Dash Variables:")]
     public bool isDashing;// = false;
     public float dashSpeed = 200.0f;
-    private float dashTime; 
+    private float dashTime;
     public float startDashTime = 0.2f;
 
 
@@ -85,12 +86,11 @@ public class PlayerController : MonoBehaviour
     [Header("Prefabs:")]
     public GameObject arrowPrefab;
 
-    // public GameObject classPrefab;
+
 
     Vector3 worldPosition;
 
 
-    // Start is called before the first frame update
 
     // todos
     // 
@@ -118,6 +118,7 @@ public class PlayerController : MonoBehaviour
         //setClass(HEALER_CLASS_BASIC);
         //setClass(BUILDER_CLASS_BASIC);
         setClass(HEALER_CLASS_SHOOT);
+        setClass(SHOCK_CLASS_BASIC);
 
         setMod(BUILDER_MOD_ONE);
 
@@ -133,6 +134,10 @@ public class PlayerController : MonoBehaviour
         {
             playerClass = this.gameObject.transform.GetChild(4).GetComponent<HealerClassShoot>();
         }
+        else if (getClass().Equals(SHOCK_CLASS_BASIC))
+        {
+            playerClass = this.gameObject.transform.GetChild(4).GetComponent<ShockClassBasic>();
+        }
 
         // DASH SET UP
 
@@ -140,7 +145,6 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    // Update is called once per frame
     void Update()
     {
         //this is called once a frame. Tied to frame rate. 
@@ -156,7 +160,6 @@ public class PlayerController : MonoBehaviour
             usePower();
         }
     }
-
     private void FixedUpdate()
     {
         if (healing)
@@ -227,7 +230,7 @@ public class PlayerController : MonoBehaviour
 
         }
 
-        
+
 
 
         if (!isDashing)
@@ -265,8 +268,16 @@ public class PlayerController : MonoBehaviour
 
     void Move()
     {
-
-        if (isDashing)
+        if (isShocked)
+        {
+            Debug.Log("SHOCK MOVE");
+            rb.velocity = Vector2.zero;
+            // need to save the movement direction at the time of push back . 
+            rb.velocity = pushBackDirection * PUSH_BACK_FORCE;
+            pushBackDirection = Vector2.zero;
+            isShocked = false;
+        }
+        else if (isDashing)
         {
             if (movementDirection.magnitude == 0)
             {
@@ -294,6 +305,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            // regular movement. 
             rb.velocity = movementDirection * movementSpeed * MOVEMENT_BASE_SPEED;
         }
 
@@ -396,19 +408,18 @@ public class PlayerController : MonoBehaviour
             if (arrowsRemaining > 0)
             {
                 arrowsRemaining--;
-                //ammoBar.GetComponent<AmmoController>().setAmmo(arrowsRemaining);
-                Debug.Log("Arrows Remaing" + arrowsRemaining);
-                //setAmmoAmount(arrowsRemaining);
-                // put this in a function call
+
                 Vector2 shootingDirection = crosshair.transform.localPosition;
                 shootingDirection.Normalize();
-                // need to determine which if the player is shooting down. 
+
                 Vector2 iPosition = transform.position;
                 iPosition = iPosition + shootingDirection * ARROW_OFFSET; // this prevents it from hitting the player
 
 
                 GameObject arrow = Instantiate(arrowPrefab, iPosition, Quaternion.identity);
-                arrow.GetComponent<Rigidbody2D>().velocity = shootingDirection * ARROW_BASE_SPEED; // adjust velocity
+                ArrowController arrowController = arrow.GetComponent<ArrowController>();
+                arrowController.shooter = gameObject;
+                arrowController.velocity = shootingDirection * ARROW_BASE_SPEED; // adjust velocity
                 arrow.transform.Rotate(0, 0, Mathf.Atan2(shootingDirection.y, shootingDirection.x) * Mathf.Rad2Deg);
                 Destroy(arrow, 2.0f);
             }
@@ -494,10 +505,31 @@ public class PlayerController : MonoBehaviour
 
 
     // collsion box
+    private void OnCollisionStay2D(Collision2D other)
+    {
+        if (other.gameObject.tag == "Shockwave")
+        {// || other.gameObject.tag == "Enemey"){
+            Debug.Log("PUSH BACK");
+
+            isShocked = true;
+            pushBackDirection = -movementDirection;
+            // Vector2 otherPosition = new Vector2(other.gameObject.transform.position.x,  other.gameObject.transform.position.y);
+            // Vector2 thisPosition = new Vector2(this.gameObject.transform.position.x,this.gameObject.transform.position.x);
+            // Vector2 forceDirection =  thisPosition - otherPosition;
+            // forceDirection.Normalize(); 
+            // Debug.Log(forceDirection);
+
+            // ShockwaveScript sw =  other.gameObject.GetComponent<ShockwaveScript>();
+            // //rb.AddForce(forceDirection *sw.PUSH_BACK_FORCE);
+
+            // rb.velocity = -movementDirection * sw.PUSH_BACK_FORCE * MOVEMENT_BASE_SPEED * Time.deltaTime;
+
+        }
+    }
     private void OnCollisionEnter2D(Collision2D other)
     {
 
-        Debug.Log("Conk");
+        //Debug.Log("Conk");
         // if (other.gameObject.tag == "bullet")
         // {
         //     Destroy(other.gameObject);
@@ -505,6 +537,8 @@ public class PlayerController : MonoBehaviour
         //     //setHealthAmount(--health);
         //     Debug.Log("Donk");
         // }
+
+
     }
     //hurt boxs
     private void OnTriggerEnter2D(Collider2D other)
@@ -530,8 +564,25 @@ public class PlayerController : MonoBehaviour
             health++;
             //StartCoroutine("HealingPlayer");
         }
+        if (other.gameObject.tag == "Shockwave")
+        {// || other.gameObject.tag == "Enemey"){
+            Debug.Log("PUSH BACK");
+
+            isShocked = true;
+            pushBackDirection = -movementDirection;
+        }
     }
 
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "Shockwave")
+        {// || other.gameObject.tag == "Enemey"){
+            Debug.Log("PUSH BACK");
+
+            isShocked = true;
+            pushBackDirection = -movementDirection;
+        }
+    }
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.gameObject.tag == "HealingAura")
@@ -540,6 +591,13 @@ public class PlayerController : MonoBehaviour
             healing = false;
             //StopCoroutine("HealingPlayer");
         }
+    }
+
+
+    public void takeDamage(int damage)
+    {
+        Debug.Log("Ray Bonk");
+        health -= damage;
     }
 
     public void setAmmoAmount(int n)
