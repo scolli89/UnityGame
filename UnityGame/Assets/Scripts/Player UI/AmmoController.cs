@@ -40,26 +40,23 @@ public class AmmoController : MonoBehaviour
             Debug.Log("ammo null catch ");
             Start();
         }
-        else
+        int[] values = new int[2];
+        values[0] = ammo % 10;
+        values[1] = ammo % 100;
+        values[1] -= values[0];
+        values[1] /= 10;
+
+        if (values[0] > 9 || values[0] < 0)
         {
-            int[] values = new int[2];
-            values[0] = ammo % 10;
-            values[1] = ammo % 100;
-            values[1] -= values[0];
-            values[1] /= 10;
-
-            if (values[0] > 9 || values[0] < 0)
-            {
-                onesSprite.sprite = errorSprite;
-            }
-            else if (values[1] > 9 || values[1] < 0)
-            {
-                tensSprite.sprite = errorSprite;
-            }
-
-            onesSprite.sprite = spriteArray[values[0]];
-            tensSprite.sprite = spriteArray[values[1]];
+            onesSprite.sprite = errorSprite;
         }
+        else if (values[1] > 9 || values[1] < 0)
+        {
+            tensSprite.sprite = errorSprite;
+        }
+
+        onesSprite.sprite = spriteArray[values[0]];
+        tensSprite.sprite = spriteArray[values[1]];
         
       //143 modulo 10 is 3, 
       //143 modulo 100 is 43, 

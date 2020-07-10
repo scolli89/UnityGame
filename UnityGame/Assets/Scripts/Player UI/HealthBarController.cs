@@ -29,7 +29,7 @@ public class HealthBarController : MonoBehaviour
             Debug.Log("health null catch ");
             Start(); 
         }
-        else if (h < 0)
+        if (h < 0)
         {
             spriteRenderer.sprite = spriteArray[0];
         }

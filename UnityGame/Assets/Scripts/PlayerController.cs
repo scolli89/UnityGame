@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
 {
     public int playerId;
 
-    public int press = 0;
+    private int press = 0;
 
     [Space]
     [Header("Character Attributes:")]
