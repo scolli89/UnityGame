@@ -23,9 +23,6 @@ public class ArrowController : MonoBehaviour
                     // have it look like the plasma is splashing aroud the players shield, especially if it isn't visiable, when hitting it. 
                     // https://www.youtube.com/watch?v=FFzyHDrgDc0
                     //
-
-
-
                     Destroy(gameObject);
                     Debug.Log(other.name);
                     other.gameObject.GetComponent<PlayerController>().takeDamage(1);

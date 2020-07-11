@@ -36,9 +36,10 @@ public class BuilderWallController : MonoBehaviour
         // when depleated. it gets destroyed. 
 
 
-        if (health == 3)
+        if (health >= 3)
         {
             spriteRenderer.sprite = wallFull;
+            health = 3;
         }
         else if (health == 2)
         {
@@ -48,7 +49,7 @@ public class BuilderWallController : MonoBehaviour
         {
             spriteRenderer.sprite = wallLow;
         }
-        else
+        else 
         {
             spriteRenderer.sprite = null;
             wallDestroyed();

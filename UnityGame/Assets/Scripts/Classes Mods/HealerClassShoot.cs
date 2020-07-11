@@ -10,9 +10,9 @@ public class HealerClassShoot : PlayerClass
     public GameObject classPrefab;
     public override void usePower(Vector2 v)//,GameObject g)
     {
-        
-       
-        
+
+
+
         Vector2 shootingDirection = v;
         shootingDirection.Normalize();
         // need to determine which if the player is shooting down. 
@@ -20,16 +20,24 @@ public class HealerClassShoot : PlayerClass
         iPosition = iPosition + shootingDirection * LASER_OFFSET; // this prevents it from hitting the player
 
 
-        GameObject arrow = Instantiate(classPrefab, iPosition, Quaternion.identity);
-        arrow.GetComponent<Rigidbody2D>().velocity = shootingDirection * ARROW_BASE_SPEED; // adjust velocity
-        arrow.transform.Rotate(0, 0, Mathf.Atan2(shootingDirection.y, shootingDirection.x) * Mathf.Rad2Deg);
-        Destroy(arrow, 2.0f);
+        GameObject laser = Instantiate(classPrefab, iPosition, Quaternion.identity);
+        LaserScript laserScript = laser.GetComponent<LaserScript>();
+        laserScript.shooter = this.transform.root.gameObject;
+        laserScript.velocity = shootingDirection * ARROW_BASE_SPEED; // adjust velocity
+        laser.transform.Rotate(0, 0, Mathf.Atan2(shootingDirection.y, shootingDirection.x) * Mathf.Rad2Deg);
+        Destroy(laser, 2.0f);
 
 
     }
+
 
     public override int getAmmoReq()
     {
         return AMMO_REQUIRED;
     }
+
+
+
+
+
 }

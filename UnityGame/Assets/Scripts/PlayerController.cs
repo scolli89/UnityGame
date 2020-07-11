@@ -118,7 +118,7 @@ public class PlayerController : MonoBehaviour
         //setClass(HEALER_CLASS_BASIC);
         //setClass(BUILDER_CLASS_BASIC);
         setClass(HEALER_CLASS_SHOOT);
-        setClass(SHOCK_CLASS_BASIC);
+        //setClass(SHOCK_CLASS_BASIC);
 
         setMod(BUILDER_MOD_ONE);
 
