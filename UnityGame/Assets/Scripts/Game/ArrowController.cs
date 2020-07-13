@@ -31,6 +31,7 @@ public class ArrowController : MonoBehaviour
                 if(other.CompareTag("Enemy")){ // right now just the cannon. 
                     Destroy(gameObject);
                     Debug.Log(other.name);
+                    other.gameObject.GetComponent<RobotDroneController>().takeDamage(1);
                     break; 
                 }
 
