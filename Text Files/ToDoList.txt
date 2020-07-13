@@ -76,7 +76,7 @@ What do we need to do first?
 		1: take more hits/ more shields / more health
 		2: Movement Speed increase
 		3: longer roll/ invicible roll/ teleport roll(teleport out of the map and die? ) / it is better, but you don't add an extra button to it. 
-		4: 
+		4: Able to see NPC stats. / Makes all players able to see others stats/ health/ power level / gun type ?
 		5:
 		6:
 		7:
