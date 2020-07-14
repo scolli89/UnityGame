@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.InputSystem.InputAction;
-using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
@@ -28,6 +26,8 @@ public class PlayerController : MonoBehaviour
     const string BUILDER_MOD_TWO = "B_MOD_TWO";
     const string BUILDER_MOD_THREE = "B_MOD_THREE";
 
+    [SerializeField]
+    private int playerIndex = 0;
 
     public bool usingKeyBoard;
 
@@ -129,7 +129,7 @@ public class PlayerController : MonoBehaviour
         setMod(BUILDER_MOD_ONE);
         //playerClass.getClass(); // returns Type : PlayerClass
 
-        playerClass = this.gameObject.transform.GetChild(3).GetComponent<PlayerClass>();
+        //playerClass = this.gameObject.transform.GetChild(3).GetComponent<PlayerClass>();
         
         // DASH SET UP
 
@@ -218,6 +218,10 @@ public class PlayerController : MonoBehaviour
             AimPower();
             movementSpeed *= AIMING_BASE_PENALTY;
         } 
+    }
+
+    public int getPlayerIndex(){
+        return playerIndex;
     }
 
     public void setMovementDirection(Vector2 direction)
@@ -309,19 +313,20 @@ public class PlayerController : MonoBehaviour
 
     void Aim()
     {
-        if (usingKeyBoard)
-        {
-            Vector3 shootdirection = Mouse.current.position.ReadValue(); 
-            shootdirection.z = 0.0f;
-            shootdirection = Camera.main.ScreenToWorldPoint(shootdirection);
-            shootdirection = shootdirection - transform.position;
-            aimDirection = new Vector2(shootdirection.x, shootdirection.y);
-        }
-        else
-        {
-            aimDirection = movementDirection;
-        }
+        // if (usingKeyBoard)
+        // {
+        //     Vector3 shootdirection = Mouse.current.position.ReadValue(); 
+        //     shootdirection.z = 0.0f;
+        //     shootdirection = Camera.main.ScreenToWorldPoint(shootdirection);
+        //     shootdirection = shootdirection - transform.position;
+        //     aimDirection = new Vector2(shootdirection.x, shootdirection.y);
+        // }
+        // else
+        // {
+        //     aimDirection = movementDirection;
+        // }
 
+        aimDirection = movementDirection;
         aimDirection.Normalize();
         //Debug.Log("AimDirection" + aimDirection);
 
@@ -331,19 +336,19 @@ public class PlayerController : MonoBehaviour
 
     void AimPower()
     {
-        if (usingKeyBoard)
-        {
-            Vector3 shootdirection = Mouse.current.position.ReadValue(); // mousePosition;
-            shootdirection.z = 0.0f;
-            shootdirection = Camera.main.ScreenToWorldPoint(shootdirection);
-            shootdirection = shootdirection - transform.position;
-            aimDirection = new Vector2(shootdirection.x, shootdirection.y);
-        }
-        else
-        {
-            aimDirection = movementDirection;
-        }
-
+        // if (usingKeyBoard)
+        // {
+        //     Vector3 shootdirection = Mouse.current.position.ReadValue(); // mousePosition;
+        //     shootdirection.z = 0.0f;
+        //     shootdirection = Camera.main.ScreenToWorldPoint(shootdirection);
+        //     shootdirection = shootdirection - transform.position;
+        //     aimDirection = new Vector2(shootdirection.x, shootdirection.y);
+        // }
+        // else
+        // {
+        //     aimDirection = movementDirection;
+        // }
+        aimDirection = movementDirection;
         aimDirection.Normalize();
         //Debug.Log("AimDirection" + aimDirection);
 
