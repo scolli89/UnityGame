@@ -133,8 +133,8 @@ public class PlayerController : MonoBehaviour
 
         // SET CLASS
         //setClass(HEALER_CLASS_BASIC);
-        //setClass(BUILDER_CLASS_BASIC);
-        setClass(HEALER_CLASS_SHOOT);
+        setClass(BUILDER_CLASS_BASIC);
+       // setClass(HEALER_CLASS_SHOOT);
         //setClass(SHOCK_CLASS_BASIC);
 
         setMod(BUILDER_MOD_ONE);
@@ -234,14 +234,14 @@ public class PlayerController : MonoBehaviour
 
 
 
-        if (!isDashing)
+        if (isDashing)
         {
             //DASH() or something 
         }
         else if (isAiming)
         {
             crosshair.SetActive(true);
-            
+            Debug.Log("Aiming");
             Aim();
             movementSpeed *= AIMING_BASE_PENALTY;
         }
