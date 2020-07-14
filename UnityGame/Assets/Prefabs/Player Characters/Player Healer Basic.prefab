@@ -13,8 +13,10 @@ GameObject:
   - component: {fileID: 1005049136369737354}
   - component: {fileID: 1005049136369737365}
   - component: {fileID: 1005049136369737367}
+  - component: {fileID: -3882407739254585234}
   - component: {fileID: 1005049136369737364}
   - component: {fileID: 6167122361228005368}
+  - component: {fileID: -1501656412420551813}
   m_Layer: 0
   m_Name: Player Healer Basic
   m_TagString: Player
@@ -34,7 +36,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1005049136268096013}
-  - {fileID: 6490247753784130690}
   - {fileID: 1005049135136034310}
   - {fileID: 1005049135398701522}
   - {fileID: 8355799218279654863}
@@ -150,7 +151,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa2f14d2b7ab7414ca6d6aec59440a72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerId: 0
   MOVEMENT_BASE_SPEED: 5
   ARROW_BASE_SPEED: 1
   CROSSHAIR_DISTANCE: 5
@@ -158,7 +158,7 @@ MonoBehaviour:
   AIMING_BASE_PENALTY: 0.1
   ARROW_OFFSET: 1.2
   HEALING_WAIT: 2
-  usingKeyBoard: 1
+  usingKeyBoard: 0
   arrowsRemaining: 12
   health: 6
   movementSpeed: 0
@@ -166,6 +166,8 @@ MonoBehaviour:
   isAiming: 0
   usingPower: 0
   endUsingPower: 0
+  isShocked: 0
+  PUSH_BACK_FORCE: 10
   healing: 0
   healingCount: 0
   healingTime: 50
@@ -180,6 +182,18 @@ MonoBehaviour:
   ammoBar: {fileID: 1005049135398701533}
   arrowPrefab: {fileID: 2817695094258861393, guid: 9de6fbc149b8cf54a814911a4a121175,
     type: 3}
+--- !u!114 &-3882407739254585234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1005049136369737360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efd00c43731dde84ca16890b1909df66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!95 &1005049136369737364
 Animator:
   serializedVersion: 3
@@ -225,6 +239,101 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.5044265, y: 1.3209988}
   m_EdgeRadius: 0
+--- !u!114 &-1501656412420551813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1005049136369737360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: be9ba297b81721f48b240ba15129c9c7,
+    type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -3882407739254585234}
+        m_MethodName: OnMove
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: fd17b051-992b-4f04-895d-3b79bb9e6467
+    m_ActionName: Archer/Movement[/XInputControllerWindows/leftStick,/XInputControllerWindows/leftStick,/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/XInputControllerWindows/dpad/up,/XInputControllerWindows/dpad/up,/XInputControllerWindows/dpad/down,/XInputControllerWindows/dpad/down,/XInputControllerWindows/dpad/left,/XInputControllerWindows/dpad/left,/XInputControllerWindows/dpad/right,/XInputControllerWindows/dpad/right]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -3882407739254585234}
+        m_MethodName: StupidAssFixPowers
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c1f5ba34-733a-4fd7-bb60-6220af1d5551
+    m_ActionName: Archer/Use Power[/XInputControllerWindows/buttonEast,/XInputControllerWindows/buttonEast,/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -3882407739254585234}
+        m_MethodName: OnDash
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 05dd71b8-c3f8-406a-a1d9-6bf864b6d81e
+    m_ActionName: Archer/Dash[/XInputControllerWindows/buttonWest,/XInputControllerWindows/buttonWest,/Keyboard/leftShift]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -3882407739254585234}
+        m_MethodName: StupidAssFix
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: ed4bdb05-92cc-4477-a96f-1245cdbfa8d9
+    m_ActionName: Archer/Aim[/XInputControllerWindows/buttonSouth,/XInputControllerWindows/buttonSouth,/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 2b500ec3-596c-4aec-adf9-405d574e0b54
+    m_ActionName: Archer/Pause[/Keyboard/p,/XInputControllerWindows/start,/XInputControllerWindows/start]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Archer
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1001 &4584956327366326314
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -275,7 +384,7 @@ PrefabInstance:
     - target: {fileID: 3626435234658104876, guid: 217aa1d335c691d49b8354e1d010d4c1,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3626435234658104876, guid: 217aa1d335c691d49b8354e1d010d4c1,
         type: 3}
@@ -462,7 +571,7 @@ PrefabInstance:
     - target: {fileID: 1614014931623036472, guid: 0c4369076c34c8a4088b03a72844ba7e,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1614014931623036472, guid: 0c4369076c34c8a4088b03a72844ba7e,
         type: 3}
@@ -572,7 +681,7 @@ PrefabInstance:
     - target: {fileID: 7469600223502218474, guid: c0cda46a1c3348f4190ee7ec02d687d3,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7469600223502218474, guid: c0cda46a1c3348f4190ee7ec02d687d3,
         type: 3}
@@ -602,79 +711,4 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7469600223502218474, guid: c0cda46a1c3348f4190ee7ec02d687d3,
     type: 3}
   m_PrefabInstance: {fileID: 7663999630677900600}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &8978291366640077307
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 1005049136369737366}
-    m_Modifications:
-    - target: {fileID: 2776664454687733113, guid: 67b154a165215a144a84853da36e5970,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2776664454687733113, guid: 67b154a165215a144a84853da36e5970,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2776664454687733113, guid: 67b154a165215a144a84853da36e5970,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -10
-      objectReference: {fileID: 0}
-    - target: {fileID: 2776664454687733113, guid: 67b154a165215a144a84853da36e5970,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2776664454687733113, guid: 67b154a165215a144a84853da36e5970,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2776664454687733113, guid: 67b154a165215a144a84853da36e5970,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2776664454687733113, guid: 67b154a165215a144a84853da36e5970,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2776664454687733113, guid: 67b154a165215a144a84853da36e5970,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2776664454687733113, guid: 67b154a165215a144a84853da36e5970,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2776664454687733113, guid: 67b154a165215a144a84853da36e5970,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2776664454687733113, guid: 67b154a165215a144a84853da36e5970,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2776664454687733125, guid: 67b154a165215a144a84853da36e5970,
-        type: 3}
-      propertyPath: m_Name
-      value: Main Camera
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 67b154a165215a144a84853da36e5970, type: 3}
---- !u!4 &6490247753784130690 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2776664454687733113, guid: 67b154a165215a144a84853da36e5970,
-    type: 3}
-  m_PrefabInstance: {fileID: 8978291366640077307}
   m_PrefabAsset: {fileID: 0}

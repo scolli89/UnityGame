@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7522595777585109195}
   - component: {fileID: 7522595777585109204}
   - component: {fileID: 7522595777585109206}
+  - component: {fileID: 4412313170583244643}
   - component: {fileID: 7522595777585109205}
   - component: {fileID: 3459049018354354617}
   - component: {fileID: 3459049018500840192}
@@ -151,7 +152,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerId: 0
-  press: 0
   MOVEMENT_BASE_SPEED: 5
   ARROW_BASE_SPEED: 10
   CROSSHAIR_DISTANCE: 5
@@ -167,6 +167,8 @@ MonoBehaviour:
   isAiming: 0
   usingPower: 0
   endUsingPower: 0
+  isShocked: 0
+  PUSH_BACK_FORCE: 10
   healing: 0
   healingCount: 0
   healingTime: 50
@@ -181,6 +183,18 @@ MonoBehaviour:
   ammoBar: {fileID: 7522595776609980316}
   arrowPrefab: {fileID: 2817695094258861393, guid: 9de6fbc149b8cf54a814911a4a121175,
     type: 3}
+--- !u!114 &4412313170583244643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7522595777585109201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efd00c43731dde84ca16890b1909df66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!95 &7522595777585109205
 Animator:
   serializedVersion: 3
@@ -254,7 +268,7 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7522595777585109206}
+      - m_Target: {fileID: 4412313170583244643}
         m_MethodName: OnMove
         m_Mode: 0
         m_Arguments:
@@ -269,7 +283,7 @@ MonoBehaviour:
     m_ActionName: Archer/Movement[/XInputControllerWindows/leftStick,/XInputControllerWindows/leftStick,/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7522595777585109206}
+      - m_Target: {fileID: 4412313170583244643}
         m_MethodName: StupidAssFixPowers
         m_Mode: 1
         m_Arguments:
@@ -284,7 +298,7 @@ MonoBehaviour:
     m_ActionName: Archer/Use Power[/XInputControllerWindows/buttonEast,/XInputControllerWindows/buttonEast,/Mouse/rightButton]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7522595777585109206}
+      - m_Target: {fileID: 4412313170583244643}
         m_MethodName: OnDash
         m_Mode: 1
         m_Arguments:
@@ -299,7 +313,7 @@ MonoBehaviour:
     m_ActionName: Archer/Dash[/XInputControllerWindows/buttonWest,/XInputControllerWindows/buttonWest,/Keyboard/leftShift]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7522595777585109206}
+      - m_Target: {fileID: 4412313170583244643}
         m_MethodName: StupidAssFix
         m_Mode: 1
         m_Arguments:
