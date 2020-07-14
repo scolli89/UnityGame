@@ -6,10 +6,6 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    public int playerId;
-
-    private int press = 0;
-
     [Space]
     [Header("Character Attributes:")]
     public float MOVEMENT_BASE_SPEED = 1.0f;
@@ -20,8 +16,6 @@ public class PlayerController : MonoBehaviour
     public float AIMING_BASE_PENALTY = 0.1f;
     public float ARROW_OFFSET = 1.2f;
     public float HEALING_WAIT = 2.0f;
-
-
 
     const string BUILDER_CLASS_BASIC = "BUILDER";
 
@@ -81,18 +75,13 @@ public class PlayerController : MonoBehaviour
 
     private static PlayerClass playerClass;
 
-
     private bool firstUpdate = true;
 
     [Space]
     [Header("Prefabs:")]
     public GameObject arrowPrefab;
 
-
-
     Vector3 worldPosition;
-
-
 
     // todos
     // 
@@ -133,30 +122,15 @@ public class PlayerController : MonoBehaviour
 
         // SET CLASS
         //setClass(HEALER_CLASS_BASIC);
-        setClass(BUILDER_CLASS_BASIC);
-       // setClass(HEALER_CLASS_SHOOT);
+        //setClass(BUILDER_CLASS_BASIC);
+        //setClass(HEALER_CLASS_SHOOT);
         //setClass(SHOCK_CLASS_BASIC);
 
         setMod(BUILDER_MOD_ONE);
+        //playerClass.getClass(); // returns Type : PlayerClass
 
-        if (getClass().Equals(BUILDER_CLASS_BASIC))
-        {
-            playerClass = this.gameObject.transform.GetChild(3).GetComponent<BuilderClassBasic>();
-        }
-        else if (getClass().Equals(HEALER_CLASS_BASIC))
-        {
-            playerClass = this.gameObject.transform.GetChild(3).GetComponent<HealerClassBasic>();
-        }
-        else if (getClass().Equals(HEALER_CLASS_SHOOT))
-        {
-            playerClass = this.gameObject.transform.GetChild(3).GetComponent<HealerClassShoot>();
-            
-        }
-        else if (getClass().Equals(SHOCK_CLASS_BASIC))
-        {
-            playerClass = this.gameObject.transform.GetChild(4).GetComponent<ShockClassBasic>();
-        }
-
+        playerClass = this.gameObject.transform.GetChild(3).GetComponent<PlayerClass>();
+        
         // DASH SET UP
 
         dashTime = startDashTime;
@@ -169,13 +143,9 @@ public class PlayerController : MonoBehaviour
         // get the change 
         if (!PauseMenu.GameIsPaused)
         {
-            
-
             ProcessInputs(); // Aim() and AimPower are called within ProcessInputs. 
             Move(); // Move is called in FixedUpdate
             Animate();
-            
-            usePower();
 
             updateUI(); // doesnt depend on input
         }
@@ -230,10 +200,6 @@ public class PlayerController : MonoBehaviour
     void ProcessInputs()
     {
         // with the new system, we will have already gotten the input booleans. Ie isDashing, 
-
-
-
-
         if (isDashing)
         {
             //DASH() or something 
@@ -254,70 +220,39 @@ public class PlayerController : MonoBehaviour
         } 
     }
 
-    // because input manager package is garbage and hold doesn't work
-    public void StupidAssFix() //for some reason the function is called twice on every button press, and twice on every button release
+    public void setMovementDirection(Vector2 direction)
     {
-        press++;
-        if (press == 2)
-        {
-            //can assume player is holding the button
-            OnAim();
-        }
-        else if (press > 2)
-        {
-            OnFire();
-            press = 0;
-        }
-    }
-
-    public void StupidAssFixPowers()
-    {
-        press++;
-        if (press == 2)
-        {
-            OnAimPower();
-        }
-        else if (press > 2)
-        {
-            OnPower();
-            press = 0;
-        }
-    }
-
-    public void OnMove(CallbackContext context)
-    {
-        movementDirection = context.ReadValue<Vector2>();
+        movementDirection = direction;
         movementSpeed = Mathf.Clamp(movementDirection.magnitude, 0.0f, 1.0f);
-        movementDirection.Normalize();
     }
 
     // called on hold of aim button
-    public void OnAim()
+    public void setIsAiming()
     {
         isAiming = true;
     }
 
     //called when aim button is released
-    public void OnFire()
+    public void setIsFiring()
     {
         isAiming = false;
         endOfAiming = true;
         Shoot();
     }
 
-    public void OnAimPower()
+    public void setIsAimingPower()
     {
         usingPower = true;
     }
 
-    public void OnPower()
+    public void setIsFiringPower()
     {
         usingPower = false;
         endUsingPower = true;
         usePower();
     }    
 
-    public void OnDash()
+    public void setIsDashing()
     {
         isDashing = true;
     }
@@ -354,17 +289,12 @@ public class PlayerController : MonoBehaviour
                     rb.velocity = movementDirection * dashSpeed;
                 }
             }
-
-
-
-
         }
         else
         {
             // regular movement. 
             rb.velocity = movementDirection * movementSpeed * MOVEMENT_BASE_SPEED;
         }
-
     }
 
     void Animate()
@@ -473,7 +403,6 @@ public class PlayerController : MonoBehaviour
             {
                 // consider giving an error message to player?
                 // flash their ammo red or something to make it noticable that they have nothing
-
             }
 
             //playerClass.usePower(crosshair.transform.localPosition, classPrefab); 
@@ -559,8 +488,6 @@ public class PlayerController : MonoBehaviour
         //     //setHealthAmount(--health);
         //     Debug.Log("Donk");
         // }
-
-
     }
     //hurt boxs
     private void OnTriggerEnter2D(Collider2D other)
