@@ -40,14 +40,14 @@ public class InputHandler : MonoBehaviour
     }
 
     // because input manager package is garbage and hold doesn't work
-    public void StupidAssFix() //for some reason the function is called twice on every button press, and twice on every button release
+    public void OnAim() //for some reason the function is called twice on every button press, and twice on every button release
     {
         if (playerController != null){
             press++;
             if (press == 2)
             {
                 //can assume player is holding the button
-                OnAim();
+                OnAimFix();
             }
             else if (press > 2)
             {
@@ -57,13 +57,13 @@ public class InputHandler : MonoBehaviour
         }
     }
 
-    public void StupidAssFixPowers()
+    public void OnAimPower()
     {
         if (playerController != null){
             press++;
             if (press == 2)
             {
-                OnAimPower();
+                OnAimPowerFix();
             }
             else if (press > 2)
             {
@@ -73,7 +73,7 @@ public class InputHandler : MonoBehaviour
         }
     }
 
-    private void OnAim()
+    private void OnAimFix()
     {
         playerController.setIsAiming();
     }
@@ -83,7 +83,7 @@ public class InputHandler : MonoBehaviour
         playerController.setIsFiring();
     }
 
-    private void OnAimPower()
+    private void OnAimPowerFix()
     {
         playerController.setIsAimingPower();
     }
