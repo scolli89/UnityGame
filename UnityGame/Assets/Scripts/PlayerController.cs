@@ -129,7 +129,7 @@ public class PlayerController : MonoBehaviour
         setMod(BUILDER_MOD_ONE);
         //playerClass.getClass(); // returns Type : PlayerClass
 
-        //playerClass = this.gameObject.transform.GetChild(3).GetComponent<PlayerClass>();
+        playerClass = this.gameObject.transform.GetChild(3).GetComponent<PlayerClass>();
         
         // DASH SET UP
 
