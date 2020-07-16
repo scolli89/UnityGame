@@ -119,7 +119,7 @@ public class RobotDroneController : MonoBehaviour
                         while (IsPathBlocked())
                         {
 
-                            Debug.Log("Path Blocked");
+                            //Debug.Log("Path Blocked");
                             GetDestination();
                             count++;
                             if (count >= 100)
@@ -152,7 +152,7 @@ public class RobotDroneController : MonoBehaviour
                         if (_playerTarget == null)
                         {
                             //target died. 
-                            Debug.Log("Entering Wander State");
+                            Debug.Log("Entering Wander from chase");
                             _currentState = DroneState.Wander;
                             return;
                         }
@@ -165,7 +165,7 @@ public class RobotDroneController : MonoBehaviour
                         if (d < ATTACK_STOP_DISTANCE)
                         {
                             // stop chaisng, just attack
-                            Debug.Log("ENTERING ATTACK RANGE");
+                            Debug.Log("ENTERING ATTACK from chase");
                             rb.velocity = Vector2.zero;
                             _currentState = DroneState.Attack;
                             return;
@@ -173,13 +173,15 @@ public class RobotDroneController : MonoBehaviour
                         else if (d >= AGGRO_DISTANCE)
                         {
                             //lost the target. 
+                            Debug.Log("ENTERING Wander from chase ");
                             _currentState = DroneState.Wander;
                             return;
                         }
                         else
                         {
                             //chase the player 
-
+                            _direction = targetPosition - currentPosition;
+                            _direction.Normalize();
 
 
                             if (fireCount <= fireRate)
@@ -188,7 +190,7 @@ public class RobotDroneController : MonoBehaviour
                                 // decrease firerate to attack faster
                                 // chase and shoot. 
                                 rb.velocity = _direction * PURSUIT_SPEED;
-                                Debug.Log(_direction);
+                                
 
                             }
                             else
@@ -229,18 +231,21 @@ public class RobotDroneController : MonoBehaviour
                         Vector2 currentPosition = new Vector2(transform.position.x, transform.position.y);
                         float d = Vector2.Distance(currentPosition, targetPosition);
 
-                        if (d >= ATTACK_STOP_DISTANCE && d <= AGGRO_DISTANCE)
+                        if (d >= ATTACK_STOP_DISTANCE)// && d <= AGGRO_DISTANCE)
                         {
-                            Debug.Log("ENTERING CHASE RANGE");
-                            _currentState = DroneState.Chase;
-                            return;
-                        }
-                        else if (d >= AGGRO_DISTANCE)
-                        {
+                            Debug.Log("ENTERING Wander from attack");
                             _currentState = DroneState.Wander;
                             return;
 
+                            // _currentState = DroneState.Chase;
+                            // return;
                         }
+                        // else if (d >= AGGRO_DISTANCE)
+                        // {
+                        //     _currentState = DroneState.Wander;
+                        //     return;
+
+                        // }
                         // the stopped and attack
                         else 
                         {
@@ -450,37 +455,6 @@ public class RobotDroneController : MonoBehaviour
 
 
     //////////////////////////////////
-    bool Move(Vector2 moveTowards)
-    {
-
-
-        // check if it is close to the player.
-        //        Debug.Log("MOVE() : " + moveTowards);
-        // Vector2 robotPosition = new Vector2(this.transform.position.x, this.transform.position.y);
-
-        // if (Mathf.Abs(robotPosition.x - moveTowards.x) <= STOP_DISTANCE &&
-        //         Mathf.Abs(robotPosition.y - moveTowards.y) <= STOP_DISTANCE)
-        // {
-        //     rb.velocity = Vector2.zero;
-        //     return true;
-        // }
-        // else
-        // {
-        //     // move towards player
-        //     Vector2 movementDirection = new Vector2(0, 0);
-
-        //     //  Debug.Log("MOVING TOWARDS PLAYER.");
-
-        //     movementDirection = moveTowards - new Vector2(this.transform.position.x, this.transform.position.y);
-
-        //     magnitude = movementDirection.magnitude;
-        //     movementDirection.Normalize();
-
-        //     rb.velocity = movementDirection * PURSUIT_SPEED;
-        //     return false;
-        // }
-        return false;
-    }
 
 
     void Combat(bool hasTarget)
