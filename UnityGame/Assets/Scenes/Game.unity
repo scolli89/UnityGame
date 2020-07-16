@@ -773,12 +773,12 @@ PrefabInstance:
     - target: {fileID: 7522595777585109207, guid: 8371d1c7ac3552f40a5859da130d9505,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.22
+      value: 20.76
       objectReference: {fileID: 0}
     - target: {fileID: 7522595777585109207, guid: 8371d1c7ac3552f40a5859da130d9505,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.08
+      value: 1.1
       objectReference: {fileID: 0}
     - target: {fileID: 7522595777585109207, guid: 8371d1c7ac3552f40a5859da130d9505,
         type: 3}
@@ -1866,6 +1866,7 @@ MonoBehaviour:
   numberOfDrones: 2
   checkCount: 0
   checkMax: 120
+  CLOSEST_DISTANCE: 1.5
   playerTargets:
   - {fileID: 1682764664}
 --- !u!4 &2069844911

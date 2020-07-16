@@ -28,6 +28,7 @@ public class EnemyGameManager : MonoBehaviour
             iPosition.x += i;
             iPosition.y += i;
             RobotArray[i] = Instantiate(RobotDronePrefab, iPosition, Quaternion.identity);
+            RobotArray[i].GetComponent<RobotDroneController>().droneId = i; 
         }
         setPlayerTargets(playerTargets); 
     }
@@ -77,7 +78,7 @@ public class EnemyGameManager : MonoBehaviour
                     Vector2 otherRobotPos = new Vector2(otherRobot.transform.position.x,otherRobot.transform.position.y);
                     if((thisRobotPos - otherRobotPos).magnitude <= CLOSEST_DISTANCE){
 
-                        otherRobot.GetComponent<RobotDroneController>().AdjustPosition(thisRobotPos,otherRobotPos,CLOSEST_DISTANCE);
+                        // somehow adjust the position. 
 
 
                     }

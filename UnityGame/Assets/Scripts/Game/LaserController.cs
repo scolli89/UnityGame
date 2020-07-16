@@ -18,7 +18,6 @@ public class LaserController : MonoBehaviour
             GameObject other = hit.collider.gameObject;
             if(other != shooter){ // do the interaction here. 
                 if(other.CompareTag("Player")){
-
                     //todo,
                     // have it look like the plasma is splashing aroud the players shield, especially if it isn't visiable, when hitting it. 
                     // https://www.youtube.com/watch?v=FFzyHDrgDc0
