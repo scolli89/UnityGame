@@ -1,15 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class LaserScript : MonoBehaviour
+
+public class LaserController : MonoBehaviour
 {
-    /*
-
-     only difference between this script and the arrow controller is
-     that when an object with laserScript 'collides' with a Player or enemy,
-      they give 
-
-    */
     public Vector2 velocity = new Vector2(0.0f,0.0f);
     public GameObject shooter;
     public Vector2 offset = new Vector2(0.0f,0.0f);
@@ -31,12 +25,13 @@ public class LaserScript : MonoBehaviour
                     //
                     Destroy(gameObject);
                     Debug.Log(other.name);
-                    other.gameObject.GetComponent<PlayerController>().takeDamage(-1);
+                    other.gameObject.GetComponent<PlayerController>().takeDamage(1);
                     break; 
                 } 
                 if(other.CompareTag("Enemy")){ // right now just the cannon. 
                     Destroy(gameObject);
                     Debug.Log(other.name);
+                    other.gameObject.GetComponent<RobotDroneController>().takeDamage(1);
                     break; 
                 }
 
@@ -50,16 +45,16 @@ public class LaserScript : MonoBehaviour
                 }
                 if(other.CompareTag("BuilderWall")){
                     Destroy(gameObject);
-                    other.gameObject.GetComponent<BuilderWallController>().takeDamage(-1);
+                    other.gameObject.GetComponent<BuilderWallController>().takeDamage(1);
+
                     break; 
                 }
             }
 
 
 
-            Debug.Log(hit.collider.gameObject);
+           // Debug.Log(hit.collider.gameObject);
         }
         transform.position = newPosition; 
     }
 }
-

@@ -21,7 +21,7 @@ public class HealerClassShoot : PlayerClass
 
 
         GameObject laser = Instantiate(classPrefab, iPosition, Quaternion.identity);
-        LaserScript laserScript = laser.GetComponent<LaserScript>();
+        HealingLaserController laserScript = laser.GetComponent<HealingLaserController>();
         laserScript.shooter = this.transform.root.gameObject;
         laserScript.velocity = shootingDirection * ARROW_BASE_SPEED; // adjust velocity
         laser.transform.Rotate(0, 0, Mathf.Atan2(shootingDirection.y, shootingDirection.x) * Mathf.Rad2Deg);

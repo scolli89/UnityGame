@@ -155,7 +155,7 @@ public class CannonController : MonoBehaviour
 
 
         GameObject arrow = Instantiate(projectilePrefab, iPosition, Quaternion.identity);
-        ArrowController arrowController = arrow.GetComponent<ArrowController>();
+        LaserController arrowController = arrow.GetComponent<LaserController>();
         arrowController.shooter = gameObject;
         arrowController.velocity = shootingDirection * ARROW_BASE_SPEED; // adjust velocity
         arrow.transform.Rotate(0, 0, Mathf.Atan2(shootingDirection.y, shootingDirection.x) * Mathf.Rad2Deg);
