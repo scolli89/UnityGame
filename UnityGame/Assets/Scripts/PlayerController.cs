@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private int playerIndex = 0;
 
-    public bool usingKeyBoard;
+    private bool usingMouse = false;
 
     [Space]
     [Header("Character Statistics:")]
@@ -229,6 +229,15 @@ public class PlayerController : MonoBehaviour
         movementSpeed = Mathf.Clamp(movementDirection.magnitude, 0.0f, 1.0f);
     }
 
+    public void setAimDirection(Vector3 mouse)
+    {
+        usingMouse=true;
+        mouse.z = 0.0f;
+        mouse = Camera.main.ScreenToWorldPoint(mouse);
+        mouse = mouse - transform.position;
+        aimDirection = new Vector2(mouse.x, mouse.y);
+    }
+
     // called on hold of aim button
     public void setIsAiming()
     {
@@ -312,20 +321,11 @@ public class PlayerController : MonoBehaviour
 
     void Aim()
     {
-        // if (usingKeyBoard)
-        // {
-        //     Vector3 shootdirection = Mouse.current.position.ReadValue(); 
-        //     shootdirection.z = 0.0f;
-        //     shootdirection = Camera.main.ScreenToWorldPoint(shootdirection);
-        //     shootdirection = shootdirection - transform.position;
-        //     aimDirection = new Vector2(shootdirection.x, shootdirection.y);
-        // }
-        // else
-        // {
-        //     aimDirection = movementDirection;
-        // }
+        if (!usingMouse)
+        {
+            aimDirection = movementDirection;
+        }
 
-        aimDirection = movementDirection;
         aimDirection.Normalize();
         //Debug.Log("AimDirection" + aimDirection);
 
@@ -335,19 +335,11 @@ public class PlayerController : MonoBehaviour
 
     void AimPower()
     {
-        // if (usingKeyBoard)
-        // {
-        //     Vector3 shootdirection = Mouse.current.position.ReadValue(); // mousePosition;
-        //     shootdirection.z = 0.0f;
-        //     shootdirection = Camera.main.ScreenToWorldPoint(shootdirection);
-        //     shootdirection = shootdirection - transform.position;
-        //     aimDirection = new Vector2(shootdirection.x, shootdirection.y);
-        // }
-        // else
-        // {
-        //     aimDirection = movementDirection;
-        // }
-        aimDirection = movementDirection;
+        if (!usingMouse)
+        {
+            aimDirection = movementDirection;
+        }
+
         aimDirection.Normalize();
         //Debug.Log("AimDirection" + aimDirection);
 

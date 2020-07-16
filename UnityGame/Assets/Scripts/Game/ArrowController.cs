@@ -50,10 +50,6 @@ public class ArrowController : MonoBehaviour
                     break; 
                 }
             }
-
-
-
-            Debug.Log(hit.collider.gameObject);
         }
         transform.position = newPosition; 
     }

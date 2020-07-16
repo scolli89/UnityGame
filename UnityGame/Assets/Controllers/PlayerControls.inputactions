@@ -14,7 +14,15 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Shoot",
+                    "name": "MousePosition",
+                    "type": "Value",
+                    "id": "d899befa-742b-46ee-b062-2a031b9d0da2",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "ShootController",
                     "type": "Button",
                     "id": "524ee21e-59db-49f4-92a3-3df531c083d2",
                     "expectedControlType": "Button",
@@ -22,9 +30,25 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Power",
+                    "name": "ShootMouse",
+                    "type": "Button",
+                    "id": "e40f6560-b414-4ce6-bd6e-bd47ae58514d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "PowerController",
                     "type": "Button",
                     "id": "6507996b-f72b-4d77-bf95-af1cac45fcb8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "PowerMouse",
+                    "type": "Button",
+                    "id": "6386c820-38a3-4770-a33e-fbd032df0472",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -170,34 +194,12 @@
                 },
                 {
                     "name": "",
-                    "id": "01ca010a-7751-4372-b2a8-18e6aee003ae",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Shoot",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "a27a771c-f94e-4a19-8d75-eec7308c06e6",
                     "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Shoot",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "604ff3f7-af8e-4fe6-8ec3-67674daebd0b",
-                    "path": "<Mouse>/rightButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Power",
+                    "action": "ShootController",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -208,7 +210,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Power",
+                    "action": "PowerController",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -253,6 +255,39 @@
                     "processors": "",
                     "groups": "",
                     "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "715167db-a7fc-44da-9ece-925be39e8f36",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ShootMouse",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2eedd336-298e-469d-bd75-54a7bf81f43d",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PowerMouse",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d5faa9e0-5431-485b-9aef-65780fc6f002",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MousePosition",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -12,6 +12,7 @@ public class InputHandler : MonoBehaviour
     private PlayerInput playerInput;
     public GameObject playerEmptyPrefab; 
     public GameObject[] classMods; 
+    public bool aimWithMouse = false;
 
     // Start is called before the first frame update
     private void Awake()
@@ -29,7 +30,6 @@ public class InputHandler : MonoBehaviour
         // player.addChild(mod); 
     }
 
-    // Update is called once per frame
     public void OnMove(CallbackContext context)
     {
         if (playerController != null){
@@ -53,6 +53,7 @@ public class InputHandler : MonoBehaviour
             {
                 OnFire();
                 press = 0;
+                aimWithMouse=false;
             }
         }
     }
@@ -69,7 +70,20 @@ public class InputHandler : MonoBehaviour
             {
                 OnPower();
                 press = 0;
+                aimWithMouse=false;
             }
+        }
+    }
+
+    public void UsingMouse()
+    {
+        aimWithMouse=true;
+    }
+
+    public void MousePosition()
+    {
+        if(aimWithMouse == true && playerController != null){
+            playerController.setAimDirection(Mouse.current.position.ReadValue());
         }
     }
 
