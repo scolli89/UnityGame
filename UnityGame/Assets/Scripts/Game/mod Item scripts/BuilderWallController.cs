@@ -14,11 +14,9 @@ public class BuilderWallController : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("Wall Start");
         health = 3;
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = wallFull;
-
     }
 
 

@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.InputSystem.InputAction;
-using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
@@ -28,8 +26,10 @@ public class PlayerController : MonoBehaviour
     const string BUILDER_MOD_TWO = "B_MOD_TWO";
     const string BUILDER_MOD_THREE = "B_MOD_THREE";
 
+    [SerializeField]
+    private int playerIndex = 0;
 
-    public bool usingKeyBoard;
+    private bool usingMouse = false;
 
     [Space]
     [Header("Character Statistics:")]
@@ -71,9 +71,9 @@ public class PlayerController : MonoBehaviour
     public GameObject healthBar;
     private HealthBarController healthBarController;
     public GameObject ammoBar;
-    private static AmmoController ammoController;
+    private AmmoController ammoController;
 
-    private static PlayerClass playerClass;
+    private PlayerClass playerClass;
 
     private bool firstUpdate = true;
 
@@ -207,7 +207,6 @@ public class PlayerController : MonoBehaviour
         else if (isAiming)
         {
             crosshair.SetActive(true);
-            Debug.Log("Aiming");
             Aim();
             movementSpeed *= AIMING_BASE_PENALTY;
         }
@@ -220,10 +219,23 @@ public class PlayerController : MonoBehaviour
         } 
     }
 
+    public int getPlayerIndex(){
+        return playerIndex;
+    }
+
     public void setMovementDirection(Vector2 direction)
     {
         movementDirection = direction;
         movementSpeed = Mathf.Clamp(movementDirection.magnitude, 0.0f, 1.0f);
+    }
+
+    public void setAimDirection(Vector3 mouse)
+    {
+        usingMouse=true;
+        mouse.z = 0.0f;
+        mouse = Camera.main.ScreenToWorldPoint(mouse);
+        mouse = mouse - transform.position;
+        aimDirection = new Vector2(mouse.x, mouse.y);
     }
 
     // called on hold of aim button
@@ -309,15 +321,7 @@ public class PlayerController : MonoBehaviour
 
     void Aim()
     {
-        if (usingKeyBoard)
-        {
-            Vector3 shootdirection = Mouse.current.position.ReadValue(); 
-            shootdirection.z = 0.0f;
-            shootdirection = Camera.main.ScreenToWorldPoint(shootdirection);
-            shootdirection = shootdirection - transform.position;
-            aimDirection = new Vector2(shootdirection.x, shootdirection.y);
-        }
-        else
+        if (!usingMouse)
         {
             aimDirection = movementDirection;
         }
@@ -331,15 +335,7 @@ public class PlayerController : MonoBehaviour
 
     void AimPower()
     {
-        if (usingKeyBoard)
-        {
-            Vector3 shootdirection = Mouse.current.position.ReadValue(); // mousePosition;
-            shootdirection.z = 0.0f;
-            shootdirection = Camera.main.ScreenToWorldPoint(shootdirection);
-            shootdirection = shootdirection - transform.position;
-            aimDirection = new Vector2(shootdirection.x, shootdirection.y);
-        }
-        else
+        if (!usingMouse)
         {
             aimDirection = movementDirection;
         }
@@ -380,7 +376,6 @@ public class PlayerController : MonoBehaviour
             crosshair.SetActive(false);
             isAiming = false;
             endOfAiming = false;
-            
         }
     }
 
