@@ -49,10 +49,6 @@ public class LaserController : MonoBehaviour
                     break; 
                 }
             }
-
-
-
-           // Debug.Log(hit.collider.gameObject);
         }
         transform.position = newPosition; 
     }

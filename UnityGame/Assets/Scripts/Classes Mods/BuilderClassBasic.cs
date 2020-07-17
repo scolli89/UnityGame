@@ -25,7 +25,7 @@ public class BuilderClassBasic : PlayerClass
         Debug.Log("BUILDING SHIT");
         //TIME TO BUILD 
         Vector2 aimDirection = v;
-        Vector2 buildOffset = new Vector2(this.transform.position.x, this.transform.position.y);
+        Vector2 buildOffset = new Vector2(transform.position.x, transform.position.y);
         Vector2 iPosition = aimDirection + buildOffset;
         //iPosition.Normalize();
 

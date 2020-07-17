@@ -7,10 +7,10 @@ public class AmmoController : MonoBehaviour
     [Space]
     [Header("References:")]
     [Header("References:")]
-    private static SpriteRenderer tensSprite;
-    private static SpriteRenderer onesSprite;
-    public static GameObject ones;
-    public static GameObject tens;
+    private  SpriteRenderer tensSprite;
+    private  SpriteRenderer onesSprite;
+    public  GameObject ones;
+    public  GameObject tens;
     
     
     
@@ -21,10 +21,11 @@ public class AmmoController : MonoBehaviour
 
     public Sprite errorSprite;
    
-    
+    public int id; 
 
     void Start()
     {
+        
         Debug.Log("Ammo Start");
         onesSprite = this.gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>();
         tensSprite = this.gameObject.transform.GetChild(1).GetComponent<SpriteRenderer>();
@@ -57,6 +58,7 @@ public class AmmoController : MonoBehaviour
 
         onesSprite.sprite = spriteArray[values[0]];
         tensSprite.sprite = spriteArray[values[1]];
+        
         
       //143 modulo 10 is 3, 
       //143 modulo 100 is 43, 

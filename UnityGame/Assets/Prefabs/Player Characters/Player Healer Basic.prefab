@@ -13,10 +13,8 @@ GameObject:
   - component: {fileID: 1005049136369737354}
   - component: {fileID: 1005049136369737365}
   - component: {fileID: 1005049136369737367}
-  - component: {fileID: -3882407739254585234}
   - component: {fileID: 1005049136369737364}
   - component: {fileID: 6167122361228005368}
-  - component: {fileID: -1501656412420551813}
   m_Layer: 0
   m_Name: Player Healer Basic
   m_TagString: Player
@@ -158,6 +156,7 @@ MonoBehaviour:
   AIMING_BASE_PENALTY: 0.1
   ARROW_OFFSET: 1.2
   HEALING_WAIT: 2
+  playerIndex: 0
   usingKeyBoard: 0
   arrowsRemaining: 12
   health: 6
@@ -182,18 +181,6 @@ MonoBehaviour:
   ammoBar: {fileID: 1005049135398701533}
   arrowPrefab: {fileID: 2817695094258861393, guid: 9de6fbc149b8cf54a814911a4a121175,
     type: 3}
---- !u!114 &-3882407739254585234
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1005049136369737360}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efd00c43731dde84ca16890b1909df66, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!95 &1005049136369737364
 Animator:
   serializedVersion: 3
@@ -239,101 +226,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.5044265, y: 1.3209988}
   m_EdgeRadius: 0
---- !u!114 &-1501656412420551813
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1005049136369737360}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: be9ba297b81721f48b240ba15129c9c7,
-    type: 3}
-  m_NotificationBehavior: 2
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents:
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: -3882407739254585234}
-        m_MethodName: OnMove
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: fd17b051-992b-4f04-895d-3b79bb9e6467
-    m_ActionName: Archer/Movement[/XInputControllerWindows/leftStick,/XInputControllerWindows/leftStick,/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/XInputControllerWindows/dpad/up,/XInputControllerWindows/dpad/up,/XInputControllerWindows/dpad/down,/XInputControllerWindows/dpad/down,/XInputControllerWindows/dpad/left,/XInputControllerWindows/dpad/left,/XInputControllerWindows/dpad/right,/XInputControllerWindows/dpad/right]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: -3882407739254585234}
-        m_MethodName: StupidAssFixPowers
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: c1f5ba34-733a-4fd7-bb60-6220af1d5551
-    m_ActionName: Archer/Use Power[/XInputControllerWindows/buttonEast,/XInputControllerWindows/buttonEast,/Mouse/rightButton]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: -3882407739254585234}
-        m_MethodName: OnDash
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 05dd71b8-c3f8-406a-a1d9-6bf864b6d81e
-    m_ActionName: Archer/Dash[/XInputControllerWindows/buttonWest,/XInputControllerWindows/buttonWest,/Keyboard/leftShift]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: -3882407739254585234}
-        m_MethodName: StupidAssFix
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: ed4bdb05-92cc-4477-a96f-1245cdbfa8d9
-    m_ActionName: Archer/Aim[/XInputControllerWindows/buttonSouth,/XInputControllerWindows/buttonSouth,/Mouse/leftButton]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 2b500ec3-596c-4aec-adf9-405d574e0b54
-    m_ActionName: Archer/Pause[/Keyboard/p,/XInputControllerWindows/start,/XInputControllerWindows/start]
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Archer
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!1001 &4584956327366326314
 PrefabInstance:
   m_ObjectHideFlags: 0
