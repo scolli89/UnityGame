@@ -71,9 +71,9 @@ public class PlayerController : MonoBehaviour
     public GameObject healthBar;
     private HealthBarController healthBarController;
     public GameObject ammoBar;
-    private static AmmoController ammoController;
+    private AmmoController ammoController;
 
-    private static PlayerClass playerClass;
+    private PlayerClass playerClass;
 
     private bool firstUpdate = true;
 
@@ -376,7 +376,6 @@ public class PlayerController : MonoBehaviour
             crosshair.SetActive(false);
             isAiming = false;
             endOfAiming = false;
-            
         }
     }
 

@@ -9,12 +9,11 @@ public class HealthBarController : MonoBehaviour
 
     public Sprite[] spriteArray;
     private SpriteRenderer spriteRenderer;
+  
 
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("health start");
-        
         spriteRenderer = GetComponent<SpriteRenderer>();
       //  Debug.Log("HB" + spriteRenderer);
     }
@@ -41,6 +40,7 @@ public class HealthBarController : MonoBehaviour
         {
             spriteRenderer.sprite = spriteArray[h];
         }
+          
 
         // if (h == 6)
         // {
