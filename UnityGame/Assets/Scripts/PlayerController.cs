@@ -130,7 +130,7 @@ public class PlayerController : MonoBehaviour
         //playerClass.getClass(); // returns Type : PlayerClass
 
         playerClass = this.gameObject.transform.GetChild(3).GetComponent<PlayerClass>();
-        
+
         // DASH SET UP
 
         dashTime = startDashTime;
@@ -174,7 +174,7 @@ public class PlayerController : MonoBehaviour
     }
     void updateUI()
     {
-        
+
         // this works assuming health is changed somewhere else.
         // this works because reasons. like async calls.  
         if (firstUpdate)
@@ -213,13 +213,14 @@ public class PlayerController : MonoBehaviour
         else if (usingPower)
         {
             crosshair.SetActive(true);
-            
+
             AimPower();
             movementSpeed *= AIMING_BASE_PENALTY;
-        } 
+        }
     }
 
-    public int getPlayerIndex(){
+    public int getPlayerIndex()
+    {
         return playerIndex;
     }
 
@@ -231,7 +232,7 @@ public class PlayerController : MonoBehaviour
 
     public void setAimDirection(Vector3 mouse)
     {
-        usingMouse=true;
+        usingMouse = true;
         mouse.z = 0.0f;
         mouse = Camera.main.ScreenToWorldPoint(mouse);
         mouse = mouse - transform.position;
@@ -262,7 +263,7 @@ public class PlayerController : MonoBehaviour
         usingPower = false;
         endUsingPower = true;
         usePower();
-    }    
+    }
 
     public void setIsDashing()
     {
@@ -351,28 +352,22 @@ public class PlayerController : MonoBehaviour
     {
         if (endOfAiming)
         {
-            if (arrowsRemaining > 0)
-            {
-                arrowsRemaining--;
 
-                Vector2 shootingDirection = crosshair.transform.localPosition;
-                shootingDirection.Normalize();
+            Vector2 shootingDirection = crosshair.transform.localPosition;
+            shootingDirection.Normalize();
 
-                Vector2 iPosition = transform.position;
-                iPosition = iPosition + shootingDirection * ARROW_OFFSET; // this prevents it from hitting the player
+            Vector2 iPosition = transform.position;
+            iPosition = iPosition + shootingDirection * ARROW_OFFSET; // this prevents it from hitting the player
 
 
-                GameObject arrow = Instantiate(arrowPrefab, iPosition, Quaternion.identity);
-                LaserController arrowController = arrow.GetComponent<LaserController>();
-                arrowController.shooter = gameObject;
-                arrowController.velocity = shootingDirection * ARROW_BASE_SPEED; // adjust velocity
-                arrow.transform.Rotate(0, 0, Mathf.Atan2(shootingDirection.y, shootingDirection.x) * Mathf.Rad2Deg);
-                Destroy(arrow, 2.0f);
-            }
-            else
-            {
-                Debug.Log("OUT OF ARROWS");
-            }
+            GameObject arrow = Instantiate(arrowPrefab, iPosition, Quaternion.identity);
+            LaserController arrowController = arrow.GetComponent<LaserController>();
+            arrowController.shooter = gameObject;
+            arrowController.velocity = shootingDirection * ARROW_BASE_SPEED; // adjust velocity
+            arrow.transform.Rotate(0, 0, Mathf.Atan2(shootingDirection.y, shootingDirection.x) * Mathf.Rad2Deg);
+            Destroy(arrow, 2.0f);
+
+
             crosshair.SetActive(false);
             isAiming = false;
             endOfAiming = false;

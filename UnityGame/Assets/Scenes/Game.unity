@@ -401,7 +401,7 @@ MonoBehaviour:
   m_NotificationBehavior: 0
   m_MaxPlayerCount: -1
   m_AllowJoining: 1
-  m_JoinBehavior: 1
+  m_JoinBehavior: 0
   m_PlayerJoinedEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -428,7 +428,7 @@ MonoBehaviour:
         m_Flags: 0
     m_Reference: {fileID: 7107619198635322958, guid: be9ba297b81721f48b240ba15129c9c7,
       type: 3}
-  m_PlayerPrefab: {fileID: 7522595777585109201, guid: 8371d1c7ac3552f40a5859da130d9505,
+  m_PlayerPrefab: {fileID: 2888243467010226992, guid: a5b7bd8aed729e840a7c6470777e9f86,
     type: 3}
   m_SplitScreen: 0
   m_MaintainAspectRatioInSplitScreen: 0
@@ -752,6 +752,86 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 3651610329767941236}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1022223659
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1005049136369737360, guid: 0110d7c2a3fb9064f836229b6d8da05e,
+        type: 3}
+      propertyPath: m_Name
+      value: Player Healer Basic
+      objectReference: {fileID: 0}
+    - target: {fileID: 1005049136369737366, guid: 0110d7c2a3fb9064f836229b6d8da05e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.2731428
+      objectReference: {fileID: 0}
+    - target: {fileID: 1005049136369737366, guid: 0110d7c2a3fb9064f836229b6d8da05e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.090479
+      objectReference: {fileID: 0}
+    - target: {fileID: 1005049136369737366, guid: 0110d7c2a3fb9064f836229b6d8da05e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1005049136369737366, guid: 0110d7c2a3fb9064f836229b6d8da05e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1005049136369737366, guid: 0110d7c2a3fb9064f836229b6d8da05e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1005049136369737366, guid: 0110d7c2a3fb9064f836229b6d8da05e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1005049136369737366, guid: 0110d7c2a3fb9064f836229b6d8da05e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1005049136369737366, guid: 0110d7c2a3fb9064f836229b6d8da05e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1005049136369737366, guid: 0110d7c2a3fb9064f836229b6d8da05e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1005049136369737366, guid: 0110d7c2a3fb9064f836229b6d8da05e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1005049136369737366, guid: 0110d7c2a3fb9064f836229b6d8da05e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1005049136369737367, guid: 0110d7c2a3fb9064f836229b6d8da05e,
+        type: 3}
+      propertyPath: ARROW_BASE_SPEED
+      value: 10
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0110d7c2a3fb9064f836229b6d8da05e, type: 3}
+--- !u!1 &1022223660 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1005049136369737360, guid: 0110d7c2a3fb9064f836229b6d8da05e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1022223659}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1327637905
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -808,7 +888,7 @@ PrefabInstance:
     - target: {fileID: 7522595777585109207, guid: 8371d1c7ac3552f40a5859da130d9505,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7522595777585109207, guid: 8371d1c7ac3552f40a5859da130d9505,
         type: 3}
@@ -1170,7 +1250,7 @@ PrefabInstance:
     - target: {fileID: 7143225990607220716, guid: fae76c4543b7f9c4cbd192cc6ea78f51,
         type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7143225990607220716, guid: fae76c4543b7f9c4cbd192cc6ea78f51,
         type: 3}
@@ -1938,6 +2018,7 @@ MonoBehaviour:
   CLOSEST_DISTANCE: 1.5
   playerTargets:
   - {fileID: 1682764664}
+  - {fileID: 1022223660}
 --- !u!4 &2069844911
 Transform:
   m_ObjectHideFlags: 0
@@ -1950,7 +2031,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2122399759
 GameObject:
