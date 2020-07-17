@@ -1,8 +1,7 @@
 TODO List! 
 What do we need to do first?
 
-> Get a guy moving around.
-	> Set up the sprite animation of the characte
+
 
 > Get the guy to interact with the environment. 
 	> Levers, Pressur plates, switches ? 
@@ -198,8 +197,6 @@ Code for Game creator class :
 
 TO DONE! LIST
 
-
-
 > Need to set up a basic testing environment.
 	> We need to import a tile set. 
 	> Background tiles
@@ -209,6 +206,7 @@ TO DONE! LIST
 > Get a guy moving around.
 	> We need to import a character sprites 
 	> We need to write the script to move the guy
+	> Set up the sprite animation of the characte
 
 > Get the guy to interact with the environment. 
 	> Prevent walking through walls for a start

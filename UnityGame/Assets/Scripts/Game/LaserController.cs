@@ -35,7 +35,7 @@ public class LaserController : MonoBehaviour
                 }
 
                 if(other.CompareTag("Environment")){
-                    Destroy(gameObject);
+                    Destroy(this.gameObject);
                     break;
                 }
                 if(other.CompareTag("Shockwave")){ // if we don't want the shock wave to block things, remove this if tree

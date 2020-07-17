@@ -165,7 +165,7 @@ public class RobotDroneController : MonoBehaviour
                         if (d < ATTACK_STOP_DISTANCE)
                         {
                             // stop chaisng, just attack
-                            Debug.Log("ENTERING ATTACK from chase");
+                          //  Debug.Log("ENTERING ATTACK from chase");
                             rb.velocity = Vector2.zero;
                             _currentState = DroneState.Attack;
                             return;
@@ -173,7 +173,7 @@ public class RobotDroneController : MonoBehaviour
                         else if (d >= AGGRO_DISTANCE)
                         {
                             //lost the target. 
-                            Debug.Log("ENTERING Wander from chase ");
+                            //Debug.Log("ENTERING Wander from chase ");
                             _currentState = DroneState.Wander;
                             return;
                         }
@@ -233,7 +233,7 @@ public class RobotDroneController : MonoBehaviour
 
                         if (d >= ATTACK_STOP_DISTANCE)// && d <= AGGRO_DISTANCE)
                         {
-                            Debug.Log("ENTERING Wander from attack");
+                           // Debug.Log("ENTERING Wander from attack");
                             _currentState = DroneState.Wander;
                             return;
 
@@ -444,7 +444,7 @@ public class RobotDroneController : MonoBehaviour
         GameObject arrow = Instantiate(projectilePrefab, iPosition, Quaternion.identity);
         //GameObject arrow = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
         LaserController arrowController = arrow.GetComponent<LaserController>();
-        arrowController.shooter = gameObject;
+        arrowController.shooter = this.gameObject;
         arrowController.velocity = shootingDirection * LASER_BASE_SPEED; // adjust velocity
         arrow.transform.Rotate(0, 0, Mathf.Atan2(shootingDirection.y, shootingDirection.x) * Mathf.Rad2Deg);
         Destroy(arrow, 2.0f);

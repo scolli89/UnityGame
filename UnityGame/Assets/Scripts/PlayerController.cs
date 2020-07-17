@@ -207,7 +207,7 @@ public class PlayerController : MonoBehaviour
         else if (isAiming)
         {
             crosshair.SetActive(true);
-            Debug.Log("Aiming");
+//            Debug.Log("Aiming");
             Aim();
             movementSpeed *= AIMING_BASE_PENALTY;
         }
