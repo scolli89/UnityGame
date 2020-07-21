@@ -157,8 +157,9 @@ MonoBehaviour:
   ARROW_OFFSET: 1.2
   HEALING_WAIT: 2
   playerIndex: 0
-  usingKeyBoard: 0
-  arrowsRemaining: 12
+  ammoRemaining: 12
+  DEFAULT_AMMO: 10
+  DEFAULT_HEALTH: 6
   health: 6
   movementSpeed: 0
   endOfAiming: 0
@@ -179,7 +180,7 @@ MonoBehaviour:
   crosshair: {fileID: 2243064344591043170}
   healthBar: {fileID: 2243064345724188271}
   ammoBar: {fileID: 2243064345466761651}
-  arrowPrefab: {fileID: 2817695094258861393, guid: 9de6fbc149b8cf54a814911a4a121175,
+  arrowPrefab: {fileID: 500704877751819888, guid: 2d5c2ee2ce8075d40bccd7cc926fdbe4,
     type: 3}
 --- !u!95 &2243064344218871546
 Animator:

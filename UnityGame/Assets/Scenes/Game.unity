@@ -824,6 +824,22 @@ PrefabInstance:
       propertyPath: ARROW_BASE_SPEED
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 1005049136369737367, guid: 0110d7c2a3fb9064f836229b6d8da05e,
+        type: 3}
+      propertyPath: playerIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1005049136369737367, guid: 0110d7c2a3fb9064f836229b6d8da05e,
+        type: 3}
+      propertyPath: arrowPrefab
+      value: 
+      objectReference: {fileID: 500704877751819888, guid: 2d5c2ee2ce8075d40bccd7cc926fdbe4,
+        type: 3}
+    - target: {fileID: 1005049136369737367, guid: 0110d7c2a3fb9064f836229b6d8da05e,
+        type: 3}
+      propertyPath: dashSpeed
+      value: 20
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0110d7c2a3fb9064f836229b6d8da05e, type: 3}
 --- !u!1 &1022223660 stripped
@@ -850,6 +866,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 500704877751819888, guid: 2d5c2ee2ce8075d40bccd7cc926fdbe4,
         type: 3}
+    - target: {fileID: 7522595777585109206, guid: 8371d1c7ac3552f40a5859da130d9505,
+        type: 3}
+      propertyPath: dashSpeed
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 7522595777585109207, guid: 8371d1c7ac3552f40a5859da130d9505,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1444,7 +1465,7 @@ PrefabInstance:
     - target: {fileID: 2776664454687733126, guid: 67b154a165215a144a84853da36e5970,
         type: 3}
       propertyPath: orthographic size
-      value: 18
+      value: 16
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 67b154a165215a144a84853da36e5970, type: 3}
@@ -2012,7 +2033,7 @@ MonoBehaviour:
   RobotArray:
   - {fileID: 0}
   - {fileID: 0}
-  numberOfDrones: 2
+  numberOfDrones: 0
   checkCount: 0
   checkMax: 120
   CLOSEST_DISTANCE: 1.5

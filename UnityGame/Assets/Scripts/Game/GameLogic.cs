@@ -8,12 +8,12 @@ public class GameLogic : MonoBehaviour
 {
     public GameObject[] spawnPoints;
 
-    public void SpawnArcher(GameObject archer)
+    public void SpawnArcher(GameObject player)
     {
         GameObject spawnPoint = GetRandomSpawnPoint();
         // youtu.be/o6I2HdGxhME?t=397
         // youtu.be/o6I2HdGxhME?t=582
-        archer.transform.position = spawnPoint.transform.position;
+        player.transform.position = spawnPoint.transform.position;
     }
 
     GameObject GetRandomSpawnPoint()

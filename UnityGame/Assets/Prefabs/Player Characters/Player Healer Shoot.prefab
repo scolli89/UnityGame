@@ -157,8 +157,9 @@ MonoBehaviour:
   ARROW_OFFSET: 1.2
   HEALING_WAIT: 2
   playerIndex: 0
-  usingKeyBoard: 0
-  arrowsRemaining: 12
+  ammoRemaining: 12
+  DEFAULT_AMMO: 10
+  DEFAULT_HEALTH: 6
   health: 0
   movementSpeed: 0
   endOfAiming: 0
@@ -179,7 +180,7 @@ MonoBehaviour:
   crosshair: {fileID: 4541764537593380602}
   healthBar: {fileID: 4541764539200722808}
   ammoBar: {fileID: 4541764538533296201}
-  arrowPrefab: {fileID: 2817695094258861393, guid: 9de6fbc149b8cf54a814911a4a121175,
+  arrowPrefab: {fileID: 500704877751819888, guid: 2d5c2ee2ce8075d40bccd7cc926fdbe4,
     type: 3}
 --- !u!95 &3671893940542384570
 Animator:
@@ -397,6 +398,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba4d839f486d743419866901bbcd78a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ones: {fileID: 0}
+  tens: {fileID: 0}
   spriteArray:
   - {fileID: -6806095507700976048, guid: 2d9129377cccfbe48a0af285082b52af, type: 3}
   - {fileID: 4307177417163183746, guid: 2d9129377cccfbe48a0af285082b52af, type: 3}
@@ -409,6 +412,7 @@ MonoBehaviour:
   - {fileID: -5752808356724389118, guid: 2d9129377cccfbe48a0af285082b52af, type: 3}
   - {fileID: 3384210181554619638, guid: 2d9129377cccfbe48a0af285082b52af, type: 3}
   errorSprite: {fileID: 21300000, guid: c36727044cdd8ed48b34430ab9e114ae, type: 3}
+  id: 0
 --- !u!1 &4541764538833313240
 GameObject:
   m_ObjectHideFlags: 0

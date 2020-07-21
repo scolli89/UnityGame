@@ -23,13 +23,11 @@ public class LaserController : MonoBehaviour
                     // https://www.youtube.com/watch?v=FFzyHDrgDc0
                     //
                     Destroy(gameObject);
-                    Debug.Log(other.name);
                     other.gameObject.GetComponent<PlayerController>().takeDamage(1);
                     break; 
                 } 
                 if(other.CompareTag("Enemy")){ // right now just the cannon. 
                     Destroy(gameObject);
-                    Debug.Log(other.name);
                     other.gameObject.GetComponent<RobotDroneController>().takeDamage(1);
                     break; 
                 }

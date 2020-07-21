@@ -33,12 +33,15 @@ public class PlayerController : MonoBehaviour
 
     [Space]
     [Header("Character Statistics:")]
-    public int arrowsRemaining = 12;
+    public int ammoRemaining = 12;
+    public int DEFAULT_AMMO = 10;
+    public int DEFAULT_HEALTH = 6;
     private int lastArrowsRemaining;
     public int health = 6;
     private int lastHealth;
     public float movementSpeed;
     private Vector2 movementDirection;
+    private Vector2 lastMovementDirection = new Vector2(0,-1);
     private Vector2 pushBackDirection;
     private Vector2 aimDirection;
     public bool endOfAiming = false;
@@ -116,7 +119,7 @@ public class PlayerController : MonoBehaviour
         ammoController = this.gameObject.transform.GetChild(2).GetComponent<AmmoController>();
         //Debug.Log(ammoController);
         //setAmmoAmount(arrowsRemaining);
-        lastArrowsRemaining = arrowsRemaining;
+        lastArrowsRemaining = ammoRemaining;
 
         crosshair.SetActive(false);
 
@@ -150,6 +153,7 @@ public class PlayerController : MonoBehaviour
             updateUI(); // doesnt depend on input
         }
     }
+
     private void FixedUpdate()
     {
         if (healing)
@@ -181,7 +185,7 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("Update UI");
             setHealthAmount(health);
-            setAmmoAmount(arrowsRemaining);
+            setAmmoAmount(ammoRemaining);
             firstUpdate = false;
         }
         if (health != lastHealth)
@@ -190,12 +194,14 @@ public class PlayerController : MonoBehaviour
             //healthBar.GetComponent<HealthBarController>().setHealth(health); 
             setHealthAmount(health);
         }
-        if (arrowsRemaining != lastArrowsRemaining)
+        if (ammoRemaining != lastArrowsRemaining)
         {
-            lastArrowsRemaining = arrowsRemaining;
-            setAmmoAmount(arrowsRemaining);
+            lastArrowsRemaining = ammoRemaining;
+            setAmmoAmount(ammoRemaining);
         }
     }
+
+
 
     void ProcessInputs()
     {
@@ -301,12 +307,16 @@ public class PlayerController : MonoBehaviour
                     dashTime -= Time.deltaTime;
                     rb.velocity = movementDirection * dashSpeed;
                 }
+                isDashing = false; 
             }
         }
         else
         {
             // regular movement. 
             rb.velocity = movementDirection * movementSpeed * MOVEMENT_BASE_SPEED;
+            if (movementDirection.magnitude != 0){
+                lastMovementDirection=movementDirection;
+            }
         }
     }
 
@@ -324,7 +334,11 @@ public class PlayerController : MonoBehaviour
     {
         if (!usingMouse)
         {
-            aimDirection = movementDirection;
+            if (movementDirection.magnitude == 0){
+                aimDirection=lastMovementDirection;
+            }else{
+                aimDirection = movementDirection;
+            }
         }
 
         aimDirection.Normalize();
@@ -338,7 +352,11 @@ public class PlayerController : MonoBehaviour
     {
         if (!usingMouse)
         {
-            aimDirection = movementDirection;
+            if (movementDirection.magnitude == 0){
+                aimDirection=lastMovementDirection;
+            }else{
+                aimDirection = movementDirection;
+            }
         }
 
         aimDirection.Normalize();
@@ -355,17 +373,24 @@ public class PlayerController : MonoBehaviour
 
             Vector2 shootingDirection = crosshair.transform.localPosition;
             shootingDirection.Normalize();
+            // if (shootingDirection.magnitude != 0)
+            // {
+                Vector2 iPosition = transform.position;
+                iPosition = iPosition + shootingDirection * ARROW_OFFSET; // this prevents it from hitting the player
 
-            Vector2 iPosition = transform.position;
-            iPosition = iPosition + shootingDirection * ARROW_OFFSET; // this prevents it from hitting the player
+
+                GameObject arrow = Instantiate(arrowPrefab, iPosition, Quaternion.identity);
+                LaserController arrowController = arrow.GetComponent<LaserController>();
+                arrowController.shooter = gameObject;
+                arrowController.velocity = shootingDirection * ARROW_BASE_SPEED; // adjust velocity
+                arrow.transform.Rotate(0, 0, Mathf.Atan2(shootingDirection.y, shootingDirection.x) * Mathf.Rad2Deg);
+                Destroy(arrow, 2.0f);
+            // }
+            // else{
+
+            // }
 
 
-            GameObject arrow = Instantiate(arrowPrefab, iPosition, Quaternion.identity);
-            LaserController arrowController = arrow.GetComponent<LaserController>();
-            arrowController.shooter = gameObject;
-            arrowController.velocity = shootingDirection * ARROW_BASE_SPEED; // adjust velocity
-            arrow.transform.Rotate(0, 0, Mathf.Atan2(shootingDirection.y, shootingDirection.x) * Mathf.Rad2Deg);
-            Destroy(arrow, 2.0f);
 
 
             crosshair.SetActive(false);
@@ -384,9 +409,9 @@ public class PlayerController : MonoBehaviour
         {
             // check if there is enough ammo for their power. 
             int ammoReq = playerClass.getAmmoReq();
-            if (arrowsRemaining >= ammoReq)
+            if (ammoRemaining >= ammoReq)
             {
-                arrowsRemaining -= ammoReq;
+                ammoRemaining -= ammoReq;
                 playerClass.usePower(crosshair.transform.localPosition);//, classPrefab);
             }
             else
@@ -537,6 +562,12 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("Ray Bonk");
         health -= damage;
+        if (health <= 0)
+        {
+            GameObject.Find("GameLogic").GetComponent<GameLogic>().SpawnArcher(this.gameObject);
+            health = DEFAULT_HEALTH;
+            ammoRemaining = DEFAULT_AMMO;
+        }
     }
 
     public void setAmmoAmount(int n)
