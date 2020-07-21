@@ -8,46 +8,64 @@ public class EnemyGameManager : MonoBehaviour
     [Header("Enemies:")]
     public GameObject RobotDronePrefab;
     public GameObject[] RobotArray;
-    public int numberOfDrones = 2;
+    public int droneArraySize = 2;
+
+    public int dronesRemaining;
+
 
     public int checkCount = 0;
     public int checkMax = 120;
-    public float CLOSEST_DISTANCE = 1.5f; 
+    public float CLOSEST_DISTANCE = 1.5f;
 
 
     [Space]
     [Header("Players:")]
-    public GameObject[] playerTargets; 
+    public GameObject[] playerTargets;
     void Start()
     {
-        Vector2 iPosition = new Vector2(0, 0);
-
-        for (int i = 0; i < numberOfDrones; i++)
+        dronesRemaining = droneArraySize;
+        if (dronesRemaining > 0)
         {
-            // spawn these bad boys. 
-            iPosition.x += i;
-            iPosition.y += i;
-            RobotArray[i] = Instantiate(RobotDronePrefab, iPosition, Quaternion.identity);
-            RobotArray[i].GetComponent<RobotDroneController>().droneId = i; 
+            Vector2 iPosition = new Vector2(0, 0);
+
+            for (int i = 0; i < droneArraySize; i++)
+            {
+                // spawn these bad boys. 
+                iPosition.x += i;
+                iPosition.y += i;
+                RobotArray[i] = Instantiate(RobotDronePrefab, iPosition, Quaternion.identity);
+                RobotArray[i].GetComponent<RobotDroneController>().droneId = i;
+                RobotArray[i].transform.parent = transform; // sets it as a child. 
+
+
+            }
+            setPlayerTargets(playerTargets);
         }
-        setPlayerTargets(playerTargets); 
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (checkCount <= checkMax)
+        if (checkIfAllDead() && dronesRemaining != -10)
         {
-            checkCount++;
+            showWinCondition();
         }
-        else
-        {
-            checkCount = 0;
-            if (checkIfAllDead())
-            {
-                showWinCondition();
-            }
-        }
+
+
+        // if (checkCount <= checkMax)
+        // {
+        //     checkCount++;
+        // }
+        // else
+        // {
+        //     checkCount = 0;
+        //     if (checkIfAllDead())
+        //     {
+        //         showWinCondition();
+        //     }
+        // }
 
 
     }
@@ -55,28 +73,41 @@ public class EnemyGameManager : MonoBehaviour
 
     bool checkIfAllDead()
     {
-
-        foreach (GameObject robot in RobotArray)
+        if (dronesRemaining > 0)
         {
-            if (robot != null)
-            {
-                // is atleast one robot is alive
-                return false;
-            }
+            return false;
         }
-        return true;
+        else
+        {
+            return true;
+        }
+        // foreach (GameObject robot in RobotArray)
+        // {
+        //     if (robot != null)
+        //     {
+        //         // is atleast one robot is alive
+        //         return false;
+        //     }
+        // }
+        // dronesRemaining = 0; 
+        // return true;
 
     }
-    void checkPositionsOfRobots(){
-        foreach(GameObject thisRobot in RobotArray){
+    void checkPositionsOfRobots()
+    {
+        foreach (GameObject thisRobot in RobotArray)
+        {
             //if(thisRobot.GetComponent<RobotDroneController>().pus)
 
-            foreach(GameObject otherRobot in RobotArray){
+            foreach (GameObject otherRobot in RobotArray)
+            {
 
-                if(thisRobot != otherRobot){
-                    Vector2 thisRobotPos = new Vector2(thisRobot.transform.position.x,thisRobot.transform.position.y);
-                    Vector2 otherRobotPos = new Vector2(otherRobot.transform.position.x,otherRobot.transform.position.y);
-                    if((thisRobotPos - otherRobotPos).magnitude <= CLOSEST_DISTANCE){
+                if (thisRobot != otherRobot)
+                {
+                    Vector2 thisRobotPos = new Vector2(thisRobot.transform.position.x, thisRobot.transform.position.y);
+                    Vector2 otherRobotPos = new Vector2(otherRobot.transform.position.x, otherRobot.transform.position.y);
+                    if ((thisRobotPos - otherRobotPos).magnitude <= CLOSEST_DISTANCE)
+                    {
 
                         // somehow adjust the position. 
 
@@ -89,22 +120,32 @@ public class EnemyGameManager : MonoBehaviour
 
         }
 
-        
+
     }
-    
+
     void showWinCondition()
     {
         Debug.Log("WINNER");
+        dronesRemaining = -10;
     }
-    
-    void setPlayerTargets(GameObject[] playerTargets){
+
+    void setPlayerTargets(GameObject[] playerTargets)
+    {
         this.playerTargets = playerTargets; // receive the active players 
         // pass these targets to the drones that are still alive. 
-        foreach(GameObject robot in RobotArray){
-            if(robot != null){
+        foreach (GameObject robot in RobotArray)
+        {
+            if (robot != null)
+            {
                 robot.GetComponent<RobotDroneController>().setPlayerTargets(this.playerTargets);
             }
         }
 
     }
+
+    public void subtractFromDronesRemaining(int n)
+    {
+        dronesRemaining -= n;
+    }
+
 }

@@ -1,18 +1,15 @@
 TODO List! 
 What do we need to do first?
 
+BUGS / ISSUES
+	> ABLE TO CLIP THROUGH BRIDGE AND walk on water. 
+	> BUILDERS NEED TO BE ABLE SHOOT THROUGH THEIR OWN WALLS.
 
 
 > Get the guy to interact with the environment. 
 	> Levers, Pressur plates, switches ? 
 	> HAving those things AAA do stuff
 
-> Need to get shooting to work.
-	> Bow and arrow sprites.
-	> Aiming
-	> Firing
-	> wall hit detection. 
-	> animations for aiming and shooting. 
 
 > Need to get basic combat working. 
 	> Health bar
@@ -196,6 +193,14 @@ Code for Game creator class :
 
 
 TO DONE! LIST
+
+
+> Need to get shooting to work.
+	> Bow and arrow sprites.
+	> Aiming
+	> Firing
+	> wall hit detection. 
+	> animations for aiming and shooting. 
 
 > Need to set up a basic testing environment.
 	> We need to import a tile set. 

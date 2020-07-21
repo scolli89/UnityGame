@@ -77,7 +77,7 @@ public class RobotDroneController : MonoBehaviour
     //private Drone _target;
     private PlayerController _playerTarget;
     private DroneState _currentState;
-
+    private EnemyGameManager enemyGameManager; 
 
     void Start()
     {
@@ -85,11 +85,13 @@ public class RobotDroneController : MonoBehaviour
         rb = this.GetComponent<Rigidbody2D>();
         Random rnd = new Random();
         behaviourType = Random.Range(0, 1); // change for different behavior types. 
-
-
         //target = new Vector2(0, 0);
         //hasTarget = false;
         _currentState = DroneState.Wander;
+        enemyGameManager = this.gameObject.transform.parent.GetComponent<EnemyGameManager>(); 
+
+
+
     }
 
     // Update is called once per frame
@@ -389,10 +391,7 @@ public class RobotDroneController : MonoBehaviour
         */
 
 
-        if (health == 0)
-        {
-            Destroy(this.gameObject);
-        }
+        
     }
 
     public void takeDamage(int damage)
@@ -405,14 +404,21 @@ public class RobotDroneController : MonoBehaviour
         }
         else if (shieldActive)
         {
-            // if hit by a 
+            // if shield is hit. 
             DeactivateShield();
 
 
         }
         else
         {
+            //regular damange. 
             health -= damage;
+        }
+
+        if (health == 0)
+        {
+            enemyGameManager.subtractFromDronesRemaining(1);
+            Destroy(this.gameObject);
         }
 
     }
