@@ -1,0 +1,20 @@
+Issue: CLASS type and ammunition use the same symbol. AS you loss ammo, you loss symbols
+
+Pros:
+player:
+- less ui elements.
+programmer:
+- easier to implement from where we are right now.
+
+
+con:
+-player
+- 
+
+programmer:
+
+artist:
+- tough to draw 12 unique symbols to communitate effectively.
+  - we have 256 characters in basic unicode and 12 classes. I think we can do it.
+
+	

@@ -10,8 +10,8 @@ public class InputHandler : MonoBehaviour
     private int press = 0;
     private PlayerController playerController;
     private PlayerInput playerInput;
-    public GameObject playerEmptyPrefab; 
-    public GameObject[] classMods; 
+    public GameObject playerEmptyPrefab;
+    public GameObject[] classMods;
     public bool aimWithMouse = false;
 
     // Start is called before the first frame update
@@ -32,7 +32,8 @@ public class InputHandler : MonoBehaviour
 
     public void OnMove(CallbackContext context)
     {
-        if (playerController != null){
+        if (playerController != null)
+        {
             Vector2 movement = context.ReadValue<Vector2>();
             movement.Normalize();
             playerController.setMovementDirection(movement);
@@ -42,7 +43,8 @@ public class InputHandler : MonoBehaviour
     // because input manager package is garbage and hold doesn't work
     public void OnAim() //for some reason the function is called twice on every button press, and twice on every button release
     {
-        if (playerController != null){
+        if (playerController != null)
+        {
             press++;
             if (press == 2)
             {
@@ -53,14 +55,15 @@ public class InputHandler : MonoBehaviour
             {
                 OnFire();
                 press = 0;
-                aimWithMouse=false;
+                aimWithMouse = false;
             }
         }
     }
 
     public void OnAimPower()
     {
-        if (playerController != null){
+        if (playerController != null)
+        {
             press++;
             if (press == 2)
             {
@@ -70,19 +73,20 @@ public class InputHandler : MonoBehaviour
             {
                 OnPower();
                 press = 0;
-                aimWithMouse=false;
+                aimWithMouse = false;
             }
         }
     }
 
     public void UsingMouse()
     {
-        aimWithMouse=true;
+        aimWithMouse = true;
     }
 
     public void MousePosition()
     {
-        if(aimWithMouse == true && playerController != null){
+        if (aimWithMouse == true && playerController != null)
+        {
             playerController.setAimDirection(Mouse.current.position.ReadValue());
         }
     }
@@ -105,12 +109,24 @@ public class InputHandler : MonoBehaviour
     private void OnPower()
     {
         playerController.setIsFiringPower();
-    }    
+    }
 
     public void OnDash()
     {
-        if (playerController != null){
-            playerController.setIsDashing();
+
+        if (playerController != null)
+        {
+            press++;
+            if (press == 2)
+            {
+                playerController.setIsDashing();
+            }
+            else if (press > 2)
+            {
+                press = 0;
+            }
         }
+
+
     }
 }

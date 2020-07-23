@@ -1,0 +1,61 @@
+Issue:Combining Ammunition as part of the dash-shield system
+
+Pros:
+
+player:
+-easier to understand. Only one bar that affects everything. Very stamina like. 
+	- easier to learn for new players
+- less decisisoin fatigue: There is no "Which bar do i use?"
+
+Programmer:
+- easier to code. Only bound checking one variable. 
+- less ui gameobjects to build. 
+- less clutter game screen ( For more players) 
+
+Cons:
+
+- becomes reliant on one stat. : Staminia recharge. 
+ 	- Everything will revolve around one mechanic. (Simplicity) 
+- may encourage more campy behaviour from players if recharges on its own
+
+- defeats the point of free for all gameplay. 
+
+What ifs: 
+	
+One V One:
+- Healer: AURA : would(SHOULD) not be able to recharge themself. 
+	- beacuse there would be no need to rehcarge if they were full and
+	- if they were low, they would either be able to abuse it or would not be able to heal themselves at all. (NO point or INFINITE USE) 
+- HEALER: SHOOTER : cannot shoot themselves (Unless they dash into it, but that is breaking the game (NO point or INFINITE USE) 
+- HEALER: RESSURECT - IF you ran out of energy you cannot ressurect yourself. 
+- HEALER: Repairs walls - WHOSE WALLS? 
+
+- BUILDER: 
+
+One + AI V One + AI
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Issue: Combining Dash and shield; seperate ammunition.
+
+
+GAME MODE IDEAS:
+- We tied stamina recharge to map environemnts. :KING OF THE HILL
+		- three types of zones.
+			- red: most common : no recharge.
+			- blue: uncommon : moderate recharge
+			- green: Rare(1 or 2) : fast recharge

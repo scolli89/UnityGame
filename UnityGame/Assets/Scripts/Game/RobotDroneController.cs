@@ -508,7 +508,6 @@ public class RobotDroneController : MonoBehaviour
     {
         if (other.gameObject.tag == "Enemy")
         {
-            Debug.Log("Bonk with enemey");
             // move away from each other. 
             Vector2 movementDirection;// = Vector2.zero;
             movementDirection = new Vector2(this.transform.position.x - other.transform.position.x, this.transform.position.y - other.transform.position.y);
