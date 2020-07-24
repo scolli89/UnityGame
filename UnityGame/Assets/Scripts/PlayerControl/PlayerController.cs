@@ -26,9 +26,6 @@ public class PlayerController : MonoBehaviour
     const string BUILDER_MOD_TWO = "B_MOD_TWO";
     const string BUILDER_MOD_THREE = "B_MOD_THREE";
 
-    [SerializeField]
-    private int playerIndex = 0;
-
     private bool usingMouse = false;
 
     [Space]
@@ -223,11 +220,6 @@ public class PlayerController : MonoBehaviour
             AimPower();
             movementSpeed *= AIMING_BASE_PENALTY;
         }
-    }
-
-    public int getPlayerIndex()
-    {
-        return playerIndex;
     }
 
     public void setMovementDirection(Vector2 direction)

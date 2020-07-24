@@ -6,13 +6,23 @@ using UnityEngine;
 
 public class GameLogic : MonoBehaviour
 {
-    public GameObject[] spawnPoints;
+    [SerializeField]
+    private GameObject[] spawnPoints;
+    [SerializeField]
+    private GameObject playerPrefab;
 
+    void Start()
+    {
+        var playerConfigs = PlayerConfigurationManager.Instance.GetPlayerConfigs().ToArray();
+        for (int i = 0; i < playerConfigs.Length; i++)
+        {
+            var player = Instantiate(playerPrefab, spawnPoints[i].transform.position, spawnPoints[i].transform.rotation, gameObject.transform);
+            player.GetComponent<InputHandler>().InitializePlayer(playerConfigs[i]);
+        }
+    }
     public void SpawnArcher(GameObject player)
     {
         GameObject spawnPoint = GetRandomSpawnPoint();
-        // youtu.be/o6I2HdGxhME?t=397
-        // youtu.be/o6I2HdGxhME?t=582
         player.transform.position = spawnPoint.transform.position;
     }
 

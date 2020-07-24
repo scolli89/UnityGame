@@ -9,25 +9,40 @@ public class InputHandler : MonoBehaviour
 {
     private int press = 0;
     private PlayerController playerController;
-    private PlayerInput playerInput;
-    public GameObject playerEmptyPrefab; 
-    public GameObject[] classMods; 
+    private PlayerConfiguration playerConfig;
+    //public GameObject playerEmptyPrefab; 
+    //public GameObject[] classMods; 
     public bool aimWithMouse = false;
+    [SerializeField]
+
+    private PlayerControls controls;
 
     // Start is called before the first frame update
     private void Awake()
     {
-        playerInput = GetComponent<PlayerInput>();
-        var players = FindObjectsOfType<PlayerController>();
-        var index = playerInput.playerIndex;
-        playerController = players.FirstOrDefault(m => m.getPlayerIndex() == index);
-
+        playerController = GetComponent<PlayerController>();
+        controls = new PlayerControls();
 
         // this is where you need to build a player. 
         // Vector2 iPosition = new Vector2(0,0); 
         // GameObject player = Instantiate(playerEmptyPrefab, iPosition, Quaternion.identity);
         // GameObject mod = Instantiate(classMods[0], iPosition, Quaternion.identity);
         // player.addChild(mod); 
+    }
+
+    public void InitializePlayer(PlayerConfiguration pc)
+    {
+        playerConfig = pc;
+        // = pc.PlayerClass;
+        playerConfig.Input.onActionTriggered += Input_onActionTriggered;
+    }
+
+    private void Input_onActionTriggered(CallbackContext obj)
+    {
+        if (obj.action.name  == controls.Player.Movement.name)
+        {
+            OnMove(obj);
+        }
     }
 
     public void OnMove(CallbackContext context)

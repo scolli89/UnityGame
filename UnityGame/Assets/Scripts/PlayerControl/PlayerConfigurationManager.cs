@@ -9,15 +9,12 @@ public class PlayerConfigurationManager : MonoBehaviour
 {
     private List<PlayerConfiguration> playerConfigs;
 
-    [SerializeField]
-    private int MaxPlayers = 8;
-
     public static PlayerConfigurationManager Instance {get; private set;}
 
     private void Awake()
     {
         if (Instance != null){
-            Debug.Log("Trying to create another instance of singleton");
+            Debug.Log("This is a singleton - Trying to create another instance of singleton");
         }
         else{
             Instance = this;
@@ -26,12 +23,20 @@ public class PlayerConfigurationManager : MonoBehaviour
         }
     }
 
-    //public void SetPlayerColor(int index)
+    public List<PlayerConfiguration> GetPlayerConfigs()
+    {
+        return playerConfigs;
+    }
+
+    public void SetPlayerClass(int index, GameObject classType)
+    {
+        playerConfigs[index].PlayerClass = classType;
+    }
 
     public void ReadyPlayer(int index)
     {
         playerConfigs[index].IsReady = true;
-        if (playerConfigs.Count == MaxPlayers && playerConfigs.All(p => p.IsReady == true))
+        if (playerConfigs.Count >= 1 && playerConfigs.All(p => p.IsReady == true))
         {
             SceneManager.LoadScene("Game");
         }
@@ -60,5 +65,5 @@ public class PlayerConfiguration
 
     public bool IsReady {get; set;}
 
-    //public  PlayerMaterial {get; set;}
+    public GameObject PlayerClass {get; set;}
 }
