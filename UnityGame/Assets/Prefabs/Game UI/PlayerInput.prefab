@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2888243467010226995}
-  - component: {fileID: 2888243467010226994}
   - component: {fileID: 2888243467010226993}
   - component: {fileID: -555902474124328725}
+  - component: {fileID: 2888243467010226994}
   m_Layer: 0
   m_Name: PlayerInput
   m_TagString: Untagged
@@ -33,6 +33,33 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2888243467010226993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2888243467010226992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efd00c43731dde84ca16890b1909df66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aimWithMouse: 1
+--- !u!114 &-555902474124328725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2888243467010226992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aea1860d98ab0104eaafdb942f6c0cde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pauseMenuUI: {fileID: 8339972816501962856, guid: 6773990f7d865a2449edd164028bc4c6,
+    type: 3}
 --- !u!114 &2888243467010226994
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,32 +164,6 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2888243467010226993}
-        m_MethodName: UsingMouse
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2888243467010226993}
-        m_MethodName: OnAim
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: e40f6560-b414-4ce6-bd6e-bd47ae58514d
-    m_ActionName: Player/ShootMouse[/Mouse/leftButton]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2888243467010226993}
         m_MethodName: MousePosition
         m_Mode: 1
         m_Arguments:
@@ -176,64 +177,15 @@ MonoBehaviour:
     m_ActionId: d899befa-742b-46ee-b062-2a031b9d0da2
     m_ActionName: Player/Mouse[/Mouse/position]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2888243467010226993}
-        m_MethodName: UsingMouse
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2888243467010226993}
-        m_MethodName: OnAimPower
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 6386c820-38a3-4770-a33e-fbd032df0472
-    m_ActionName: Player/PowerMouse[/Mouse/rightButton]
+      m_Calls: []
+    m_ActionId: b659fa14-0054-499d-ba38-0d9b17749436
+    m_ActionName: Player/Aim[/Mouse/leftButton,/XInputControllerWindows/buttonSouth,/XInputControllerWindows/buttonSouth,/XInputControllerWindows/buttonSouth]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7662157d-4f6d-4fd7-970e-47a80be72df8
+    m_ActionName: Player/AimPower[/Mouse/rightButton,/XInputControllerWindows/buttonEast,/XInputControllerWindows/buttonEast,/XInputControllerWindows/buttonEast]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &2888243467010226993
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2888243467010226992}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efd00c43731dde84ca16890b1909df66, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerEmptyPrefab: {fileID: 2611252778378371399, guid: 6193a1ef61cf47e4c831dfca706916b2,
-    type: 3}
-  classMods:
-  - {fileID: 4312862789596398983, guid: 4ec0f4a8c64e1954995e8be9e27fd3bb, type: 3}
-  aimWithMouse: 1
---- !u!114 &-555902474124328725
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2888243467010226992}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aea1860d98ab0104eaafdb942f6c0cde, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pauseMenuUI: {fileID: 8339972816501962856, guid: 6773990f7d865a2449edd164028bc4c6,
-    type: 3}

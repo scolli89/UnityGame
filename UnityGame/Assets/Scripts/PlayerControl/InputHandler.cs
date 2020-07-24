@@ -7,14 +7,13 @@ using static UnityEngine.InputSystem.InputAction;
 
 public class InputHandler : MonoBehaviour
 {
-    private int press = 0;
+    private int press = -1;
     private PlayerController playerController;
     private PlayerConfiguration playerConfig;
     //public GameObject playerEmptyPrefab; 
     //public GameObject[] classMods; 
-    public bool aimWithMouse = false;
+    private bool aimingMouse=false;
     [SerializeField]
-
     private PlayerControls controls;
 
     // Start is called before the first frame update
@@ -39,9 +38,30 @@ public class InputHandler : MonoBehaviour
 
     private void Input_onActionTriggered(CallbackContext obj)
     {
-        if (obj.action.name  == controls.Player.Movement.name)
+        var action = obj.action.name;
+        if (action  == controls.Player.Movement.name)
         {
             OnMove(obj);
+        }
+        if (action == controls.Player.MousePosition.name)
+        {
+            MousePosition();
+        }
+        if (action == controls.Player.Aim.name)
+        {
+            OnAimFix();
+        }
+        if (action == controls.Player.AimPower.name)
+        {
+            OnAimPowerFix();
+        }
+        if (action == controls.Player.Dash.name)
+        {
+            OnDash();
+        }
+        if (action == controls.Player.Pause.name)
+        {
+            //OnPause();
         }
     }
 
@@ -54,55 +74,51 @@ public class InputHandler : MonoBehaviour
         }
     }
 
-    // because input manager package is garbage and hold doesn't work
-    public void OnAim() //for some reason the function is called twice on every button press, and twice on every button release
-    {
-        if (playerController != null){
-            press++;
-            if (press == 2)
-            {
-                //can assume player is holding the button
-                OnAimFix();
-            }
-            else if (press > 2)
-            {
-                OnFire();
-                press = 0;
-                aimWithMouse=false;
-            }
-        }
-    }
-
-    public void OnAimPower()
-    {
-        if (playerController != null){
-            press++;
-            if (press == 2)
-            {
-                OnAimPowerFix();
-            }
-            else if (press > 2)
-            {
-                OnPower();
-                press = 0;
-                aimWithMouse=false;
-            }
-        }
-    }
-
-    public void UsingMouse()
-    {
-        aimWithMouse=true;
-    }
-
     public void MousePosition()
     {
-        if(aimWithMouse == true && playerController != null){
+        if (aimingMouse == true && playerController != null)
+        {
             playerController.setAimDirection(Mouse.current.position.ReadValue());
         }
     }
 
     private void OnAimFix()
+    {
+        if (playerController != null){
+            press++;
+            if(press == 2){
+                if(Mouse.current.leftButton.IsPressed()){
+                    aimingMouse = true;
+                }
+                OnAim();  
+            }
+            else if(press > 2){
+                aimingMouse=false;
+                OnFire();
+                press = 0;
+            }
+        }
+    }
+
+    private void OnAimPowerFix()
+    {
+        if (playerController != null){
+            press++;
+            if(press == 2){
+                if(Mouse.current.rightButton.IsPressed()){
+                    aimingMouse = true;
+                }
+                OnAimPower();
+            }
+            else if(press > 2){
+                aimingMouse=false;
+                OnFirePower();
+                press = 0;
+            }
+        }
+    }
+
+    private void OnAim()
     {
         playerController.setIsAiming();
     }
@@ -112,12 +128,12 @@ public class InputHandler : MonoBehaviour
         playerController.setIsFiring();
     }
 
-    private void OnAimPowerFix()
+    private void OnAimPower()
     {
         playerController.setIsAimingPower();
     }
 
-    private void OnPower()
+    private void OnFirePower()
     {
         playerController.setIsFiringPower();
     }    

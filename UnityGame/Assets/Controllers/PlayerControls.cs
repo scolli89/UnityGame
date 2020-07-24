@@ -35,36 +35,20 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""ShootController"",
+                    ""name"": ""Aim"",
                     ""type"": ""Button"",
-                    ""id"": ""524ee21e-59db-49f4-92a3-3df531c083d2"",
+                    ""id"": ""b659fa14-0054-499d-ba38-0d9b17749436"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""ShootMouse"",
+                    ""name"": ""AimPower"",
                     ""type"": ""Button"",
-                    ""id"": ""e40f6560-b414-4ce6-bd6e-bd47ae58514d"",
+                    ""id"": ""7662157d-4f6d-4fd7-970e-47a80be72df8"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""PowerController"",
-                    ""type"": ""Button"",
-                    ""id"": ""6507996b-f72b-4d77-bf95-af1cac45fcb8"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""PowerMouse"",
-                    ""type"": ""Button"",
-                    ""id"": ""6386c820-38a3-4770-a33e-fbd032df0472"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Press""
                 },
                 {
                     ""name"": ""Dash"",
@@ -207,28 +191,6 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""a27a771c-f94e-4a19-8d75-eec7308c06e6"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""ShootController"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""03031290-5175-4393-924c-2abf564d1bff"",
-                    ""path"": ""<Gamepad>/buttonEast"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""PowerController"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""7a9d52d1-2c57-4534-89ed-89eb8e80ddfe"",
                     ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
@@ -273,34 +235,56 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""715167db-a7fc-44da-9ece-925be39e8f36"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""ShootMouse"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""2eedd336-298e-469d-bd75-54a7bf81f43d"",
-                    ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""PowerMouse"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""d5faa9e0-5431-485b-9aef-65780fc6f002"",
                     ""path"": ""<Mouse>/position"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""MousePosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a3cca944-c48c-4a40-9d09-70585808281d"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""MouseAndKeyboard"",
+                    ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""da15ba64-2af5-4fb1-8565-7e0211e54c4d"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""484d32d7-1a25-4f31-b576-c7fe93dd69da"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AimPower"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""df179661-8be1-4fac-bde1-5c9c0c56dbbe"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""AimPower"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -341,10 +325,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
         m_Player_MousePosition = m_Player.FindAction("MousePosition", throwIfNotFound: true);
-        m_Player_ShootController = m_Player.FindAction("ShootController", throwIfNotFound: true);
-        m_Player_ShootMouse = m_Player.FindAction("ShootMouse", throwIfNotFound: true);
-        m_Player_PowerController = m_Player.FindAction("PowerController", throwIfNotFound: true);
-        m_Player_PowerMouse = m_Player.FindAction("PowerMouse", throwIfNotFound: true);
+        m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
+        m_Player_AimPower = m_Player.FindAction("AimPower", throwIfNotFound: true);
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
     }
@@ -398,10 +380,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private IPlayerActions m_PlayerActionsCallbackInterface;
     private readonly InputAction m_Player_Movement;
     private readonly InputAction m_Player_MousePosition;
-    private readonly InputAction m_Player_ShootController;
-    private readonly InputAction m_Player_ShootMouse;
-    private readonly InputAction m_Player_PowerController;
-    private readonly InputAction m_Player_PowerMouse;
+    private readonly InputAction m_Player_Aim;
+    private readonly InputAction m_Player_AimPower;
     private readonly InputAction m_Player_Dash;
     private readonly InputAction m_Player_Pause;
     public struct PlayerActions
@@ -410,10 +390,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public PlayerActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Player_Movement;
         public InputAction @MousePosition => m_Wrapper.m_Player_MousePosition;
-        public InputAction @ShootController => m_Wrapper.m_Player_ShootController;
-        public InputAction @ShootMouse => m_Wrapper.m_Player_ShootMouse;
-        public InputAction @PowerController => m_Wrapper.m_Player_PowerController;
-        public InputAction @PowerMouse => m_Wrapper.m_Player_PowerMouse;
+        public InputAction @Aim => m_Wrapper.m_Player_Aim;
+        public InputAction @AimPower => m_Wrapper.m_Player_AimPower;
         public InputAction @Dash => m_Wrapper.m_Player_Dash;
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -431,18 +409,12 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @MousePosition.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMousePosition;
                 @MousePosition.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMousePosition;
                 @MousePosition.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMousePosition;
-                @ShootController.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShootController;
-                @ShootController.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShootController;
-                @ShootController.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShootController;
-                @ShootMouse.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShootMouse;
-                @ShootMouse.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShootMouse;
-                @ShootMouse.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShootMouse;
-                @PowerController.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPowerController;
-                @PowerController.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPowerController;
-                @PowerController.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPowerController;
-                @PowerMouse.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPowerMouse;
-                @PowerMouse.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPowerMouse;
-                @PowerMouse.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPowerMouse;
+                @Aim.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAim;
+                @Aim.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAim;
+                @Aim.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAim;
+                @AimPower.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAimPower;
+                @AimPower.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAimPower;
+                @AimPower.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAimPower;
                 @Dash.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
                 @Dash.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
                 @Dash.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
@@ -459,18 +431,12 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @MousePosition.started += instance.OnMousePosition;
                 @MousePosition.performed += instance.OnMousePosition;
                 @MousePosition.canceled += instance.OnMousePosition;
-                @ShootController.started += instance.OnShootController;
-                @ShootController.performed += instance.OnShootController;
-                @ShootController.canceled += instance.OnShootController;
-                @ShootMouse.started += instance.OnShootMouse;
-                @ShootMouse.performed += instance.OnShootMouse;
-                @ShootMouse.canceled += instance.OnShootMouse;
-                @PowerController.started += instance.OnPowerController;
-                @PowerController.performed += instance.OnPowerController;
-                @PowerController.canceled += instance.OnPowerController;
-                @PowerMouse.started += instance.OnPowerMouse;
-                @PowerMouse.performed += instance.OnPowerMouse;
-                @PowerMouse.canceled += instance.OnPowerMouse;
+                @Aim.started += instance.OnAim;
+                @Aim.performed += instance.OnAim;
+                @Aim.canceled += instance.OnAim;
+                @AimPower.started += instance.OnAimPower;
+                @AimPower.performed += instance.OnAimPower;
+                @AimPower.canceled += instance.OnAimPower;
                 @Dash.started += instance.OnDash;
                 @Dash.performed += instance.OnDash;
                 @Dash.canceled += instance.OnDash;
@@ -503,10 +469,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnMousePosition(InputAction.CallbackContext context);
-        void OnShootController(InputAction.CallbackContext context);
-        void OnShootMouse(InputAction.CallbackContext context);
-        void OnPowerController(InputAction.CallbackContext context);
-        void OnPowerMouse(InputAction.CallbackContext context);
+        void OnAim(InputAction.CallbackContext context);
+        void OnAimPower(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
     }
