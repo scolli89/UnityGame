@@ -43,8 +43,10 @@ public class PlayerController : MonoBehaviour
     public bool endUsingPower = false;
 
     public bool healing = false;
+    public bool laserBoltHealing = false;
     public int healingCount = 0;
-    public int healingTime = 50;  //  healingTime/ 50 = seconds. 
+    public int HEALING_TIME = 50;  //  healingTime/ 50 = seconds. 
+    public int LASER_BOLT_HEALING_TIME = 6;
 
     public int energyCount = 0;
     private int energyTime = 200;
@@ -117,11 +119,11 @@ public class PlayerController : MonoBehaviour
 
 
         energyBarController = this.gameObject.transform.GetChild(1).GetComponent<EnergyBarController>();
-        
+
         ammoController = this.gameObject.transform.GetChild(2).GetComponent<AmmoController>();
         lastArrowsRemaining = ammoRemaining;
         lastEnergy = energy;
-        lastHealth = health; 
+        lastHealth = health;
 
         playerClass = this.gameObject.transform.GetChild(3).GetComponent<PlayerClass>();
 
@@ -148,7 +150,69 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (healing)
+        // /*
+
+        // what happens when you are hit with a healing bolt?
+        // 1: Do you heal to full then stop?
+        // 2: Do you heal six energy? 
+        // */
+
+        // // lets talk healing multipliers!!!!
+        // //balancing will affect the relatinship between the multipliers. 
+
+        // // not healing because dashing: 0 
+        // // regular healing rate: 1 --> how fast is it actually? 1 every 4 seconds? 
+        // // effects of healing aura: 4 --> 
+
+
+        // // determine how fast;
+        // float healingFactor = 1; // set to base line // implied !isDashing
+        // if(isDashing){
+        //     healingFactor *= 0; 
+        // } 
+        // if(laserBoltHealing){
+        //     healingFactor *= 2; 
+        // }
+        // if(healing){
+
+        // }
+
+
+
+        // if (energy >= 7)
+        // {
+        //     return;
+        // }
+        // else
+        // {
+        //     healingCount += healingFactor;
+        //     if (healingCount >= LASER_BOLT_HEALING_TIME)
+        //     {
+        //         energy++;
+        //         healingCount = 0;
+        //     }
+        // }
+
+
+        if (laserBoltHealing)
+        {
+            if (energy >= 7)
+            {
+                laserBoltHealing = false;
+                return;
+            }
+            else
+            {
+                healingCount++;
+                if (healingCount >= LASER_BOLT_HEALING_TIME)
+                {
+                    energy++;
+                    healingCount = 0;
+                }
+            }
+        }
+
+        else if (healing)
         {
             if (energy >= 7)
             {
@@ -158,7 +222,7 @@ public class PlayerController : MonoBehaviour
             else
             {
                 healingCount++;
-                if (healingCount >= healingTime)
+                if (healingCount >= HEALING_TIME) // healing time is 50 
                 {
                     energy++;
                     healingCount = 0;
@@ -166,12 +230,16 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+        else if (isDashing)
+        {
+            // multiplier is 0; 
 
-
+        }
 
         else if (!isDashing)
         {
             //regerenate dash energy 
+            //multiplier is regular 100% 
             if (energy >= 7)
             {
                 healing = false;
@@ -187,10 +255,11 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
-        else if(isDashing) {
+        else if (isDashing)
+        {
             energyCount = 0; // maybe reset it when the player is dashing. 
         }
-        
+
 
     }
     void updateUI()
@@ -198,16 +267,17 @@ public class PlayerController : MonoBehaviour
 
         if (firstUpdate)
         {
-            setHealthAmount(health); 
+            setHealthAmount(health);
             setEnergyAmount(energy);
             setAmmoAmount(ammoRemaining);
             firstUpdate = false;
         }
 
-        if (health != lastHealth){
-            lastHealth = health; 
-            setHealthAmount(health); 
-            
+        if (health != lastHealth)
+        {
+            lastHealth = health;
+            setHealthAmount(health);
+
         }
         if (energy != lastEnergy)
         {
@@ -640,13 +710,13 @@ public class PlayerController : MonoBehaviour
             {
                 // kill the player,
                 GameObject.Find("GameLogic").GetComponent<GameLogic>().SpawnArcher(this.gameObject);
-                
+
                 ammoRemaining = DEFAULT_AMMO;
                 energy = DEFAULT_ENERGY;
-                health = DEFAULT_HEALTH; 
+                health = DEFAULT_HEALTH;
 
             }
-            
+
 
         }
 
@@ -663,7 +733,11 @@ public class PlayerController : MonoBehaviour
 
 
     }
+    public void rechargeEnergyFull()
+    {
+        laserBoltHealing = true; 
 
+    }
     public void setAmmoAmount(int n)
     {
         ammoController.setAmmo(n);
@@ -672,8 +746,9 @@ public class PlayerController : MonoBehaviour
     {
         energyBarController.setEnergy(n);
     }
-    public void setHealthAmount(int n){
-        energyBarController.setHealth(n); 
+    public void setHealthAmount(int n)
+    {
+        energyBarController.setHealth(n);
     }
 
     public void setHealth(int health)
