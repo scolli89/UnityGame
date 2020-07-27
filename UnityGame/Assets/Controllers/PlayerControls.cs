@@ -40,7 +40,15 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""id"": ""b659fa14-0054-499d-ba38-0d9b17749436"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""Fire"",
+                    ""type"": ""Button"",
+                    ""id"": ""453ca5c3-a147-49cc-80e5-4cfda11a601e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=1)""
                 },
                 {
                     ""name"": ""AimPower"",
@@ -49,6 +57,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""FirePower"",
+                    ""type"": ""Button"",
+                    ""id"": ""0a099d42-f09f-41d3-893f-7e3e95197af8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=1)""
                 },
                 {
                     ""name"": ""Dash"",
@@ -287,6 +303,50 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""action"": ""AimPower"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""438f8a9a-f630-41c1-bc65-f3c76c4d8476"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""MouseAndKeyboard"",
+                    ""action"": ""Fire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4b7f93f3-4946-4e6f-9055-b41b1870ad34"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""Fire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""12fb4e00-5047-4065-a9a5-d843523264b2"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FirePower"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""79217cc3-4e91-417f-8ba3-dfa006857ca2"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""FirePower"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -326,7 +386,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
         m_Player_MousePosition = m_Player.FindAction("MousePosition", throwIfNotFound: true);
         m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
+        m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
         m_Player_AimPower = m_Player.FindAction("AimPower", throwIfNotFound: true);
+        m_Player_FirePower = m_Player.FindAction("FirePower", throwIfNotFound: true);
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
     }
@@ -381,7 +443,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Movement;
     private readonly InputAction m_Player_MousePosition;
     private readonly InputAction m_Player_Aim;
+    private readonly InputAction m_Player_Fire;
     private readonly InputAction m_Player_AimPower;
+    private readonly InputAction m_Player_FirePower;
     private readonly InputAction m_Player_Dash;
     private readonly InputAction m_Player_Pause;
     public struct PlayerActions
@@ -391,7 +455,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @Movement => m_Wrapper.m_Player_Movement;
         public InputAction @MousePosition => m_Wrapper.m_Player_MousePosition;
         public InputAction @Aim => m_Wrapper.m_Player_Aim;
+        public InputAction @Fire => m_Wrapper.m_Player_Fire;
         public InputAction @AimPower => m_Wrapper.m_Player_AimPower;
+        public InputAction @FirePower => m_Wrapper.m_Player_FirePower;
         public InputAction @Dash => m_Wrapper.m_Player_Dash;
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -412,9 +478,15 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Aim.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAim;
                 @Aim.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAim;
                 @Aim.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAim;
+                @Fire.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
+                @Fire.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
+                @Fire.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
                 @AimPower.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAimPower;
                 @AimPower.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAimPower;
                 @AimPower.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAimPower;
+                @FirePower.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFirePower;
+                @FirePower.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFirePower;
+                @FirePower.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFirePower;
                 @Dash.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
                 @Dash.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
                 @Dash.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
@@ -434,9 +506,15 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Aim.started += instance.OnAim;
                 @Aim.performed += instance.OnAim;
                 @Aim.canceled += instance.OnAim;
+                @Fire.started += instance.OnFire;
+                @Fire.performed += instance.OnFire;
+                @Fire.canceled += instance.OnFire;
                 @AimPower.started += instance.OnAimPower;
                 @AimPower.performed += instance.OnAimPower;
                 @AimPower.canceled += instance.OnAimPower;
+                @FirePower.started += instance.OnFirePower;
+                @FirePower.performed += instance.OnFirePower;
+                @FirePower.canceled += instance.OnFirePower;
                 @Dash.started += instance.OnDash;
                 @Dash.performed += instance.OnDash;
                 @Dash.canceled += instance.OnDash;
@@ -470,7 +548,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnMousePosition(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
+        void OnFire(InputAction.CallbackContext context);
         void OnAimPower(InputAction.CallbackContext context);
+        void OnFirePower(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
     }

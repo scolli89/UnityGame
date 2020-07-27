@@ -7,7 +7,10 @@ using static UnityEngine.InputSystem.InputAction;
 
 public class InputHandler : MonoBehaviour
 {
-    private int press = -1;
+    // this variable exists to prevent the last player to ready up fire an arrow due to unity believing they have not released their button yet
+    public bool aimFirst = false;
+    public bool powerFirst = false;
+    public int press = 0;
     private PlayerController playerController;
     private PlayerConfiguration playerConfig;
     //public GameObject playerEmptyPrefab; 
@@ -21,6 +24,7 @@ public class InputHandler : MonoBehaviour
     {
         playerController = GetComponent<PlayerController>();
         controls = new PlayerControls();
+        press = 0;
 
         // this is where you need to build a player. 
         // Vector2 iPosition = new Vector2(0,0); 
@@ -37,23 +41,58 @@ public class InputHandler : MonoBehaviour
     }
 
     private void Input_onActionTriggered(CallbackContext obj)
-    {
+    {        
+        // if(obj.canceled){
+        //     Debug.Log("#CANCELED");
+        // }
+        // else if(obj.performed){
+        //     Debug.Log("#performed");
+        // }
+        // else if(obj.started){
+        //     Debug.Log("#started");
+
+        // }
+        // else if(obj.phase == InputActionPhase.Canceled){
+        //      Debug.Log("phase CANCELED");
+        // }
+        // else if(obj.phase == InputActionPhase.Disabled){
+        //      Debug.Log("pase Disabled");
+        // }
+        // else if(obj.phase == InputActionPhase.Performed){Debug.Log("phase performed");}
+        // else if(obj.phase == InputActionPhase.Started){Debug.Log("phase started");}
+        // else if(obj.phase == InputActionPhase.Waiting){Debug.Log("#waiting");}
+
+        // get name of action just triggerred and compare it to the input list
         var action = obj.action.name;
         if (action  == controls.Player.Movement.name)
         {
             OnMove(obj);
         }
+
+        // this is a catch to prevent inputs from being triggerred twice
+        if(!obj.performed){
+            return;
+        }
+        
         if (action == controls.Player.MousePosition.name)
         {
             MousePosition();
         }
         if (action == controls.Player.Aim.name)
         {
-            OnAimFix();
+            OnAim();
+        }
+        if (action == controls.Player.Fire.name)
+        {
+            OnFire();
         }
         if (action == controls.Player.AimPower.name)
         {
-            OnAimPowerFix();
+            OnAimPower();
+        }
+        if (action == controls.Player.FirePower.name)
+        {
+            OnFirePower();
         }
         if (action == controls.Player.Dash.name)
         {
@@ -82,60 +121,34 @@ public class InputHandler : MonoBehaviour
         }
     }
 
-    private void OnAimFix()
-    {
-        if (playerController != null){
-            press++;
-            if(press == 2){
-                if(Mouse.current.leftButton.IsPressed()){
-                    aimingMouse = true;
-                }
-                OnAim();  
-            }
-            else if(press > 2){
-                aimingMouse=false;
-                OnFire();
-                press = 0;
-            }
-        }
-    }
-
-    private void OnAimPowerFix()
-    {
-        if (playerController != null){
-            press++;
-            if(press == 2){
-                if(Mouse.current.rightButton.IsPressed()){
-                    aimingMouse = true;
-                }
-                OnAimPower();
-            }
-            else if(press > 2){
-                aimingMouse=false;
-                OnFirePower();
-                press = 0;
-            }
-        }
-    }
-
     private void OnAim()
     {
+        if(!aimFirst){
+            aimFirst = true;
+        }
         playerController.setIsAiming();
     }
 
     private void OnFire()
     {
-        playerController.setIsFiring();
+        if(aimFirst){
+            playerController.setIsFiring();
+        }
     }
 
     private void OnAimPower()
     {
+        if(!powerFirst){
+            powerFirst = true;
+        }
         playerController.setIsAimingPower();
     }
 
     private void OnFirePower()
     {
-        playerController.setIsFiringPower();
+        if(powerFirst){
+            playerController.setIsFiringPower();
+        }
     }    
 
     public void OnDash()

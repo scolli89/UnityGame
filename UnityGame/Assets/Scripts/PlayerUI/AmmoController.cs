@@ -26,7 +26,7 @@ public class AmmoController : MonoBehaviour
     void Start()
     {
         
-        Debug.Log("Ammo Start");
+        //Debug.Log("Ammo Start");
         onesSprite = this.gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>();
         tensSprite = this.gameObject.transform.GetChild(1).GetComponent<SpriteRenderer>();
     }

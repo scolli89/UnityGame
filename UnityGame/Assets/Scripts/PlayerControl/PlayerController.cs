@@ -104,7 +104,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("Player Start");
+//        Debug.Log("Player Start");
         rb = GetComponent<Rigidbody2D>();
         lastHealth = health;
         //healthBarController = healthBar.GetComponent<HealthBarController>();
@@ -180,7 +180,7 @@ public class PlayerController : MonoBehaviour
         // this works because reasons. like async calls.  
         if (firstUpdate)
         {
-            Debug.Log("Update UI");
+           // Debug.Log("Update UI");
             setHealthAmount(health);
             setAmmoAmount(ammoRemaining);
             firstUpdate = false;
