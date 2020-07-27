@@ -168,22 +168,28 @@ Code for Game creator class :
                 int color; : 8
 
             }
-
+	makePlayers(){
             foreach( Players player in players) {
                 
                 //some how create the player and
                 p = Instainate( basic player prefab)
                 if( player.classType == 2){
                     p.addChild(HEALER_SHOOTER_MOD);
+		    p.ModSetup(); // which calls the playerclass = getChild(3).getComponent<PlayerClass>(); 
                 }
                 // there would be 12 of those
                 ..
                 // same stuff for guns and passives. 
 
             }
-
+	}
             //Start game function.  
-
+	GameSetUP(){
+		if (gametype = "PVP"){
+			players
+		}
+	}	
+	
             // menu -> need to fill booleans so that this game creater has an idea as to how to build the scene. 
         }
     */
