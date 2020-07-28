@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1005049136369737354}
   - component: {fileID: 1005049136369737365}
   - component: {fileID: 1005049136369737367}
+  - component: {fileID: 1930726317235570830}
   - component: {fileID: 1005049136369737364}
   - component: {fileID: 6167122361228005368}
   m_Layer: 0
@@ -150,13 +151,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MOVEMENT_BASE_SPEED: 5
-  ARROW_BASE_SPEED: 1
+  ARROW_BASE_SPEED: 10
   CROSSHAIR_DISTANCE: 5
   BUILDER_POWER_DISTANCE: 2
   AIMING_BASE_PENALTY: 0.1
   ARROW_OFFSET: 1.2
   HEALING_WAIT: 2
-  playerIndex: 0
   ammoRemaining: 12
   DEFAULT_AMMO: 10
   DEFAULT_HEALTH: 6
@@ -182,6 +182,20 @@ MonoBehaviour:
   ammoBar: {fileID: 1005049135398701533}
   arrowPrefab: {fileID: 500704877751819888, guid: 2d5c2ee2ce8075d40bccd7cc926fdbe4,
     type: 3}
+--- !u!114 &1930726317235570830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1005049136369737360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efd00c43731dde84ca16890b1909df66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aimFirst: 0
+  powerFirst: 0
 --- !u!95 &1005049136369737364
 Animator:
   serializedVersion: 3

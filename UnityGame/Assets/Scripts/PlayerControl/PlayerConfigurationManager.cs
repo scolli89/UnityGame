@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 public class PlayerConfigurationManager : MonoBehaviour
 {
     private List<PlayerConfiguration> playerConfigs;
+    //private List<int> playerClasses
 
     public static PlayerConfigurationManager Instance {get; private set;}
 
@@ -28,9 +29,16 @@ public class PlayerConfigurationManager : MonoBehaviour
         return playerConfigs;
     }
 
-    public void SetPlayerClass(int index, GameObject classType)
+    public void SetPlayerClass(int index, int classType)
     {
+        // 0 = empty, 1 = builder, 2 = shock, 3 = healer aura, 4 = healer shot
         playerConfigs[index].PlayerClass = classType;
+    }
+
+    public int GetPlayerClass(int index)
+    {
+        // 0 = empty, 1 = builder, 2 = shock, 3 = healer aura, 4 = healer shot
+        return playerConfigs[index].PlayerClass;
     }
 
     public void ReadyPlayer(int index)
@@ -65,5 +73,5 @@ public class PlayerConfiguration
 
     public bool IsReady {get; set;}
 
-    public GameObject PlayerClass {get; set;}
+    public int PlayerClass {get; set;}
 }

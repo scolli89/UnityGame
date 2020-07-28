@@ -52,3 +52,9 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  playerPrefabs:
+  - {fileID: 2611252778378371399, guid: 6193a1ef61cf47e4c831dfca706916b2, type: 3}
+  - {fileID: 7522595777585109201, guid: 8371d1c7ac3552f40a5859da130d9505, type: 3}
+  - {fileID: 2243064344218871550, guid: 35ad2701920380d40a7ce2ff0fa65c38, type: 3}
+  - {fileID: 1005049136369737360, guid: 0110d7c2a3fb9064f836229b6d8da05e, type: 3}
+  - {fileID: 3671893940542384574, guid: cb23e89f03e3acb4cb7a3205fa2ddbea, type: 3}

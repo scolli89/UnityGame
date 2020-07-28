@@ -9,14 +9,14 @@ public class GameLogic : MonoBehaviour
     [SerializeField]
     private GameObject[] spawnPoints;
     [SerializeField]
-    private GameObject playerPrefab;
+    private GameObject[] playerPrefabs;
 
     void Start()
     {
         var playerConfigs = PlayerConfigurationManager.Instance.GetPlayerConfigs().ToArray();
         for (int i = 0; i < playerConfigs.Length; i++)
         {
-            var player = Instantiate(playerPrefab, spawnPoints[i].transform.position, spawnPoints[i].transform.rotation, gameObject.transform);
+            var player = Instantiate(playerPrefabs[playerConfigs[i].PlayerClass], spawnPoints[i].transform.position, spawnPoints[i].transform.rotation, gameObject.transform);
             player.GetComponent<InputHandler>().InitializePlayer(playerConfigs[i]);
         }
     }
@@ -25,7 +25,7 @@ public class GameLogic : MonoBehaviour
         GameObject spawnPoint = GetRandomSpawnPoint();
         player.transform.position = spawnPoint.transform.position;
     }
-
+    
     GameObject GetRandomSpawnPoint()
     {
         return spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Length)];

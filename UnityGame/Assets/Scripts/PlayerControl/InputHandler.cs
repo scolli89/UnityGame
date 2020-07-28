@@ -10,7 +10,6 @@ public class InputHandler : MonoBehaviour
     // this variable exists to prevent the last player to ready up fire an arrow due to unity believing they have not released their button yet
     public bool aimFirst = false;
     public bool powerFirst = false;
-    public int press = 0;
     private PlayerController playerController;
     private PlayerConfiguration playerConfig;
     //public GameObject playerEmptyPrefab; 
@@ -24,7 +23,6 @@ public class InputHandler : MonoBehaviour
     {
         playerController = GetComponent<PlayerController>();
         controls = new PlayerControls();
-        press = 0;
 
         // this is where you need to build a player. 
         // Vector2 iPosition = new Vector2(0,0); 
@@ -36,7 +34,6 @@ public class InputHandler : MonoBehaviour
     public void InitializePlayer(PlayerConfiguration pc)
     {
         playerConfig = pc;
-        // = pc.PlayerClass;
         playerConfig.Input.onActionTriggered += Input_onActionTriggered;
     }
 

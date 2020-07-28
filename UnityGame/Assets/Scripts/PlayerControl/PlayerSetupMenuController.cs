@@ -35,10 +35,10 @@ public class PlayerSetupMenuController : MonoBehaviour
         }
     }
     
-    public void SetPlayerClass(GameObject classType)
+    public void SetPlayerClass(int classType)
     {
         if(!inputEnabled){ return; }
-
+        // 0 = empty, 1 = builder, 2 = shock, 3 = healer aura, 4 = healer shot
         PlayerConfigurationManager.Instance.SetPlayerClass(PlayerIndex, classType);
         readyPanel.SetActive(true);
         readyButton.Select();

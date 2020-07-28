@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3671893940542384548}
   - component: {fileID: 3671893940542384571}
   - component: {fileID: 3671893940542384569}
+  - component: {fileID: 9184944472954835035}
   - component: {fileID: 3671893940542384570}
   - component: {fileID: 7679081378696968406}
   m_Layer: 0
@@ -156,7 +157,6 @@ MonoBehaviour:
   AIMING_BASE_PENALTY: 0
   ARROW_OFFSET: 1.2
   HEALING_WAIT: 2
-  playerIndex: 0
   ammoRemaining: 12
   DEFAULT_AMMO: 10
   DEFAULT_HEALTH: 6
@@ -182,6 +182,20 @@ MonoBehaviour:
   ammoBar: {fileID: 4541764538533296201}
   arrowPrefab: {fileID: 500704877751819888, guid: 2d5c2ee2ce8075d40bccd7cc926fdbe4,
     type: 3}
+--- !u!114 &9184944472954835035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3671893940542384574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efd00c43731dde84ca16890b1909df66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aimFirst: 0
+  powerFirst: 0
 --- !u!95 &3671893940542384570
 Animator:
   serializedVersion: 3

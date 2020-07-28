@@ -277,12 +277,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1075674848124395538}
         m_MethodName: SetPlayerClass
-        m_Mode: 2
+        m_Mode: 3
         m_Arguments:
-          m_ObjectArgument: {fileID: 2243064344218871550, guid: 35ad2701920380d40a7ce2ff0fa65c38,
-            type: 3}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -1294,12 +1293,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1075674848124395538}
         m_MethodName: SetPlayerClass
-        m_Mode: 2
+        m_Mode: 3
         m_Arguments:
-          m_ObjectArgument: {fileID: 3671893940542384574, guid: cb23e89f03e3acb4cb7a3205fa2ddbea,
-            type: 3}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 4
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -1464,12 +1462,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1075674848124395538}
         m_MethodName: SetPlayerClass
-        m_Mode: 2
+        m_Mode: 3
         m_Arguments:
-          m_ObjectArgument: {fileID: 1005049136369737360, guid: 0110d7c2a3fb9064f836229b6d8da05e,
-            type: 3}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -1836,12 +1833,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1075674848124395538}
         m_MethodName: SetPlayerClass
-        m_Mode: 2
+        m_Mode: 3
         m_Arguments:
-          m_ObjectArgument: {fileID: 7522595777585109201, guid: 8371d1c7ac3552f40a5859da130d9505,
-            type: 3}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
