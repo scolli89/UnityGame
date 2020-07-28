@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4684039335036393733}
   - component: {fileID: 4684039335036393754}
   - component: {fileID: 4684039335036393752}
+  - component: {fileID: 2898733863395552146}
   - component: {fileID: 4684039335036393755}
   - component: {fileID: 1830061464936876151}
   m_Layer: 0
@@ -30,7 +31,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4684039335036393759}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.25, y: -0.88, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4684039335341602178}
@@ -169,8 +170,10 @@ MonoBehaviour:
   usingPower: 0
   endUsingPower: 0
   healing: 0
+  laserBoltHealing: 0
   healingCount: 0
-  healingTime: 50
+  HEALING_TIME: 50
+  LASER_BOLT_HEALING_TIME: 6
   energyCount: 0
   isDashing: 0
   dashSpeed: 15
@@ -186,6 +189,22 @@ MonoBehaviour:
     type: 3}
   dashEffect: {fileID: 5857428626477317272, guid: 8cc6d39a4be4d7843a060e6582526da6,
     type: 3}
+  toggleUI: 0
+  hiddenUI: 0
+--- !u!114 &2898733863395552146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4684039335036393759}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efd00c43731dde84ca16890b1909df66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aimFirst: 0
+  powerFirst: 0
 --- !u!95 &4684039335036393755
 Animator:
   serializedVersion: 3
@@ -342,12 +361,12 @@ PrefabInstance:
     - target: {fileID: 5689957014069360562, guid: e1f7f0995ae5b97479c103f1bb2d1e3b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 5689957014069360562, guid: e1f7f0995ae5b97479c103f1bb2d1e3b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5689957014069360562, guid: e1f7f0995ae5b97479c103f1bb2d1e3b,
         type: 3}

@@ -95,7 +95,7 @@ public class PlayerController : MonoBehaviour
     [Space]
     [Header("Character UI:")]
     public bool toggleUI;// 
-    public bool hiddenUI;
+    public bool UIisVisible;
     GameObject playerClassGameObject;
 
     // todos
@@ -140,7 +140,7 @@ public class PlayerController : MonoBehaviour
         shockTime = startShockTime;
 
         toggleUI = false;
-        hiddenUI = false; 
+        UIisVisible = true; 
 
     }
 
@@ -300,10 +300,10 @@ public class PlayerController : MonoBehaviour
         }
         if(toggleUI){ // player wants to toggle the UI
             toggleUI = false; 
-            hiddenUI = !hiddenUI; 
+            UIisVisible = !UIisVisible; 
             //playerClassGameObject.SetActive(hiddenUI); 
-            playerClassGameObject.GetComponent<Animator>().enabled = hiddenUI; 
-            playerClassGameObject.GetComponent<SpriteRenderer>().enabled = hiddenUI; 
+            playerClassGameObject.GetComponent<Animator>().enabled = UIisVisible; 
+            playerClassGameObject.GetComponent<SpriteRenderer>().enabled = UIisVisible; 
             // if(hiddenUI){
             //     // if the Ui is on
             //     playerClassGameObject.SetActive(false);
@@ -373,8 +373,8 @@ public class PlayerController : MonoBehaviour
     }
 
     public void setToggleUI(){
-        Debug.Log(toggleUI);
-        toggleUI = !toggleUI; 
+        
+        toggleUI = true;//!toggleUI; 
     }
 
     public void setIsFiringPower()

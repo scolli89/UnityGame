@@ -81,6 +81,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""HideUI"",
+                    ""type"": ""Button"",
+                    ""id"": ""7e77e878-5faf-41b8-bc6e-c9b8004dfe94"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -347,6 +355,17 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""action"": ""FirePower"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""be8b3c45-39e6-4559-ad8f-bb814e506fe3"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""HideUI"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -391,6 +410,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Player_FirePower = m_Player.FindAction("FirePower", throwIfNotFound: true);
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
+        m_Player_HideUI = m_Player.FindAction("HideUI", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -448,6 +468,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_FirePower;
     private readonly InputAction m_Player_Dash;
     private readonly InputAction m_Player_Pause;
+    private readonly InputAction m_Player_HideUI;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -460,6 +481,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @FirePower => m_Wrapper.m_Player_FirePower;
         public InputAction @Dash => m_Wrapper.m_Player_Dash;
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
+        public InputAction @HideUI => m_Wrapper.m_Player_HideUI;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -493,6 +515,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Pause.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
                 @Pause.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
                 @Pause.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                @HideUI.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHideUI;
+                @HideUI.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHideUI;
+                @HideUI.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHideUI;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -521,6 +546,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Pause.started += instance.OnPause;
                 @Pause.performed += instance.OnPause;
                 @Pause.canceled += instance.OnPause;
+                @HideUI.started += instance.OnHideUI;
+                @HideUI.performed += instance.OnHideUI;
+                @HideUI.canceled += instance.OnHideUI;
             }
         }
     }
@@ -553,5 +581,6 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnFirePower(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
+        void OnHideUI(InputAction.CallbackContext context);
     }
 }

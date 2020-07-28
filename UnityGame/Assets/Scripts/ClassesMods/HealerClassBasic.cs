@@ -18,7 +18,7 @@ public class HealerClassBasic : PlayerClass
     public override void usePower(Vector2 v)//,GameObject g)
     {
         Debug.Log("Healing peeps.");
-        Transform parentTransform = this.gameObject.transform.root; 
+        Transform parentTransform = this.gameObject.transform.parent; 
         
         Vector2 iPosition = new Vector2(parentTransform.position.x,parentTransform.position.y);
         //TIME TO BUILD 

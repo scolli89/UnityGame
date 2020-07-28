@@ -99,6 +99,9 @@ public class InputHandler : MonoBehaviour
         {
             //OnPause();
         }
+        if(action == controls.Player.HideUI.name){
+            OnHideUI(); 
+        }
     }
 
     public void OnMove(CallbackContext context)
@@ -154,4 +157,12 @@ public class InputHandler : MonoBehaviour
             playerController.setIsDashing();
         }
     }
+
+    public void OnHideUI(){
+        if (playerController != null)
+        {
+            playerController.setToggleUI();
+        }
+    }
+
 }

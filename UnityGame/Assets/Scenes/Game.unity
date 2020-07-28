@@ -2107,17 +2107,17 @@ PrefabInstance:
     - target: {fileID: 3773734124751343109, guid: 61a0a4e60ec8e4c43b10ca6472f2e81d,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.384679
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3773734124751343109, guid: 61a0a4e60ec8e4c43b10ca6472f2e81d,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.8466198
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3773734124751343109, guid: 61a0a4e60ec8e4c43b10ca6472f2e81d,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.7987844
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3773734124751343109, guid: 61a0a4e60ec8e4c43b10ca6472f2e81d,
         type: 3}
@@ -2204,6 +2204,30 @@ PrefabInstance:
       propertyPath: playerPrefab
       value: 
       objectReference: {fileID: 2611252778378371399, guid: 6193a1ef61cf47e4c831dfca706916b2,
+        type: 3}
+    - target: {fileID: 3773734124751343110, guid: 61a0a4e60ec8e4c43b10ca6472f2e81d,
+        type: 3}
+      propertyPath: playerPrefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 1816475797157318768, guid: 4736c0909a350944199640bf7c1cf925,
+        type: 3}
+    - target: {fileID: 3773734124751343110, guid: 61a0a4e60ec8e4c43b10ca6472f2e81d,
+        type: 3}
+      propertyPath: playerPrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 8105924343843955941, guid: f70c67dbfeb45c64fa70cd45fd6ff039,
+        type: 3}
+    - target: {fileID: 3773734124751343110, guid: 61a0a4e60ec8e4c43b10ca6472f2e81d,
+        type: 3}
+      propertyPath: playerPrefabs.Array.data[2]
+      value: 
+      objectReference: {fileID: 4684039335036393759, guid: 74b6c2586f49c424b845b2435fe84c69,
+        type: 3}
+    - target: {fileID: 3773734124751343110, guid: 61a0a4e60ec8e4c43b10ca6472f2e81d,
+        type: 3}
+      propertyPath: playerPrefabs.Array.data[4]
+      value: 
+      objectReference: {fileID: 2210797003256736326, guid: 45d9658302f49884ab62340478a69ab5,
         type: 3}
     - target: {fileID: 3773734124751343111, guid: 61a0a4e60ec8e4c43b10ca6472f2e81d,
         type: 3}

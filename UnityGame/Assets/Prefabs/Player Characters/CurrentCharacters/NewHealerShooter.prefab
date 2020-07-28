@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2210797003256736348}
   - component: {fileID: 2210797003256736323}
   - component: {fileID: 2210797003256736321}
+  - component: {fileID: 2138076340808818820}
   - component: {fileID: 2210797003256736322}
   - component: {fileID: 5101162107141962542}
   m_Layer: 0
@@ -169,8 +170,10 @@ MonoBehaviour:
   usingPower: 0
   endUsingPower: 0
   healing: 0
+  laserBoltHealing: 0
   healingCount: 0
-  healingTime: 50
+  HEALING_TIME: 50
+  LASER_BOLT_HEALING_TIME: 6
   energyCount: 0
   isDashing: 0
   dashSpeed: 15
@@ -186,6 +189,22 @@ MonoBehaviour:
     type: 3}
   dashEffect: {fileID: 5857428626477317272, guid: 8cc6d39a4be4d7843a060e6582526da6,
     type: 3}
+  toggleUI: 0
+  hiddenUI: 0
+--- !u!114 &2138076340808818820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2210797003256736326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efd00c43731dde84ca16890b1909df66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aimFirst: 0
+  powerFirst: 0
 --- !u!95 &2210797003256736322
 Animator:
   serializedVersion: 3
@@ -401,17 +420,17 @@ PrefabInstance:
     - target: {fileID: 6163986706781573544, guid: 2de3f201f029c774281bc8918009aeda,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.247522
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 6163986706781573544, guid: 2de3f201f029c774281bc8918009aeda,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.450293
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6163986706781573544, guid: 2de3f201f029c774281bc8918009aeda,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -23.117716
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6163986706781573544, guid: 2de3f201f029c774281bc8918009aeda,
         type: 3}
