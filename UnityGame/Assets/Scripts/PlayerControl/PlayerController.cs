@@ -15,16 +15,8 @@ public class PlayerController : MonoBehaviour
     public float ARROW_OFFSET = 1.2f;
     public float HEALING_WAIT = 2.0f;
 
-    const string BUILDER_CLASS_BASIC = "BUILDER";
-
-    const string HEALER_CLASS_BASIC = "HEALER";
-    const string HEALER_CLASS_SHOOT = "HEALER_SHOOT";
-
-    const string SHOCK_CLASS_BASIC = "SHOCK";
-
-    const string BUILDER_MOD_ONE = "B_MOD_ONE";
-    const string BUILDER_MOD_TWO = "B_MOD_TWO";
-    const string BUILDER_MOD_THREE = "B_MOD_THREE";
+    [SerializeField]
+    private int playerIndex = 0;
 
     private bool usingMouse = false;
 
@@ -32,31 +24,48 @@ public class PlayerController : MonoBehaviour
     [Header("Character Statistics:")]
     public int ammoRemaining = 12;
     public int DEFAULT_AMMO = 10;
-    public int DEFAULT_HEALTH = 6;
+    public int DEFAULT_HEALTH = 3;
+    public int DEFAULT_ENERGY = 7;
     private int lastArrowsRemaining;
-    public int health = 6;
+    public int health = 3;
     private int lastHealth;
+
+    public int energy = 7;
+    private int lastEnergy;
+
     public float movementSpeed;
     private Vector2 movementDirection;
-    private Vector2 lastMovementDirection = new Vector2(0,-1);
-    private Vector2 pushBackDirection;
+    private Vector2 lastMovementDirection = new Vector2(0, -1);
     private Vector2 aimDirection;
     public bool endOfAiming = false;
     public bool isAiming = false;
     public bool usingPower = false;
     public bool endUsingPower = false;
-    public bool isShocked = false;
-    public float PUSH_BACK_FORCE = 10f;
+
     public bool healing = false;
+    public bool laserBoltHealing = false;
     public int healingCount = 0;
-    public int healingTime = 50;  //  healingTime/ 50 = seconds. 
+    public int HEALING_TIME = 50;  //  healingTime/ 50 = seconds. 
+    public int LASER_BOLT_HEALING_TIME = 6;
+
+    public int energyCount = 0;
+    private int energyTime = 200;
 
     [Space]
     [Header("Dash Variables:")]
     public bool isDashing;// = false;
-    public float dashSpeed = 200.0f;
+    public float dashSpeed = 15.0f;
     private float dashTime;
-    public float startDashTime = 0.2f;
+    public float startDashTime = 0.167f;
+    private Vector2 dashingDirection;
+
+    [Space]
+    [Header("Shocked Variables:")]
+    public bool isShocked = false;
+    private Vector2 shockDirection;
+    public float PUSH_BACK_FORCE = 100f;
+    public float startShockTime = 0.5f;
+    private float shockTime;
 
     [Space]
     [Header("Character Class:")]
@@ -68,10 +77,10 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     public Animator animator;
     public GameObject crosshair;
-    public GameObject healthBar;
-    private HealthBarController healthBarController;
-    public GameObject ammoBar;
+
     private AmmoController ammoController;
+
+    private EnergyBarController energyBarController;
 
     private PlayerClass playerClass;
 
@@ -80,8 +89,14 @@ public class PlayerController : MonoBehaviour
     [Space]
     [Header("Prefabs:")]
     public GameObject arrowPrefab;
+    public GameObject dashEffect;
 
     Vector3 worldPosition;
+    [Space]
+    [Header("Character UI:")]
+    public bool toggleUI;// 
+    public bool hiddenUI;
+    GameObject playerClassGameObject;
 
     // todos
     // 
@@ -106,34 +121,26 @@ public class PlayerController : MonoBehaviour
     {
 //        Debug.Log("Player Start");
         rb = GetComponent<Rigidbody2D>();
-        lastHealth = health;
-        //healthBarController = healthBar.GetComponent<HealthBarController>();
-        healthBarController = this.gameObject.transform.GetChild(1).GetComponent<HealthBarController>();
-        //Debug.Log(healthBarController);
-        //setHealthAmount(health);
 
-        //ammoController = ammoBar.GetComponent<AmmoController>();
+
+        energyBarController = this.gameObject.transform.GetChild(1).GetComponent<EnergyBarController>();
+
         ammoController = this.gameObject.transform.GetChild(2).GetComponent<AmmoController>();
-        //Debug.Log(ammoController);
-        //setAmmoAmount(arrowsRemaining);
         lastArrowsRemaining = ammoRemaining;
+        lastEnergy = energy;
+        lastHealth = health;
+
+        playerClass = this.gameObject.transform.GetChild(3).GetComponent<PlayerClass>();
+        playerClassGameObject = this.gameObject.transform.GetChild(3).gameObject; 
+
 
         crosshair.SetActive(false);
 
-        // SET CLASS
-        //setClass(HEALER_CLASS_BASIC);
-        //setClass(BUILDER_CLASS_BASIC);
-        //setClass(HEALER_CLASS_SHOOT);
-        //setClass(SHOCK_CLASS_BASIC);
-
-        setMod(BUILDER_MOD_ONE);
-        //playerClass.getClass(); // returns Type : PlayerClass
-
-        playerClass = this.gameObject.transform.GetChild(3).GetComponent<PlayerClass>();
-
-        // DASH SET UP
-
         dashTime = startDashTime;
+        shockTime = startShockTime;
+
+        toggleUI = false;
+        hiddenUI = false; 
 
     }
 
@@ -146,16 +153,77 @@ public class PlayerController : MonoBehaviour
             ProcessInputs(); // Aim() and AimPower are called within ProcessInputs. 
             Move(); // Move is called in FixedUpdate
             Animate();
-
             updateUI(); // doesnt depend on input
         }
     }
 
     private void FixedUpdate()
     {
-        if (healing)
+        // /*
+
+        // what happens when you are hit with a healing bolt?
+        // 1: Do you heal to full then stop?
+        // 2: Do you heal six energy? 
+        // */
+
+        // // lets talk healing multipliers!!!!
+        // //balancing will affect the relatinship between the multipliers. 
+
+        // // not healing because dashing: 0 
+        // // regular healing rate: 1 --> how fast is it actually? 1 every 4 seconds? 
+        // // effects of healing aura: 4 --> 
+
+
+        // // determine how fast;
+        // float healingFactor = 1; // set to base line // implied !isDashing
+        // if(isDashing){
+        //     healingFactor *= 0; 
+        // } 
+        // if(laserBoltHealing){
+        //     healingFactor *= 2; 
+        // }
+        // if(healing){
+
+        // }
+
+
+
+        // if (energy >= 7)
+        // {
+        //     return;
+        // }
+        // else
+        // {
+        //     healingCount += healingFactor;
+        //     if (healingCount >= LASER_BOLT_HEALING_TIME)
+        //     {
+        //         energy++;
+        //         healingCount = 0;
+        //     }
+        // }
+
+
+        if (laserBoltHealing)
         {
-            if (health >= 6)
+            if (energy >= 7)
+            {
+                laserBoltHealing = false;
+                return;
+            }
+            else
+            {
+                healingCount++;
+                if (healingCount >= LASER_BOLT_HEALING_TIME)
+                {
+                    energy++;
+                    healingCount = 0;
+                }
+            }
+        }
+
+        else if (healing)
+        {
+            if (energy >= 7)
             {
                 healing = false;
                 return;
@@ -163,49 +231,97 @@ public class PlayerController : MonoBehaviour
             else
             {
                 healingCount++;
-                if (healingCount >= healingTime)
+                if (healingCount >= HEALING_TIME) // healing time is 50 
                 {
-                    health++;
+                    energy++;
                     healingCount = 0;
 
                 }
             }
+        }
+        else if (isDashing)
+        {
+            // multiplier is 0; 
 
         }
+
+        else if (!isDashing)
+        {
+            //regerenate dash energy 
+            //multiplier is regular 100% 
+            if (energy >= 7)
+            {
+                healing = false;
+                return;
+            }
+            else
+            {
+                energyCount++;
+                if (energyCount >= energyTime)
+                {
+                    energy++;
+                    energyCount = 0;
+                }
+            }
+        }
+        else if (isDashing)
+        {
+            energyCount = 0; // maybe reset it when the player is dashing. 
+        }
+
+
     }
     void updateUI()
     {
 
-        // this works assuming health is changed somewhere else.
-        // this works because reasons. like async calls.  
         if (firstUpdate)
         {
-           // Debug.Log("Update UI");
             setHealthAmount(health);
+            setEnergyAmount(energy);
             setAmmoAmount(ammoRemaining);
             firstUpdate = false;
         }
+
         if (health != lastHealth)
         {
             lastHealth = health;
-            //healthBar.GetComponent<HealthBarController>().setHealth(health); 
             setHealthAmount(health);
+
+        }
+        if (energy != lastEnergy)
+        {
+            lastEnergy = energy;
+            setEnergyAmount(energy);
         }
         if (ammoRemaining != lastArrowsRemaining)
         {
             lastArrowsRemaining = ammoRemaining;
             setAmmoAmount(ammoRemaining);
         }
+        if(toggleUI){ // player wants to toggle the UI
+            toggleUI = false; 
+            hiddenUI = !hiddenUI; 
+            //playerClassGameObject.SetActive(hiddenUI); 
+            playerClassGameObject.GetComponent<Animator>().enabled = hiddenUI; 
+            playerClassGameObject.GetComponent<SpriteRenderer>().enabled = hiddenUI; 
+            // if(hiddenUI){
+            //     // if the Ui is on
+            //     playerClassGameObject.SetActive(false);
+            //     hiddenUI = false; 
+            // }
+            // else if(!hiddenUI){
+            //     // if the ui is off
+                
+            // }
+        }
     }
-
-
-
     void ProcessInputs()
     {
         // with the new system, we will have already gotten the input booleans. Ie isDashing, 
         if (isDashing)
         {
             //DASH() or something 
+
         }
         else if (isAiming)
         {
@@ -256,6 +372,11 @@ public class PlayerController : MonoBehaviour
         usingPower = true;
     }
 
+    public void setToggleUI(){
+        Debug.Log(toggleUI);
+        toggleUI = !toggleUI; 
+    }
+
     public void setIsFiringPower()
     {
         usingPower = false;
@@ -265,49 +386,91 @@ public class PlayerController : MonoBehaviour
 
     public void setIsDashing()
     {
-        isDashing = true;
+        if (isDashing == false)
+        {
+
+            if (energy > 1)
+            {
+                energy--;
+
+                isDashing = true;
+                Instantiate(dashEffect, transform.position, Quaternion.identity);
+                // if not moving dash in the last direction you were moving. default (0,-1)
+                if (movementDirection.magnitude == 0)
+                {
+                    // do the backstep/ regular jump 
+                    // could make it a back step. 
+                    // 
+                    // dashingDirection = -lastMovementDirection; 
+                    //
+                    // can't aim behind you, so that is why you dash backwards? 
+
+
+
+                    dashingDirection = lastMovementDirection;
+                }
+                else
+                {
+                    // regular roll// flip jump 
+                    dashingDirection = movementDirection;
+                }
+
+
+
+            }
+
+        }
+
     }
 
     void Move()
     {
         if (isShocked)
         {
-            Debug.Log("SHOCK MOVE");
-            rb.velocity = Vector2.zero;
-            // need to save the movement direction at the time of push back . 
-            rb.velocity = pushBackDirection * PUSH_BACK_FORCE;
-            pushBackDirection = Vector2.zero;
-            isShocked = false;
-        }
-        else if (isDashing)
-        {
-            if (movementDirection.magnitude == 0)
-            {
 
+
+            if (shockTime <= 0)
+            {
+                shockDirection = Vector2.zero;
+                isShocked = false;
+                shockTime = startShockTime;
+                rb.velocity = Vector2.zero;
             }
             else
             {
-                if (dashTime <= 0)
-                {
-                    //dashDirection = 0;
-                    movementDirection = Vector2.zero;
-                    dashTime = startDashTime;
-                    rb.velocity = Vector2.zero;
-                }
-                else
-                {
-                    dashTime -= Time.deltaTime;
-                    rb.velocity = movementDirection * dashSpeed;
-                }
-                isDashing = false; 
+                shockTime -= Time.deltaTime;
+                rb.velocity = shockDirection * PUSH_BACK_FORCE;
+            }
+
+
+        }
+        else if (isDashing)
+        {
+
+            if (dashTime <= 0)
+            {
+                dashingDirection = Vector2.zero;
+                isDashing = false;
+                dashTime = startDashTime;
+                rb.velocity = Vector2.zero;
+            }
+            else
+            {
+                dashTime -= Time.deltaTime;
+                rb.velocity = (movementDirection + dashingDirection) * dashSpeed;
+                // if you are walking, you go twice as far. 
+                // standing still: ::: (<0,0> + <1,0>) * 10 = <10,0>
+                // moving::::: (<1,0>+<1,0>) * 10 = <20,0> 
+                //rb.velocity = (dashingDirection) * dashSpeed; 
             }
         }
         else
         {
             // regular movement. 
             rb.velocity = movementDirection * movementSpeed * MOVEMENT_BASE_SPEED;
-            if (movementDirection.magnitude != 0){
-                lastMovementDirection=movementDirection;
+            if (movementDirection.magnitude != 0)
+            {
+                lastMovementDirection = movementDirection;
             }
         }
     }
@@ -326,9 +489,12 @@ public class PlayerController : MonoBehaviour
     {
         if (!usingMouse)
         {
-            if (movementDirection.magnitude == 0){
-                aimDirection=lastMovementDirection;
-            }else{
+            if (movementDirection.magnitude == 0)
+            {
+                aimDirection = lastMovementDirection;
+            }
+            else
+            {
                 aimDirection = movementDirection;
             }
         }
@@ -344,9 +510,12 @@ public class PlayerController : MonoBehaviour
     {
         if (!usingMouse)
         {
-            if (movementDirection.magnitude == 0){
-                aimDirection=lastMovementDirection;
-            }else{
+            if (movementDirection.magnitude == 0)
+            {
+                aimDirection = lastMovementDirection;
+            }
+            else
+            {
                 aimDirection = movementDirection;
             }
         }
@@ -367,16 +536,16 @@ public class PlayerController : MonoBehaviour
             shootingDirection.Normalize();
             // if (shootingDirection.magnitude != 0)
             // {
-                Vector2 iPosition = transform.position;
-                iPosition = iPosition + shootingDirection * ARROW_OFFSET; // this prevents it from hitting the player
+            Vector2 iPosition = transform.position;
+            iPosition = iPosition + shootingDirection * ARROW_OFFSET; // this prevents it from hitting the player
 
 
-                GameObject arrow = Instantiate(arrowPrefab, iPosition, Quaternion.identity);
-                LaserController arrowController = arrow.GetComponent<LaserController>();
-                arrowController.shooter = gameObject;
-                arrowController.velocity = shootingDirection * ARROW_BASE_SPEED; // adjust velocity
-                arrow.transform.Rotate(0, 0, Mathf.Atan2(shootingDirection.y, shootingDirection.x) * Mathf.Rad2Deg);
-                Destroy(arrow, 2.0f);
+            GameObject arrow = Instantiate(arrowPrefab, iPosition, Quaternion.identity);
+            LaserController arrowController = arrow.GetComponent<LaserController>();
+            arrowController.shooter = gameObject;
+            arrowController.velocity = shootingDirection * ARROW_BASE_SPEED; // adjust velocity
+            arrow.transform.Rotate(0, 0, Mathf.Atan2(shootingDirection.y, shootingDirection.x) * Mathf.Rad2Deg);
+            Destroy(arrow, 2.0f);
             // }
             // else{
 
@@ -463,38 +632,9 @@ public class PlayerController : MonoBehaviour
 
 
     // collsion box
-    private void OnCollisionStay2D(Collision2D other)
-    {
-        if (other.gameObject.tag == "Shockwave")
-        {// || other.gameObject.tag == "Enemey"){
-            Debug.Log("PUSH BACK");
 
-            isShocked = true;
-            pushBackDirection = -movementDirection;
-            // Vector2 otherPosition = new Vector2(other.gameObject.transform.position.x,  other.gameObject.transform.position.y);
-            // Vector2 thisPosition = new Vector2(this.gameObject.transform.position.x,this.gameObject.transform.position.x);
-            // Vector2 forceDirection =  thisPosition - otherPosition;
-            // forceDirection.Normalize(); 
-            // Debug.Log(forceDirection);
-
-            // ShockwaveScript sw =  other.gameObject.GetComponent<ShockwaveScript>();
-            // //rb.AddForce(forceDirection *sw.PUSH_BACK_FORCE);
-
-            // rb.velocity = -movementDirection * sw.PUSH_BACK_FORCE * MOVEMENT_BASE_SPEED * Time.deltaTime;
-
-        }
-    }
     private void OnCollisionEnter2D(Collision2D other)
     {
-
-        //Debug.Log("Conk");
-        // if (other.gameObject.tag == "bullet")
-        // {
-        //     Destroy(other.gameObject);
-        //     health--;
-        //     //setHealthAmount(--health);
-        //     Debug.Log("Donk");
-        // }
     }
     //hurt boxs
     private void OnTriggerEnter2D(Collider2D other)
@@ -525,7 +665,7 @@ public class PlayerController : MonoBehaviour
             Debug.Log("PUSH BACK");
 
             isShocked = true;
-            pushBackDirection = -movementDirection;
+            shockDirection = -movementDirection;
         }
     }
 
@@ -533,10 +673,36 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.tag == "Shockwave")
         {// || other.gameObject.tag == "Enemey"){
-            Debug.Log("PUSH BACK");
+
+
 
             isShocked = true;
-            pushBackDirection = -movementDirection;
+            Vector2 shockWavePosition = new Vector2(other.transform.position.x, other.transform.position.y);
+            Vector2 myPosition = new Vector2(transform.position.x, transform.position.y);
+            /*
+            right - up; 
+            <1,0> - <0,1>
+            = <1,-1>; 
+
+            */
+
+
+
+            Vector2 difference = myPosition - shockWavePosition;
+
+            shockDirection = difference;//-lastMovementDirection;
+            Debug.Log(shockDirection);
+            // Vector2 otherPosition = new Vector2(other.gameObject.transform.position.x,  other.gameObject.transform.position.y);
+            // Vector2 thisPosition = new Vector2(this.gameObject.transform.position.x,this.gameObject.transform.position.x);
+            // Vector2 forceDirection =  thisPosition - otherPosition;
+            // forceDirection.Normalize(); 
+            // Debug.Log(forceDirection);
+
+            // ShockwaveScript sw =  other.gameObject.GetComponent<ShockwaveScript>();
+            // //rb.AddForce(forceDirection *sw.PUSH_BACK_FORCE);
+
+            // rb.velocity = -movementDirection * sw.PUSH_BACK_FORCE * MOVEMENT_BASE_SPEED * Time.deltaTime;
+
         }
     }
     private void OnTriggerExit2D(Collider2D other)
@@ -552,23 +718,62 @@ public class PlayerController : MonoBehaviour
 
     public void takeDamage(int damage)
     {
-        Debug.Log("Ray Bonk");
-        health -= damage;
-        if (health <= 0)
-        {
-            GameObject.Find("GameLogic").GetComponent<GameLogic>().SpawnArcher(this.gameObject);
-            health = DEFAULT_HEALTH;
-            ammoRemaining = DEFAULT_AMMO;
-        }
-    }
+        //scenerario: 
+        //damage == 1
+        //Energy = 0
+        // health = 2
+        energy -= damage; // e = -1
 
+        if (energy < 0)
+        {
+            energy = 0;
+            health -= damage; //carry-over damage mechanic, going through the shield.  // 2+ -1
+            Debug.Log(health);
+
+
+            if (health <= 0)
+            {
+                // kill the player,
+                GameObject.Find("GameLogic").GetComponent<GameLogic>().SpawnArcher(this.gameObject);
+
+                ammoRemaining = DEFAULT_AMMO;
+                energy = DEFAULT_ENERGY;
+                health = DEFAULT_HEALTH;
+
+            }
+
+
+        }
+
+
+
+
+
+        /*
+            energy represents shield/ suit level. 
+            we want a health bar attached, like in halo, where health is seperate from recharageable shields. 
+
+        */
+
+
+
+    }
+    public void rechargeEnergyFull()
+    {
+        laserBoltHealing = true; 
+
+    }
     public void setAmmoAmount(int n)
     {
         ammoController.setAmmo(n);
     }
+    public void setEnergyAmount(int n)
+    {
+        energyBarController.setEnergy(n);
+    }
     public void setHealthAmount(int n)
     {
-        healthBarController.setHealth(n);
+        energyBarController.setHealth(n);
     }
 
     public void setHealth(int health)

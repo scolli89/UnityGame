@@ -62,6 +62,7 @@ BUGS / ISSUES
 		Mod 1: builder can build from (longer away or a bigger wall)
 		Mod 2: one way wall,
 		Mod 3: bubble shield
+		Mod 4: Friendly Drone? 
 
 		Class : Shockwave  
 		Base Active : Shockwave: who pushes people away with a shock wave or whatever. 
@@ -74,9 +75,9 @@ BUGS / ISSUES
 		2: Movement Speed increase
 		3: longer roll/ invicible roll/ teleport roll(teleport out of the map and die? ) / it is better, but you don't add an extra button to it. 
 		4: Able to see NPC stats. / Makes all players able to see others stats/ health/ power level / gun type ?
-		5:
-		6:
-		7:
+		5: Power/ ammo recharges over time, but it starts very low or zero. 
+		6: Shields recharge over time, but start very low. 
+		7: Kills recharge powers
 		8:
 		9:
 
@@ -167,22 +168,28 @@ Code for Game creator class :
                 int color; : 8
 
             }
-
+	makePlayers(){
             foreach( Players player in players) {
                 
                 //some how create the player and
                 p = Instainate( basic player prefab)
                 if( player.classType == 2){
                     p.addChild(HEALER_SHOOTER_MOD);
+		    p.ModSetup(); // which calls the playerclass = getChild(3).getComponent<PlayerClass>(); 
                 }
                 // there would be 12 of those
                 ..
                 // same stuff for guns and passives. 
 
             }
-
+	}
             //Start game function.  
-
+	GameSetUP(){
+		if (gametype = "PVP"){
+			players
+		}
+	}	
+	
             // menu -> need to fill booleans so that this game creater has an idea as to how to build the scene. 
         }
     */
