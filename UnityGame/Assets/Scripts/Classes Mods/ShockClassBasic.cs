@@ -9,8 +9,10 @@ public class ShockClassBasic : PlayerClass
     
     public override void usePower(Vector2 v){
         Debug.Log("Shocking peeps.");
-       
-        Vector2 iPosition = new Vector2(this.transform.position.x, this.transform.position.y);
+        Transform parentTransform = this.gameObject.transform.root; 
+        
+        Vector2 iPosition = new Vector2(parentTransform.position.x,parentTransform.position.y); 
+        //new Vector2(this.transform.position.x, this.transform.position.y);
         Transform aura = ((GameObject)Instantiate (classPrefab, iPosition, transform.rotation)).transform;
         aura.parent = transform; 
        

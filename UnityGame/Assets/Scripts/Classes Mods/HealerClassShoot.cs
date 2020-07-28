@@ -16,7 +16,9 @@ public class HealerClassShoot : PlayerClass
         Vector2 shootingDirection = v;
         shootingDirection.Normalize();
         // need to determine which if the player is shooting down. 
-        Vector2 iPosition = transform.position;
+        Transform parentTransform = this.gameObject.transform.root; 
+        Vector2 iPosition = new Vector2(parentTransform.position.x,parentTransform.position.y);
+       // Vector2 iPosition = transform.position;
         iPosition = iPosition + shootingDirection * LASER_OFFSET; // this prevents it from hitting the player
 
 

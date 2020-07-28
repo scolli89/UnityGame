@@ -92,6 +92,11 @@ public class PlayerController : MonoBehaviour
     public GameObject dashEffect;
 
     Vector3 worldPosition;
+    [Space]
+    [Header("Character UI:")]
+    public bool toggleUI;// 
+    public bool hiddenUI;
+    GameObject playerClassGameObject;
 
     // todos
     // 
@@ -126,12 +131,16 @@ public class PlayerController : MonoBehaviour
         lastHealth = health;
 
         playerClass = this.gameObject.transform.GetChild(3).GetComponent<PlayerClass>();
+        playerClassGameObject = this.gameObject.transform.GetChild(3).gameObject; 
 
 
         crosshair.SetActive(false);
 
         dashTime = startDashTime;
         shockTime = startShockTime;
+
+        toggleUI = false;
+        hiddenUI = false; 
 
     }
 
@@ -289,6 +298,22 @@ public class PlayerController : MonoBehaviour
             lastArrowsRemaining = ammoRemaining;
             setAmmoAmount(ammoRemaining);
         }
+        if(toggleUI){ // player wants to toggle the UI
+            toggleUI = false; 
+            hiddenUI = !hiddenUI; 
+            //playerClassGameObject.SetActive(hiddenUI); 
+            playerClassGameObject.GetComponent<Animator>().enabled = hiddenUI; 
+            playerClassGameObject.GetComponent<SpriteRenderer>().enabled = hiddenUI; 
+            // if(hiddenUI){
+            //     // if the Ui is on
+            //     playerClassGameObject.SetActive(false);
+            //     hiddenUI = false; 
+            // }
+            // else if(!hiddenUI){
+            //     // if the ui is off
+                
+            // }
+        }
     }
     void ProcessInputs()
     {
@@ -350,6 +375,11 @@ public class PlayerController : MonoBehaviour
     public void setIsAimingPower()
     {
         usingPower = true;
+    }
+
+    public void setToggleUI(){
+        Debug.Log(toggleUI);
+        toggleUI = !toggleUI; 
     }
 
     public void setIsFiringPower()

@@ -129,4 +129,11 @@ public class InputHandler : MonoBehaviour
 
 
     }
+
+    public void OnHideUI(){
+        if (playerController != null)
+        {
+            playerController.setToggleUI();
+        }
+    }
 }

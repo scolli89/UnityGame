@@ -4,12 +4,6 @@ using UnityEngine;
 
 public class BuilderClassBasic : PlayerClass
 {
-    const string BUILDER_CLASS_NAME = "BUILDER";
-    const string BUILDER_MOD_ONE = "B_MOD_ONE";
-    const string BUILDER_MOD_TWO = "B_MOD_TWO";
-    const string BUILDER_MOD_THREE = "B_MOD_THREE";
-    const string HEALER_CLASS_NAME = "HEALER";
-    const string SHOCK_CLASS_NAME = "SHOCK";
     const int AMMO_REQUIRED = 2; 
     public GameObject classPrefab; 
 
@@ -18,14 +12,19 @@ public class BuilderClassBasic : PlayerClass
 
     }
 
-    // Start is called before the first frame update
 
     public override void usePower(Vector2 v)//,GameObject g)
     {
         Debug.Log("BUILDING SHIT");
         //TIME TO BUILD 
         Vector2 aimDirection = v;
-        Vector2 buildOffset = new Vector2(transform.position.x, transform.position.y);
+
+        Transform parentTransform = this.gameObject.transform.root; 
+        
+        Vector2 buildOffset = new Vector2(parentTransform.position.x,parentTransform.position.y);
+
+
+        //Vector2 buildOffset = new Vector2(transform.position.x, transform.position.y);
         Vector2 iPosition = aimDirection + buildOffset;
         //iPosition.Normalize();
 
