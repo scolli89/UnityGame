@@ -5,11 +5,9 @@ BUGS / ISSUES
 	> ABLE TO CLIP THROUGH BRIDGE AND walk on water. 
 	> BUILDERS NEED TO BE ABLE SHOOT THROUGH THEIR OWN WALLS.
 
-
 > Get the guy to interact with the environment. 
 	> Levers, Pressur plates, switches ? 
 	> HAving those things AAA do stuff
-
 
 > Need to get basic combat working. 
 	> Health bar
@@ -110,95 +108,6 @@ BUGS / ISSUES
 			> predetermined location under timer
 
 
-
-// Gathers information from the menu > menu controller. 
-// GameCreator
-Pass scriptable object called mc;
-OR: Write to file with the specifics
-load Scene
-GameCreator.Start(){
-	createGame(mc); 
-	OR: Read from file. 
-}
-Code for Game creator class :
-/// >>>> Need some way to save runtime data between scene loadings. 
-// scriptableObject. > BUT not sure. 
-/*
-        player
-            crosshair
-            healthbar
-            ammobar
-                ones
-                tebs
-            ModManager: returns the active mod
-                mod 1
-                ...
-                mod 12
-
-        player
-            crosshair
-            healthbar
-            ammobar
-                ones
-                tebs
-            mod 1
-            mod 2
-            ...
-            mod 12   
-            // gun mods
-            // passive mods
-               
-
-
-        MAX: 8 players/ 4 players. 
-        8 * (12 -1 ) = 88
-        Memory , if that is great. 
-
-
-
-        Envisioned 
-        public class gameCreator: monobehavior // okay if this is slow, because it is the set up. 
-        {
-            public int numPlayers;
-            public Players[] players; 
-
-            private class player {
-                int classType; : 12
-                int gunType; : 5
-                int color; : 8
-
-            }
-	makePlayers(){
-            foreach( Players player in players) {
-                
-                //some how create the player and
-                p = Instainate( basic player prefab)
-                if( player.classType == 2){
-                    p.addChild(HEALER_SHOOTER_MOD);
-		    p.ModSetup(); // which calls the playerclass = getChild(3).getComponent<PlayerClass>(); 
-                }
-                // there would be 12 of those
-                ..
-                // same stuff for guns and passives. 
-
-            }
-	}
-            //Start game function.  
-	GameSetUP(){
-		if (gametype = "PVP"){
-			players
-		}
-	}	
-	
-            // menu -> need to fill booleans so that this game creater has an idea as to how to build the scene. 
-        }
-    */
-
-
-
-
-
-
 TO DONE! LIST
 
 
@@ -223,4 +132,5 @@ TO DONE! LIST
 > Get the guy to interact with the environment. 
 	> Prevent walking through walls for a start
 
+> Need to get basic combat working. 
 	

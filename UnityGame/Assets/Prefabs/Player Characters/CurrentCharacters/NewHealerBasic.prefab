@@ -110,7 +110,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!61 &8105924343843955936
 BoxCollider2D:
@@ -190,7 +190,7 @@ MonoBehaviour:
   dashEffect: {fileID: 5857428626477317272, guid: 8cc6d39a4be4d7843a060e6582526da6,
     type: 3}
   toggleUI: 0
-  hiddenUI: 0
+  UIisVisible: 0
 --- !u!114 &8919368239315383273
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -109,7 +109,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!61 &2611252778378371394
 BoxCollider2D:
@@ -156,31 +156,39 @@ MonoBehaviour:
   AIMING_BASE_PENALTY: 0.1
   ARROW_OFFSET: 1.2
   HEALING_WAIT: 2
+  playerIndex: 0
   ammoRemaining: 12
   DEFAULT_AMMO: 10
   DEFAULT_HEALTH: 6
+  DEFAULT_ENERGY: 7
   health: 6
+  energy: 7
   movementSpeed: 0
   endOfAiming: 0
   isAiming: 0
   usingPower: 0
   endUsingPower: 0
-  isShocked: 0
-  PUSH_BACK_FORCE: 10
   healing: 0
+  laserBoltHealing: 0
   healingCount: 0
-  healingTime: 50
+  HEALING_TIME: 50
+  LASER_BOLT_HEALING_TIME: 6
+  energyCount: 0
   isDashing: 0
   dashSpeed: 200
   startDashTime: 0.2
+  isShocked: 0
+  PUSH_BACK_FORCE: 10
+  startShockTime: 0.5
   className: 
   modName: 
   animator: {fileID: 2611252778378371395}
   crosshair: {fileID: 2611252778878471643}
-  healthBar: {fileID: 2611252779876348374}
-  ammoBar: {fileID: 2611252779613681162}
   arrowPrefab: {fileID: 2817695094258861393, guid: 9de6fbc149b8cf54a814911a4a121175,
     type: 3}
+  dashEffect: {fileID: 0}
+  toggleUI: 0
+  UIisVisible: 0
 --- !u!114 &-2117646675040804870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -193,9 +201,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efd00c43731dde84ca16890b1909df66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerEmptyPrefab: {fileID: 0}
-  classMods: []
-  aimWithMouse: 0
+  aimFirst: 0
+  powerFirst: 0
 --- !u!95 &2611252778378371395
 Animator:
   serializedVersion: 3
@@ -325,12 +332,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 217aa1d335c691d49b8354e1d010d4c1, type: 3}
---- !u!1 &2611252779876348374 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3626435234658104875, guid: 217aa1d335c691d49b8354e1d010d4c1,
-    type: 3}
-  m_PrefabInstance: {fileID: 1616413143582787581}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2611252779876348369 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3626435234658104876, guid: 217aa1d335c691d49b8354e1d010d4c1,
@@ -436,12 +437,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c0cda46a1c3348f4190ee7ec02d687d3, type: 3}
---- !u!1 &2611252779613681162 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7469600223502218469, guid: c0cda46a1c3348f4190ee7ec02d687d3,
-    type: 3}
-  m_PrefabInstance: {fileID: 4869606443346084591}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2611252779613681157 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7469600223502218474, guid: c0cda46a1c3348f4190ee7ec02d687d3,
