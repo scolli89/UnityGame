@@ -36,9 +36,7 @@ public class PlayerController : MonoBehaviour
     public float movementSpeed;
     private Vector2 movementDirection;
     private Vector2 lastMovementDirection = new Vector2(0, -1);
-    private Vector2 aimDirection;
-    public bool endOfAiming = false;
-    public bool isAiming = false;
+
     public bool usingPower = false;
     public bool endUsingPower = false;
 
@@ -50,14 +48,25 @@ public class PlayerController : MonoBehaviour
 
     public int energyCount = 0;
     private int energyTime = 200;
+    [Space]
+    [Header("Shooting Varaibles:")]
+    private Vector2 aimDirection;
+    public bool endOfAiming = false;
+    public bool isAiming = false;
+
+    public float startAimTime = 0.5f;
+    private float aimTime;
+    public bool shootFlag = false;
 
     [Space]
     [Header("Dash Variables:")]
     public bool isDashing;// = false;
-    public float dashSpeed = 15.0f;
+    public float dashSpeed = 8f;//15.0f;
     private float dashTime;
-    public float startDashTime = 0.167f;
+    public float startDashTime = 0.6f;//0.167f;
     private Vector2 dashingDirection;
+    public float DASH_INFLUCE_FACTOR = 1f;
+    public Vector2 lastDashMovementDirection;
 
     [Space]
     [Header("Shocked Variables:")]
@@ -77,6 +86,8 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     public Animator animator;
     public GameObject crosshair;
+    public GameObject dot;
+    public GameObject dot2;
 
     private AmmoController ammoController;
 
@@ -119,7 +130,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-//        Debug.Log("Player Start");
+        //        Debug.Log("Player Start");
         rb = GetComponent<Rigidbody2D>();
 
 
@@ -131,16 +142,21 @@ public class PlayerController : MonoBehaviour
         lastHealth = health;
 
         playerClass = this.gameObject.transform.GetChild(3).GetComponent<PlayerClass>();
-        playerClassGameObject = this.gameObject.transform.GetChild(3).gameObject; 
+        playerClassGameObject = this.gameObject.transform.GetChild(3).gameObject;
 
 
         crosshair.SetActive(false);
 
         dashTime = startDashTime;
         shockTime = startShockTime;
+        aimTime = startAimTime;
 
         toggleUI = false;
-        UIisVisible = true; 
+        UIisVisible = true;
+        if (playerIndex == 1)
+        {
+            dot = dot2;
+        }
 
     }
 
@@ -273,7 +289,6 @@ public class PlayerController : MonoBehaviour
     }
     void updateUI()
     {
-
         if (firstUpdate)
         {
             setHealthAmount(health);
@@ -298,12 +313,13 @@ public class PlayerController : MonoBehaviour
             lastArrowsRemaining = ammoRemaining;
             setAmmoAmount(ammoRemaining);
         }
-        if(toggleUI){ // player wants to toggle the UI
-            toggleUI = false; 
-            UIisVisible = !UIisVisible; 
+        if (toggleUI)
+        { // player wants to toggle the UI
+            toggleUI = false;
+            UIisVisible = !UIisVisible;
             //playerClassGameObject.SetActive(hiddenUI); 
-            playerClassGameObject.GetComponent<Animator>().enabled = UIisVisible; 
-            playerClassGameObject.GetComponent<SpriteRenderer>().enabled = UIisVisible; 
+            playerClassGameObject.GetComponent<Animator>().enabled = UIisVisible;
+            playerClassGameObject.GetComponent<SpriteRenderer>().enabled = UIisVisible;
             // if(hiddenUI){
             //     // if the Ui is on
             //     playerClassGameObject.SetActive(false);
@@ -311,19 +327,20 @@ public class PlayerController : MonoBehaviour
             // }
             // else if(!hiddenUI){
             //     // if the ui is off
-                
+
             // }
         }
     }
     void ProcessInputs()
     {
         // with the new system, we will have already gotten the input booleans. Ie isDashing, 
-        if (isDashing)
-        {
-            //DASH() or something 
+        // if (isDashing)
+        // {
+        //     //DASH() or something 
 
-        }
-        else if (isAiming)
+        // }
+        // else 
+        if (isAiming)
         {
             crosshair.SetActive(true);
             Aim();
@@ -357,6 +374,7 @@ public class PlayerController : MonoBehaviour
     public void setIsAiming()
     {
         isAiming = true;
+        lastDashMovementDirection = movementDirection;
     }
 
     //called when aim button is released
@@ -372,8 +390,9 @@ public class PlayerController : MonoBehaviour
         usingPower = true;
     }
 
-    public void setToggleUI(){
-        
+    public void setToggleUI()
+    {
+
         toggleUI = true;//!toggleUI; 
     }
 
@@ -388,13 +407,14 @@ public class PlayerController : MonoBehaviour
     {
         if (isDashing == false)
         {
-
             if (energy > 1)
             {
                 energy--;
 
                 isDashing = true;
-                Instantiate(dashEffect, transform.position, Quaternion.identity);
+                GameObject dashParticles = Instantiate(dashEffect, transform.position, Quaternion.identity);
+                //garbage collection on dash particles
+                Destroy(dashParticles, startDashTime);
                 // if not moving dash in the last direction you were moving. default (0,-1)
                 if (movementDirection.magnitude == 0)
                 {
@@ -405,8 +425,6 @@ public class PlayerController : MonoBehaviour
                     //
                     // can't aim behind you, so that is why you dash backwards? 
 
-
-
                     dashingDirection = lastMovementDirection;
                 }
                 else
@@ -414,13 +432,8 @@ public class PlayerController : MonoBehaviour
                     // regular roll// flip jump 
                     dashingDirection = movementDirection;
                 }
-
-
-
             }
-
         }
-
     }
 
     void Move()
@@ -457,12 +470,40 @@ public class PlayerController : MonoBehaviour
             else
             {
                 dashTime -= Time.deltaTime;
-                rb.velocity = (movementDirection + dashingDirection) * dashSpeed;
+
+                float d = 1 - dashTime / startDashTime;
+                d *= DASH_INFLUCE_FACTOR;
+                //dashingDirection += movementDirection; 
+                //dashingDirection.Normalize(); 
+                // dashingDirection += d*movementDirection; 
+                // dashingDirection.Normalize();
+                // rb.velocity = dashingDirection * dashSpeed;
+                if (isAiming)
+                {
+                    //rb.velocity = ((d * lastDashMovementDirection) + dashingDirection) * dashSpeed;
+                    rb.velocity = (d * rejection(lastDashMovementDirection, dashingDirection) + dashingDirection) * dashSpeed;
+                }
+                else
+                {
+
+                    //rb.velocity = ((d * movementDirection) + dashingDirection) * dashSpeed;
+                    rb.velocity = (d * rejection(movementDirection, dashingDirection) + dashingDirection) * dashSpeed;
+
+                }
+                GameObject t = Instantiate(dot, this.transform.position, Quaternion.identity);
+                Destroy(t, 15f);
+
+
                 // if you are walking, you go twice as far. 
                 // standing still: ::: (<0,0> + <1,0>) * 10 = <10,0>
                 // moving::::: (<1,0>+<1,0>) * 10 = <20,0> 
                 //rb.velocity = (dashingDirection) * dashSpeed; 
             }
+            //this is where you modify the dash direction. 
+            //dashingDirection += movementDirection; 
+            //make the projection here, it will change over time.
+            //
+
         }
         else
         {
@@ -473,6 +514,16 @@ public class PlayerController : MonoBehaviour
                 lastMovementDirection = movementDirection;
             }
         }
+    }
+
+    private Vector2 rejection(Vector2 a, Vector2 b)
+    {
+        // vector rejection formula
+        // https://en.wikipedia.org/wiki/Vector_projection#Vector_rejection_2
+        Vector2 c = a - (
+                        ((Vector2.Dot(a, b) / (Vector2.Dot(b, b))
+                       ) * (b)));
+        return c;
     }
 
     void Animate()
@@ -504,6 +555,17 @@ public class PlayerController : MonoBehaviour
 
         crosshair.transform.localPosition = aimDirection * CROSSHAIR_DISTANCE;
         //crosshair.transform.localPosition = movementDirection * CROSSHAIR_DISTANCE;
+        if (aimTime < 0)
+        {
+            shootFlag = true;
+        }
+        else
+        {
+            aimTime -= Time.deltaTime;
+        }
+
+
+
     }
 
     void AimPower()
@@ -529,8 +591,9 @@ public class PlayerController : MonoBehaviour
 
     void Shoot()
     {
-        if (endOfAiming)
+        if (endOfAiming && shootFlag)
         {
+
 
             Vector2 shootingDirection = crosshair.transform.localPosition;
             shootingDirection.Normalize();
@@ -554,10 +617,13 @@ public class PlayerController : MonoBehaviour
 
 
 
-            crosshair.SetActive(false);
-            isAiming = false;
-            endOfAiming = false;
+
+            shootFlag = false;
+            aimTime = startAimTime;
         }
+        crosshair.SetActive(false);
+        isAiming = false;
+        endOfAiming = false;
     }
 
     void usePower()
@@ -760,7 +826,7 @@ public class PlayerController : MonoBehaviour
     }
     public void rechargeEnergyFull()
     {
-        laserBoltHealing = true; 
+        laserBoltHealing = true;
 
     }
     public void setAmmoAmount(int n)

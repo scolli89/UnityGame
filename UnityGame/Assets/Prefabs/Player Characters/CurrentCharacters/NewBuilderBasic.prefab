@@ -151,10 +151,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MOVEMENT_BASE_SPEED: 5
-  ARROW_BASE_SPEED: 10
+  ARROW_BASE_SPEED: 50
   CROSSHAIR_DISTANCE: 5
   BUILDER_POWER_DISTANCE: 2
-  AIMING_BASE_PENALTY: 0.1
+  AIMING_BASE_PENALTY: 0
   ARROW_OFFSET: 1.2
   HEALING_WAIT: 2
   playerIndex: 0
@@ -163,10 +163,8 @@ MonoBehaviour:
   DEFAULT_HEALTH: 6
   DEFAULT_ENERGY: 6
   health: 6
-  energy: 7
+  energy: 400
   movementSpeed: 0
-  endOfAiming: 0
-  isAiming: 0
   usingPower: 0
   endUsingPower: 0
   healing: 0
@@ -175,9 +173,15 @@ MonoBehaviour:
   HEALING_TIME: 50
   LASER_BOLT_HEALING_TIME: 6
   energyCount: 0
+  endOfAiming: 0
+  isAiming: 0
+  startAimTime: 0.5
+  shootFlag: 0
   isDashing: 0
-  dashSpeed: 15
-  startDashTime: 0.167
+  dashSpeed: 8
+  startDashTime: 0.47
+  DASH_INFLUCE_FACTOR: 0.75
+  lastDashMovementDirection: {x: 0, y: 0}
   isShocked: 0
   PUSH_BACK_FORCE: 10
   startShockTime: 0.5
@@ -185,6 +189,8 @@ MonoBehaviour:
   modName: 
   animator: {fileID: 1816475797157318772}
   crosshair: {fileID: 1816475797391359212}
+  dot: {fileID: 5703911262651375193, guid: 265ebb460a7b69649a4ddceb23a3423d, type: 3}
+  dot2: {fileID: 1722472685201952555, guid: 7c0518928d7115f4fb050a1a22ba2360, type: 3}
   arrowPrefab: {fileID: 500704877751819888, guid: 2d5c2ee2ce8075d40bccd7cc926fdbe4,
     type: 3}
   dashEffect: {fileID: 5857428626477317272, guid: 8cc6d39a4be4d7843a060e6582526da6,
