@@ -77,6 +77,12 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     public Animator animator;
     public GameObject crosshair;
+<<<<<<< Updated upstream
+=======
+    public AudioManager audioManager;
+    public GameObject dot;
+    public GameObject dot2;
+>>>>>>> Stashed changes
 
     private AmmoController ammoController;
 
@@ -133,6 +139,7 @@ public class PlayerController : MonoBehaviour
         playerClass = this.gameObject.transform.GetChild(3).GetComponent<PlayerClass>();
         playerClassGameObject = this.gameObject.transform.GetChild(3).gameObject; 
 
+        audioManager = FindObjectOfType<AudioManager>();
 
         crosshair.SetActive(false);
 
@@ -364,6 +371,7 @@ public class PlayerController : MonoBehaviour
     {
         isAiming = false;
         endOfAiming = true;
+        aimTime = startAimTime;
         Shoot();
     }
 
@@ -504,6 +512,19 @@ public class PlayerController : MonoBehaviour
 
         crosshair.transform.localPosition = aimDirection * CROSSHAIR_DISTANCE;
         //crosshair.transform.localPosition = movementDirection * CROSSHAIR_DISTANCE;
+<<<<<<< Updated upstream
+=======
+        if (aimTime < 0 && shootFlag == false)
+        {
+            audioManager.playSound("Charged");
+            //FindObjectOfType<AudioManager>().playSound("Charged");
+            shootFlag = true;   
+        }
+        else if(aimTime > 0)
+        {
+            aimTime -= Time.deltaTime;
+        }
+>>>>>>> Stashed changes
     }
 
     void AimPower()
@@ -531,7 +552,10 @@ public class PlayerController : MonoBehaviour
     {
         if (endOfAiming)
         {
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
             Vector2 shootingDirection = crosshair.transform.localPosition;
             shootingDirection.Normalize();
             // if (shootingDirection.magnitude != 0)
