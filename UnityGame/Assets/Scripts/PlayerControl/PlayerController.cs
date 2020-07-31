@@ -86,6 +86,8 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     public Animator animator;
     public GameObject crosshair;
+
+    public Animator crosshairAnimator;
     public GameObject dot;
     public GameObject dot2;
 
@@ -143,6 +145,11 @@ public class PlayerController : MonoBehaviour
 
         playerClass = this.gameObject.transform.GetChild(3).GetComponent<PlayerClass>();
         playerClassGameObject = this.gameObject.transform.GetChild(3).gameObject;
+
+        //crossHairScript = this.gameObject.transform.GetChild(0).GetComponent<CrossHairScript>(); 
+        //crossHairScript = crosshair.GetComponent<CrossHairScript>(); 
+        crosshairAnimator = crosshair.GetComponent<Animator>();
+
 
 
         crosshair.SetActive(false);
@@ -343,6 +350,8 @@ public class PlayerController : MonoBehaviour
         if (isAiming)
         {
             crosshair.SetActive(true);
+            //crossHairScript.startAiming(); 
+
             Aim();
             movementSpeed *= AIMING_BASE_PENALTY;
         }
@@ -533,6 +542,18 @@ public class PlayerController : MonoBehaviour
             animator.SetFloat("Horizontal", movementDirection.x);
             animator.SetFloat("Vertical", movementDirection.y);
         }
+        if (isAiming)
+        {
+
+            float x = 1f / startAimTime;
+            Debug.Log(x);
+            //crosshair.SetActive(true);
+            crosshairAnimator.SetFloat("SpeedMultiplier", x);
+
+            crosshairAnimator.SetBool("AimFinished", shootFlag);
+
+
+        }
         animator.SetFloat("Speed", movementSpeed);
     }
 
@@ -555,7 +576,7 @@ public class PlayerController : MonoBehaviour
 
         crosshair.transform.localPosition = aimDirection * CROSSHAIR_DISTANCE;
         //crosshair.transform.localPosition = movementDirection * CROSSHAIR_DISTANCE;
-        if (aimTime < 0)
+        if (aimTime < 0 && shootFlag == false)
         {
             shootFlag = true;
         }
@@ -593,15 +614,10 @@ public class PlayerController : MonoBehaviour
     {
         if (endOfAiming && shootFlag)
         {
-
-
             Vector2 shootingDirection = crosshair.transform.localPosition;
             shootingDirection.Normalize();
-            // if (shootingDirection.magnitude != 0)
-            // {
             Vector2 iPosition = transform.position;
             iPosition = iPosition + shootingDirection * ARROW_OFFSET; // this prevents it from hitting the player
-
 
             GameObject arrow = Instantiate(arrowPrefab, iPosition, Quaternion.identity);
             LaserController arrowController = arrow.GetComponent<LaserController>();
@@ -609,18 +625,10 @@ public class PlayerController : MonoBehaviour
             arrowController.velocity = shootingDirection * ARROW_BASE_SPEED; // adjust velocity
             arrow.transform.Rotate(0, 0, Mathf.Atan2(shootingDirection.y, shootingDirection.x) * Mathf.Rad2Deg);
             Destroy(arrow, 2.0f);
-            // }
-            // else{
-
-            // }
-
-
-
-
-
-            shootFlag = false;
-            aimTime = startAimTime;
         }
+
+        shootFlag = false;
+        aimTime = startAimTime;
         crosshair.SetActive(false);
         isAiming = false;
         endOfAiming = false;
@@ -850,21 +858,4 @@ public class PlayerController : MonoBehaviour
     {
         return health;
     }
-    public void setClass(string className)
-    {
-        this.className = className;
-    }
-    public string getClass()
-    {
-        return className;
-    }
-    public void setMod(string modName)
-    {
-        this.modName = modName;
-    }
-    public string getMod()
-    {
-        return modName;
-    }
-
 }

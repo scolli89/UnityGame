@@ -4,20 +4,17 @@ What do we need to do first?
 BUGS / ISSUES
 	> ABLE TO CLIP THROUGH BRIDGE AND walk on water. 
 	> BUILDERS NEED TO BE ABLE SHOOT THROUGH THEIR OWN WALLS.
+	> POLISH DASHING Feel
 
 > Get the guy to interact with the environment. 
 	> Levers, Pressur plates, switches ? 
 	> HAving those things AAA do stuff
 
-> Need to get basic combat working. 
-	> Health bar
-	> Hit detection
-	> Death
-	> Death by environemnt? (Drowning, Out of bounds) 
-	> Respawning
+
+> Death by environemnt? (Drowning, Out of bounds) 
+	
 		 		
 > We need a menu screen.
-	> Controller support
 	> Visual settings
 	> Other stuff
 
@@ -38,9 +35,12 @@ BUGS / ISSUES
 	>> have player UI elements ( health (which we are possibly thinking changing to shields and 1 health) and ammo.) toggle with a button push. 
 		>>> shield displays/ shield numbers
 		>>> number of power up charges. 
-	>> Make the theme a space scifi with lasers and stuff?
 
-	>> instead of a roll - use a dash: megaman dash frame, functions the same as roll, less animating. 	
+	>> Make the theme a space scifi with lasers and stuff?
+		>>> Sound effects
+		>>> Music
+
+	
 
 	>> Character creation : 
 		> 1 class
@@ -50,7 +50,7 @@ BUGS / ISSUES
 
 		Class : Healer 
 		Base Active : Heal close range players : specific mechanic? place a tile and the tile heals, or make an aura around the healer. 
-		Mod 1: allow to heal from a distance by shooting : is really easy to do.
+		Mod 1: allow to heal from a distance by shooting : is really easy to do. :: Bounce off of walls. 
 		Mod 2:heal yourself over time
 		Mod 3:reserruct (yourself or someone else ?)
 		XXXXXXX mod 4: heal player walls. 
@@ -58,6 +58,8 @@ BUGS / ISSUES
 		Class : Builder
 		Base Active : Build temporary barrior
 		Mod 1: builder can build from (longer away or a bigger wall)
+		Mod : Relective wall. 
+		mod : make bridges over inaccessable areas. 
 		Mod 2: one way wall,
 		Mod 3: bubble shield
 		Mod 4: Friendly Drone? 
@@ -67,6 +69,22 @@ BUGS / ISSUES
 		Mod 1: shockwave bigger
 		Mod 2: shockwave disables class abilities
 		Mod 3:  shockwave is smaller, reflects projectiles?
+		Mod 4: Projectile Shockwave
+		Mod 5: 
+
+		Grenider:
+		Mod 1: Explosive: Throws aoe grenade forward that explodes and pushes people back. 
+		Mod 2: Implosive, Pull and trap another game combatiant in an area. 
+		Mod 3: Mines: 
+
+		Engineer:
+		Mod 1: Place turret.
+		Mod 2: Clone? 
+		
+		Mod X: Tether a player to a location. 
+		
+		Mod X+1: Portal placement? Place entry and exit locations. 
+		Mod x+2: 
 
 		Passives:
 		1: take more hits/ more shields / more health
@@ -89,6 +107,8 @@ BUGS / ISSUES
 	
 		
 		
+MENU SELECT. 
+	Be able to select between several different Game set ups. 
 
 
 
@@ -109,7 +129,16 @@ BUGS / ISSUES
 
 
 TO DONE! LIST
+>> Character creation : 
+Class : Healer 
+Mod 1 : Heal close range players : specific mechanic? place a tile and the tile heals, or make an aura around the healer. 
+Mod 2: allow to heal from a distance by shooting : is really easy to do.
 
+Class : Builder
+Mod 1 : Build temporary barrior
+
+Class : Shockwave  
+Mod1 : Shockwave: who pushes people away with a shock wave or whatever. 
 
 > Need to get shooting to work.
 	> Bow and arrow sprites.
@@ -133,4 +162,13 @@ TO DONE! LIST
 	> Prevent walking through walls for a start
 
 > Need to get basic combat working. 
+	> Health bar
+	> Hit detection
+	> Death
+	> Respawning
+
+> We need a menu screen.
+	> Controller support
+
+>> instead of a roll - use a dash: megaman dash frame, functions the same as roll, less animating. 	
 	

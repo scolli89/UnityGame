@@ -189,6 +189,8 @@ MonoBehaviour:
   modName: 
   animator: {fileID: 1816475797157318772}
   crosshair: {fileID: 1816475797391359212}
+  crossHairScript: {fileID: 0}
+  crosshairAnimator: {fileID: 1135534526100677857}
   dot: {fileID: 5703911262651375193, guid: 265ebb460a7b69649a4ddceb23a3423d, type: 3}
   dot2: {fileID: 1722472685201952555, guid: 7c0518928d7115f4fb050a1a22ba2360, type: 3}
   arrowPrefab: {fileID: 500704877751819888, guid: 2d5c2ee2ce8075d40bccd7cc926fdbe4,
@@ -511,7 +513,7 @@ PrefabInstance:
     - target: {fileID: 5416503141228188958, guid: 7b2b6112c54f7d84da8093a7b8561b45,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5416503141228188959, guid: 7b2b6112c54f7d84da8093a7b8561b45,
         type: 3}
@@ -579,6 +581,12 @@ GameObject:
 --- !u!4 &1816475797391359213 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5416503141228188959, guid: 7b2b6112c54f7d84da8093a7b8561b45,
+    type: 3}
+  m_PrefabInstance: {fileID: 5917206498524178930}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1135534526100677857 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 6763308602750307603, guid: 7b2b6112c54f7d84da8093a7b8561b45,
     type: 3}
   m_PrefabInstance: {fileID: 5917206498524178930}
   m_PrefabAsset: {fileID: 0}
