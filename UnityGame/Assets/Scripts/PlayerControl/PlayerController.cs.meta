@@ -3,7 +3,15 @@ guid: aa2f14d2b7ab7414ca6d6aec59440a72
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - animator: {instanceID: 0}
+  - crosshair: {instanceID: 0}
+  - audioManager: {fileID: 1208813617079431267, guid: 1c8b5f83de459454e8f4c7dd43ce5fea,
+      type: 3}
+  - dot: {instanceID: 0}
+  - dot2: {instanceID: 0}
+  - arrowPrefab: {instanceID: 0}
+  - dashEffect: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

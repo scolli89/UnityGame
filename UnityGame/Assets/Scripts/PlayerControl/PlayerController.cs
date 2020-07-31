@@ -86,6 +86,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     public Animator animator;
     public GameObject crosshair;
+    public AudioManager audioManager;
 
     public Animator crosshairAnimator;
     public GameObject dot;
@@ -151,6 +152,7 @@ public class PlayerController : MonoBehaviour
         crosshairAnimator = crosshair.GetComponent<Animator>();
 
 
+        audioManager = FindObjectOfType<AudioManager>();
 
         crosshair.SetActive(false);
 
@@ -391,6 +393,7 @@ public class PlayerController : MonoBehaviour
     {
         isAiming = false;
         endOfAiming = true;
+        aimTime = startAimTime;
         Shoot();
     }
 
@@ -578,15 +581,14 @@ public class PlayerController : MonoBehaviour
         //crosshair.transform.localPosition = movementDirection * CROSSHAIR_DISTANCE;
         if (aimTime < 0 && shootFlag == false)
         {
-            shootFlag = true;
+            audioManager.playSound("Charged");
+            //FindObjectOfType<AudioManager>().playSound("Charged");
+            shootFlag = true;   
         }
-        else
+        else if(aimTime > 0)
         {
             aimTime -= Time.deltaTime;
         }
-
-
-
     }
 
     void AimPower()
