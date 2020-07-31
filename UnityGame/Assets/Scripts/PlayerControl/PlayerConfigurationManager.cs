@@ -46,7 +46,7 @@ public class PlayerConfigurationManager : MonoBehaviour
         playerConfigs[index].IsReady = true;
         if (playerConfigs.Count >= 1 && playerConfigs.All(p => p.IsReady == true))
         {
-            SceneManager.LoadScene("Game");
+            SceneManager.LoadScene("PVPArena1");
         }
     }
 

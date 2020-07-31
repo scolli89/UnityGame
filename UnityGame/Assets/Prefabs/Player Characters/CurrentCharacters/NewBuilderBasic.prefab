@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa2f14d2b7ab7414ca6d6aec59440a72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MOVEMENT_BASE_SPEED: 5
+  MOVEMENT_BASE_SPEED: 7
   ARROW_BASE_SPEED: 50
   CROSSHAIR_DISTANCE: 5
   BUILDER_POWER_DISTANCE: 2
@@ -159,11 +159,11 @@ MonoBehaviour:
   HEALING_WAIT: 2
   playerIndex: 0
   ammoRemaining: 12
-  DEFAULT_AMMO: 10
-  DEFAULT_HEALTH: 6
+  DEFAULT_AMMO: 12
+  DEFAULT_HEALTH: 3
   DEFAULT_ENERGY: 6
-  health: 6
-  energy: 400
+  health: 3
+  energy: 6
   movementSpeed: 0
   usingPower: 0
   endUsingPower: 0
@@ -175,10 +175,11 @@ MonoBehaviour:
   energyCount: 0
   endOfAiming: 0
   isAiming: 0
-  startAimTime: 0.5
+  startAimTime: 0.35
   shootFlag: 0
+  LASER_DAMAGE: 2
   isDashing: 0
-  dashSpeed: 8
+  dashSpeed: 10
   startDashTime: 0.47
   DASH_INFLUCE_FACTOR: 0.75
   lastDashMovementDirection: {x: 0, y: 0}
@@ -189,9 +190,9 @@ MonoBehaviour:
   modName: 
   animator: {fileID: 1816475797157318772}
   crosshair: {fileID: 1816475797391359212}
-  crossHairScript: {fileID: 0}
+  audioManager: {fileID: 0}
   crosshairAnimator: {fileID: 1135534526100677857}
-  dot: {fileID: 5703911262651375193, guid: 265ebb460a7b69649a4ddceb23a3423d, type: 3}
+  dot: {fileID: 2689541635898732734, guid: ca1ae0ccaf280264ca5875674ee5c11a, type: 3}
   dot2: {fileID: 1722472685201952555, guid: 7c0518928d7115f4fb050a1a22ba2360, type: 3}
   arrowPrefab: {fileID: 500704877751819888, guid: 2d5c2ee2ce8075d40bccd7cc926fdbe4,
     type: 3}

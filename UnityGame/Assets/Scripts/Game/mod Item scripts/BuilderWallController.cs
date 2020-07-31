@@ -9,6 +9,7 @@ public class BuilderWallController : MonoBehaviour
     public Sprite wallMed;
     public Sprite wallFull;
     public int health;
+    public float TIME_LIMIT = 60f;
 
     private SpriteRenderer spriteRenderer;
 
@@ -17,6 +18,7 @@ public class BuilderWallController : MonoBehaviour
         health = 3;
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = wallFull;
+        Destroy(this.gameObject,TIME_LIMIT);
     }
 
 

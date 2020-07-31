@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     [Space]
     [Header("Character Attributes:")]
-    public float MOVEMENT_BASE_SPEED = 1.0f;
+    public float MOVEMENT_BASE_SPEED = 7f;
     public float ARROW_BASE_SPEED = 1.0f;
     public float CROSSHAIR_DISTANCE = 5.0f;
 
@@ -47,16 +47,17 @@ public class PlayerController : MonoBehaviour
     public int LASER_BOLT_HEALING_TIME = 6;
 
     public int energyCount = 0;
-    private int energyTime = 200;
+    private int energyTime = 100;
     [Space]
     [Header("Shooting Varaibles:")]
     private Vector2 aimDirection;
     public bool endOfAiming = false;
     public bool isAiming = false;
 
-    public float startAimTime = 0.5f;
+    public float startAimTime = 0.35f;
     private float aimTime;
     public bool shootFlag = false;
+    public int LASER_DAMAGE = 3; 
 
     [Space]
     [Header("Dash Variables:")]
@@ -370,6 +371,7 @@ public class PlayerController : MonoBehaviour
     {
         movementDirection = direction;
         movementSpeed = Mathf.Clamp(movementDirection.magnitude, 0.0f, 1.0f);
+
     }
 
     public void setAimDirection(Vector3 mouse)
@@ -549,7 +551,6 @@ public class PlayerController : MonoBehaviour
         {
 
             float x = 1f / startAimTime;
-            Debug.Log(x);
             //crosshair.SetActive(true);
             crosshairAnimator.SetFloat("SpeedMultiplier", x);
 
@@ -798,7 +799,8 @@ public class PlayerController : MonoBehaviour
         //damage == 1
         //Energy = 0
         // health = 2
-        energy -= damage; // e = -1
+
+        energy -= damage * LASER_DAMAGE; // e = -1
 
         if (energy < 0)
         {

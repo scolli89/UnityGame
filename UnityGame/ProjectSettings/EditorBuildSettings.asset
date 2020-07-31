@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/PlayerSetup.unity
     guid: a1c820a2bcef8b34097e1c633db483ce
   - enabled: 1
+    path: Assets/Scenes/PVPArena1.unity
+    guid: 8ac8fd242d9207644a8ef5bc737c7c16
+  - enabled: 1
     path: Assets/Scenes/Game.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   m_configObjects:

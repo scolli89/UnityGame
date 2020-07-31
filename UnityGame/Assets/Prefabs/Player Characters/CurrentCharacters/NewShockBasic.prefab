@@ -150,23 +150,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa2f14d2b7ab7414ca6d6aec59440a72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MOVEMENT_BASE_SPEED: 5
-  ARROW_BASE_SPEED: 10
+  MOVEMENT_BASE_SPEED: 7
+  ARROW_BASE_SPEED: 50
   CROSSHAIR_DISTANCE: 5
   BUILDER_POWER_DISTANCE: 2
-  AIMING_BASE_PENALTY: 0.1
+  AIMING_BASE_PENALTY: 0
   ARROW_OFFSET: 1.2
   HEALING_WAIT: 2
   playerIndex: 0
   ammoRemaining: 12
-  DEFAULT_AMMO: 10
+  DEFAULT_AMMO: 12
   DEFAULT_HEALTH: 3
-  DEFAULT_ENERGY: 7
+  DEFAULT_ENERGY: 6
   health: 3
-  energy: 7
+  energy: 6
   movementSpeed: 0
-  endOfAiming: 0
-  isAiming: 0
   usingPower: 0
   endUsingPower: 0
   healing: 0
@@ -175,9 +173,16 @@ MonoBehaviour:
   HEALING_TIME: 50
   LASER_BOLT_HEALING_TIME: 6
   energyCount: 0
+  endOfAiming: 0
+  isAiming: 0
+  startAimTime: 0.35
+  shootFlag: 0
+  LASER_DAMAGE: 2
   isDashing: 0
-  dashSpeed: 15
-  startDashTime: 0.167
+  dashSpeed: 10
+  startDashTime: 0.47
+  DASH_INFLUCE_FACTOR: 0.75
+  lastDashMovementDirection: {x: 0, y: 0}
   isShocked: 0
   PUSH_BACK_FORCE: 10
   startShockTime: 0.5
@@ -185,7 +190,11 @@ MonoBehaviour:
   modName: 
   animator: {fileID: 4684039335036393755}
   crosshair: {fileID: 4684039335341602179}
-  arrowPrefab: {fileID: 2817695094258861393, guid: 9de6fbc149b8cf54a814911a4a121175,
+  audioManager: {fileID: 0}
+  crosshairAnimator: {fileID: 0}
+  dot: {fileID: 8170576407584360832, guid: 88d30b20444b2fb4ca2fe94fec506558, type: 3}
+  dot2: {fileID: 5703911262651375193, guid: 265ebb460a7b69649a4ddceb23a3423d, type: 3}
+  arrowPrefab: {fileID: 500704877751819888, guid: 2d5c2ee2ce8075d40bccd7cc926fdbe4,
     type: 3}
   dashEffect: {fileID: 5857428626477317272, guid: 8cc6d39a4be4d7843a060e6582526da6,
     type: 3}

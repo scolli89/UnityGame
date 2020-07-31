@@ -51,15 +51,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec2480c57f6779643b4577154e11b538, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnPoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  spawnPointPlacements: {fileID: 3651610329839040669}
+  playerPrefabs: []
 --- !u!1001 &2495265584835950861
 PrefabInstance:
   m_ObjectHideFlags: 0

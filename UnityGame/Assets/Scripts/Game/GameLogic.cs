@@ -6,19 +6,33 @@ using UnityEngine;
 
 public class GameLogic : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject[] spawnPoints;
+    // [SerializeField]
+    // private GameObject[] spawnPoints;
+    
+    //private GameObject spawnPointPlacements;
     [SerializeField]
     private GameObject[] playerPrefabs;
 
+    private int numChildren;
+
+
     void Start()
     {
+        // for(int i = 0; i< spawnPointPlacements.transform.childCount;i++){
+        //     spawnPoints[i] = spawnPointPlacements.transform.GetChild(i).gameObject; 
+        // }
+
+
+
+
         var playerConfigs = PlayerConfigurationManager.Instance.GetPlayerConfigs().ToArray();
         for (int i = 0; i < playerConfigs.Length; i++)
         {
-            var player = Instantiate(playerPrefabs[playerConfigs[i].PlayerClass], spawnPoints[i].transform.position, spawnPoints[i].transform.rotation, gameObject.transform);
+            //var player = Instantiate(playerPrefabs[playerConfigs[i].PlayerClass], spawnPoints[i].transform.position, spawnPoints[i].transform.rotation, gameObject.transform);
+            var player = Instantiate(playerPrefabs[playerConfigs[i].PlayerClass], this.transform.GetChild(i).position, this.transform.GetChild(i).rotation, gameObject.transform);
             player.GetComponent<InputHandler>().InitializePlayer(playerConfigs[i]);
         }
+        numChildren = this.transform.childCount;
     }
     public void SpawnArcher(GameObject player)
     {
@@ -28,6 +42,8 @@ public class GameLogic : MonoBehaviour
     
     GameObject GetRandomSpawnPoint()
     {
-        return spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Length)];
+        //return spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Length)];
+        return this.transform.GetChild(UnityEngine.Random.Range(0, numChildren)).gameObject;
+        
     }
 }
