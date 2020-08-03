@@ -89,6 +89,30 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""AltFire"",
+                    ""type"": ""Button"",
+                    ""id"": ""fac0c1b6-c7c2-44e5-863b-0c12579064c8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""AltDash"",
+                    ""type"": ""Button"",
+                    ""id"": ""55d8060f-bbc3-4c76-9ebf-f1e865d3d7c4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""DualStick"",
+                    ""type"": ""Value"",
+                    ""id"": ""aea0809b-e137-4ba6-a7d8-673f4ad411cf"",
+                    ""expectedControlType"": ""Stick"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -366,6 +390,39 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""action"": ""HideUI"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""82f7c9b4-6058-4723-894f-6e1c87e08dc3"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AltFire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""52a0cf17-aa55-4ce2-aa98-55214dd4b5b7"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller"",
+                    ""action"": ""AltDash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1b04e1af-6277-49ea-8f06-69ea586caf57"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DualStick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -411,6 +468,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
         m_Player_HideUI = m_Player.FindAction("HideUI", throwIfNotFound: true);
+        m_Player_AltFire = m_Player.FindAction("AltFire", throwIfNotFound: true);
+        m_Player_AltDash = m_Player.FindAction("AltDash", throwIfNotFound: true);
+        m_Player_DualStick = m_Player.FindAction("DualStick", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -469,6 +529,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Dash;
     private readonly InputAction m_Player_Pause;
     private readonly InputAction m_Player_HideUI;
+    private readonly InputAction m_Player_AltFire;
+    private readonly InputAction m_Player_AltDash;
+    private readonly InputAction m_Player_DualStick;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -482,6 +545,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @Dash => m_Wrapper.m_Player_Dash;
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputAction @HideUI => m_Wrapper.m_Player_HideUI;
+        public InputAction @AltFire => m_Wrapper.m_Player_AltFire;
+        public InputAction @AltDash => m_Wrapper.m_Player_AltDash;
+        public InputAction @DualStick => m_Wrapper.m_Player_DualStick;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -518,6 +584,15 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @HideUI.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHideUI;
                 @HideUI.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHideUI;
                 @HideUI.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHideUI;
+                @AltFire.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAltFire;
+                @AltFire.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAltFire;
+                @AltFire.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAltFire;
+                @AltDash.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAltDash;
+                @AltDash.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAltDash;
+                @AltDash.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAltDash;
+                @DualStick.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDualStick;
+                @DualStick.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDualStick;
+                @DualStick.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDualStick;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -549,6 +624,15 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @HideUI.started += instance.OnHideUI;
                 @HideUI.performed += instance.OnHideUI;
                 @HideUI.canceled += instance.OnHideUI;
+                @AltFire.started += instance.OnAltFire;
+                @AltFire.performed += instance.OnAltFire;
+                @AltFire.canceled += instance.OnAltFire;
+                @AltDash.started += instance.OnAltDash;
+                @AltDash.performed += instance.OnAltDash;
+                @AltDash.canceled += instance.OnAltDash;
+                @DualStick.started += instance.OnDualStick;
+                @DualStick.performed += instance.OnDualStick;
+                @DualStick.canceled += instance.OnDualStick;
             }
         }
     }
@@ -582,5 +666,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnDash(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
         void OnHideUI(InputAction.CallbackContext context);
+        void OnAltFire(InputAction.CallbackContext context);
+        void OnAltDash(InputAction.CallbackContext context);
+        void OnDualStick(InputAction.CallbackContext context);
     }
 }

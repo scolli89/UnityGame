@@ -65,6 +65,10 @@ public class InputHandler : MonoBehaviour
         {
             OnMove(obj);
         }
+        if (action  == controls.Player.DualStick.name)
+        {
+            OnDual(obj);
+        }
 
         // this is a catch to prevent inputs from being triggerred twice
         if(!obj.performed){
@@ -102,6 +106,12 @@ public class InputHandler : MonoBehaviour
         if(action == controls.Player.HideUI.name){
             OnHideUI(); 
         }
+        if(action == controls.Player.AltFire.name){
+            OnDualFire();
+        }
+        if(action == controls.Player.AltDash.name){
+            OnDash();
+        }
     }
 
     public void OnMove(CallbackContext context)
@@ -110,6 +120,22 @@ public class InputHandler : MonoBehaviour
             Vector2 movement = context.ReadValue<Vector2>();
             movement.Normalize();
             playerController.setMovementDirection(movement);
+        }
+    }
+
+    public void OnDual(CallbackContext context)
+    {
+        if (playerController != null){
+            Vector2 aim = context.ReadValue<Vector2>();
+            aim.Normalize();
+            playerController.AimDual(aim);
+        }
+    }
+
+    public void OnDualFire()
+    {
+        if (playerController != null){
+            playerController.setDualFire();
         }
     }
 

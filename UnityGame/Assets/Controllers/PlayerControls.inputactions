@@ -76,6 +76,30 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "AltFire",
+                    "type": "Button",
+                    "id": "fac0c1b6-c7c2-44e5-863b-0c12579064c8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "AltDash",
+                    "type": "Button",
+                    "id": "55d8060f-bbc3-4c76-9ebf-f1e865d3d7c4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "DualStick",
+                    "type": "Value",
+                    "id": "aea0809b-e137-4ba6-a7d8-673f4ad411cf",
+                    "expectedControlType": "Stick",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -351,6 +375,39 @@
                     "processors": "",
                     "groups": "",
                     "action": "HideUI",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "82f7c9b4-6058-4723-894f-6e1c87e08dc3",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AltFire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "52a0cf17-aa55-4ce2-aa98-55214dd4b5b7",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller",
+                    "action": "AltDash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1b04e1af-6277-49ea-8f06-69ea586caf57",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DualStick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

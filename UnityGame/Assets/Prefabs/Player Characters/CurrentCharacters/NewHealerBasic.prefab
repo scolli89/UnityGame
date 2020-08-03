@@ -175,7 +175,7 @@ MonoBehaviour:
   energyCount: 0
   endOfAiming: 0
   isAiming: 0
-  startAimTime: 0.35
+  startAimTime: 0.05
   shootFlag: 0
   LASER_DAMAGE: 2
   isDashing: 0

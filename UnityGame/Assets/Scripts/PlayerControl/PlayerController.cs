@@ -91,6 +91,7 @@ public class PlayerController : MonoBehaviour
 
     public Animator crosshairAnimator;
     public GameObject dot;
+    public float DESTROY_DOT_TIME = 7f; 
     public GameObject dot2;
 
     private AmmoController ammoController;
@@ -112,6 +113,8 @@ public class PlayerController : MonoBehaviour
     public bool toggleUI;// 
     public bool UIisVisible;
     GameObject playerClassGameObject;
+
+    private bool animateCrosshair;
 
     // todos
     // 
@@ -156,6 +159,7 @@ public class PlayerController : MonoBehaviour
         audioManager = FindObjectOfType<AudioManager>();
 
         crosshair.SetActive(false);
+        animateCrosshair=false;
 
         dashTime = startDashTime;
         shockTime = startShockTime;
@@ -371,7 +375,6 @@ public class PlayerController : MonoBehaviour
     {
         movementDirection = direction;
         movementSpeed = Mathf.Clamp(movementDirection.magnitude, 0.0f, 1.0f);
-
     }
 
     public void setAimDirection(Vector3 mouse)
@@ -387,12 +390,14 @@ public class PlayerController : MonoBehaviour
     public void setIsAiming()
     {
         isAiming = true;
+        animateCrosshair=true;
         lastDashMovementDirection = movementDirection;
     }
 
     //called when aim button is released
     public void setIsFiring()
     {
+        animateCrosshair=false;
         isAiming = false;
         endOfAiming = true;
         aimTime = startAimTime;
@@ -450,6 +455,17 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void setDualFire()
+    {
+        if(shootFlag==true){
+            isAiming = false;
+            endOfAiming = true;
+            aimTime = startAimTime;
+            Shoot();
+        }
+        
+    }
+
     void Move()
     {
         if (isShocked)
@@ -505,7 +521,7 @@ public class PlayerController : MonoBehaviour
 
                 }
                 GameObject t = Instantiate(dot, this.transform.position, Quaternion.identity);
-                Destroy(t, 15f);
+                Destroy(t, DESTROY_DOT_TIME);
 
 
                 // if you are walking, you go twice as far. 
@@ -547,7 +563,7 @@ public class PlayerController : MonoBehaviour
             animator.SetFloat("Horizontal", movementDirection.x);
             animator.SetFloat("Vertical", movementDirection.y);
         }
-        if (isAiming)
+        if (animateCrosshair)
         {
 
             float x = 1f / startAimTime;
@@ -589,6 +605,38 @@ public class PlayerController : MonoBehaviour
         else if(aimTime > 0)
         {
             aimTime -= Time.deltaTime;
+        }
+    }
+
+
+    public void AimDual(Vector2 direction)
+    {   
+        if (direction != Vector2.zero){
+            animateCrosshair=true;
+            crosshair.SetActive(true);
+                //crossHairScript.startAiming(); 
+            //movementSpeed *= AIMING_BASE_PENALTY;
+
+            aimDirection = direction;
+
+            aimDirection.Normalize();
+            //Debug.Log("AimDirection" + aimDirection);
+
+            crosshair.transform.localPosition = aimDirection * CROSSHAIR_DISTANCE;
+            //crosshair.transform.localPosition = movementDirection * CROSSHAIR_DISTANCE;
+            if (aimTime < 0 && shootFlag == false)
+            {
+                audioManager.playSound("Charged");
+                //FindObjectOfType<AudioManager>().playSound("Charged");
+                shootFlag = true;   
+            }
+            else if(aimTime > 0)
+            {
+                aimTime -= Time.deltaTime;
+            }
+        }
+        else{
+            crosshair.SetActive(false);
         }
     }
 
@@ -634,6 +682,7 @@ public class PlayerController : MonoBehaviour
         aimTime = startAimTime;
         crosshair.SetActive(false);
         isAiming = false;
+        animateCrosshair=false;
         endOfAiming = false;
     }
 

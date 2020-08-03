@@ -5,7 +5,7 @@ using UnityEngine;
 public class HealerClassShoot : PlayerClass
 {
     const float LASER_OFFSET = 1.2f;
-    const float ARROW_BASE_SPEED = 10f;
+    const float ARROW_BASE_SPEED = 5f;
     const int AMMO_REQUIRED = 2;
     public GameObject classPrefab;
     public override void usePower(Vector2 v)//,GameObject g)
