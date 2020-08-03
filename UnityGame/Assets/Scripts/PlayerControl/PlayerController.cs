@@ -91,8 +91,9 @@ public class PlayerController : MonoBehaviour
 
     public Animator crosshairAnimator;
     public GameObject dot;
+    public GameObject previousDot; 
     public float DESTROY_DOT_TIME = 7f; 
-    public GameObject dot2;
+    
 
     private AmmoController ammoController;
 
@@ -167,11 +168,7 @@ public class PlayerController : MonoBehaviour
 
         toggleUI = false;
         UIisVisible = true;
-        if (playerIndex == 1)
-        {
-            dot = dot2;
-        }
-
+       
     }
 
     void Update()
@@ -520,8 +517,23 @@ public class PlayerController : MonoBehaviour
                     rb.velocity = (d * rejection(movementDirection, dashingDirection) + dashingDirection) * dashSpeed;
 
                 }
-                GameObject t = Instantiate(dot, this.transform.position, Quaternion.identity);
-                Destroy(t, DESTROY_DOT_TIME);
+                GameObject thisDot = Instantiate(dot, this.transform.position, Quaternion.identity);
+                
+                if(previousDot != null){
+                    // if there  is a previous dot, ie this is not the first dot. 
+                    //set previous dot's nextDot field to be thisDot. 
+                     
+                    previousDot.GetComponent<TrailDotController>().nextDot = thisDot; 
+
+                    thisDot.GetComponent<TrailDotController>().prevDot = previousDot;
+                }
+                //set PreviousDot to be 
+                previousDot = thisDot; 
+
+
+
+                
+                
 
 
                 // if you are walking, you go twice as far. 

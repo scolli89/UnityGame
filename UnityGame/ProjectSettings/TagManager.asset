@@ -11,6 +11,7 @@ TagManager:
   - Environment
   - Enemy
   - BuilderWall
+  - TrailDot
   layers:
   - Default
   - TransparentFX

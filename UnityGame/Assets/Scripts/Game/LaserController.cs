@@ -17,6 +17,24 @@ public class LaserController : MonoBehaviour
         foreach (RaycastHit2D hit in hits){
             GameObject other = hit.collider.gameObject;
             if(other != shooter){ // do the interaction here. 
+                if(other.CompareTag("TrailDot")){
+                    other.GetComponent<TrailDotController>().setExplode();  
+                    
+                    /*
+                    does colliding with a traildot destroy the laser?
+                        -> I don't think that it should. 
+
+                    if yes ->
+                        Destroy(this.gameObject);
+                        break; 
+
+                    if no -> 
+                        DoNothing(); 
+                    */ 
+
+
+
+                }
                 if(other.CompareTag("Player")){
                     //todo,
                     // have it look like the plasma is splashing aroud the players shield, especially if it isn't visiable, when hitting it. 
