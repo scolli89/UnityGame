@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour
     public float startAimTime = 0.35f;
     private float aimTime;
     public bool shootFlag = false;
-    public int LASER_DAMAGE = 3; 
+    public int LASER_DAMAGE = 3;
 
     [Space]
     [Header("Dash Variables:")]
@@ -91,9 +91,9 @@ public class PlayerController : MonoBehaviour
 
     public Animator crosshairAnimator;
     public GameObject dot;
-    public GameObject previousDot; 
-    public float DESTROY_DOT_TIME = 7f; 
-    
+    public GameObject previousDot;
+    public float DESTROY_DOT_TIME = 7f;
+
 
     private AmmoController ammoController;
 
@@ -119,7 +119,8 @@ public class PlayerController : MonoBehaviour
 
     // todos
     // 
-
+    //decouple dash and energy
+    // make powers use energy not ammo. 
     // *****
     /*
     Notes:
@@ -160,7 +161,7 @@ public class PlayerController : MonoBehaviour
         audioManager = FindObjectOfType<AudioManager>();
 
         crosshair.SetActive(false);
-        animateCrosshair=false;
+        animateCrosshair = false;
 
         dashTime = startDashTime;
         shockTime = startShockTime;
@@ -168,7 +169,7 @@ public class PlayerController : MonoBehaviour
 
         toggleUI = false;
         UIisVisible = true;
-       
+
     }
 
     void Update()
@@ -387,14 +388,14 @@ public class PlayerController : MonoBehaviour
     public void setIsAiming()
     {
         isAiming = true;
-        animateCrosshair=true;
+        animateCrosshair = true;
         lastDashMovementDirection = movementDirection;
     }
 
     //called when aim button is released
     public void setIsFiring()
     {
-        animateCrosshair=false;
+        animateCrosshair = false;
         isAiming = false;
         endOfAiming = true;
         aimTime = startAimTime;
@@ -423,44 +424,45 @@ public class PlayerController : MonoBehaviour
     {
         if (isDashing == false)
         {
-            if (energy > 1)
+            // if (energy > 1)
+            // {
+            //energy--;
+
+            isDashing = true;
+            GameObject dashParticles = Instantiate(dashEffect, transform.position, Quaternion.identity);
+            //garbage collection on dash particles
+            Destroy(dashParticles, startDashTime);
+            // if not moving dash in the last direction you were moving. default (0,-1)
+            if (movementDirection.magnitude == 0)
             {
-                energy--;
+                // do the backstep/ regular jump 
+                // could make it a back step. 
+                // 
+                // dashingDirection = -lastMovementDirection; 
+                //
+                // can't aim behind you, so that is why you dash backwards? 
 
-                isDashing = true;
-                GameObject dashParticles = Instantiate(dashEffect, transform.position, Quaternion.identity);
-                //garbage collection on dash particles
-                Destroy(dashParticles, startDashTime);
-                // if not moving dash in the last direction you were moving. default (0,-1)
-                if (movementDirection.magnitude == 0)
-                {
-                    // do the backstep/ regular jump 
-                    // could make it a back step. 
-                    // 
-                    // dashingDirection = -lastMovementDirection; 
-                    //
-                    // can't aim behind you, so that is why you dash backwards? 
-
-                    dashingDirection = lastMovementDirection;
-                }
-                else
-                {
-                    // regular roll// flip jump 
-                    dashingDirection = movementDirection;
-                }
+                dashingDirection = lastMovementDirection;
             }
+            else
+            {
+                // regular roll// flip jump 
+                dashingDirection = movementDirection;
+            }
+            //}
         }
     }
 
     public void setDualFire()
     {
-        if(shootFlag==true){
+        if (shootFlag == true)
+        {
             isAiming = false;
             endOfAiming = true;
             aimTime = startAimTime;
             Shoot();
         }
-        
+
     }
 
     void Move()
@@ -518,22 +520,23 @@ public class PlayerController : MonoBehaviour
 
                 }
                 GameObject thisDot = Instantiate(dot, this.transform.position, Quaternion.identity);
-                
-                if(previousDot != null){
-                    // if there  is a previous dot, ie this is not the first dot. 
-                    //set previous dot's nextDot field to be thisDot. 
-                     
-                    previousDot.GetComponent<TrailDotController>().nextDot = thisDot; 
+                //thisDot.transform.parent = this.gameObject.transform;
 
-                    thisDot.GetComponent<TrailDotController>().prevDot = previousDot;
-                }
-                //set PreviousDot to be 
-                previousDot = thisDot; 
+                // if(previousDot != null){
+                //     // if there  is a previous dot, ie this is not the first dot. 
+                //     //set previous dot's nextDot field to be thisDot. 
+
+                //     previousDot.GetComponent<TrailDotController>().nextDot = thisDot; 
+
+                //     thisDot.GetComponent<TrailDotController>().prevDot = previousDot;
+                // }
+                // //set PreviousDot to be 
+                // previousDot = thisDot; 
 
 
 
-                
-                
+
+
 
 
                 // if you are walking, you go twice as far. 
@@ -612,9 +615,9 @@ public class PlayerController : MonoBehaviour
         {
             audioManager.playSound("Charged");
             //FindObjectOfType<AudioManager>().playSound("Charged");
-            shootFlag = true;   
+            shootFlag = true;
         }
-        else if(aimTime > 0)
+        else if (aimTime > 0)
         {
             aimTime -= Time.deltaTime;
         }
@@ -622,11 +625,12 @@ public class PlayerController : MonoBehaviour
 
 
     public void AimDual(Vector2 direction)
-    {   
-        if (direction != Vector2.zero){
-            animateCrosshair=true;
+    {
+        if (direction != Vector2.zero)
+        {
+            animateCrosshair = true;
             crosshair.SetActive(true);
-                //crossHairScript.startAiming(); 
+            //crossHairScript.startAiming(); 
             //movementSpeed *= AIMING_BASE_PENALTY;
 
             aimDirection = direction;
@@ -640,14 +644,15 @@ public class PlayerController : MonoBehaviour
             {
                 audioManager.playSound("Charged");
                 //FindObjectOfType<AudioManager>().playSound("Charged");
-                shootFlag = true;   
+                shootFlag = true;
             }
-            else if(aimTime > 0)
+            else if (aimTime > 0)
             {
                 aimTime -= Time.deltaTime;
             }
         }
-        else{
+        else
+        {
             crosshair.SetActive(false);
         }
     }
@@ -694,7 +699,7 @@ public class PlayerController : MonoBehaviour
         aimTime = startAimTime;
         crosshair.SetActive(false);
         isAiming = false;
-        animateCrosshair=false;
+        animateCrosshair = false;
         endOfAiming = false;
     }
 
@@ -707,10 +712,11 @@ public class PlayerController : MonoBehaviour
         if (endUsingPower)
         {
             // check if there is enough ammo for their power. 
-            int ammoReq = playerClass.getAmmoReq();
-            if (ammoRemaining >= ammoReq)
+            int powerCost = playerClass.getAmmoReq();
+            if (energy >= powerCost)
             {
-                ammoRemaining -= ammoReq;
+                //ammoRemianing -= powerCost; // what it was before
+                energy -= powerCost;
                 playerClass.usePower(crosshair.transform.localPosition);//, classPrefab);
             }
             else
@@ -856,33 +862,36 @@ public class PlayerController : MonoBehaviour
 
     public void takeDamage(int damage)
     {
-        //scenerario: 
-        //damage == 1
-        //Energy = 0
-        // health = 2
-
-        energy -= damage * LASER_DAMAGE; // e = -1
-
-        if (energy < 0)
-        {
-            energy = 0;
-            health -= damage; //carry-over damage mechanic, going through the shield.  // 2+ -1
-            Debug.Log(health);
+        // switch to one hit kills
+        ammoRemaining = DEFAULT_AMMO;
+        energy = DEFAULT_ENERGY;
+        health = DEFAULT_HEALTH;
+        GameObject.Find("GameLogic").GetComponent<GameLogic>().SpawnArcher(this.gameObject);
 
 
-            if (health <= 0)
-            {
-                // kill the player,
-                GameObject.Find("GameLogic").GetComponent<GameLogic>().SpawnArcher(this.gameObject);
 
-                ammoRemaining = DEFAULT_AMMO;
-                energy = DEFAULT_ENERGY;
-                health = DEFAULT_HEALTH;
+        // energy -= damage * LASER_DAMAGE; // e = -1
 
-            }
+        // if (energy < 0)
+        // {
+        //     energy = 0;
+        //     health -= damage; //carry-over damage mechanic, going through the shield.  // 2+ -1
+        //     Debug.Log(health);
 
 
-        }
+        //     if (health <= 0)
+        //     {
+        //         // kill the player,
+        //         GameObject.Find("GameLogic").GetComponent<GameLogic>().SpawnArcher(this.gameObject);
+
+        //         ammoRemaining = DEFAULT_AMMO;
+        //         energy = DEFAULT_ENERGY;
+        //         health = DEFAULT_HEALTH;
+
+        //     }
+
+
+        // }
 
 
 

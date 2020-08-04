@@ -5,87 +5,91 @@ using UnityEngine;
 public class TrailDotController : MonoBehaviour
 {
     // Start is called before the first frame update
-    public GameObject nextDot;
-    public GameObject prevDot;
-    public float explosionRadius = 1f;
-    public bool explode = false;
-    private int explodeCount = 0;
-    public int explodeTime = 1; // number of frames before it starts to explode. 
-    public float EXPLOSISON_DISTANCE = 2f;
+    // public GameObject nextDot;
+    // public GameObject prevDot;
+    public GameObject explosionEffect;
+
+    private bool explode = false; // trigger to explode this gameObject. 
+    private bool hasExploded = false; 
+    private float countDown; // number of frames before it starts to explode. 
+    public float delay = 0.2f; 
+    
+    public float EXPLOSION_RADIUS = 2f;
     public float DESTROY_DOT_TIME = 15f;
+    public int PLY_DMG = 2; 
+    public int WALL_DMG = 1;
     void Start()
     {
-        //Destroy(this.gameObject, DESTROY_DOT_TIME);
+        countDown = delay; 
+        //Destroy(this.gameObject,DESTROY_DOT_TIME); 
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         if (explode)
         {
+            countDown -=Time.deltaTime; 
+            if(countDown <= 0 && !hasExploded){
+                BrakeysExplode(); 
+              
+            }
             
-            if (explodeCount >= explodeTime)
-            {
-                Explode();
-            }
-            else
-            {
-                explodeCount++;
-            }
         }
-
-
     }
 
-    void Explode()
-    {
-        Vector2 thisPos = Vector2.zero;
-        if (nextDot != null)
-        {
-            Vector2 nextPos = new Vector2(nextDot.transform.position.x, nextDot.transform.position.y);
-            thisPos = new Vector2(this.transform.position.x, this.transform.position.y);
+    // void Explode()
+    // {
+    //     Vector2 thisPos = Vector2.zero;
+    //     if (nextDot != null)
+    //     {
+    //         Vector2 nextPos = new Vector2(nextDot.transform.position.x, nextDot.transform.position.y);
+    //         thisPos = new Vector2(this.transform.position.x, this.transform.position.y);
 
-            Vector2 difference = thisPos - nextPos;
+    //         Vector2 difference = thisPos - nextPos;
 
-            if (difference.magnitude <= EXPLOSISON_DISTANCE)
-            {
-                // if the next dot is within the explosion radius. 
-                nextDot.GetComponent<TrailDotController>().setExplode();
-                // or
-                // nextDot.GetComponent<TrailDotController>().Explode(); 
-                /*
-                Talk about the delay between explosions. 
-                */
-
-
-            }
-
-        }
-        if (prevDot != null)
-        {
-            if (thisPos.magnitude == 0)
-            {
-                thisPos = new Vector2(this.transform.position.x, this.transform.position.y);
-            }
-
-            Vector2 prevPos = new Vector2(prevDot.transform.position.x, prevDot.transform.position.y);
-            Vector2 diff2 = thisPos - prevPos;
-            if (diff2.magnitude <= EXPLOSISON_DISTANCE)
-            {
-                prevDot.GetComponent<TrailDotController>().setExplode();
-            }
-        }
+    //         if (difference.magnitude <= EXPLOSISON_DISTANCE)
+    //         {
+    //             // if the next dot is within the explosion radius. 
+    //             nextDot.GetComponent<TrailDotController>().setExplode();
+    //             // or
+    //             // nextDot.GetComponent<TrailDotController>().Explode(); 
+    //             /*
+    //             Talk about the delay between explosions. 
+    //             */
 
 
+    //         }
+
+    //     }
+    //     if (prevDot != null)
+    //     {
+    //         if (thisPos.magnitude == 0)
+    //         {
+    //             thisPos = new Vector2(this.transform.position.x, this.transform.position.y);
+    //         }
+
+    //         Vector2 prevPos = new Vector2(prevDot.transform.position.x, prevDot.transform.position.y);
+    //         Vector2 diff2 = thisPos - prevPos;
+    //         if (diff2.magnitude <= EXPLOSISON_DISTANCE)
+    //         {
+    //             prevDot.GetComponent<TrailDotController>().setExplode();
+    //         }
+    //     }
 
 
 
-        Destroy(this.gameObject);
 
-    }
+
+    //     Destroy(this.gameObject);
+
+    // }
     public void setExplode()
     {
-        explode = true;
+        if(!explode && !hasExploded){
+            explode = true;
+        }
+        
         /*
         StartExplosision animation .
 
@@ -93,4 +97,71 @@ public class TrailDotController : MonoBehaviour
 
     }
 
+    void BrakeysExplode()
+    {
+        hasExploded = true; 
+        // show explosion effect.
+        //Instantiate(explosionEffect, transform.position, transform.rotation);
+        // get all the hits in the area.
+        LayerMask lm = LayerMask.GetMask("Dots", "Player");
+        //lm.value = 768; 
+        //lm = (1<<9) | (1<<8); 
+        
+        //layerMask = (1<<9) | (1<<0)
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, EXPLOSION_RADIUS,lm);
+        
+        Debug.Log("HITS SIZE:"+hits.Length);
+        foreach (Collider2D hit in hits)
+        {
+
+            //add damange to the other gameObject. 
+
+            GameObject other = hit.gameObject;
+           // Debug.Log(other.tag);
+
+            if (other.CompareTag("TrailDot"))
+            {
+                //Debug.Log("ANOTHER DOT");
+                other.GetComponent<TrailDotController>().setExplode();
+                //break 
+            }
+            if (other.CompareTag("Player"))
+            {
+                //todo,
+                // have it look like the plasma is splashing aroud the players shield, especially if it isn't visiable, when hitting it. 
+                // https://www.youtube.com/watch?v=FFzyHDrgDc0
+                //
+                Debug.Log("Ouchie");
+                
+                other.gameObject.GetComponent<PlayerController>().takeDamage(PLY_DMG);
+                break;
+            }
+            if (other.CompareTag("Enemy"))
+            { // right now just the cannon. 
+                Destroy(gameObject);
+                other.gameObject.GetComponent<RobotDroneController>().takeDamage(WALL_DMG);
+                break;
+            }
+            if (other.CompareTag("Environment"))
+            {
+                Destroy(this.gameObject);
+                break;
+            }
+            if (other.CompareTag("Shockwave"))
+            { // if we don't want the shock wave to block things, remove this if tree
+                Destroy(gameObject);
+                break;
+            }
+            if (other.CompareTag("BuilderWall"))
+            {
+                Destroy(gameObject);
+                other.gameObject.GetComponent<BuilderWallController>().takeDamage(WALL_DMG);
+
+                break;
+            }
+        }
+        //Debug.Log("Goodbye");
+        Destroy(this.gameObject); 
+    
+    }
 }

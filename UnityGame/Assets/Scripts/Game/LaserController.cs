@@ -14,11 +14,14 @@ public class LaserController : MonoBehaviour
         Debug.DrawLine(currentPosition + offset, newPosition + offset, Color.red);
         
         RaycastHit2D[] hits = Physics2D.LinecastAll(currentPosition + offset, newPosition+ offset);
+        Debug.Log("laser hits size:"+hits.Length);
         foreach (RaycastHit2D hit in hits){
             GameObject other = hit.collider.gameObject;
             if(other != shooter){ // do the interaction here. 
+            Debug.Log("laser:"+other.tag);
                 if(other.CompareTag("TrailDot")){
                     other.GetComponent<TrailDotController>().setExplode();  
+                    break;
                     
                     /*
                     does colliding with a traildot destroy the laser?

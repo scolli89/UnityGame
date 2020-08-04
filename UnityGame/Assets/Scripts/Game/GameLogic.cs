@@ -14,6 +14,7 @@ public class GameLogic : MonoBehaviour
     private GameObject[] playerPrefabs;
 
     private int numChildren;
+    public float respawnDelay = 5f; 
 
 
     void Start()
@@ -36,6 +37,7 @@ public class GameLogic : MonoBehaviour
     }
     public void SpawnArcher(GameObject player)
     {
+        new WaitForSeconds(respawnDelay); 
         GameObject spawnPoint = GetRandomSpawnPoint();
         player.transform.position = spawnPoint.transform.position;
     }
