@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class MainMenu : MonoBehaviour
 {
@@ -15,10 +16,9 @@ public class MainMenu : MonoBehaviour
     }
 
     void Update(){
-        if(optionsMenu.activeSelf==true )//&& InputSystem)
-        {
-            Debug.Log("temp");
-            //CloseOptions();
+        if(optionsMenu.activeSelf==true && (Gamepad.current.bButton.wasPressedThisFrame || Keyboard.current.backspaceKey.wasPressedThisFrame))
+        {   
+            CloseOptions();
         }
     }
     
