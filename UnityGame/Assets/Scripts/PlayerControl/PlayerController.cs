@@ -495,6 +495,8 @@ public class PlayerController : MonoBehaviour
                 isDashing = false;
                 dashTime = startDashTime;
                 rb.velocity = Vector2.zero;
+                previousDot = null;
+
             }
             else
             {
@@ -522,16 +524,17 @@ public class PlayerController : MonoBehaviour
                 GameObject thisDot = Instantiate(dot, this.transform.position, Quaternion.identity);
                 //thisDot.transform.parent = this.gameObject.transform;
 
-                // if(previousDot != null){
-                //     // if there  is a previous dot, ie this is not the first dot. 
-                //     //set previous dot's nextDot field to be thisDot. 
+                if (previousDot != null)
+                {
+                    // if there  is a previous dot, ie this is not the first dot. 
+                    //set previous dot's nextDot field to be thisDot. 
+                    Vector2 pos = new Vector2((this.transform.position.x + previousDot.transform.position.x) / 2,
+                    (this.transform.position.y + previousDot.transform.position.y) / 2);
+                    Instantiate(dot, pos, Quaternion.identity);
+                }
+                previousDot = thisDot;
 
-                //     previousDot.GetComponent<TrailDotController>().nextDot = thisDot; 
 
-                //     thisDot.GetComponent<TrailDotController>().prevDot = previousDot;
-                // }
-                // //set PreviousDot to be 
-                // previousDot = thisDot; 
 
 
 

@@ -21,7 +21,7 @@ public class TrailDotController : MonoBehaviour
     void Start()
     {
         countDown = delay; 
-        //Destroy(this.gameObject,DESTROY_DOT_TIME); 
+        Destroy(this.gameObject,DESTROY_DOT_TIME); 
     }
 
     // Update is called once per frame
@@ -101,7 +101,8 @@ public class TrailDotController : MonoBehaviour
     {
         hasExploded = true; 
         // show explosion effect.
-        //Instantiate(explosionEffect, transform.position, transform.rotation);
+        GameObject i = Instantiate(explosionEffect, transform.position, transform.rotation);
+        Destroy(i,0.4f);
         // get all the hits in the area.
         LayerMask lm = LayerMask.GetMask("Dots", "Player");
         //lm.value = 768; 
