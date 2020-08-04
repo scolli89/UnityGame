@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5245127647534005252}
   - component: {fileID: 2246235860108938419}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Ydot
   m_TagString: Untagged
   m_Icon: {fileID: 0}

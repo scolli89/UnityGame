@@ -12,9 +12,9 @@ public class TrailDotController : MonoBehaviour
     private bool explode = false; // trigger to explode this gameObject. 
     private bool hasExploded = false; 
     private float countDown; // number of frames before it starts to explode. 
-    public float delay = 0.2f; 
+    public float delay = 0.1f; 
     
-    public float EXPLOSION_RADIUS = 2f;
+    public float EXPLOSION_RADIUS = 0.4f;
     public float DESTROY_DOT_TIME = 15f;
     public int PLY_DMG = 2; 
     public int WALL_DMG = 1;
@@ -110,18 +110,17 @@ public class TrailDotController : MonoBehaviour
         //layerMask = (1<<9) | (1<<0)
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, EXPLOSION_RADIUS,lm);
         
-        Debug.Log("HITS SIZE:"+hits.Length);
         foreach (Collider2D hit in hits)
         {
 
             //add damange to the other gameObject. 
 
             GameObject other = hit.gameObject;
-           // Debug.Log(other.tag);
+          
 
             if (other.CompareTag("TrailDot"))
             {
-                //Debug.Log("ANOTHER DOT");
+                
                 other.GetComponent<TrailDotController>().setExplode();
                 //break 
             }
@@ -131,7 +130,7 @@ public class TrailDotController : MonoBehaviour
                 // have it look like the plasma is splashing aroud the players shield, especially if it isn't visiable, when hitting it. 
                 // https://www.youtube.com/watch?v=FFzyHDrgDc0
                 //
-                Debug.Log("Ouchie");
+               
                 
                 other.gameObject.GetComponent<PlayerController>().takeDamage(PLY_DMG);
                 break;
@@ -160,7 +159,7 @@ public class TrailDotController : MonoBehaviour
                 break;
             }
         }
-        //Debug.Log("Goodbye");
+       
         Destroy(this.gameObject); 
     
     }
