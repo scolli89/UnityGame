@@ -45,7 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efd00c43731dde84ca16890b1909df66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aimWithMouse: 1
+  aimFirst: 0
+  powerFirst: 0
+  pauseMenuCanvas: {fileID: 6269370044327525169, guid: 6ca58f27fa2c85d4abac39b66a410b4c,
+    type: 3}
 --- !u!114 &-555902474124328725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58,8 +61,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aea1860d98ab0104eaafdb942f6c0cde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pauseMenuUI: {fileID: 8339972816501962856, guid: 6773990f7d865a2449edd164028bc4c6,
-    type: 3}
 --- !u!114 &2888243467010226994
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101,36 +102,6 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 25728577-a84d-4292-868e-b110638a5d82
     m_ActionName: Player/Movement[/XInputControllerWindows/leftStick,/XInputControllerWindows1/leftStick,/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2888243467010226993}
-        m_MethodName: OnAim
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 524ee21e-59db-49f4-92a3-3df531c083d2
-    m_ActionName: Player/Shoot[/Mouse/leftButton,/XInputControllerWindows/buttonSouth,/XInputControllerWindows/buttonSouth]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2888243467010226993}
-        m_MethodName: OnAimPower
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 6507996b-f72b-4d77-bf95-af1cac45fcb8
-    m_ActionName: Player/Power[/Mouse/rightButton,/XInputControllerWindows/buttonWest,/XInputControllerWindows/buttonWest]
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2888243467010226993}
@@ -184,6 +155,30 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 7662157d-4f6d-4fd7-970e-47a80be72df8
     m_ActionName: Player/AimPower[/Mouse/rightButton,/XInputControllerWindows/buttonEast,/XInputControllerWindows/buttonEast,/XInputControllerWindows/buttonEast]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 453ca5c3-a147-49cc-80e5-4cfda11a601e
+    m_ActionName: Player/Fire[/Mouse/leftButton,/XInputControllerWindows/buttonSouth]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0a099d42-f09f-41d3-893f-7e3e95197af8
+    m_ActionName: Player/FirePower[/Mouse/rightButton,/XInputControllerWindows/buttonEast]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7e77e878-5faf-41b8-bc6e-c9b8004dfe94
+    m_ActionName: Player/HideUI[/XInputControllerWindows/buttonNorth]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: fac0c1b6-c7c2-44e5-863b-0c12579064c8
+    m_ActionName: Player/AltFire[/XInputControllerWindows/rightShoulder]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 55d8060f-bbc3-4c76-9ebf-f1e865d3d7c4
+    m_ActionName: Player/AltDash[/XInputControllerWindows/leftShoulder]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: aea0809b-e137-4ba6-a7d8-673f4ad411cf
+    m_ActionName: Player/DualStick[/XInputControllerWindows/rightStick]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class PauseMenu : MonoBehaviour
 {
     public static bool GameIsPaused = false;
 
     private GameObject pauseMenuUI;
+
+    public GameObject firstButton;
+
     void Start(){
         pauseMenuUI = this.transform.GetChild(0).gameObject; 
     }
@@ -33,6 +37,8 @@ public class PauseMenu : MonoBehaviour
     void Pause()
     {
         pauseMenuUI.SetActive(true);
+        // set default selected object
+        //EventSystem.current.SetSelectedGameObject(firstButton);
         Time.timeScale = 0f;
         GameIsPaused = true;
     }
