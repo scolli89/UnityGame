@@ -19,7 +19,7 @@ public class PlayerConfigurationManager : MonoBehaviour
         }
         else{
             Instance = this;
-            DontDestroyOnLoad(Instance);
+            DontDestroyOnLoadManager.DontDestroyOnLoad(this.gameObject);
             playerConfigs = new List<PlayerConfiguration>();
         }
     }
@@ -47,6 +47,7 @@ public class PlayerConfigurationManager : MonoBehaviour
         if (playerConfigs.Count >= 1 && playerConfigs.All(p => p.IsReady == true))
         {
             SceneManager.LoadScene("PVPArena1");
+            //SceneManager.LoadScene("Game");
         }
     }
 

@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2888243467010226995}
   - component: {fileID: 2888243467010226993}
-  - component: {fileID: -555902474124328725}
   - component: {fileID: 2888243467010226994}
   m_Layer: 0
   m_Name: PlayerInput
@@ -47,20 +46,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aimFirst: 0
   powerFirst: 0
-  pauseMenuCanvas: {fileID: 6269370044327525169, guid: 6ca58f27fa2c85d4abac39b66a410b4c,
-    type: 3}
---- !u!114 &-555902474124328725
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2888243467010226992}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aea1860d98ab0104eaafdb942f6c0cde, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2888243467010226994
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,7 +104,7 @@ MonoBehaviour:
     m_ActionName: Player/Dash[/XInputControllerWindows/buttonEast,/XInputControllerWindows/buttonEast,/Keyboard/leftShift]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: -555902474124328725}
+      - m_Target: {fileID: 0}
         m_MethodName: PauseSwitch
         m_Mode: 1
         m_Arguments:
