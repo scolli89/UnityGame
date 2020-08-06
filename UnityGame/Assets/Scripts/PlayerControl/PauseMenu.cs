@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
+
+// reference videos
+// https://www.youtube.com/watch?v=SXBgBmUcTe0
+// https://www.youtube.com/watch?v=JivuXdrIHK0
 
 public class PauseMenu : MonoBehaviour
 {
@@ -9,7 +14,13 @@ public class PauseMenu : MonoBehaviour
 
     public GameObject pauseMenuUI;
 
-    // Update is called once per frame
+    public GameObject firstButton;
+
+    void Start(){
+        pauseMenuUI = this.transform.GetChild(0).gameObject; 
+        Debug.Log(pauseMenuUI);
+    }
+    
     public void PauseSwitch()
     {
         if (GameIsPaused)
@@ -32,6 +43,12 @@ public class PauseMenu : MonoBehaviour
     {
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
+
+        // clear selected object
+        EventSystem.current.SetSelectedGameObject(null);
+        // set default selected object
+        EventSystem.current.SetSelectedGameObject(firstButton);
+
         GameIsPaused = true;
     }
 
@@ -43,11 +60,14 @@ public class PauseMenu : MonoBehaviour
     public void MainMenu()
     {
         Time.timeScale = 1f;
+        // destroy the player configuration manager and its componenets to reset player setup process
+        DontDestroyOnLoadManager.DestroyAll();
         SceneManager.LoadScene("Menu");
     }
 
     public void QuitGame()
     {
+        Debug.Log("Quitting Game");
         Application.Quit();
     }
 }

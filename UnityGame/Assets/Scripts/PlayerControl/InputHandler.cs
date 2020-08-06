@@ -101,7 +101,7 @@ public class InputHandler : MonoBehaviour
         }
         if (action == controls.Player.Pause.name)
         {
-            //OnPause();
+            OnPause();
         }
         if(action == controls.Player.HideUI.name){
             OnHideUI(); 
@@ -137,6 +137,11 @@ public class InputHandler : MonoBehaviour
         if (playerController != null){
             playerController.setDualFire();
         }
+    }
+
+    public void OnPause(){
+        GameObject pauseMenuCanvas = GameObject.Find("PauseMenuCanvas");
+        pauseMenuCanvas.GetComponent<Canvas>().GetComponent<PauseMenu>().PauseSwitch();
     }
 
     public void MousePosition()
