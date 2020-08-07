@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+
     [Space]
     [Header("Character Attributes:")]
     public float MOVEMENT_BASE_SPEED = 7f;
@@ -86,6 +87,10 @@ public class PlayerController : MonoBehaviour
     [Header("References:")]
     private Rigidbody2D rb;
     public Animator animator;
+    public SpriteRenderer spriteRenderer;
+    public DisplayLevel displayLevel;
+    public DisplayLevel lastDisplayLevel;
+    public bool allowUnder; 
     public GameObject crosshair;
     public AudioManager audioManager;
 
@@ -141,6 +146,10 @@ public class PlayerController : MonoBehaviour
     {
         //        Debug.Log("Player Start");
         rb = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        displayLevel = DisplayLevel.overWall;
+        allowUnder = true; 
+        //lastDisplayLevel = displayLevel; 
 
 
         energyBarController = this.gameObject.transform.GetChild(1).GetComponent<EnergyBarController>();
@@ -419,7 +428,6 @@ public class PlayerController : MonoBehaviour
         endUsingPower = true;
         usePower();
     }
-
     public void setIsDashing()
     {
         if (isDashing == false)
@@ -452,7 +460,6 @@ public class PlayerController : MonoBehaviour
             //}
         }
     }
-
     public void setDualFire()
     {
         if (shootFlag == true)
@@ -593,6 +600,25 @@ public class PlayerController : MonoBehaviour
 
         }
         animator.SetFloat("Speed", movementSpeed);
+        // display level. 
+        if (displayLevel != lastDisplayLevel)
+        {
+            Debug.Log("Level Change");
+            if (displayLevel == DisplayLevel.underWall)
+            {
+                Debug.Log("Level Down");
+                spriteRenderer.sortingLayerName = "UnderWall";
+            }
+            else if (displayLevel == DisplayLevel.overWall)
+            {
+                Debug.Log("Level up");
+                spriteRenderer.sortingLayerName = "OverWall";
+            }
+
+            lastDisplayLevel = displayLevel;
+        }
+
+
     }
 
     void Aim()
@@ -782,11 +808,18 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
+
     }
     //hurt boxs
     private void OnTriggerEnter2D(Collider2D other)
     {
+     
 
+        if (other.gameObject.CompareTag("DeathBox"))
+        {
+            Debug.Log("oh no");
+            takeDamage(1);
+        }
         if (other.gameObject.tag == "bullet")
         {
             Debug.Log("Bonk");
@@ -818,6 +851,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D other)
     {
+        
         if (other.gameObject.tag == "Shockwave")
         {// || other.gameObject.tag == "Enemey"){
 
@@ -860,6 +894,9 @@ public class PlayerController : MonoBehaviour
             healing = false;
             //StopCoroutine("HealingPlayer");
         }
+        
+
+
     }
 
 
@@ -934,5 +971,12 @@ public class PlayerController : MonoBehaviour
     public int getHealth()
     {
         return health;
+    }
+    public enum DisplayLevel
+    {
+        //let us assume that the default position is being displayed over top of the wall. 
+        underWall,
+        overWall,
+        noWall
     }
 }

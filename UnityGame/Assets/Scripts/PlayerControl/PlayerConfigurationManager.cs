@@ -7,6 +7,9 @@ using UnityEngine.SceneManagement;
 
 public class PlayerConfigurationManager : MonoBehaviour
 {
+    const string PVPArena1 = "PVPArena1"; 
+    const string PVPArena2 = "PVPArena2-Fissure";
+    const string TestArena = "Game"; 
     private List<PlayerConfiguration> playerConfigs;
     //private List<int> playerClasses
 
@@ -46,7 +49,8 @@ public class PlayerConfigurationManager : MonoBehaviour
         playerConfigs[index].IsReady = true;
         if (playerConfigs.Count >= 1 && playerConfigs.All(p => p.IsReady == true))
         {
-            SceneManager.LoadScene("PVPArena1");
+            //SceneManager.LoadScene("PVPArena1");
+          SceneManager.LoadScene(PVPArena2);
         }
     }
 

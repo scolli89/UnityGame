@@ -45,7 +45,20 @@ public class GameLogic : MonoBehaviour
     GameObject GetRandomSpawnPoint()
     {
         //return spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Length)];
-        return this.transform.GetChild(UnityEngine.Random.Range(0, numChildren)).gameObject;
+
+
+        // SHOULD WORK FOR NOW
+        // NOT GREAT
+        // SORRY IT SUCKS. 
+
+        // what should we do: other priotities are bigger. O(n).
+        // spawn points are always the first x children if we have a count we can change the numChildren to numSpawnPoints. 
+        // still have to count the spawn points somehow. 
+        GameObject x = this.transform.GetChild(UnityEngine.Random.Range(0, numChildren)).gameObject;
+        while(x.gameObject.CompareTag("Player")){
+            x = this.transform.GetChild(UnityEngine.Random.Range(0, numChildren)).gameObject;
+        }
         
+        return x; 
     }
 }
