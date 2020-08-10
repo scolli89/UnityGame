@@ -90,7 +90,10 @@ public class PlayerController : MonoBehaviour
     public SpriteRenderer spriteRenderer;
     public DisplayLevel displayLevel;
     public DisplayLevel lastDisplayLevel;
-    public bool allowUnder; 
+
+    public DisplayLevel feetPos = DisplayLevel.noWall;
+    public DisplayLevel headPos = DisplayLevel.noWall;
+    public bool allowUnder;
     public GameObject crosshair;
     public AudioManager audioManager;
 
@@ -148,7 +151,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         displayLevel = DisplayLevel.overWall;
-        allowUnder = true; 
+        allowUnder = true;
         //lastDisplayLevel = displayLevel; 
 
 
@@ -601,21 +604,42 @@ public class PlayerController : MonoBehaviour
         }
         animator.SetFloat("Speed", movementSpeed);
         // display level. 
-        if (displayLevel != lastDisplayLevel)
-        {
-            Debug.Log("Level Change");
-            if (displayLevel == DisplayLevel.underWall)
-            {
-                Debug.Log("Level Down");
-                spriteRenderer.sortingLayerName = "UnderWall";
-            }
-            else if (displayLevel == DisplayLevel.overWall)
-            {
-                Debug.Log("Level up");
-                spriteRenderer.sortingLayerName = "OverWall";
-            }
+        // if (displayLevel != lastDisplayLevel)
+        // {
+        //     Debug.Log("Level Change");
+        //     if (displayLevel == DisplayLevel.underWall)
+        //     {
+        //         Debug.Log("Level Down");
+        //         spriteRenderer.sortingLayerName = "UnderWall";
+        //     }
+        //     else if (displayLevel == DisplayLevel.overWall)
+        //     {
+        //         Debug.Log("Level up");
+        //         spriteRenderer.sortingLayerName = "OverWall";
+        //     }
 
-            lastDisplayLevel = displayLevel;
+        //     lastDisplayLevel = displayLevel;
+        // }
+
+
+        
+        if(headPos == DisplayLevel.noWall && feetPos == DisplayLevel.noWall)
+        {
+            displayLevel = DisplayLevel.overWall;
+        }
+        else if(feetPos == DisplayLevel.noWall){
+            displayLevel = headPos;
+        }
+        else{
+            displayLevel = feetPos;
+        }
+        if(displayLevel != lastDisplayLevel){
+            lastDisplayLevel = displayLevel; 
+            // set the sprite renderer. 
+            Debug.Log(displayLevel.ToString());
+            spriteRenderer.sortingLayerName = displayLevel.ToString();
+
+
         }
 
 
@@ -813,7 +837,7 @@ public class PlayerController : MonoBehaviour
     //hurt boxs
     private void OnTriggerEnter2D(Collider2D other)
     {
-     
+
 
         if (other.gameObject.CompareTag("DeathBox"))
         {
@@ -851,7 +875,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        
+
         if (other.gameObject.tag == "Shockwave")
         {// || other.gameObject.tag == "Enemey"){
 
@@ -894,7 +918,7 @@ public class PlayerController : MonoBehaviour
             healing = false;
             //StopCoroutine("HealingPlayer");
         }
-        
+
 
 
     }

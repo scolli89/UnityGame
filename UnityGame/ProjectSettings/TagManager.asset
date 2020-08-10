@@ -61,7 +61,7 @@ TagManager:
   - name: AlwaysUnderWall
     uniqueID: 232858309
     locked: 0
-  - name: UnderWall
+  - name: underWall
     uniqueID: 1030039223
     locked: 0
   - name: Player
@@ -70,7 +70,7 @@ TagManager:
   - name: Walls
     uniqueID: 1983318223
     locked: 0
-  - name: OverWall
+  - name: overWall
     uniqueID: 3877124577
     locked: 0
   - name: AlwaysOverWall
