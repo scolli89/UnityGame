@@ -18,7 +18,7 @@ public class LaserController : MonoBehaviour
         foreach (RaycastHit2D hit in hits){
             GameObject other = hit.collider.gameObject;
             if(other != shooter){ // do the interaction here. 
-            Debug.Log("laser:"+other.tag);
+            //Debug.Log("laser:"+other.tag);
                 if(other.CompareTag("TrailDot")){
                     other.GetComponent<TrailDotController>().setExplode();  
                     break;
