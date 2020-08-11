@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Game.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/PVPArena2-Fissure.unity
+    guid: be6e72b8789767c4186a3eb29329eb01
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: e873cd695692778419095896e06c6f4a,
       type: 2}

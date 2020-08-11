@@ -12,6 +12,9 @@ TagManager:
   - Enemy
   - BuilderWall
   - TrailDot
+  - DeathBox
+  - OverWallTrigger
+  - UnderWallTrigger
   layers:
   - Default
   - TransparentFX
@@ -49,9 +52,27 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Floor
+    uniqueID: 2395457685
+    locked: 0
+  - name: FloorAccessories
+    uniqueID: 1228073931
+    locked: 0
+  - name: AlwaysUnderWall
+    uniqueID: 232858309
+    locked: 0
+  - name: underWall
+    uniqueID: 1030039223
+    locked: 0
   - name: Player
     uniqueID: 2103540157
     locked: 0
-  - name: AbovePlayer
+  - name: Walls
+    uniqueID: 1983318223
+    locked: 0
+  - name: overWall
     uniqueID: 3877124577
+    locked: 0
+  - name: AlwaysOverWall
+    uniqueID: 2685055741
     locked: 0

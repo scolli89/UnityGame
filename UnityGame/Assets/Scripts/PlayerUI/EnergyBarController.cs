@@ -28,7 +28,7 @@ public class EnergyBarController : MonoBehaviour
             energySpriteRenderer.sprite = energySprites[7];
         }
         else{
-            Debug.Log(nrg);
+            
             energySpriteRenderer.sprite = energySprites[nrg]; 
         }
     }
