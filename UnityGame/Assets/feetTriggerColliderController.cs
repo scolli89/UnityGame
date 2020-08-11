@@ -40,38 +40,22 @@ public class feetTriggerColliderController : MonoBehaviour
 
         if (other.gameObject.CompareTag("OverWallTrigger"))
         {
-
-            //playerController.displayLevel = (PlayerController.DisplayLevel)DisplayLevel.overWall;
             playerController.feetPos = (PlayerController.DisplayLevel)DisplayLevel.overWall; 
-            Debug.Log("Feet : Overwalltrigger");
         }
 
         if (other.gameObject.CompareTag("UnderWallTrigger"))
         {
-            // playerController.displayLevel = (PlayerController.DisplayLevel)DisplayLevel.underWall;
-            Debug.Log("Feet: Underwalltrigger");
             playerController.feetPos = (PlayerController.DisplayLevel)DisplayLevel.underWall; 
         }
-        
-
-
-
     }
 
-  
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("OverWallTrigger") || other.gameObject.CompareTag("UnderWallTrigger"))
         {
             playerController.feetPos = (PlayerController.DisplayLevel)DisplayLevel.noWall;
-            Debug.Log("Feet: Leaving Trigger");
         }
-
-
-
     }
-
-
 
     public enum DisplayLevel
     {
@@ -92,4 +76,3 @@ public class feetTriggerColliderController : MonoBehaviour
         }
     }
 }
-

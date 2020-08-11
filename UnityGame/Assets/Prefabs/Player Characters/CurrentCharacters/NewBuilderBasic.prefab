@@ -45,7 +45,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.43335843}
+  m_Offset: {x: 0, y: -0.53773916}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -56,7 +56,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.45830345, y: 0.37163115}
+  m_Size: {x: 0.45830345, y: 0.16286969}
   m_EdgeRadius: 0
 --- !u!114 &4317135133299106834
 MonoBehaviour:
@@ -150,7 +150,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2103540157
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 7a7dacdbc41f31e4889fcf50689b7d01, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -197,7 +197,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0025280118, y: -0.54099303}
+  m_Offset: {x: -0.0025280118, y: -0.5700438}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -208,7 +208,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.49946988, y: 0.108864665}
+  m_Size: {x: 0.49946988, y: 0.16716623}
   m_EdgeRadius: 0
 --- !u!114 &1816475797157318775
 MonoBehaviour:
@@ -264,6 +264,8 @@ MonoBehaviour:
   spriteRenderer: {fileID: 0}
   displayLevel: 0
   lastDisplayLevel: 0
+  feetPos: 2
+  headPos: 2
   allowUnder: 0
   crosshair: {fileID: 1816475797391359212}
   audioManager: {fileID: 0}
@@ -676,7 +678,7 @@ PrefabInstance:
     - target: {fileID: 5416503141228188944, guid: 7b2b6112c54f7d84da8093a7b8561b45,
         type: 3}
       propertyPath: m_SortingLayer
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5416503141228188944, guid: 7b2b6112c54f7d84da8093a7b8561b45,
         type: 3}

@@ -20,16 +20,11 @@ public class headTriggerColliderController : MonoBehaviour
         }
         if (other.gameObject.CompareTag("OverWallTrigger"))
         {
-
-            //playerController.displayLevel = (PlayerController.DisplayLevel)DisplayLevel.overWall;
             playerController.headPos = (PlayerController.DisplayLevel)DisplayLevel.overWall;
-            Debug.Log("Head: Overwalltrigger");
         }
 
         if (other.gameObject.CompareTag("UnderWallTrigger"))
         {
-            // playerController.displayLevel = (PlayerController.DisplayLevel)DisplayLevel.underWall;
-            Debug.Log("Head: Underwalltrigger");
             playerController.headPos = (PlayerController.DisplayLevel)DisplayLevel.underWall;
         }
     }
@@ -39,13 +34,8 @@ public class headTriggerColliderController : MonoBehaviour
         if (other.gameObject.CompareTag("OverWallTrigger") || other.gameObject.CompareTag("UnderWallTrigger"))
         {
             playerController.headPos = (PlayerController.DisplayLevel)DisplayLevel.noWall;
-            Debug.Log("Head: Leaving Trigger");
         }
-
-
-
     }
-
 
     public enum DisplayLevel
     {

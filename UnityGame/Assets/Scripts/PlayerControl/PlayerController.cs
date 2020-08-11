@@ -636,13 +636,8 @@ public class PlayerController : MonoBehaviour
         if(displayLevel != lastDisplayLevel){
             lastDisplayLevel = displayLevel; 
             // set the sprite renderer. 
-            Debug.Log(displayLevel.ToString());
             spriteRenderer.sortingLayerName = displayLevel.ToString();
-
-
         }
-
-
     }
 
     void Aim()
