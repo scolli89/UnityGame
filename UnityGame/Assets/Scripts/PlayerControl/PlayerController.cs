@@ -839,11 +839,7 @@ public class PlayerController : MonoBehaviour
     {
 
 
-        if (other.gameObject.CompareTag("DeathBox"))
-        {
-            Debug.Log("oh no");
-            takeDamage(1);
-        }
+        
         if (other.gameObject.tag == "bullet")
         {
             Debug.Log("Bonk");
