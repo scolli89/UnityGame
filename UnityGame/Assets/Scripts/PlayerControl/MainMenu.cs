@@ -48,7 +48,7 @@ public class MainMenu : MonoBehaviour
     public GameObject arenaMenu;
     public GameObject arenaFirstButton;
     public GameObject gameTypeText;
-    private GameTypes gtSelected = (GameTypes)1;
+    private GameTypes gameTypeSelected = (GameTypes)1;
     public GameObject increaseGameTypeBtn;
     public GameObject decreaseGameTypeBtn;
 
@@ -143,7 +143,7 @@ public class MainMenu : MonoBehaviour
 
     void Awake()
     {
-        Debug.Log("Awake");
+        
         MenuNode mainMenuNode = new MenuNode(MAIN_MENU_NODE_STRING, mainMenu, firstButton);
 
         MenuNode playMenuNode = new MenuNode(PLAY_MENU_NODE_STRING, mainMenuNode, playMenu, playFirstButton, playClosedButton);
@@ -152,15 +152,14 @@ public class MainMenu : MonoBehaviour
         MenuNode campaignMenuNode = new MenuNode(CAMPAIGN_MENU_NODE_STRING, playMenuNode, campaignMenu, campaignFirstButton, campaignClosedButton);
         MenuNode arenaMenuNode = new MenuNode(ARENA_MENU_NODE_STRING, playMenuNode, arenaMenu, arenaFirstButton, arenaClosedButton);
 
-        Debug.Log("Declare Ndes");
+        
 
         mainMenuNode.addChildMenuNode(playMenuNode);
         mainMenuNode.addChildMenuNode(optionsMenuNode);
 
         playMenuNode.addChildMenuNode(campaignMenuNode);
         playMenuNode.addChildMenuNode(arenaMenuNode);
-        Debug.Log("Added children");
-
+        
         // mainMenuNode.printNode();
 
         // playMenuNode.printNode();
@@ -181,7 +180,7 @@ public class MainMenu : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("Start");
+        
         // set default selected object
 
         activeMenuNode.SetActive(true);
@@ -193,28 +192,29 @@ public class MainMenu : MonoBehaviour
     void Update()
     {
 
-        if ((Gamepad.current.bButton.wasPressedThisFrame || Keyboard.current.backspaceKey.wasPressedThisFrame))
+        if (activeMenuNode.menuName != MAIN_MENU_NODE_STRING && (Gamepad.current.bButton.wasPressedThisFrame || Keyboard.current.backspaceKey.wasPressedThisFrame))
         {
-            if (optionsMenu.activeSelf == true)
-            {
-                CloseAndGoBack(optionsMenu, mainMenu, optionsClosedButton);
-                //CloseOptionsMenu();
-            }
-            else if (playMenu.activeSelf == true)
-            {
-                CloseAndGoBack(playMenu, mainMenu, playClosedButton);
-                //ClosePlayMenu();
-            }
-            else if (arenaMenu.activeSelf == true)
-            {
-                CloseAndGoBack(arenaMenu, playMenu, arenaClosedButton);
-                //CloseArenaMenu();
-            }
-            else if (campaignMenu.activeSelf == true)
-            {
-                CloseAndGoBack(campaignMenu, playMenu, campaignClosedButton);
-                //CloseCampaignMenu(); 
-            }
+            GoBack(); 
+            // if (optionsMenu.activeSelf == true)
+            // {
+            //     CloseAndGoBack(optionsMenu, mainMenu, optionsClosedButton);
+            //     //CloseOptionsMenu();
+            // }
+            // else if (playMenu.activeSelf == true)
+            // {
+            //     CloseAndGoBack(playMenu, mainMenu, playClosedButton);
+            //     //ClosePlayMenu();
+            // }
+            // else if (arenaMenu.activeSelf == true)
+            // {
+            //     CloseAndGoBack(arenaMenu, playMenu, arenaClosedButton);
+            //     //CloseArenaMenu();
+            // }
+            // else if (campaignMenu.activeSelf == true)
+            // {
+            //     CloseAndGoBack(campaignMenu, playMenu, campaignClosedButton);
+            //     //CloseCampaignMenu(); 
+            // }
         }
 
     }
@@ -226,23 +226,38 @@ public class MainMenu : MonoBehaviour
 
     public void setGameTypeText(int x)
     {
-        gtSelected += x; // increase or decrease
+        gameTypeSelected += x; // increase or decrease
 
-        if (gtSelected >= GameTypes.end)
+        if (gameTypeSelected >= GameTypes.end)
         {
-            gtSelected -= GameTypes.end - 1;
+            gameTypeSelected -= GameTypes.end - 1;
         }
-        else if (gtSelected <= GameTypes.start)
+        else if (gameTypeSelected <= GameTypes.start)
         {
 
-            gtSelected = gtSelected + (int)GameTypes.end - 1;
+            gameTypeSelected = gameTypeSelected + (int)GameTypes.end - 1;
         }
 
 
-        gameTypeText.GetComponent<TextMeshProUGUI>().text = gtSelected.ToString();
+        gameTypeText.GetComponent<TextMeshProUGUI>().text = gameTypeSelected.ToString();
     }
 
 
+    public void GoButtonOnClick()
+    {
+       
+        GameObject g = new GameObject();
+        ArenaGameDetails a = g.AddComponent<ArenaGameDetails>() as ArenaGameDetails;
+        
+        a.gameType = (ArenaGameDetails.GameTypes) gameTypeSelected;
+        a.mapName = (ArenaGameDetails.Maps) mapSelected;  
+        g.tag = "ArenaGameDetailsObject"; 
+        g.name = "GameDetails"; 
+        DontDestroyOnLoadManager.DontDestroyOnLoad(g); 
+        
+        // load the next scene
+        SceneManager.LoadScene("PlayerSetup");
+    }
     public void setMapText(int x)
     {
         mapSelected += x;
@@ -353,7 +368,7 @@ public class MainMenu : MonoBehaviour
         if (activeMenuNode.menuName == ARENA_MENU_NODE_STRING)
         {
             mapSelectText.GetComponent<TextMeshProUGUI>().text = mapSelected.ToString();
-            gameTypeText.GetComponent<TextMeshProUGUI>().text = gtSelected.ToString();
+            gameTypeText.GetComponent<TextMeshProUGUI>().text = gameTypeSelected.ToString();
         }
     }
     public enum GameTypes

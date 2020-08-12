@@ -8,13 +8,13 @@ public class GameLogic : MonoBehaviour
 {
     // [SerializeField]
     // private GameObject[] spawnPoints;
-    
+
     //private GameObject spawnPointPlacements;
     [SerializeField]
     private GameObject[] playerPrefabs;
 
     private int numChildren;
-    public float respawnDelay = 5f; 
+    public float respawnDelay = 5f;
 
 
     void Start()
@@ -23,6 +23,20 @@ public class GameLogic : MonoBehaviour
         //     spawnPoints[i] = spawnPointPlacements.transform.GetChild(i).gameObject; 
         // }
 
+        // get the gametype
+        GameObject tom = GameObject.FindWithTag("ArenaGameDetailsObject");
+        ArenaGameDetails gameDetails = tom.GetComponent<ArenaGameDetails>();
+        if((MainMenu.GameTypes)gameDetails.gameType == MainMenu.GameTypes.freeForAll){
+            UnityEngine.Debug.Log(gameDetails.gameType.ToString());
+        }
+        else if((MainMenu.GameTypes)gameDetails.gameType == MainMenu.GameTypes.spaceMarbles){
+            UnityEngine.Debug.Log(gameDetails.gameType.ToString());
+        }
+        else {
+            UnityEngine.Debug.Log("Yikes");
+        }
+        // turn on the game details.
+        gameDetails.gameActive = true; 
 
 
 
@@ -30,7 +44,7 @@ public class GameLogic : MonoBehaviour
         for (int i = 0; i < playerConfigs.Length; i++)
         {
             //var player = Instantiate(playerPrefabs[playerConfigs[i].PlayerClass], spawnPoints[i].transform.position, spawnPoints[i].transform.rotation, gameObject.transform);
-            var player = Instantiate(playerPrefabs[playerConfigs[i].PlayerClass], 
+            var player = Instantiate(playerPrefabs[playerConfigs[i].PlayerClass],
             GetRandomSpawnPoint().transform.position, this.transform.GetChild(i).rotation, gameObject.transform);
 
             // var player = Instantiate(playerPrefabs[playerConfigs[i].PlayerClass], 
@@ -42,11 +56,11 @@ public class GameLogic : MonoBehaviour
     }
     public void SpawnArcher(GameObject player)
     {
-        new WaitForSeconds(respawnDelay); 
+        new WaitForSeconds(respawnDelay);
         GameObject spawnPoint = GetRandomSpawnPoint();
         player.transform.position = spawnPoint.transform.position;
     }
-    
+
     GameObject GetRandomSpawnPoint()
     {
         //return spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Length)];
@@ -60,10 +74,15 @@ public class GameLogic : MonoBehaviour
         // spawn points are always the first x children if we have a count we can change the numChildren to numSpawnPoints. 
         // still have to count the spawn points somehow. 
         GameObject x = this.transform.GetChild(UnityEngine.Random.Range(0, numChildren)).gameObject;
-        while(x.gameObject.CompareTag("Player")){
+        while (x.gameObject.CompareTag("Player"))
+        {
             x = this.transform.GetChild(UnityEngine.Random.Range(0, numChildren)).gameObject;
         }
-        
-        return x; 
+
+        return x;
     }
+
+
+
+
 }

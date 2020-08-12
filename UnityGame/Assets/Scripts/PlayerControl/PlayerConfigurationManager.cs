@@ -7,20 +7,22 @@ using UnityEngine.SceneManagement;
 
 public class PlayerConfigurationManager : MonoBehaviour
 {
-    const string PVPArena1 = "PVPArena1"; 
+    const string PVPArena1 = "PVPArena1";
     const string PVPArena2 = "PVPArena2-Fissure";
-    const string TestArena = "Game"; 
+    const string TestArena = "Game";
     private List<PlayerConfiguration> playerConfigs;
     //private List<int> playerClasses
 
-    public static PlayerConfigurationManager Instance {get; private set;}
+    public static PlayerConfigurationManager Instance { get; private set; }
 
     private void Awake()
     {
-        if (Instance != null){
+        if (Instance != null)
+        {
             Debug.Log("This is a singleton - Trying to create another instance of singleton");
         }
-        else{
+        else
+        {
             Instance = this;
             DontDestroyOnLoadManager.DontDestroyOnLoad(this.gameObject);
             playerConfigs = new List<PlayerConfiguration>();
@@ -50,14 +52,31 @@ public class PlayerConfigurationManager : MonoBehaviour
         if (playerConfigs.Count >= 1 && playerConfigs.All(p => p.IsReady == true))
         {
             //SceneManager.LoadScene("PVPArena1");
-          SceneManager.LoadScene(PVPArena2);
+            GameObject g = GameObject.FindWithTag("ArenaGameDetailsObject");
+            ArenaGameDetails a = g.GetComponent<ArenaGameDetails>();
+            
+
+            if((MainMenu.Maps)a.mapName == MainMenu.Maps.fissure){
+                // if it is the fissure map
+                SceneManager.LoadScene(PVPArena2);
+
+            }
+            else if((MainMenu.Maps)a.mapName == MainMenu.Maps.arena1){
+                SceneManager.LoadScene(PVPArena1);
+            }
+            else {
+                SceneManager.LoadScene(PVPArena2);
+            }
+
+            
         }
     }
 
     public void HandlePlayerJoin(PlayerInput pi)
     {
         Debug.Log("Player " + pi.playerIndex + " has joined the game.");
-        if(!playerConfigs.Any(p => p.PlayerIndex == pi.playerIndex)){
+        if (!playerConfigs.Any(p => p.PlayerIndex == pi.playerIndex))
+        {
             pi.transform.SetParent(transform);
             playerConfigs.Add(new PlayerConfiguration(pi));
         }
@@ -71,11 +90,11 @@ public class PlayerConfiguration
         PlayerIndex = pi.playerIndex;
         Input = pi;
     }
-    public PlayerInput Input {get; set;}
+    public PlayerInput Input { get; set; }
 
-    public int PlayerIndex {get; set;}
+    public int PlayerIndex { get; set; }
 
-    public bool IsReady {get; set;}
+    public bool IsReady { get; set; }
 
-    public int PlayerClass {get; set;}
+    public int PlayerClass { get; set; }
 }

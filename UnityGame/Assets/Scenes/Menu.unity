@@ -308,8 +308,8 @@ RectTransform:
   - {fileID: 31839099}
   - {fileID: 1427804286}
   - {fileID: 2057197599}
-  - {fileID: 1669725784}
   - {fileID: 858492710}
+  - {fileID: 1669725784}
   m_Father: {fileID: 2017516889}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3152,11 +3152,11 @@ RectTransform:
   m_Children:
   - {fileID: 460047178}
   m_Father: {fileID: 33033016}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 138, y: -229}
+  m_AnchoredPosition: {x: -118, y: -228}
   m_SizeDelta: {x: 137.36035, y: 55.031815}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &858492711
@@ -3173,9 +3173,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 4
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 1427804287}
+    m_SelectOnUp: {fileID: 2057197600}
+    m_SelectOnDown: {fileID: 1669725785}
+    m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
@@ -3201,7 +3201,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 858492712}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2017516890}
+        m_MethodName: GoButtonOnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &858492712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5142,11 +5153,11 @@ RectTransform:
   m_Children:
   - {fileID: 627160641}
   m_Father: {fileID: 33033016}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -302, y: -234}
+  m_AnchoredPosition: {x: -123, y: -307}
   m_SizeDelta: {x: 137.36035, y: 55.031815}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1669725785
@@ -5163,7 +5174,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 4
-    m_SelectOnUp: {fileID: 2057197600}
+    m_SelectOnUp: {fileID: 858492711}
     m_SelectOnDown: {fileID: 1427804287}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
@@ -6219,7 +6230,7 @@ MonoBehaviour:
   m_Navigation:
     m_Mode: 4
     m_SelectOnUp: {fileID: 1427804287}
-    m_SelectOnDown: {fileID: 1669725785}
+    m_SelectOnDown: {fileID: 858492711}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 1819103589}
   m_Transition: 1
@@ -6246,7 +6257,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2057197601}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2017516885}
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2057197601
 MonoBehaviour:
   m_ObjectHideFlags: 0
