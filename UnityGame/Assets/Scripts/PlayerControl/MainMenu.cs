@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-
+using TMPro;
 public class MainMenu : MonoBehaviour
 {
     // public class Menu
@@ -14,8 +14,8 @@ public class MainMenu : MonoBehaviour
     //     public GameObject firstButton;
     //     public GameObject backButton;
     // }
-    private const string MAIN_MENU_NODE_STRING = "Main Menu Node"; 
-    private const string PLAY_MENU_NODE_STRING ="Play Menu Node"; 
+    private const string MAIN_MENU_NODE_STRING = "Main Menu Node";
+    private const string PLAY_MENU_NODE_STRING = "Play Menu Node";
     private const string OPTIONS_MENU_NODE_STRING = "Options Menu Node";
     private const string ARENA_MENU_NODE_STRING = "Arena Menu Node";
     private const string CAMPAIGN_MENU_NODE_STRING = "Campaign Menu Node";
@@ -47,78 +47,95 @@ public class MainMenu : MonoBehaviour
     [Header("ArenaMenu And Buttons:")]
     public GameObject arenaMenu;
     public GameObject arenaFirstButton;
+    public GameObject gameTypeText;
+    private GameTypes gtSelected = (GameTypes)1;
+    public GameObject increaseGameTypeBtn;
+    public GameObject decreaseGameTypeBtn;
+
+    public GameObject mapSelectText;
+    private Maps mapSelected = (Maps)1;
+    public GameObject increaseMapBtn;
+    public GameObject decreaseMapBtn;
+
     [Space]
     [Header("CampaignMenu And Buttons:")]
     public GameObject campaignMenu;
     public GameObject campaignFirstButton;
 
-    
+
     public class MenuNode
     {
         //constructors
-        public MenuNode(string n,GameObject m){
+        public MenuNode(string n, GameObject m)
+        {
             this.menuName = n;
-            this.menu = m; 
-            childrenMenu = new List<MenuNode>(); 
+            this.menu = m;
+            childrenMenu = new List<MenuNode>();
         }
-        public MenuNode(string n, GameObject m,MenuNode p)
+        public MenuNode(string n, GameObject m, MenuNode p)
         {
             this.menuName = n;
             this.parentNode = p;
             this.menu = m;
             childrenMenu = new List<MenuNode>();
-           
+
         }
-        public MenuNode(string n,GameObject m,GameObject fb)
+        public MenuNode(string n, GameObject m, GameObject fb)
         {
             this.menuName = n;
             this.menu = m;
-            this.firstSelectedButton = fb; 
+            this.firstSelectedButton = fb;
             childrenMenu = new List<MenuNode>();
-           
+
         }
 
-        public MenuNode(string n, MenuNode p,GameObject m,GameObject fb,GameObject bb)
+        public MenuNode(string n, MenuNode p, GameObject m, GameObject fb, GameObject bb)
         {
             this.menuName = n;
             this.parentNode = p;
             this.menu = m;
             this.goBackSelectedButton = bb;
-            this.firstSelectedButton = fb; 
+            this.firstSelectedButton = fb;
             childrenMenu = new List<MenuNode>();
-           
+
         }
 
         //members
         public string menuName;
-        public GameObject menu; 
+        public GameObject menu;
         public GameObject firstSelectedButton; // this is the one that should be first selected
         public GameObject goBackSelectedButton; // this is the button to be used when going backwards 
         public MenuNode parentNode;
         public List<MenuNode> childrenMenu;
 
         // methods
-        public void printNode(){
+        public void printNode()
+        {
 
-            string s = "Name: "+ menuName;
-            if(parentNode != null){
+            string s = "Name: " + menuName;
+            if (parentNode != null)
+            {
                 s += "Parent: " + parentNode.menuName;
             }
             //string d = "Name: "+menuName +"Parent: "+ parentNode.menuName;
-            
-             for(int i =0 ; i < childrenMenu.Count;i++){
-                 s+="     Child "+ i +": "+ childrenMenu[i].menuName;
-             }
-             Debug.Log(s);
+
+            for (int i = 0; i < childrenMenu.Count; i++)
+            {
+                s += "     Child " + i + ": " + childrenMenu[i].menuName;
+            }
+            Debug.Log(s);
         }
-        public void SetActive(bool active){
-            this.menu.SetActive(active); 
+        public void SetActive(bool active)
+        {
+            this.menu.SetActive(active);
         }
-        public void printName(){
+        public void printName()
+        {
             Debug.Log(menuName);
         }
-        public void addChildMenuNode(MenuNode c){
-            childrenMenu.Add(c); 
+        public void addChildMenuNode(MenuNode c)
+        {
+            childrenMenu.Add(c);
         }
     }
 
@@ -127,23 +144,23 @@ public class MainMenu : MonoBehaviour
     void Awake()
     {
         Debug.Log("Awake");
-        MenuNode mainMenuNode = new MenuNode(MAIN_MENU_NODE_STRING,mainMenu,firstButton);
+        MenuNode mainMenuNode = new MenuNode(MAIN_MENU_NODE_STRING, mainMenu, firstButton);
 
-        MenuNode playMenuNode = new MenuNode(PLAY_MENU_NODE_STRING,mainMenuNode,playMenu,playFirstButton,playClosedButton);
-        MenuNode optionsMenuNode = new MenuNode(OPTIONS_MENU_NODE_STRING,mainMenuNode,optionsMenu,optionsFirstButton,optionsClosedButton);
+        MenuNode playMenuNode = new MenuNode(PLAY_MENU_NODE_STRING, mainMenuNode, playMenu, playFirstButton, playClosedButton);
+        MenuNode optionsMenuNode = new MenuNode(OPTIONS_MENU_NODE_STRING, mainMenuNode, optionsMenu, optionsFirstButton, optionsClosedButton);
 
-        MenuNode campaignMenuNode = new MenuNode(CAMPAIGN_MENU_NODE_STRING,playMenuNode,campaignMenu,campaignFirstButton,campaignClosedButton);
-        MenuNode arenaMenuNode = new MenuNode(ARENA_MENU_NODE_STRING,playMenuNode,arenaMenu, arenaFirstButton,arenaClosedButton);
+        MenuNode campaignMenuNode = new MenuNode(CAMPAIGN_MENU_NODE_STRING, playMenuNode, campaignMenu, campaignFirstButton, campaignClosedButton);
+        MenuNode arenaMenuNode = new MenuNode(ARENA_MENU_NODE_STRING, playMenuNode, arenaMenu, arenaFirstButton, arenaClosedButton);
 
         Debug.Log("Declare Ndes");
-    
+
         mainMenuNode.addChildMenuNode(playMenuNode);
         mainMenuNode.addChildMenuNode(optionsMenuNode);
 
         playMenuNode.addChildMenuNode(campaignMenuNode);
-        playMenuNode.addChildMenuNode(arenaMenuNode); 
+        playMenuNode.addChildMenuNode(arenaMenuNode);
         Debug.Log("Added children");
-        
+
         // mainMenuNode.printNode();
 
         // playMenuNode.printNode();
@@ -152,30 +169,30 @@ public class MainMenu : MonoBehaviour
         // arenaMenuNode.printNode();
 
 
-        activeMenuNode = mainMenuNode; 
+        activeMenuNode = mainMenuNode;
         mainMenuNode.SetActive(false);
         playMenuNode.SetActive(false);
         optionsMenuNode.SetActive(false);
         campaignMenuNode.SetActive(false);
         arenaMenuNode.SetActive(false);
-        
+
     }
 
-  
+
     void Start()
     {
         Debug.Log("Start");
         // set default selected object
-        
+
         activeMenuNode.SetActive(true);
         EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(activeMenuNode.firstSelectedButton); 
-       // mainMenu.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(activeMenuNode.firstSelectedButton);
+        // mainMenu.SetActive(true);
         //EventSystem.current.SetSelectedGameObject(firstButton);
     }
     void Update()
     {
-        
+
         if ((Gamepad.current.bButton.wasPressedThisFrame || Keyboard.current.backspaceKey.wasPressedThisFrame))
         {
             if (optionsMenu.activeSelf == true)
@@ -207,10 +224,41 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene("PlayerSetup");
     }
 
-    public void Obbie(int i){
-        Debug.Log(i);
+    public void setGameTypeText(int x)
+    {
+        gtSelected += x; // increase or decrease
+
+        if (gtSelected >= GameTypes.end)
+        {
+            gtSelected -= GameTypes.end - 1;
+        }
+        else if (gtSelected <= GameTypes.start)
+        {
+
+            gtSelected = gtSelected + (int)GameTypes.end - 1;
+        }
+
+
+        gameTypeText.GetComponent<TextMeshProUGUI>().text = gtSelected.ToString();
     }
 
+
+    public void setMapText(int x)
+    {
+        mapSelected += x;
+        if (mapSelected >= Maps.end)
+        {
+            mapSelected -= Maps.end - 1;
+        }
+        else if (mapSelected <= Maps.start)
+        {
+
+            mapSelected = mapSelected + (int)Maps.end - 1;
+        }
+        mapSelectText.GetComponent<TextMeshProUGUI>().text = mapSelected.ToString();
+
+
+    }
     /*
     Main Menu Button Methods
     */
@@ -241,17 +289,6 @@ public class MainMenu : MonoBehaviour
     Play Menu Button Methods
     */
 
-    public void OpenArenaMenu()
-    {
-        Debug.Log("Openning Arena");
-        OpenMenu(arenaMenu, playMenu, arenaFirstButton);
-    }
-    public void OpenCampaignMenu()
-    {
-        Debug.Log("Openning Campaign");
-        OpenMenu(campaignMenu, playMenu, campaignFirstButton);
-
-    }
 
     /*
     OptionsMenuButton Methods
@@ -292,33 +329,45 @@ public class MainMenu : MonoBehaviour
     }
 
 
-    public void GoBack(){
+    public void GoBack()
+    {
         // 
-        activeMenuNode.SetActive(false); 
-        activeMenuNode.parentNode.SetActive(true); 
+        activeMenuNode.SetActive(false);
+        activeMenuNode.parentNode.SetActive(true);
 
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(activeMenuNode.goBackSelectedButton); // get my go back button
         // change the active menu
-        activeMenuNode = activeMenuNode.parentNode; 
+        activeMenuNode = activeMenuNode.parentNode;
     }
 
-    public void GoForward(int ChildNum){
+    public void GoForward(int ChildNum)
+    {
         activeMenuNode.SetActive(false);
         activeMenuNode = activeMenuNode.childrenMenu[ChildNum];
         activeMenuNode.SetActive(true);
 
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(activeMenuNode.firstSelectedButton);
-    }   
+        
+        if (activeMenuNode.menuName == ARENA_MENU_NODE_STRING)
+        {
+            mapSelectText.GetComponent<TextMeshProUGUI>().text = mapSelected.ToString();
+            gameTypeText.GetComponent<TextMeshProUGUI>().text = gtSelected.ToString();
+        }
+    }
     public enum GameTypes
     {
+        start,
         freeForAll,
         spaceMarbles,
+        end
     }
-    public enum Arenas
+    public enum Maps
     {
+        start,
         arena1,
-        fissure
+        fissure,
+        end
     }
 }
