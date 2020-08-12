@@ -30,7 +30,12 @@ public class GameLogic : MonoBehaviour
         for (int i = 0; i < playerConfigs.Length; i++)
         {
             //var player = Instantiate(playerPrefabs[playerConfigs[i].PlayerClass], spawnPoints[i].transform.position, spawnPoints[i].transform.rotation, gameObject.transform);
-            var player = Instantiate(playerPrefabs[playerConfigs[i].PlayerClass], this.transform.GetChild(i).position, this.transform.GetChild(i).rotation, gameObject.transform);
+            var player = Instantiate(playerPrefabs[playerConfigs[i].PlayerClass], 
+            GetRandomSpawnPoint().transform.position, this.transform.GetChild(i).rotation, gameObject.transform);
+
+            // var player = Instantiate(playerPrefabs[playerConfigs[i].PlayerClass], 
+            // this.transform.GetChild(i).position, this.transform.GetChild(i).rotation, gameObject.transform);
+
             player.GetComponent<InputHandler>().InitializePlayer(playerConfigs[i]);
         }
         numChildren = this.transform.childCount;
