@@ -359,45 +359,11 @@ public class PlayerController : MonoBehaviour
         { // player wants to toggle the UI
             toggleUI = false;
             UIisVisible = !UIisVisible;
-            //playerClassGameObject.SetActive(hiddenUI); 
-            for(int i = 0; i < playerUIGameObjects.Count;i++){
-                if(i == 1){
-                    // the ammo bar
-                     playerUIGameObjects[i].transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = UIisVisible;
-                     playerUIGameObjects[i].transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = UIisVisible;
-                }
-                else if(i == 2){
-                    // the animated class mod
-                    playerUIGameObjects[i].GetComponent<Animator>().enabled = UIisVisible;
-                    playerUIGameObjects[i].GetComponent<SpriteRenderer>().enabled = UIisVisible;
-                }
-                else{
-                    // the energy bar
-                    playerUIGameObjects[i].GetComponent<SpriteRenderer>().enabled = UIisVisible;
-                }
-            }
-            // playerUIGameObjects.GetComponent<Animator>().enabled = UIisVisible;
-            // playerUIGameObjects.GetComponent<SpriteRenderer>().enabled = UIisVisible;
-            // if(hiddenUI){
-            //     // if the Ui is on
-            //     playerClassGameObject.SetActive(false);
-            //     hiddenUI = false; 
-            // }
-            // else if(!hiddenUI){
-            //     // if the ui is off
-
-            // }
+            disableUI(UIisVisible);
         }
     }
     void ProcessInputs()
     {
-        // with the new system, we will have already gotten the input booleans. Ie isDashing, 
-        // if (isDashing)
-        // {
-        //     //DASH() or something 
-
-        // }
-        // else 
         if (isAiming)
         {
             crosshair.SetActive(true);
@@ -526,15 +492,12 @@ public class PlayerController : MonoBehaviour
             aimTime = startAimTime;
             Shoot();
         }
-
     }
 
     void Move()
     {
         if (isShocked)
         {
-
-
             if (shockTime <= 0)
             {
                 shockDirection = Vector2.zero;
@@ -547,12 +510,9 @@ public class PlayerController : MonoBehaviour
                 shockTime -= Time.deltaTime;
                 rb.velocity = shockDirection * PUSH_BACK_FORCE;
             }
-
-
         }
         else if (isDashing)
         {
-
             if (dashTime <= 0)
             {
                 dashingDirection = Vector2.zero;
@@ -560,30 +520,20 @@ public class PlayerController : MonoBehaviour
                 dashTime = startDashTime;
                 rb.velocity = Vector2.zero;
                 previousDot = null;
-
             }
             else
             {
                 dashTime -= Time.deltaTime;
-
                 float d = 1 - dashTime / startDashTime;
                 d *= DASH_INFLUCE_FACTOR;
-                //dashingDirection += movementDirection; 
-                //dashingDirection.Normalize(); 
-                // dashingDirection += d*movementDirection; 
-                // dashingDirection.Normalize();
-                // rb.velocity = dashingDirection * dashSpeed;
+
                 if (isAiming)
                 {
-                    //rb.velocity = ((d * lastDashMovementDirection) + dashingDirection) * dashSpeed;
                     rb.velocity = (d * rejection(lastDashMovementDirection, dashingDirection) + dashingDirection) * dashSpeed;
                 }
                 else
                 {
-
-                    //rb.velocity = ((d * movementDirection) + dashingDirection) * dashSpeed;
                     rb.velocity = (d * rejection(movementDirection, dashingDirection) + dashingDirection) * dashSpeed;
-
                 }
                 GameObject thisDot = Instantiate(dot, this.transform.position, Quaternion.identity);
                 //thisDot.transform.parent = this.gameObject.transform;
@@ -597,25 +547,7 @@ public class PlayerController : MonoBehaviour
                     Instantiate(dot, pos, Quaternion.identity);
                 }
                 previousDot = thisDot;
-
-
-
-
-
-
-
-
-
-                // if you are walking, you go twice as far. 
-                // standing still: ::: (<0,0> + <1,0>) * 10 = <10,0>
-                // moving::::: (<1,0>+<1,0>) * 10 = <20,0> 
-                //rb.velocity = (dashingDirection) * dashSpeed; 
             }
-            //this is where you modify the dash direction. 
-            //dashingDirection += movementDirection; 
-            //make the projection here, it will change over time.
-            //
-
         }
         else
         {
@@ -647,35 +579,13 @@ public class PlayerController : MonoBehaviour
         }
         if (animateCrosshair)
         {
-
             float x = 1f / startAimTime;
             //crosshair.SetActive(true);
             crosshairAnimator.SetFloat("SpeedMultiplier", x);
 
             crosshairAnimator.SetBool("AimFinished", shootFlag);
-
-
         }
         animator.SetFloat("Speed", movementSpeed);
-        // display level. 
-        // if (displayLevel != lastDisplayLevel)
-        // {
-        //     Debug.Log("Level Change");
-        //     if (displayLevel == DisplayLevel.underWall)
-        //     {
-        //         Debug.Log("Level Down");
-        //         spriteRenderer.sortingLayerName = "UnderWall";
-        //     }
-        //     else if (displayLevel == DisplayLevel.overWall)
-        //     {
-        //         Debug.Log("Level up");
-        //         spriteRenderer.sortingLayerName = "OverWall";
-        //     }
-
-        //     lastDisplayLevel = displayLevel;
-        // }
-
-
         
         if(headPos == DisplayLevel.noWall && feetPos == DisplayLevel.noWall)
         {
@@ -725,7 +635,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
     public void AimDual(Vector2 direction)
     {
         if (direction != Vector2.zero)
@@ -774,10 +683,7 @@ public class PlayerController : MonoBehaviour
         }
 
         aimDirection.Normalize();
-        //Debug.Log("AimDirection" + aimDirection);
-
         crosshair.transform.localPosition = aimDirection * BUILDER_POWER_DISTANCE;
-        //crosshair.transform.localPosition = movementDirection * CROSSHAIR_DISTANCE;
     }
 
     void Shoot()
@@ -808,7 +714,7 @@ public class PlayerController : MonoBehaviour
     void usePower()
     {
         // i don't know if this is the best way to do it. 
-        // i think that maybe have a gameobject with a seoerate builder power script. 
+        // i think that maybe have a gameobject with a seperate builder power script. 
         // then maybe call the builder power one that script rather than build it all into the player controller. 
         // not sure what is more optimal. 
         if (endUsingPower)
@@ -826,50 +732,6 @@ public class PlayerController : MonoBehaviour
                 // consider giving an error message to player?
                 // flash their ammo red or something to make it noticable that they have nothing
             }
-
-            //playerClass.usePower(crosshair.transform.localPosition, classPrefab); 
-
-
-            // if (className.Equals(BUILDER_CLASS_NAME))
-            // {
-
-            //     if (modName.Equals(BUILDER_MOD_ONE))
-            //     {
-            //         //TIME TO BUILD 
-            //         Vector2 aimDirection = crosshair.transform.localPosition;
-            //         Vector2 buildOffset = new Vector2(this.transform.position.x,this.transform.position.y);
-            //         Vector2 iPosition = aimDirection + buildOffset;
-            //         //iPosition.Normalize();
-
-            //         GameObject wall = Instantiate(classPrefab, iPosition, Quaternion.identity);
-            //         //wall.transform.Rotate(0, 0, Mathf.Atan2(aimDirection.y, aimDirection.x) *Mathf.Rad2Deg + 90 );
-
-            //         //original
-            //         wall.transform.Rotate(0,0,Mathf.Atan2(aimDirection.y, aimDirection.x) *Mathf.Rad2Deg );
-
-            //     }
-            //     else if (modName.Equals(BUILDER_MOD_TWO))
-            //     {
-
-            //     }
-            //     else if (modName.Equals(BUILDER_MOD_THREE))
-            //     {
-
-            //     }
-
-
-
-
-
-            // }
-            // else if (className.Equals(HEALER_CLASS_NAME))
-            // {
-
-            // }
-            // else if (className.Equals(SHOCK_CLASS_NAME))
-            // {
-
-            // }
             crosshair.SetActive(false);
             usingPower = false;
             endUsingPower = false;
@@ -910,12 +772,8 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D other)
     {
-
         if (other.gameObject.tag == "Shockwave")
-        {// || other.gameObject.tag == "Enemey"){
-
-
-
+        {// || other.gameObject.tag == "Enemy"){
             isShocked = true;
             Vector2 shockWavePosition = new Vector2(other.transform.position.x, other.transform.position.y);
             Vector2 myPosition = new Vector2(transform.position.x, transform.position.y);
@@ -923,10 +781,7 @@ public class PlayerController : MonoBehaviour
             right - up; 
             <1,0> - <0,1>
             = <1,-1>; 
-
             */
-
-
 
             Vector2 difference = myPosition - shockWavePosition;
 
@@ -942,7 +797,6 @@ public class PlayerController : MonoBehaviour
             // //rb.AddForce(forceDirection *sw.PUSH_BACK_FORCE);
 
             // rb.velocity = -movementDirection * sw.PUSH_BACK_FORCE * MOVEMENT_BASE_SPEED * Time.deltaTime;
-
         }
     }
     private void OnTriggerExit2D(Collider2D other)
@@ -955,7 +809,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
     public void takeDamage(int damage)
     {
         // switch to one hit kills
@@ -963,10 +816,6 @@ public class PlayerController : MonoBehaviour
             return;
         }
         respawn();
-        /*
-            energy represents shield/ suit level. 
-            we want a health bar attached, like in halo, where health is seperate from recharageable shields. 
-        */
     }
 
     #region respawnFunction
@@ -987,23 +836,27 @@ public class PlayerController : MonoBehaviour
     {
         //toggleUI = true;
         alive = isEnabled;
-        for(int i = 0; i < playerUIGameObjects.Count;i++){
-                if(i == 1){
-                    // the ammo bar
-                     playerUIGameObjects[i].transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = isEnabled;
-                     playerUIGameObjects[i].transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = isEnabled;
-                }
-                else if(i == 2){
-                    // the animated class mod
-                    playerUIGameObjects[i].GetComponent<Animator>().enabled = isEnabled;
-                    playerUIGameObjects[i].GetComponent<SpriteRenderer>().enabled = isEnabled;
-                }
-                else{
-                    // the energy bar
-                    playerUIGameObjects[i].GetComponent<SpriteRenderer>().enabled = isEnabled;
-                }
-            }
+        disableUI(isEnabled);
         spriteRenderer.enabled = isEnabled;
+    }
+
+    public void disableUI(bool isEnabled){
+        for(int i = 0; i < playerUIGameObjects.Count;i++){
+            if(i == 1){
+                // the ammo bar
+                    playerUIGameObjects[i].transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = isEnabled;
+                    playerUIGameObjects[i].transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = isEnabled;
+            }
+            else if(i == 2){
+                // the animated class mod
+                playerUIGameObjects[i].GetComponent<Animator>().enabled = isEnabled;
+                playerUIGameObjects[i].GetComponent<SpriteRenderer>().enabled = isEnabled;
+            }
+            else{
+                // the energy bar
+                playerUIGameObjects[i].GetComponent<SpriteRenderer>().enabled = isEnabled;
+            }
+        }
     }
 
     public IEnumerator invincibility()
@@ -1037,7 +890,6 @@ public class PlayerController : MonoBehaviour
     {
         energyBarController.setHealth(n);
     }
-
     public void setHealth(int health)
     {
         this.health = health;
