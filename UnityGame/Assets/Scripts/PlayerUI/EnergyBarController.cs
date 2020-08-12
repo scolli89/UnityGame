@@ -13,7 +13,6 @@ public class EnergyBarController : MonoBehaviour
     void Start()
     {
         energySpriteRenderer = GetComponent<SpriteRenderer>();
-        healthSpriteRenderer = this.gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>();
     }
 
     public void setEnergy(int nrg){
@@ -43,9 +42,6 @@ public class EnergyBarController : MonoBehaviour
         }
         else if(health > TOP_HEALTH_BOUND){
             healthSpriteRenderer.sprite = healthSprites[TOP_HEALTH_BOUND];
-        }
-        else {
-            healthSpriteRenderer.sprite = healthSprites[health];
         }
 
     }

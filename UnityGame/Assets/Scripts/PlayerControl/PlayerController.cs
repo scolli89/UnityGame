@@ -49,9 +49,9 @@ public class PlayerController : MonoBehaviour
 
     public int energyCount = 0;
     private int energyTime = 100;
+
     [Space]
-    [Header("Shooting Varaibles:")]
-    private Vector2 aimDirection;
+    [Header("Aiming Variables: ")]
     public bool endOfAiming = false;
     public bool isAiming = false;
 
@@ -59,6 +59,15 @@ public class PlayerController : MonoBehaviour
     private float aimTime;
     public bool shootFlag = false;
     public int LASER_DAMAGE = 3;
+    private Vector2 aimDirection;
+
+    [Space]
+    [Header("I-frame variables: ")]
+    public Color flashColor;
+    public Color regularColor;
+    public float flashDuration;
+    public int numberOfFlashes;
+    public bool invincible = false; 
 
     [Space]
     [Header("Dash Variables:")]
@@ -85,12 +94,12 @@ public class PlayerController : MonoBehaviour
 
     [Space]
     [Header("References:")]
+    public GameObject gameLogic;
     private Rigidbody2D rb;
     public Animator animator;
     public SpriteRenderer spriteRenderer;
     public DisplayLevel displayLevel;
     public DisplayLevel lastDisplayLevel;
-
     public DisplayLevel feetPos = DisplayLevel.noWall;
     public DisplayLevel headPos = DisplayLevel.noWall;
     public bool allowUnder;
@@ -121,9 +130,10 @@ public class PlayerController : MonoBehaviour
     [Header("Character UI:")]
     public bool toggleUI;// 
     public bool UIisVisible;
-    GameObject playerClassGameObject;
+    private List<GameObject> playerUIGameObjects;
 
     private bool animateCrosshair;
+    private bool alive = true;
 
     // todos
     // 
@@ -143,11 +153,14 @@ public class PlayerController : MonoBehaviour
      */
     //***
 
+    //Working Titile "BIG Blastas : "
+    //              "Spacey Spacey Shoot Shoot"
 
 
     void Start()
     {
         //        Debug.Log("Player Start");
+        gameLogic = GameObject.Find("GameLogic");
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         displayLevel = DisplayLevel.overWall;
@@ -163,7 +176,12 @@ public class PlayerController : MonoBehaviour
         lastHealth = health;
 
         playerClass = this.gameObject.transform.GetChild(3).GetComponent<PlayerClass>();
-        playerClassGameObject = this.gameObject.transform.GetChild(3).gameObject;
+
+        playerUIGameObjects = new List<GameObject>(); 
+
+        playerUIGameObjects.Add(this.gameObject.transform.GetChild(1).gameObject); 
+        playerUIGameObjects.Add(this.gameObject.transform.GetChild(2).gameObject);
+        playerUIGameObjects.Add(this.gameObject.transform.GetChild(3).gameObject);
 
         //crossHairScript = this.gameObject.transform.GetChild(0).GetComponent<CrossHairScript>(); 
         //crossHairScript = crosshair.GetComponent<CrossHairScript>(); 
@@ -188,7 +206,7 @@ public class PlayerController : MonoBehaviour
     {
         //this is called once a frame. Tied to frame rate. 
         // get the change 
-        if (!PauseMenu.GameIsPaused)
+        if (!PauseMenu.GameIsPaused || !alive)
         {
             ProcessInputs(); // Aim() and AimPower are called within ProcessInputs. 
             Move(); // Move is called in FixedUpdate
@@ -342,8 +360,24 @@ public class PlayerController : MonoBehaviour
             toggleUI = false;
             UIisVisible = !UIisVisible;
             //playerClassGameObject.SetActive(hiddenUI); 
-            playerClassGameObject.GetComponent<Animator>().enabled = UIisVisible;
-            playerClassGameObject.GetComponent<SpriteRenderer>().enabled = UIisVisible;
+            for(int i = 0; i < playerUIGameObjects.Count;i++){
+                if(i == 1){
+                    // the ammo bar
+                     playerUIGameObjects[i].transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = UIisVisible;
+                     playerUIGameObjects[i].transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = UIisVisible;
+                }
+                else if(i == 2){
+                    // the animated class mod
+                    playerUIGameObjects[i].GetComponent<Animator>().enabled = UIisVisible;
+                    playerUIGameObjects[i].GetComponent<SpriteRenderer>().enabled = UIisVisible;
+                }
+                else{
+                    // the energy bar
+                    playerUIGameObjects[i].GetComponent<SpriteRenderer>().enabled = UIisVisible;
+                }
+            }
+            // playerUIGameObjects.GetComponent<Animator>().enabled = UIisVisible;
+            // playerUIGameObjects.GetComponent<SpriteRenderer>().enabled = UIisVisible;
             // if(hiddenUI){
             //     // if the Ui is on
             //     playerClassGameObject.SetActive(false);
@@ -383,57 +417,77 @@ public class PlayerController : MonoBehaviour
 
     public void setMovementDirection(Vector2 direction)
     {
-        movementDirection = direction;
-        movementSpeed = Mathf.Clamp(movementDirection.magnitude, 0.0f, 1.0f);
+        if(alive)
+        {
+            movementDirection = direction;
+            movementSpeed = Mathf.Clamp(movementDirection.magnitude, 0.0f, 1.0f);
+        }
     }
 
     public void setAimDirection(Vector3 mouse)
     {
-        usingMouse = true;
-        mouse.z = 0.0f;
-        mouse = Camera.main.ScreenToWorldPoint(mouse);
-        mouse = mouse - transform.position;
-        aimDirection = new Vector2(mouse.x, mouse.y);
+        if(alive)
+        {
+            usingMouse = true;
+            mouse.z = 0.0f;
+            mouse = Camera.main.ScreenToWorldPoint(mouse);
+            mouse = mouse - transform.position;
+            aimDirection = new Vector2(mouse.x, mouse.y);
+        }   
     }
 
     // called on hold of aim button
     public void setIsAiming()
     {
-        isAiming = true;
-        animateCrosshair = true;
-        lastDashMovementDirection = movementDirection;
+        if(alive)
+        {
+            isAiming = true;
+            animateCrosshair = true;
+            lastDashMovementDirection = movementDirection;
+        }
     }
 
     //called when aim button is released
     public void setIsFiring()
     {
-        animateCrosshair = false;
-        isAiming = false;
-        endOfAiming = true;
-        aimTime = startAimTime;
-        Shoot();
+        if(alive)
+        {
+            animateCrosshair = false;
+            isAiming = false;
+            endOfAiming = true;
+            aimTime = startAimTime;
+            Shoot();
+        }
     }
 
     public void setIsAimingPower()
     {
-        usingPower = true;
+        if(alive)
+        {
+            usingPower = true;
+        }
     }
 
     public void setToggleUI()
     {
-
-        toggleUI = true;//!toggleUI; 
+        if(alive)
+        {
+            toggleUI = true;
+        }
     }
 
     public void setIsFiringPower()
     {
-        usingPower = false;
-        endUsingPower = true;
-        usePower();
+        if(alive)
+        {
+            usingPower = false;
+            endUsingPower = true;
+            usePower();
+        }
     }
     public void setIsDashing()
     {
-        if (isDashing == false)
+        if (alive && isDashing == false)
         {
             // if (energy > 1)
             // {
@@ -465,7 +519,7 @@ public class PlayerController : MonoBehaviour
     }
     public void setDualFire()
     {
-        if (shootFlag == true)
+        if (alive && shootFlag == true)
         {
             isAiming = false;
             endOfAiming = true;
@@ -822,19 +876,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
-    // collsion box
-
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-
-    }
-    //hurt boxs
+    //hurt box
     private void OnTriggerEnter2D(Collider2D other)
     {
-
-
-        
         if (other.gameObject.tag == "bullet")
         {
             Debug.Log("Bonk");
@@ -909,58 +953,73 @@ public class PlayerController : MonoBehaviour
             healing = false;
             //StopCoroutine("HealingPlayer");
         }
-
-
-
     }
 
 
     public void takeDamage(int damage)
     {
         // switch to one hit kills
-        ammoRemaining = DEFAULT_AMMO;
-        energy = DEFAULT_ENERGY;
-        health = DEFAULT_HEALTH;
-        GameObject.Find("GameLogic").GetComponent<GameLogic>().SpawnArcher(this.gameObject);
-
-
-
-        // energy -= damage * LASER_DAMAGE; // e = -1
-
-        // if (energy < 0)
-        // {
-        //     energy = 0;
-        //     health -= damage; //carry-over damage mechanic, going through the shield.  // 2+ -1
-        //     Debug.Log(health);
-
-
-        //     if (health <= 0)
-        //     {
-        //         // kill the player,
-        //         GameObject.Find("GameLogic").GetComponent<GameLogic>().SpawnArcher(this.gameObject);
-
-        //         ammoRemaining = DEFAULT_AMMO;
-        //         energy = DEFAULT_ENERGY;
-        //         health = DEFAULT_HEALTH;
-
-        //     }
-
-
-        // }
-
-
-
-
-
+        if(invincible){
+            return;
+        }
+        respawn();
         /*
             energy represents shield/ suit level. 
             we want a health bar attached, like in halo, where health is seperate from recharageable shields. 
-
         */
-
-
-
     }
+
+    #region respawnFunction
+    public void respawn()
+    {    
+        movementSpeed=0;
+        alive = false;
+        isDashing=false;
+        StartCoroutine(gameLogic.GetComponent<GameLogic>().SpawnArcher(this.gameObject));
+        ammoRemaining = DEFAULT_AMMO;
+        energy = DEFAULT_ENERGY;
+        health = DEFAULT_HEALTH;
+        StartCoroutine(invincibility());
+    }
+    #endregion
+
+    public void enable(bool isEnabled)
+    {
+        //toggleUI = true;
+        alive = isEnabled;
+        for(int i = 0; i < playerUIGameObjects.Count;i++){
+                if(i == 1){
+                    // the ammo bar
+                     playerUIGameObjects[i].transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = isEnabled;
+                     playerUIGameObjects[i].transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = isEnabled;
+                }
+                else if(i == 2){
+                    // the animated class mod
+                    playerUIGameObjects[i].GetComponent<Animator>().enabled = isEnabled;
+                    playerUIGameObjects[i].GetComponent<SpriteRenderer>().enabled = isEnabled;
+                }
+                else{
+                    // the energy bar
+                    playerUIGameObjects[i].GetComponent<SpriteRenderer>().enabled = isEnabled;
+                }
+            }
+        spriteRenderer.enabled = isEnabled;
+    }
+
+    public IEnumerator invincibility()
+    {
+        float temp = 0;
+        invincible = true;
+        while(temp < numberOfFlashes){
+            spriteRenderer.color = flashColor;
+            yield return new WaitForSeconds(flashDuration);
+            spriteRenderer.color = regularColor;
+            yield return new WaitForSeconds(flashDuration);
+            temp++;
+        }
+        invincible = false; 
+    }
+
     public void rechargeEnergyFull()
     {
         laserBoltHealing = true;

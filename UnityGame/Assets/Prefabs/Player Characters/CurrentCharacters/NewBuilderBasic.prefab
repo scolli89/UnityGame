@@ -250,6 +250,11 @@ MonoBehaviour:
   startAimTime: 0.05
   shootFlag: 0
   LASER_DAMAGE: 2
+  flashColor: {r: 0.9339623, g: 0.030838395, b: 0.030838395, a: 0.59607846}
+  regularColor: {r: 0.990566, g: 0.990566, b: 0.990566, a: 1}
+  flashDuration: 0.07
+  numberOfFlashes: 12
+  invincible: 0
   isDashing: 0
   dashSpeed: 10
   startDashTime: 0.47
@@ -260,6 +265,7 @@ MonoBehaviour:
   startShockTime: 0.5
   className: 
   modName: 
+  gameLogic: {fileID: 0}
   animator: {fileID: 1816475797157318772}
   spriteRenderer: {fileID: 0}
   displayLevel: 0
@@ -325,7 +331,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0030437708, y: 0.094362795}
+  m_Offset: {x: 0.0030437708, y: 0.11465901}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -336,7 +342,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.5044265, y: 1.3209988}
+  m_Size: {x: 0.5044265, y: 1.3615912}
   m_EdgeRadius: 0
 --- !u!1 &3305833619063770917
 GameObject:
@@ -419,6 +425,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2235876490007487736, guid: 8cf18114a9eba4944ac5e989ccfd1cca,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2235876490007487736, guid: 8cf18114a9eba4944ac5e989ccfd1cca,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4718179796020425936, guid: 8cf18114a9eba4944ac5e989ccfd1cca,
         type: 3}
@@ -519,6 +535,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7469600223502218469, guid: c0cda46a1c3348f4190ee7ec02d687d3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7469600223502218474, guid: c0cda46a1c3348f4190ee7ec02d687d3,
         type: 3}

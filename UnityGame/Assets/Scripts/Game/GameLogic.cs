@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 
 public class GameLogic : MonoBehaviour
@@ -14,7 +13,7 @@ public class GameLogic : MonoBehaviour
     private GameObject[] playerPrefabs;
 
     private int numChildren;
-    public float respawnDelay = 5f;
+    public float respawnDelay = 3.0f; 
 
 
     void Start()
@@ -54,11 +53,15 @@ public class GameLogic : MonoBehaviour
         }
         numChildren = this.transform.childCount;
     }
-    public void SpawnArcher(GameObject player)
+
+    public IEnumerator SpawnArcher(GameObject player)
     {
-        new WaitForSeconds(respawnDelay);
         GameObject spawnPoint = GetRandomSpawnPoint();
         player.transform.position = spawnPoint.transform.position;
+        
+        player.GetComponent<PlayerController>().enable(false);
+        yield return new WaitForSeconds(respawnDelay);
+        player.GetComponent<PlayerController>().enable(true);
     }
 
     GameObject GetRandomSpawnPoint()
@@ -79,7 +82,7 @@ public class GameLogic : MonoBehaviour
             x = this.transform.GetChild(UnityEngine.Random.Range(0, numChildren)).gameObject;
         }
 
-        return x;
+        return x; 
     }
 
 

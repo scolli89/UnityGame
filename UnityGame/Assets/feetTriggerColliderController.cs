@@ -35,7 +35,7 @@ public class feetTriggerColliderController : MonoBehaviour
         if (other.gameObject.CompareTag("DeathBox"))
         {
             Debug.Log("oh no");
-            playerController.takeDamage(1);
+            playerController.respawn();
         }
 
         if (other.gameObject.CompareTag("OverWallTrigger"))
