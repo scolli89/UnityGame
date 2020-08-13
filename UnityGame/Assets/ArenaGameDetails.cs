@@ -13,39 +13,115 @@ public class ArenaGameDetails : MonoBehaviour
     */
 
 
-    public class Team{
-        public List<PlayerController> teamMembers; 
-        public Team(){
-            teamMembers = new List<PlayerController>(); 
-        }
-        public void addMember(PlayerController pc)
-        {   
-            teamMembers.Add(pc); 
-        }
-    }
 
+    #region members
     public Maps mapName;
     public GameTypes gameType;
-    public List<Team> teams; 
-    public bool gameActive; 
 
-    private void Start() {
+
+    public List<Team> teams;
+
+    public GameParticipant[] players;
+    public bool gameActive;
+    static public SelfColor lastAssignedSelfColor = 0;
+    public float gameTime;
+    public float startGameTime = 60.0f;
+    #endregion
+
+    #region lifeCycleMethods
+    private void Start()
+    {
+        gameActive = false;
+        
         teams = new List<Team>(); // 
-        gameActive = false; 
+
+        gameTime = startGameTime;
     }
     private void Update()
     {
-        if(gameActive){
+        if (gameActive)
+        {
+
+            if (gameTime <= 0)
+            {
+                // game is over
+                gameActive = false;
+            }
+            else
+            {
+                gameTime -= Time.deltaTime;
+            }
+
 
         }
-        
-    }
-    public void initializeGame(){
-
-
 
     }
 
+    #endregion
+    public void initializeGame(GameObject[] passedPlayers)
+    {
+        players = new GameParticipant[passedPlayers.Length];
+
+        for (int i = 0; i < passedPlayers.Length; i++)
+        {
+            PlayerController pc = passedPlayers[i].GetComponent<PlayerController>();
+            GameParticipant gp = new GameParticipant(pc);
+            players[i] = gp;
+            // players[p.getPlayerIndex()] = p;
+
+            //players[i]
+
+        }
+
+        //we now have all the players in the game. 
+
+
+
+
+
+    }
+
+    public void addScoreTo(int pi, int scoreIncrease)
+    {
+        if (gameActive)
+        {
+            players[pi].score += scoreIncrease;
+           // Debug.Log("Player " + pi + " Score : " + players[pi].score);
+        }
+
+
+
+    }
+
+    #region enums
+    public enum SelfColor
+    {
+        start,
+        red,
+        blue,
+        orange,
+        green,
+        yellow,
+        purple,
+        white,
+        cyan,
+        end
+    }
+    public enum TeamColor
+    {
+        start,
+        red,
+        blue,
+        orange,
+        green,
+        yellow,
+        purple,
+        white,
+        cyan,
+        end
+
+
+    }
     public enum GameTypes
     {
         start,
@@ -60,4 +136,5 @@ public class ArenaGameDetails : MonoBehaviour
         fissure,
         end
     }
+    #endregion
 }

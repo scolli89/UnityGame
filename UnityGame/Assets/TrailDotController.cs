@@ -8,6 +8,7 @@ public class TrailDotController : MonoBehaviour
     // public GameObject nextDot;
     // public GameObject prevDot;
     public GameObject explosionEffect;
+    public GameObject sploder; 
 
     private bool explode = false; // trigger to explode this gameObject. 
     private bool hasExploded = false; 
@@ -121,8 +122,9 @@ public class TrailDotController : MonoBehaviour
 
             if (other.CompareTag("TrailDot"))
             {
-                
-                other.GetComponent<TrailDotController>().setExplode();
+                TrailDotController o = other.GetComponent<TrailDotController>();
+                o.sploder = this.sploder; 
+                o.setExplode();
                 //break 
             }
             if (other.CompareTag("Player"))
@@ -133,7 +135,7 @@ public class TrailDotController : MonoBehaviour
                 //
                
                 
-                other.gameObject.GetComponent<PlayerController>().takeDamage(PLY_DMG);
+                other.gameObject.GetComponent<PlayerController>().takeDamage(PLY_DMG,sploder);
                 break;
             }
             if (other.CompareTag("Enemy"))

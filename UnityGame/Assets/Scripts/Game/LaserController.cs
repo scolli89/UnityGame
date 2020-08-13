@@ -20,7 +20,11 @@ public class LaserController : MonoBehaviour
             if(other != shooter){ // do the interaction here. 
             //Debug.Log("laser:"+other.tag);
                 if(other.CompareTag("TrailDot")){
-                    other.GetComponent<TrailDotController>().setExplode();  
+                    
+                    TrailDotController t = other.GetComponent<TrailDotController>();
+                    t.sploder = shooter; 
+                    t.setExplode();  
+
                     break;
                     
                     /*
@@ -44,7 +48,7 @@ public class LaserController : MonoBehaviour
                     // https://www.youtube.com/watch?v=FFzyHDrgDc0
                     //
                     Destroy(gameObject);
-                    other.gameObject.GetComponent<PlayerController>().takeDamage(1);
+                    other.gameObject.GetComponent<PlayerController>().takeDamage(1,shooter);
                     break; 
                 } 
                 if(other.CompareTag("Enemy")){ // right now just the cannon. 

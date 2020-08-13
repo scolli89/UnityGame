@@ -13,7 +13,9 @@ public class GameLogic : MonoBehaviour
     private GameObject[] playerPrefabs;
 
     private int numChildren;
-    public float respawnDelay = 3.0f; 
+    public float respawnDelay = 3.0f;
+    ArenaGameDetails gameDetails;
+    private bool gameOverMessageShown = false;
 
 
     void Start()
@@ -24,47 +26,116 @@ public class GameLogic : MonoBehaviour
 
         // get the gametype
         GameObject tom = GameObject.FindWithTag("ArenaGameDetailsObject");
-        ArenaGameDetails gameDetails = tom.GetComponent<ArenaGameDetails>();
-        if((MainMenu.GameTypes)gameDetails.gameType == MainMenu.GameTypes.freeForAll){
-            UnityEngine.Debug.Log(gameDetails.gameType.ToString());
+        gameDetails = tom.GetComponent<ArenaGameDetails>();
+
+        if ((MainMenu.GameTypes)gameDetails.gameType == MainMenu.GameTypes.freeForAll)
+        {
+            //UnityEngine.Debug.Log(gameDetails.gameType.ToString());
         }
-        else if((MainMenu.GameTypes)gameDetails.gameType == MainMenu.GameTypes.spaceMarbles){
-            UnityEngine.Debug.Log(gameDetails.gameType.ToString());
+        else if ((MainMenu.GameTypes)gameDetails.gameType == MainMenu.GameTypes.spaceMarbles)
+        {
+            //UnityEngine.Debug.Log(gameDetails.gameType.ToString());
         }
-        else {
+        else
+        {
             UnityEngine.Debug.Log("Yikes");
         }
         // turn on the game details.
-        gameDetails.gameActive = true; 
-
-
 
         var playerConfigs = PlayerConfigurationManager.Instance.GetPlayerConfigs().ToArray();
+        GameObject[] players = new GameObject[playerConfigs.Length];
         for (int i = 0; i < playerConfigs.Length; i++)
         {
             //var player = Instantiate(playerPrefabs[playerConfigs[i].PlayerClass], spawnPoints[i].transform.position, spawnPoints[i].transform.rotation, gameObject.transform);
-            var player = Instantiate(playerPrefabs[playerConfigs[i].PlayerClass],
-            GetRandomSpawnPoint().transform.position, this.transform.GetChild(i).rotation, gameObject.transform);
+            players[i] = Instantiate(playerPrefabs[playerConfigs[i].PlayerClass],
+            GetRandomSpawnPoint().position,
+            this.transform.GetChild(i).rotation,
+            gameObject.transform);
+
+
+            players[i].GetComponent<PlayerController>().setPlayerIndex(i);//playerConfigs[i].PlayerIndex); 
 
             // var player = Instantiate(playerPrefabs[playerConfigs[i].PlayerClass], 
             // this.transform.GetChild(i).position, this.transform.GetChild(i).rotation, gameObject.transform);
 
-            player.GetComponent<InputHandler>().InitializePlayer(playerConfigs[i]);
+            players[i].GetComponent<InputHandler>().InitializePlayer(playerConfigs[i]);
         }
-        numChildren = this.transform.childCount;
+        numChildren = this.transform.childCount - players.Length; 
+
+        gameDetails.gameActive = true;
+        gameDetails.initializeGame(players);
+
+
     }
 
+
+    private void Update()
+    {
+        if (gameDetails.gameActive == false && gameOverMessageShown == false)
+        {
+            gameOverMessageShown = true;
+            // game should be over here. As update will be called after 
+            Debug.Log("Game Is Over");
+
+
+            // TODO, DISPLAY RESULTS ON A CANVAS SO EVERYBODY CAN SEE THEM
+            for (int i = 0; i < gameDetails.players.Length; i++)
+            {
+                Debug.Log("Player " + i.ToString() + " scored " + gameDetails.players[i].score.ToString() + " points");
+            }
+        }
+    }
     public IEnumerator SpawnArcher(GameObject player)
     {
-        GameObject spawnPoint = GetRandomSpawnPoint();
+        PlayerController p = player.GetComponent<PlayerController>();
+
+        if ((MainMenu.GameTypes)gameDetails.gameType == MainMenu.GameTypes.freeForAll)
+        {
+            // every kill in freefor all needs to be added to the killers score. 
+
+            // player was killed by environment and not another player, 
+            // player can die by trail. 
+            if (p.killedBy == null || p.killedBy == p)
+            {
+                gameDetails.addScoreTo(p.getPlayerIndex(), -1);
+            }
+            // player was killed by another player
+            else 
+            {
+                
+                int killerPlayerIndex = p.killedBy.GetComponent<PlayerController>().getPlayerIndex();
+
+                // TODO MAKE A HIT FEED using the below concept
+
+               // Debug.Log(killerPlayerIndex.ToString() + "Killed" + p.getPlayerIndex().ToString());
+                gameDetails.addScoreTo(killerPlayerIndex, 1);
+            }
+
+
+
+
+
+
+        }
+        else if ((MainMenu.GameTypes)gameDetails.gameType == MainMenu.GameTypes.spaceMarbles)
+        {
+            // This SHOULD BE WHERE WE DROP ALL THE MARBLES> 
+            // UnityEngine.Debug.Log(gameDetails.gameType.ToString());
+        }
+        else
+        {
+            UnityEngine.Debug.Log("Yikes");
+        }
+
+        Transform spawnPoint = GetRandomSpawnPoint();
         player.transform.position = spawnPoint.transform.position;
-        
+
         player.GetComponent<PlayerController>().enable(false);
         yield return new WaitForSeconds(respawnDelay);
         player.GetComponent<PlayerController>().enable(true);
     }
 
-    GameObject GetRandomSpawnPoint()
+    Transform GetRandomSpawnPoint()
     {
         //return spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Length)];
 
@@ -82,10 +153,12 @@ public class GameLogic : MonoBehaviour
             x = this.transform.GetChild(UnityEngine.Random.Range(0, numChildren)).gameObject;
         }
 
-        return x; 
+        return x.transform;
     }
 
+    // GameObject GetSpawnPoint(int i){
 
+    // }
 
 
 }

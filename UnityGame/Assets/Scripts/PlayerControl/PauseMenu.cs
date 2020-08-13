@@ -18,7 +18,6 @@ public class PauseMenu : MonoBehaviour
 
     void Start(){
         pauseMenuUI = this.transform.GetChild(0).gameObject; 
-        Debug.Log(pauseMenuUI);
     }
     
     public void PauseSwitch()

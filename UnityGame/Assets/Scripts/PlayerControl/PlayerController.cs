@@ -18,6 +18,12 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private int playerIndex = 0;
+    public void setPlayerIndex(int pi){
+        playerIndex = pi;
+    }
+    public int getPlayerIndex(){
+        return playerIndex;
+    }
 
     private bool usingMouse = false;
 
@@ -67,7 +73,7 @@ public class PlayerController : MonoBehaviour
     public Color regularColor;
     public float flashDuration;
     public int numberOfFlashes;
-    public bool invincible = false; 
+    public bool invincible = false;
 
     [Space]
     [Header("Dash Variables:")]
@@ -134,7 +140,8 @@ public class PlayerController : MonoBehaviour
 
     private bool animateCrosshair;
     private bool alive = true;
-
+    public GameObject killedBy; 
+    
     // todos
     // 
     //decouple dash and energy
@@ -177,9 +184,9 @@ public class PlayerController : MonoBehaviour
 
         playerClass = this.gameObject.transform.GetChild(3).GetComponent<PlayerClass>();
 
-        playerUIGameObjects = new List<GameObject>(); 
+        playerUIGameObjects = new List<GameObject>();
 
-        playerUIGameObjects.Add(this.gameObject.transform.GetChild(1).gameObject); 
+        playerUIGameObjects.Add(this.gameObject.transform.GetChild(1).gameObject);
         playerUIGameObjects.Add(this.gameObject.transform.GetChild(2).gameObject);
         playerUIGameObjects.Add(this.gameObject.transform.GetChild(3).gameObject);
 
@@ -199,6 +206,8 @@ public class PlayerController : MonoBehaviour
 
         toggleUI = false;
         UIisVisible = true;
+
+        killedBy = null; 
 
     }
 
@@ -383,7 +392,7 @@ public class PlayerController : MonoBehaviour
 
     public void setMovementDirection(Vector2 direction)
     {
-        if(alive)
+        if (alive)
         {
             movementDirection = direction;
             movementSpeed = Mathf.Clamp(movementDirection.magnitude, 0.0f, 1.0f);
@@ -392,20 +401,20 @@ public class PlayerController : MonoBehaviour
 
     public void setAimDirection(Vector3 mouse)
     {
-        if(alive)
+        if (alive)
         {
             usingMouse = true;
             mouse.z = 0.0f;
             mouse = Camera.main.ScreenToWorldPoint(mouse);
             mouse = mouse - transform.position;
             aimDirection = new Vector2(mouse.x, mouse.y);
-        }   
+        }
     }
 
     // called on hold of aim button
     public void setIsAiming()
     {
-        if(alive)
+        if (alive)
         {
             isAiming = true;
             animateCrosshair = true;
@@ -416,7 +425,7 @@ public class PlayerController : MonoBehaviour
     //called when aim button is released
     public void setIsFiring()
     {
-        if(alive)
+        if (alive)
         {
             animateCrosshair = false;
             isAiming = false;
@@ -428,7 +437,7 @@ public class PlayerController : MonoBehaviour
 
     public void setIsAimingPower()
     {
-        if(alive)
+        if (alive)
         {
             usingPower = true;
         }
@@ -436,7 +445,7 @@ public class PlayerController : MonoBehaviour
 
     public void setToggleUI()
     {
-        if(alive)
+        if (alive)
         {
             toggleUI = true;
         }
@@ -444,7 +453,7 @@ public class PlayerController : MonoBehaviour
 
     public void setIsFiringPower()
     {
-        if(alive)
+        if (alive)
         {
             usingPower = false;
             endUsingPower = true;
@@ -586,19 +595,22 @@ public class PlayerController : MonoBehaviour
             crosshairAnimator.SetBool("AimFinished", shootFlag);
         }
         animator.SetFloat("Speed", movementSpeed);
-        
-        if(headPos == DisplayLevel.noWall && feetPos == DisplayLevel.noWall)
+
+        if (headPos == DisplayLevel.noWall && feetPos == DisplayLevel.noWall)
         {
             displayLevel = DisplayLevel.overWall;
         }
-        else if(feetPos == DisplayLevel.noWall){
+        else if (feetPos == DisplayLevel.noWall)
+        {
             displayLevel = headPos;
         }
-        else{
+        else
+        {
             displayLevel = feetPos;
         }
-        if(displayLevel != lastDisplayLevel){
-            lastDisplayLevel = displayLevel; 
+        if (displayLevel != lastDisplayLevel)
+        {
+            lastDisplayLevel = displayLevel;
             // set the sprite renderer. 
             spriteRenderer.sortingLayerName = displayLevel.ToString();
         }
@@ -812,19 +824,36 @@ public class PlayerController : MonoBehaviour
     public void takeDamage(int damage)
     {
         // switch to one hit kills
-        if(invincible){
+        if (invincible)
+        {
             return;
         }
         respawn();
     }
 
+    public void takeDamage(int damage, GameObject kb)
+    {
+        if (invincible)
+        {
+            return;
+        }
+
+        killedBy = kb; 
+        respawn();
+    }
+
+
     #region respawnFunction
     public void respawn()
-    {    
-        movementSpeed=0;
+    {
+        movementSpeed = 0;
         alive = false;
-        isDashing=false;
+        isDashing = false;
+
         StartCoroutine(gameLogic.GetComponent<GameLogic>().SpawnArcher(this.gameObject));
+
+        killedBy = null;     
+
         ammoRemaining = DEFAULT_AMMO;
         energy = DEFAULT_ENERGY;
         health = DEFAULT_HEALTH;
@@ -840,19 +869,24 @@ public class PlayerController : MonoBehaviour
         spriteRenderer.enabled = isEnabled;
     }
 
-    public void disableUI(bool isEnabled){
-        for(int i = 0; i < playerUIGameObjects.Count;i++){
-            if(i == 1){
+    public void disableUI(bool isEnabled)
+    {
+        for (int i = 0; i < playerUIGameObjects.Count; i++)
+        {
+            if (i == 1)
+            {
                 // the ammo bar
-                    playerUIGameObjects[i].transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = isEnabled;
-                    playerUIGameObjects[i].transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = isEnabled;
+                playerUIGameObjects[i].transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = isEnabled;
+                playerUIGameObjects[i].transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = isEnabled;
             }
-            else if(i == 2){
+            else if (i == 2)
+            {
                 // the animated class mod
                 playerUIGameObjects[i].GetComponent<Animator>().enabled = isEnabled;
                 playerUIGameObjects[i].GetComponent<SpriteRenderer>().enabled = isEnabled;
             }
-            else{
+            else
+            {
                 // the energy bar
                 playerUIGameObjects[i].GetComponent<SpriteRenderer>().enabled = isEnabled;
             }
@@ -863,14 +897,15 @@ public class PlayerController : MonoBehaviour
     {
         float temp = 0;
         invincible = true;
-        while(temp < numberOfFlashes){
+        while (temp < numberOfFlashes)
+        {
             spriteRenderer.color = flashColor;
             yield return new WaitForSeconds(flashDuration);
             spriteRenderer.color = regularColor;
             yield return new WaitForSeconds(flashDuration);
             temp++;
         }
-        invincible = false; 
+        invincible = false;
     }
 
     public void rechargeEnergyFull()

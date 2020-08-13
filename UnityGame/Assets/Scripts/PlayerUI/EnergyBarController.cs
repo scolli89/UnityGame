@@ -18,7 +18,7 @@ public class EnergyBarController : MonoBehaviour
     public void setEnergy(int nrg){
 
         if(energySpriteRenderer == null){
-            Debug.Log("Energy null catch");
+            //Debug.Log("Energy null catch");
             Start();
         }
         if(nrg < 0){
@@ -34,7 +34,7 @@ public class EnergyBarController : MonoBehaviour
 
     public void setHealth(int health){
         if(healthSpriteRenderer == null){
-            Debug.Log("Energy null catch");
+            //Debug.Log("Energy null catch");
             Start();
         }
         if(health < 0){

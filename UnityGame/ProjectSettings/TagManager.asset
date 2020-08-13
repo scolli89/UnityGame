@@ -15,6 +15,7 @@ TagManager:
   - DeathBox
   - OverWallTrigger
   - UnderWallTrigger
+  - ArenaGameDetailsObject
   layers:
   - Default
   - TransparentFX

@@ -15,7 +15,7 @@ public class BuilderClassBasic : PlayerClass
 
     public override void usePower(Vector2 v)//,GameObject g)
     {
-        Debug.Log("BUILDING SHIT");
+       
         //TIME TO BUILD 
         Vector2 aimDirection = v;
 
@@ -27,7 +27,7 @@ public class BuilderClassBasic : PlayerClass
         //Vector2 buildOffset = new Vector2(transform.position.x, transform.position.y);
         Vector2 iPosition = aimDirection + buildOffset;
         //iPosition.Normalize();
-        Debug.Log(iPosition);
+        
         GameObject wall = Instantiate(classPrefab, iPosition, Quaternion.identity);
         //wall.transform.Rotate(0, 0, Mathf.Atan2(aimDirection.y, aimDirection.x) *Mathf.Rad2Deg + 90 );
 
