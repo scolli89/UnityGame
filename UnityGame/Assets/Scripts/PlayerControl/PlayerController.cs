@@ -5,15 +5,37 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 
+    /*
+    UPDATING THE SHOCK, HEALER AURA, and Healer Shot characters.
+
+    1. These need to have feet and heed trigger colliders.
+    2. Check that all values are the same. 
+    3. 
+
+
+    */
+
+
+
+
+
+
+
+
+
+
+
+
+
     [Space]
     [Header("Character Attributes:")]
     public float MOVEMENT_BASE_SPEED = 7f;
-    public float ARROW_BASE_SPEED = 1.0f;
+    public float LASER_BASE_SPEED = 1.0f;
     public float CROSSHAIR_DISTANCE = 5.0f;
 
     public float BUILDER_POWER_DISTANCE = 2.0f;
     public float AIMING_BASE_PENALTY = 0.1f;
-    public float ARROW_OFFSET = 1.2f;
+    public float LASER_OFFSET = 1.2f;
     public float HEALING_WAIT = 2.0f;
 
     [SerializeField]
@@ -33,7 +55,7 @@ public class PlayerController : MonoBehaviour
     public int DEFAULT_AMMO = 10;
     public int DEFAULT_HEALTH = 3;
     public int DEFAULT_ENERGY = 7;
-    private int lastArrowsRemaining;
+    private int lastAmmoRemaining;
     public int health = 3;
     private int lastHealth;
 
@@ -128,7 +150,7 @@ public class PlayerController : MonoBehaviour
 
     [Space]
     [Header("Prefabs:")]
-    public GameObject arrowPrefab;
+    public GameObject laserPrefab;
     public GameObject dashEffect;
 
     Vector3 worldPosition;
@@ -154,8 +176,8 @@ public class PlayerController : MonoBehaviour
     The code should run like before. 
 
     Input manager is set to only join a new player on pause (start or p) button since
-    on any button causes an error where a second arrow is shot from the player's spawn
-    position every time they fire an arrow
+    on any button causes an error where a second laser is shot from the player's spawn
+    position every time they fire an laser
 
      */
     //***
@@ -178,7 +200,7 @@ public class PlayerController : MonoBehaviour
         energyBarController = this.gameObject.transform.GetChild(1).GetComponent<EnergyBarController>();
 
         ammoController = this.gameObject.transform.GetChild(2).GetComponent<AmmoController>();
-        lastArrowsRemaining = ammoRemaining;
+        lastAmmoRemaining = ammoRemaining;
         lastEnergy = energy;
         lastHealth = health;
 
@@ -359,9 +381,9 @@ public class PlayerController : MonoBehaviour
             lastEnergy = energy;
             setEnergyAmount(energy);
         }
-        if (ammoRemaining != lastArrowsRemaining)
+        if (ammoRemaining != lastAmmoRemaining)
         {
-            lastArrowsRemaining = ammoRemaining;
+            lastAmmoRemaining = ammoRemaining;
             setAmmoAmount(ammoRemaining);
         }
         if (toggleUI)
@@ -705,14 +727,14 @@ public class PlayerController : MonoBehaviour
             Vector2 shootingDirection = crosshair.transform.localPosition;
             shootingDirection.Normalize();
             Vector2 iPosition = transform.position;
-            iPosition = iPosition + shootingDirection * ARROW_OFFSET; // this prevents it from hitting the player
+            iPosition = iPosition + shootingDirection * LASER_OFFSET; // this prevents it from hitting the player
 
-            GameObject arrow = Instantiate(arrowPrefab, iPosition, Quaternion.identity);
-            LaserController arrowController = arrow.GetComponent<LaserController>();
-            arrowController.shooter = gameObject;
-            arrowController.velocity = shootingDirection * ARROW_BASE_SPEED; // adjust velocity
-            arrow.transform.Rotate(0, 0, Mathf.Atan2(shootingDirection.y, shootingDirection.x) * Mathf.Rad2Deg);
-            Destroy(arrow, 2.0f);
+            GameObject laser = Instantiate(laserPrefab, iPosition, Quaternion.identity);
+            LaserController laserController = laser.GetComponent<LaserController>();
+            laserController.shooter = gameObject;
+            laserController.velocity = shootingDirection * LASER_BASE_SPEED; // adjust velocity
+            laser.transform.Rotate(0, 0, Mathf.Atan2(shootingDirection.y, shootingDirection.x) * Mathf.Rad2Deg);
+            Destroy(laser, 2.0f);
         }
 
         shootFlag = false;
