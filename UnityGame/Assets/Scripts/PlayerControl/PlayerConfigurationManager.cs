@@ -11,8 +11,6 @@ public class PlayerConfigurationManager : MonoBehaviour
     const string PVPArena2 = "PVPArena2-Fissure";
     const string TestArena = "Game";
     private List<PlayerConfiguration> playerConfigs;
-    //private List<int> playerClasses
-
     public static PlayerConfigurationManager Instance { get; private set; }
 
     private void Awake()
@@ -66,9 +64,7 @@ public class PlayerConfigurationManager : MonoBehaviour
             }
             else {
                 SceneManager.LoadScene(PVPArena2);
-            }
-
-            
+            }            
         }
     }
 

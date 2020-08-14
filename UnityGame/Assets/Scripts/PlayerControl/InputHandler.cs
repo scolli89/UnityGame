@@ -12,8 +12,6 @@ public class InputHandler : MonoBehaviour
     public bool powerFirst = false;
     private PlayerController playerController;
     private PlayerConfiguration playerConfig;
-    //public GameObject playerEmptyPrefab; 
-    //public GameObject[] classMods; 
     private bool aimingMouse=false;
     [SerializeField]
     private PlayerControls controls;
@@ -23,12 +21,6 @@ public class InputHandler : MonoBehaviour
     {
         playerController = GetComponent<PlayerController>();
         controls = new PlayerControls();
-
-        // this is where you need to build a player. 
-        // Vector2 iPosition = new Vector2(0,0); 
-        // GameObject player = Instantiate(playerEmptyPrefab, iPosition, Quaternion.identity);
-        // GameObject mod = Instantiate(classMods[0], iPosition, Quaternion.identity);
-        // player.addChild(mod); 
     }
 
     public void InitializePlayer(PlayerConfiguration pc)
@@ -195,5 +187,4 @@ public class InputHandler : MonoBehaviour
             playerController.setToggleUI();
         }
     }
-
 }
