@@ -228,7 +228,6 @@ MonoBehaviour:
   BUILDER_POWER_DISTANCE: 2
   AIMING_BASE_PENALTY: 0
   ARROW_OFFSET: 1.2
-  HEALING_WAIT: 2
   playerIndex: 0
   ammoRemaining: 12
   DEFAULT_AMMO: 12
@@ -258,7 +257,7 @@ MonoBehaviour:
   isDashing: 0
   dashSpeed: 10
   startDashTime: 0.47
-  DASH_INFLUCE_FACTOR: 0.75
+  DASH_INFLUENCE_FACTOR: 0.75
   lastDashMovementDirection: {x: 0, y: 0}
   isShocked: 0
   PUSH_BACK_FORCE: 10
@@ -285,6 +284,7 @@ MonoBehaviour:
     type: 3}
   toggleUI: 0
   UIisVisible: 0
+  killedBy: {fileID: 0}
 --- !u!114 &5120685968796460511
 MonoBehaviour:
   m_ObjectHideFlags: 0

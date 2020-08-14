@@ -12,7 +12,6 @@ public class InputHandler : MonoBehaviour
     public bool powerFirst = false;
     private PlayerController playerController;
     private PlayerConfiguration playerConfig;
-    private bool aimingMouse=false;
     [SerializeField]
     private PlayerControls controls;
 
@@ -61,16 +60,16 @@ public class InputHandler : MonoBehaviour
         {
             OnDual(obj);
         }
+        if (action == controls.Player.MousePosition.name)
+        {
+            MousePosition();
+        }
 
         // this is a catch to prevent inputs from being triggerred twice
         if(!obj.performed){
             return;
         }
         
-        if (action == controls.Player.MousePosition.name)
-        {
-            MousePosition();
-        }
         if (action == controls.Player.Aim.name)
         {
             OnAim();
@@ -138,9 +137,9 @@ public class InputHandler : MonoBehaviour
 
     public void MousePosition()
     {
-        if (aimingMouse == true && playerController != null)
+        if (playerController != null)
         {
-            playerController.setAimDirection(Mouse.current.position.ReadValue());
+            playerController.setAimDirection(Mouse.current.position.ReadValue());  
         }
     }
 

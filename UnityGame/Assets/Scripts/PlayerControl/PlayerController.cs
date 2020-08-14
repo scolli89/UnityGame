@@ -14,7 +14,6 @@ public class PlayerController : MonoBehaviour
     public float BUILDER_POWER_DISTANCE = 2.0f;
     public float AIMING_BASE_PENALTY = 0.1f;
     public float ARROW_OFFSET = 1.2f;
-    public float HEALING_WAIT = 2.0f;
 
     [SerializeField]
     private int playerIndex = 0;
@@ -82,7 +81,7 @@ public class PlayerController : MonoBehaviour
     private float dashTime;
     public float startDashTime = 0.6f;//0.167f;
     private Vector2 dashingDirection;
-    public float DASH_INFLUCE_FACTOR = 1f;
+    public float DASH_INFLUENCE_FACTOR = 1f;
     public Vector2 lastDashMovementDirection;
 
     [Space]
@@ -92,12 +91,6 @@ public class PlayerController : MonoBehaviour
     public float PUSH_BACK_FORCE = 100f;
     public float startShockTime = 0.5f;
     private float shockTime;
-
-    [Space]
-    [Header("Character Class:")]
-    public string className;
-    public string modName;
-
     [Space]
     [Header("References:")]
     public GameObject gameLogic;
@@ -534,7 +527,7 @@ public class PlayerController : MonoBehaviour
             {
                 dashTime -= Time.deltaTime;
                 float d = 1 - dashTime / startDashTime;
-                d *= DASH_INFLUCE_FACTOR;
+                d *= DASH_INFLUENCE_FACTOR;
 
                 if (isAiming)
                 {
@@ -543,6 +536,7 @@ public class PlayerController : MonoBehaviour
                 else
                 {
                     rb.velocity = (d * rejection(movementDirection, dashingDirection) + dashingDirection) * dashSpeed;
+                    //rb.velocity = (d * rejection(movementDirection, lastMovementDirection) + dashingDirection) * dashSpeed;
                 }
                 GameObject thisDot = Instantiate(dot, this.transform.position, Quaternion.identity);
                 //thisDot.transform.parent = this.gameObject.transform;
@@ -649,7 +643,7 @@ public class PlayerController : MonoBehaviour
 
     public void AimDual(Vector2 direction)
     {
-        if (direction != Vector2.zero)
+        if (alive && direction != Vector2.zero)
         {
             animateCrosshair = true;
             crosshair.SetActive(true);
@@ -849,10 +843,12 @@ public class PlayerController : MonoBehaviour
         movementSpeed = 0;
         alive = false;
         isDashing = false;
+        crosshair.SetActive(true);
+
 
         StartCoroutine(gameLogic.GetComponent<GameLogic>().SpawnArcher(this.gameObject));
 
-        killedBy = null;     
+        killedBy = null;
 
         ammoRemaining = DEFAULT_AMMO;
         energy = DEFAULT_ENERGY;

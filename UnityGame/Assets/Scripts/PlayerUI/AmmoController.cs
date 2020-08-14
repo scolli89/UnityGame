@@ -38,7 +38,7 @@ public class AmmoController : MonoBehaviour
             /* getting an error where the player was calling UpdateUI() and it was throwing a null exception  because
            * it hadnt been assigned yet. The object existed but its start funciton was not yet called. 
            */
-            Debug.Log("ammo null catch ");
+            //Debug.Log("ammo null catch ");
             Start();
         }
         int[] values = new int[2];

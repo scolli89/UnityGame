@@ -61,6 +61,7 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1f;
         // destroy the player configuration manager and its componenets to reset player setup process
         DontDestroyOnLoadManager.DestroyAll();
+        GameIsPaused=false;
         SceneManager.LoadScene("Menu");
     }
 
