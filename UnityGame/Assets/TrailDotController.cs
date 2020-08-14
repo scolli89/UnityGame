@@ -19,6 +19,9 @@ public class TrailDotController : MonoBehaviour
     public float DESTROY_DOT_TIME = 15f;
     public int PLY_DMG = 2; 
     public int WALL_DMG = 1;
+
+    public AudioManager audioManager;
+
     void Start()
     {
         countDown = delay; 
@@ -33,10 +36,12 @@ public class TrailDotController : MonoBehaviour
             countDown -=Time.deltaTime; 
             if(countDown <= 0 && !hasExploded){
                 BrakeysExplode(); 
-              
             }
-            
         }
+    }
+
+    public void debug(AudioManager am){
+        audioManager = am;
     }
 
     // void Explode()
@@ -101,7 +106,8 @@ public class TrailDotController : MonoBehaviour
     void BrakeysExplode()
     {
         hasExploded = true; 
-        // show explosion effect.
+        // show explosion effect and play sound
+        audioManager.playSound("Explosion (trail)");
         GameObject i = Instantiate(explosionEffect, transform.position, transform.rotation);
         Destroy(i,0.4f);
         // get all the hits in the area.

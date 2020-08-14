@@ -561,7 +561,11 @@ public class PlayerController : MonoBehaviour
                     rb.velocity = (d * rejection(movementDirection, dashingDirection) + dashingDirection) * dashSpeed;
                     //rb.velocity = (d * rejection(movementDirection, lastMovementDirection) + dashingDirection) * dashSpeed;
                 }
+
                 GameObject thisDot = Instantiate(dot, this.transform.position, Quaternion.identity);
+                thisDot.GetComponent<TrailDotController>().debug(audioManager);//audioManager = audioManager;
+                
+
                 //thisDot.transform.parent = this.gameObject.transform;
 
                 if (previousDot != null)
@@ -570,7 +574,7 @@ public class PlayerController : MonoBehaviour
                     //set previous dot's nextDot field to be thisDot. 
                     Vector2 pos = new Vector2((this.transform.position.x + previousDot.transform.position.x) / 2,
                     (this.transform.position.y + previousDot.transform.position.y) / 2);
-                    Instantiate(dot, pos, Quaternion.identity);
+                    //Instantiate(dot, pos, Quaternion.identity);
                 }
                 previousDot = thisDot;
             }
@@ -724,7 +728,11 @@ public class PlayerController : MonoBehaviour
             Vector2 iPosition = transform.position;
             iPosition = iPosition + shootingDirection * LASER_OFFSET; // this prevents it from hitting the player
 
+            audioManager.playSound("Laser Fire"); // sound effect
+
             GameObject laser = Instantiate(laserPrefab, iPosition, Quaternion.identity);
+            laser.GetComponent<LaserController>().audioManager = audioManager; // pass audiomanager to save on computing power
+
             LaserController laserController = laser.GetComponent<LaserController>();
             laserController.shooter = gameObject;
             laserController.velocity = shootingDirection * LASER_BASE_SPEED; // adjust velocity

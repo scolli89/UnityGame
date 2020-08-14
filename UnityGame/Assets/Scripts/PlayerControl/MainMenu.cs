@@ -39,6 +39,7 @@ public class MainMenu : MonoBehaviour
     public GameObject campaignClosedButton;
     [Space]
     [Header("OPtionsMenu And Buttons:")]
+    public GameObject FullscreenSelectText;
     public GameObject optionsMenu;
     public GameObject optionsFirstButton;
 
@@ -271,8 +272,6 @@ public class MainMenu : MonoBehaviour
             mapSelected = mapSelected + (int)Maps.end - 1;
         }
         mapSelectText.GetComponent<TextMeshProUGUI>().text = mapSelected.ToString();
-
-
     }
     /*
     Main Menu Button Methods
@@ -308,7 +307,19 @@ public class MainMenu : MonoBehaviour
     /*
     OptionsMenuButton Methods
     */
-
+    public void setFullScreen()
+    {
+        // if (!fullscreenEnabled)
+        // {
+        //     FullscreenSelectText.GetComponent<TextMeshProUGUI>().text = "On";
+        //     fullscreenEnabled = true;
+        // }
+        // else
+        // {
+        //     FullscreenSelectText.GetComponent<TextMeshProUGUI>().text = "Off";
+        //     fullscreenEnabled = false;
+        // }
+    }
 
     public void CloseOptionsMenu()
     {
@@ -319,7 +330,6 @@ public class MainMenu : MonoBehaviour
         // set default selected object
         EventSystem.current.SetSelectedGameObject(optionsClosedButton);
     }
-
 
     /*
     Helper Methods

@@ -1,48 +1,84 @@
 TODO List! 
-What do we need to do first?
-
 BUGS / ISSUES
 	> ABLE TO CLIP THROUGH BRIDGE AND walk on water. 
 	> BUILDERS NEED TO BE ABLE SHOOT THROUGH THEIR OWN WALLS.
-	> POLISH DASHING Feel
 
-> Get the guy to interact with the environment. 
-	> Levers, Pressur plates, switches ? 
-	> HAving those things AAA do stuff
-
-
-> Death by environemnt? (Drowning, Out of bounds) 
+What do we need to be "Done" and happy by next week? 
+	> Clean up player UI:
+		> No ammo bar, No health bar
+		> Just battery
+	> Scoreboard
+		> After game -> must
+		> W: During game. 
+	> Slow down fire rate. 
+	> Fix the existing classes
+	> Add atleast 4 classes that we kind of like:
+		> Turret -> Hardest part would be targeting only enemies-> Only game types are freeforall, just don't target the placer
+		> Teleporter -> Place the two parts? Or place one then press b again to teleport? destroyable? 
+		> Bubble shield -> no bullets move in, no bullets move out. 
+			> Refraction shield ? -> bullets enter but get refracted at a strange angle, Bullets exit but get refracted too
+				> or bullets in refracted, bullets out not refracted : encourages use by a player. 
+		> will come back to this
+		> considering using fire types instead of powers	
+	> Fix when you are right up against a wall, shooting left or right, you shoot right into a wall.
+	> Fix When you are right up against a builder wall, able to shoot over/through it.
+	> We need at least 2 more PVP levels. Not counting the current Arena 1. So 
+	> More sound effects
+		> Death
+		> Respawn
+		> Marble collection?
+		> Whoosh when dash
+		> Gravel cruch - steps
+		> Laser disapaite when hitting environment.
+		> Sploding sounds
+		> Charging laser: Charged Laser: Firing laser: 	
+		> Menu noisies
+	Menu:
+		> Match modifiers:
+			> Time
+			> Score limit
+			> teams: Team attack?
+			> 
+			
+		> Options: 
+			> Visual settings
+				> W: Resoultion -> drop down
+				> Full screen/windowed/borderless window -> drop down
+				> Brightness -> Slider
+			> Audio settings 
+				> Master volume -> slider
+				> Music volume -> slider
+				> Sound effects -> slider
+				> MUTE -> Check mark 
+			> Game settings:
+				> W : Rumble
+				> W : Changable Controls. 
+ 		> Menu Responsivness :
+			> MEnu noises: Moving : Confirming
+			> Fix the highlight on the level selection,
+	> Music
+		> Some bopping free tunes. 
+	>Pause menu?
+		> fix the highlighting issuses
+	> W: Campaign
+		> Need Levels
+		> Adjust enemy ai to the specific level
+		> win conditions
+		> Progress tracking/ game saving > Saving Game  progression_ 
+			> UNLOCKABLE LEVELS
+		> Boss battles ? 
 	
-		 		
-> We need a menu screen.
-	> Visual settings
-	> Other stuff
-
-> Create the rest of the game
-	> Class system.
-	> Enemy AI
-	> Saving Game  progression_ 
-	> PVP setup
-	> Controller support
-	> Game modes
-	> Map and level design
-	> Boss battles ? 
-
-
->> Pause menu
 
 >> Wishlist
-	>> have player UI elements ( health (which we are possibly thinking changing to shields and 1 health) and ammo.) toggle with a button push. 
-		>>> shield displays/ shield numbers
-		>>> number of power up charges. 
+	
+	> Get the guy to interact with the environment. 
+		> Levers, Pressur plates, switches ? 
+		> HAving those things AAA do stuff
 
-	>> Make the theme a space scifi with lasers and stuff?
-		>>> Sound effects
-		>>> Music
 
 	
-
-	>> Character creation : 
+>> Class Ideas
+>> Character creation : 
 		> 1 class
 		> 1 Class mod
 		> 1 passive
@@ -70,7 +106,7 @@ BUGS / ISSUES
 		Mod 2: shockwave disables class abilities
 		Mod 3:  shockwave is smaller, reflects projectiles?
 		Mod 4: Projectile Shockwave
-		Mod 5: 
+	
 
 		Grenider:
 		Mod 1: Explosive: Throws aoe grenade forward that explodes and pushes people back. 
@@ -86,6 +122,11 @@ BUGS / ISSUES
 		Mod X+1: Portal placement? Place entry and exit locations. 
 		Mod x+2: 
 
+		Unsorted:
+		1: Cancels/ drains other peoples abilities/ energy
+		2: mine to imobalize -> Why would you pick this over a regular mine? longer, wider explosive range? 
+		3: shot to immobalize.
+
 		Passives:
 		1: take more hits/ more shields / more health
 		2: Movement Speed increase
@@ -94,8 +135,6 @@ BUGS / ISSUES
 		5: Power/ ammo recharges over time, but it starts very low or zero. 
 		6: Shields recharge over time, but start very low. 
 		7: Kills recharge powers
-		8:
-		9:
 
 		Fire Styles:
 		1: basic - decent fire rate moderate damage.
@@ -104,11 +143,6 @@ BUGS / ISSUES
 		4: erasing shot - over powers other lasers, really slow.
 		5: Corner turning shots - travels straight, then turns either by player or route 
 		6:  remote control bomb
-	
-		
-		
-MENU SELECT. 
-	Be able to select between several different Game set ups. 
 
 
 
@@ -128,7 +162,23 @@ MENU SELECT.
 			> predetermined location under timer
 
 
+
+
+
+
+
 TO DONE! LIST
+
+	>> have player UI elements ( health (which we are possibly thinking changing to shields and 1 health) and ammo.) toggle visable with a button push. 
+		>>> shield displays/ shield numbers
+		>>> number of power up charges. 
+
+	>> Make the theme a space scifi with lasers and stuff
+
+
+
+
+
 >> Character creation : 
 Class : Healer 
 Mod 1 : Heal close range players : specific mechanic? place a tile and the tile heals, or make an aura around the healer. 
@@ -169,6 +219,12 @@ Mod1 : Shockwave: who pushes people away with a shock wave or whatever.
 
 > We need a menu screen.
 	> Controller support
+	> PVP setup
+	> Controller support
+	> GAME MODE AND LEVEL SELECTION PVP
 
->> instead of a roll - use a dash: megaman dash frame, functions the same as roll, less animating. 	
+>> instead of a roll - use a dash: megaman dash frame, functions the same as roll, less animating.
+> POLISH DASHING Feel 	
 	
+
+> Death by environemnt? (Drowning, Out of bounds) 
