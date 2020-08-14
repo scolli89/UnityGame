@@ -866,7 +866,7 @@ public class PlayerController : MonoBehaviour
         movementSpeed = 0;
         alive = false;
         isDashing = false;
-        crosshair.SetActive(true);
+        crosshair.SetActive(false);
 
 
         StartCoroutine(gameLogic.GetComponent<GameLogic>().SpawnArcher(this.gameObject));
