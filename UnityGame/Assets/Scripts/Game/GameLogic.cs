@@ -11,11 +11,14 @@ public class GameLogic : MonoBehaviour
     //private GameObject spawnPointPlacements;
     [SerializeField]
     private GameObject[] playerPrefabs;
+    [SerializeField]
+    public GameObject[] trailDots;
 
     private int numChildren;
     public float respawnDelay = 3.0f;
     ArenaGameDetails gameDetails;
     private bool gameOverMessageShown = false;
+
 
 
     void Start()
@@ -53,14 +56,24 @@ public class GameLogic : MonoBehaviour
             gameObject.transform);
 
 
-            players[i].GetComponent<PlayerController>().setPlayerIndex(i);//playerConfigs[i].PlayerIndex); 
+            PlayerController pc = players[i].GetComponent<PlayerController>();
+            pc.setPlayerIndex(i);//playerConfigs[i].PlayerIndex); 
+            if (pc.getPlayerIndex() >= trailDots.Length)
+            {
+                pc.dot = trailDots[pc.getPlayerIndex() - trailDots.Length];
+            }
+            else
+            {
+                pc.dot = trailDots[pc.getPlayerIndex()];
+            }
+
 
             // var player = Instantiate(playerPrefabs[playerConfigs[i].PlayerClass], 
             // this.transform.GetChild(i).position, this.transform.GetChild(i).rotation, gameObject.transform);
 
             players[i].GetComponent<InputHandler>().InitializePlayer(playerConfigs[i]);
         }
-        numChildren = this.transform.childCount - players.Length; 
+        numChildren = this.transform.childCount - players.Length;
 
         gameDetails.gameActive = true;
         gameDetails.initializeGame(players);
@@ -100,14 +113,14 @@ public class GameLogic : MonoBehaviour
                 gameDetails.addScoreTo(p.getPlayerIndex(), -1);
             }
             // player was killed by another player
-            else 
+            else
             {
-                
+
                 int killerPlayerIndex = p.killedBy.GetComponent<PlayerController>().getPlayerIndex();
 
                 // TODO MAKE A HIT FEED using the below concept
 
-               // Debug.Log(killerPlayerIndex.ToString() + "Killed" + p.getPlayerIndex().ToString());
+                // Debug.Log(killerPlayerIndex.ToString() + "Killed" + p.getPlayerIndex().ToString());
                 gameDetails.addScoreTo(killerPlayerIndex, 1);
             }
 

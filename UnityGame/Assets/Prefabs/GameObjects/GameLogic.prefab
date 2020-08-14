@@ -49,4 +49,9 @@ MonoBehaviour:
   - {fileID: 4684039335036393759, guid: 74b6c2586f49c424b845b2435fe84c69, type: 3}
   - {fileID: 8105924343843955941, guid: f70c67dbfeb45c64fa70cd45fd6ff039, type: 3}
   - {fileID: 2210797003256736326, guid: 45d9658302f49884ab62340478a69ab5, type: 3}
+  trailDots:
+  - {fileID: 2689541635898732734, guid: ca1ae0ccaf280264ca5875674ee5c11a, type: 3}
+  - {fileID: 8170576407584360832, guid: 88d30b20444b2fb4ca2fe94fec506558, type: 3}
+  - {fileID: 2473964281525772922, guid: f9b48b4aebd00ea43832a0c3f02d0d77, type: 3}
+  - {fileID: 5300134030862972238, guid: 09c48cb7fc4a0104ca6ecbed4840ceb2, type: 3}
   respawnDelay: 5
