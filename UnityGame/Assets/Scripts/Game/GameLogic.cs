@@ -2,6 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+
+using UnityEngine.UI;
 
 public class GameLogic : MonoBehaviour
 {
@@ -18,6 +21,8 @@ public class GameLogic : MonoBehaviour
     public GameObject[] marblePrefabs;
     public GameObject[] mapMarkers;
 
+    public GameObject ScoreBoardCanvas;
+    public TextMeshProUGUI scoreBoardText;
 
 
     private int numSpawnPoints;
@@ -32,9 +37,21 @@ public class GameLogic : MonoBehaviour
 
     void Start()
     {
-
+        ScoreBoardCanvas.SetActive(false);
         //randomExample();
         //getting map boundaries
+
+        /*
+        THINGS TO FIX:
+        SPACE MARBLES:
+        1. Marbles spawn in walls and outside of map.
+        2. Marbles are dropped outside of map
+        3. Aaron mentioned that picking up the marbles should be sooner when moving up to them.
+            -> It used to be on the players hitbox. 
+            -> It is now on the players feet trigger box. 
+        4. UI Scoreboard. 
+        */
+
 
 
         GameObject tom = GameObject.FindWithTag("ArenaGameDetailsObject");
@@ -138,16 +155,8 @@ public class GameLogic : MonoBehaviour
             gameOverMessageShown = true;
             // game should be over here. As update will be called after 
             Debug.Log("Game Is Over");
-            if ((MainMenu.GameTypes)gameDetails.gameType == MainMenu.GameTypes.spaceMarbles)
-            {
-                gameDetails.convertMarblesToScore();
-            }
+            DisplayScoreBoard();
 
-            // TODO, DISPLAY RESULTS ON A CANVAS SO EVERYBODY CAN SEE THEM
-            for (int i = 0; i < gameDetails.players.Length; i++)
-            {
-                Debug.Log("Player " + i.ToString() + " scored " + gameDetails.players[i].score.ToString() + " points");
-            }
         }
     }
     public IEnumerator SpawnArcher(GameObject player)
@@ -246,22 +255,51 @@ public class GameLogic : MonoBehaviour
         PlayerController p = player.GetComponent<PlayerController>();
         int marblesToDrop = gameDetails.setMarblesTo(p.getPlayerIndex(), 0);
         Vector3 deathSpot = player.transform.position;
+        // consider
+
+        /*
+        1. Spawn all at the spot of players death.
+        2. maker them move 
+        */
 
         // instantiate the marbles at the spot of death.
         for (int i = 0; i < marblesToDrop; i++)
         {
 
             // create marbles
-            Vector3 randomCirle = UnityEngine.Random.insideUnitCircle * 3; 
-            Vector3 dropSpot = deathSpot + randomCirle; 
-            
+            Vector3 randomCirle = UnityEngine.Random.insideUnitCircle * 3;
+            Vector3 dropSpot = deathSpot + randomCirle;
+
             var marble = Instantiate(RandomMarble(), dropSpot, Quaternion.identity, gameObject.transform);
 
             marble.GetComponent<SpaceMarbleController>().setGameLogic(this);
         }
 
     }
+    public void DisplayScoreBoard()
+    {
+        ScoreBoardCanvas.SetActive(true);
+        
 
+
+        if ((MainMenu.GameTypes)gameDetails.gameType == MainMenu.GameTypes.spaceMarbles)
+        {
+            gameDetails.convertMarblesToScore();
+        }
+
+        // TODO, DISPLAY RESULTS ON A CANVAS SO EVERYBODY CAN SEE THEM
+        scoreBoardText.text += "\n";
+        for (int i = 0; i < gameDetails.players.Length; i++)
+        {
+            scoreBoardText.text += "Player " + i.ToString() + " scored " + gameDetails.players[i].score.ToString() + " points" + "\n";
+            
+        }
+        
+
+
+
+
+    }
 
     private float[] noiseValues;
     public void randomExample()
@@ -276,3 +314,28 @@ public class GameLogic : MonoBehaviour
     }
 }
 
+// public class CupGame : MonoBehaviour{
+//     public int Score;
+//     public Text ScoreText;
+
+//     // Update is called once per frame
+//     void Update(){
+//         if(Score >= 5){
+//             YouWin();
+//         }
+
+//     }
+//     void YouWin(){
+//         ScoreText.text = "You Win!";
+//         Time.timeScale = 0f;
+//     }
+//     private void OnTriggerEnter2D(Collider2D other){
+//         Destroy(other.gameObject);
+//         AddScore();
+//     }
+
+//     void AddScore(){
+//         Score++;
+//         ScoreText.text = Score.ToString();
+//     }
+// }

@@ -5,28 +5,6 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 
-    /*
-    UPDATING THE SHOCK, HEALER AURA, and Healer Shot characters.
-
-    1. These need to have feet and heed trigger colliders.
-    2. Check that all values are the same. 
-    3. 
-
-
-    */
-
-
-
-
-
-
-
-
-
-
-
-
-
     [Space]
     [Header("Character Attributes:")]
     public float MOVEMENT_BASE_SPEED = 7f;
