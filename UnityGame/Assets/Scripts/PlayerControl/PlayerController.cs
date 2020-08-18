@@ -18,10 +18,12 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private int playerIndex = 0;
-    public void setPlayerIndex(int pi){
+    public void setPlayerIndex(int pi)
+    {
         playerIndex = pi;
     }
-    public int getPlayerIndex(){
+    public int getPlayerIndex()
+    {
         return playerIndex;
     }
 
@@ -134,8 +136,8 @@ public class PlayerController : MonoBehaviour
 
     private bool animateCrosshair;
     private bool alive = true;
-    public GameObject killedBy; 
-    
+    public GameObject killedBy;
+
     // todos
     // 
     //decouple dash and energy
@@ -158,6 +160,12 @@ public class PlayerController : MonoBehaviour
     //              "Spacey Spacey Shoot Shoot"
 
 
+    // Player GameObject:
+    // Child 0: Crosshair
+    // 1: EnergyBar
+    //2. Mod
+    //3. TriggerBoxFeet
+    //4. TriggerBoxHead
     void Start()
     {
         //        Debug.Log("Player Start");
@@ -171,18 +179,18 @@ public class PlayerController : MonoBehaviour
 
         energyBarController = this.gameObject.transform.GetChild(1).GetComponent<EnergyBarController>();
 
-        ammoController = this.gameObject.transform.GetChild(2).GetComponent<AmmoController>();
-        lastAmmoRemaining = ammoRemaining;
+        //ammoController = this.gameObject.transform.GetChild(2).GetComponent<AmmoController>();
+        //lastAmmoRemaining = ammoRemaining;
         lastEnergy = energy;
         lastHealth = health;
 
-        playerClass = this.gameObject.transform.GetChild(3).GetComponent<PlayerClass>();
+        playerClass = this.gameObject.transform.GetChild(2).GetComponent<PlayerClass>();
 
         playerUIGameObjects = new List<GameObject>();
 
         playerUIGameObjects.Add(this.gameObject.transform.GetChild(1).gameObject);
         playerUIGameObjects.Add(this.gameObject.transform.GetChild(2).gameObject);
-        playerUIGameObjects.Add(this.gameObject.transform.GetChild(3).gameObject);
+        //playerUIGameObjects.Add(this.gameObject.transform.GetChild(3).gameObject);
 
         //crossHairScript = this.gameObject.transform.GetChild(0).GetComponent<CrossHairScript>(); 
         //crossHairScript = crosshair.GetComponent<CrossHairScript>(); 
@@ -201,7 +209,7 @@ public class PlayerController : MonoBehaviour
         toggleUI = false;
         UIisVisible = true;
 
-        killedBy = null; 
+        killedBy = null;
 
     }
 
@@ -833,7 +841,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        killedBy = kb; 
+        killedBy = kb;
         respawn();
     }
 
@@ -870,13 +878,15 @@ public class PlayerController : MonoBehaviour
     {
         for (int i = 0; i < playerUIGameObjects.Count; i++)
         {
-            if (i == 1)
-            {
-                // the ammo bar
-                playerUIGameObjects[i].transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = isEnabled;
-                playerUIGameObjects[i].transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = isEnabled;
-            }
-            else if (i == 2)
+            //OBSOLETE FOR THE AMMO BAR
+            // if (i == 1)
+            // {
+            //     // the ammo bar
+            //     playerUIGameObjects[i].transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = isEnabled;
+            //     playerUIGameObjects[i].transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = isEnabled;
+            // }
+            // else
+             if (i == 1)
             {
                 // the animated class mod
                 playerUIGameObjects[i].GetComponent<Animator>().enabled = isEnabled;
