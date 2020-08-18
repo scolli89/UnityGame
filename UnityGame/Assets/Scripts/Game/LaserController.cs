@@ -57,6 +57,10 @@ public class LaserController : MonoBehaviour
                     break; 
                 }
 
+                if(other.CompareTag("SpaceMarble")){
+                    Destroy(other.gameObject);
+                    break;
+                }
                 if(other.CompareTag("Environment")){
                     Destroy(this.gameObject);
                     break;

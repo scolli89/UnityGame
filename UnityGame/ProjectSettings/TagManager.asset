@@ -16,6 +16,9 @@ TagManager:
   - OverWallTrigger
   - UnderWallTrigger
   - ArenaGameDetailsObject
+  - SpaceMarble
+  - MapMarker
+  - PlayerFeet
   layers:
   - Default
   - TransparentFX

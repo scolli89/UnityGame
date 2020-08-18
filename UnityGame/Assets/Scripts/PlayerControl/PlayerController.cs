@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
     [Space]
     [Header("Character Attributes:")]
     public float MOVEMENT_BASE_SPEED = 7f;
-    public float LASER_BASE_SPEED = 1.0f;
+    public float LASER_BASE_SPEED = 50f;
     public float CROSSHAIR_DISTANCE = 5.0f;
 
     public float BUILDER_POWER_DISTANCE = 2.0f;

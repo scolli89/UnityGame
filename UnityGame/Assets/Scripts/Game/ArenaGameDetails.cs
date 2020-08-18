@@ -23,6 +23,7 @@ public class ArenaGameDetails : MonoBehaviour
 
     public GameParticipant[] players;
     public bool gameActive;
+    public int numberOfMarbles = 50; 
     static public SelfColor lastAssignedSelfColor = 0;
     public float gameTime;
     public float startGameTime = 60.0f;
@@ -31,6 +32,7 @@ public class ArenaGameDetails : MonoBehaviour
     #region lifeCycleMethods
     private void Start()
     {
+        numberOfMarbles = 50; //10;
         gameActive = false;
         
         teams = new List<Team>(); // 
@@ -88,11 +90,26 @@ public class ArenaGameDetails : MonoBehaviour
             players[pi].score += scoreIncrease;
            // Debug.Log("Player " + pi + " Score : " + players[pi].score);
         }
-
-
-
     }
+    public void convertMarblesToScore(){
+        //This function just sets the score to be that of the num of held marbels
+        // intended to be called once per game at the end. 
+        // Made to resue the score board section. 
 
+        Debug.Log("Converting");
+        for(int i = 0; i < players.Length;i++){
+            players[i].score = players[i].numOfHeldMarbles; 
+        }
+    }
+    public int setMarblesTo(int pi,int newMarbles){
+        // returns the value held in numOfHeldMarbles before the functions was called. 
+        // this is so that I only need to make one function call to be able to instantiate
+        // the right number of marbles while also dropping the correct number of marbles from 
+        // the player. 
+        int x = players[pi].numOfHeldMarbles; 
+        players[pi].numOfHeldMarbles = newMarbles;
+        return x; 
+    }
     #region enums
     public enum SelfColor
     {

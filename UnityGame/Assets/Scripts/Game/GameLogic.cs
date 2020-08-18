@@ -10,26 +10,38 @@ public class GameLogic : MonoBehaviour
 
     //private GameObject spawnPointPlacements;
     [SerializeField]
+
     private GameObject[] playerPrefabs;
     [SerializeField]
     public GameObject[] trailDots;
+    [SerializeField]
+    public GameObject[] marblePrefabs;
+    public GameObject[] mapMarkers;
 
-    private int numChildren;
+
+
+    private int numSpawnPoints;
     public float respawnDelay = 3.0f;
     ArenaGameDetails gameDetails;
     private bool gameOverMessageShown = false;
 
-
+    private float xmin;
+    private float xmax;
+    private float ymin;
+    private float ymax;
 
     void Start()
     {
-        // for(int i = 0; i< spawnPointPlacements.transform.childCount;i++){
-        //     spawnPoints[i] = spawnPointPlacements.transform.GetChild(i).gameObject; 
-        // }
 
-        // get the gametype
+        //randomExample();
+        //getting map boundaries
+
+
         GameObject tom = GameObject.FindWithTag("ArenaGameDetailsObject");
         gameDetails = tom.GetComponent<ArenaGameDetails>();
+        numSpawnPoints = this.transform.childCount;
+
+
 
         if ((MainMenu.GameTypes)gameDetails.gameType == MainMenu.GameTypes.freeForAll)
         {
@@ -37,7 +49,24 @@ public class GameLogic : MonoBehaviour
         }
         else if ((MainMenu.GameTypes)gameDetails.gameType == MainMenu.GameTypes.spaceMarbles)
         {
-            //UnityEngine.Debug.Log(gameDetails.gameType.ToString());
+
+            xmin = Mathf.Min(mapMarkers[0].transform.position.x, mapMarkers[1].transform.position.x);
+            xmax = Mathf.Max(mapMarkers[0].transform.position.x, mapMarkers[1].transform.position.x);
+            ymin = Mathf.Min(mapMarkers[0].transform.position.y, mapMarkers[1].transform.position.y);
+            ymax = Mathf.Max(mapMarkers[0].transform.position.y, mapMarkers[1].transform.position.y);
+
+
+
+            for (int i = 0; i < gameDetails.numberOfMarbles; i++)
+            {
+                // create marbles
+
+                var marble = Instantiate(RandomMarble(), RandomVector3(), Quaternion.identity, gameObject.transform);
+                marble.GetComponent<SpaceMarbleController>().setGameLogic(this);
+
+            }
+
+
         }
         else
         {
@@ -73,15 +102,35 @@ public class GameLogic : MonoBehaviour
 
             players[i].GetComponent<InputHandler>().InitializePlayer(playerConfigs[i]);
         }
-        numChildren = this.transform.childCount - players.Length;
+
 
         gameDetails.gameActive = true;
         gameDetails.initializeGame(players);
 
 
     }
+    public Vector3 RandomVector3()
+    {
+        //float x = UnityEngine.Random.Range(xmin, xmax);
 
+        float randX = (xmax - xmin);
+        randX *= UnityEngine.Random.value;
 
+        float randY = (ymax - ymin);
+        randY *= UnityEngine.Random.value;
+        float x = UnityEngine.Random.Range(xmin, xmax);
+        float y = UnityEngine.Random.Range(ymin, ymax);
+
+        Vector3 v = new Vector3(x, y, 0f);
+        //Debug.Log(v);
+        return v;
+    }
+    public GameObject RandomMarble()
+    {
+        int x = UnityEngine.Random.Range(0, marblePrefabs.Length - 1);
+        Debug.Log("Marble: " + x);
+        return marblePrefabs[x];
+    }
     private void Update()
     {
         if (gameDetails.gameActive == false && gameOverMessageShown == false)
@@ -89,7 +138,10 @@ public class GameLogic : MonoBehaviour
             gameOverMessageShown = true;
             // game should be over here. As update will be called after 
             Debug.Log("Game Is Over");
-
+            if ((MainMenu.GameTypes)gameDetails.gameType == MainMenu.GameTypes.spaceMarbles)
+            {
+                gameDetails.convertMarblesToScore();
+            }
 
             // TODO, DISPLAY RESULTS ON A CANVAS SO EVERYBODY CAN SEE THEM
             for (int i = 0; i < gameDetails.players.Length; i++)
@@ -100,10 +152,11 @@ public class GameLogic : MonoBehaviour
     }
     public IEnumerator SpawnArcher(GameObject player)
     {
-        PlayerController p = player.GetComponent<PlayerController>();
 
         if ((MainMenu.GameTypes)gameDetails.gameType == MainMenu.GameTypes.freeForAll)
         {
+            PlayerController p = player.GetComponent<PlayerController>();
+
             // every kill in freefor all needs to be added to the killers score. 
 
             // player was killed by environment and not another player, 
@@ -124,16 +177,12 @@ public class GameLogic : MonoBehaviour
                 gameDetails.addScoreTo(killerPlayerIndex, 1);
             }
 
-
-
-
-
-
         }
         else if ((MainMenu.GameTypes)gameDetails.gameType == MainMenu.GameTypes.spaceMarbles)
         {
-            // This SHOULD BE WHERE WE DROP ALL THE MARBLES> 
-            // UnityEngine.Debug.Log(gameDetails.gameType.ToString());
+            // not holding any more marbles
+            DropMarbles(player);
+
         }
         else
         {
@@ -160,18 +209,70 @@ public class GameLogic : MonoBehaviour
         // what should we do: other priotities are bigger. O(n).
         // spawn points are always the first x children if we have a count we can change the numChildren to numSpawnPoints. 
         // still have to count the spawn points somehow. 
-        GameObject x = this.transform.GetChild(UnityEngine.Random.Range(0, numChildren)).gameObject;
-        while (x.gameObject.CompareTag("Player"))
-        {
-            x = this.transform.GetChild(UnityEngine.Random.Range(0, numChildren)).gameObject;
-        }
+        float z = UnityEngine.Random.value;
+        z *= numSpawnPoints;
+        int c = (int)Mathf.RoundToInt(z);
+        GameObject y = this.transform.GetChild(c).gameObject;
 
-        return x.transform;
+
+        GameObject g = this.transform.GetChild(UnityEngine.Random.Range(0, numSpawnPoints - 1)).gameObject;
+
+
+        // GameObject x = this.transform.GetChild(UnityEngine.Random.Range(0, numChildren)).gameObject;
+        // while (x.gameObject.CompareTag("Player"))
+        // {
+        //     x = this.transform.GetChild(UnityEngine.Random.Range(0, numChildren)).gameObject;
+        // }
+
+        return g.transform; // y.transform;
     }
 
-    // GameObject GetSpawnPoint(int i){
+    /*
+    Marbles are still spawning outside of playable areas. 
+    */
 
-    // }
+    public void playerPickedUpMarble(GameObject p)
+    {
+
+        // PlayerController pc = p.GetComponent<PlayerController>();
+        // int x = pc.getPlayerIndex();
+        // Debug.Log(x);
+        // gameDetails.players[x].numOfHeldMarbles += 1; 
+        gameDetails.players[p.GetComponent<PlayerController>().getPlayerIndex()].numOfHeldMarbles += 1;
+
+    }
+    public void DropMarbles(GameObject player)
+    {
+        PlayerController p = player.GetComponent<PlayerController>();
+        int marblesToDrop = gameDetails.setMarblesTo(p.getPlayerIndex(), 0);
+        Vector3 deathSpot = player.transform.position;
+
+        // instantiate the marbles at the spot of death.
+        for (int i = 0; i < marblesToDrop; i++)
+        {
+
+            // create marbles
+            Vector3 randomCirle = UnityEngine.Random.insideUnitCircle * 3; 
+            Vector3 dropSpot = deathSpot + randomCirle; 
+            
+            var marble = Instantiate(RandomMarble(), dropSpot, Quaternion.identity, gameObject.transform);
+
+            marble.GetComponent<SpaceMarbleController>().setGameLogic(this);
+        }
+
+    }
 
 
+    private float[] noiseValues;
+    public void randomExample()
+    {
+        //UnityEngine.Random.InitState(42);
+        noiseValues = new float[10];
+        for (int i = 0; i < noiseValues.Length; i++)
+        {
+            noiseValues[i] = UnityEngine.Random.value;
+            Debug.Log(noiseValues[i]);
+        }
+    }
 }
+

@@ -188,13 +188,11 @@ MonoBehaviour:
   isDashing: 0
   dashSpeed: 10
   startDashTime: 0.47
-  DASH_INFLUCE_FACTOR: 0.75
+  DASH_INFLUENCE_FACTOR: 1
   lastDashMovementDirection: {x: 0, y: 0}
   isShocked: 0
   PUSH_BACK_FORCE: 10
   startShockTime: 0.5
-  className: 
-  modName: 
   gameLogic: {fileID: 0}
   animator: {fileID: 2210797003256736322}
   spriteRenderer: {fileID: 0}
@@ -371,6 +369,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2043179362702217141, guid: d2d3d9186b6d513498600e26ebb2cc54,
+        type: 3}
+      propertyPath: m_TagString
+      value: PlayerFeet
       objectReference: {fileID: 0}
     - target: {fileID: 3374784457244334493, guid: d2d3d9186b6d513498600e26ebb2cc54,
         type: 3}
