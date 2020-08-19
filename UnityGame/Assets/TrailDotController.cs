@@ -40,10 +40,6 @@ public class TrailDotController : MonoBehaviour
         }
     }
 
-    public void debug(AudioManager am){
-        audioManager = am;
-    }
-
     // void Explode()
     // {
     //     Vector2 thisPos = Vector2.zero;
@@ -100,7 +96,6 @@ public class TrailDotController : MonoBehaviour
         StartExplosision animation .
 
         */
-
     }
 
     void BrakeysExplode()

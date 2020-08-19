@@ -56,41 +56,23 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     source: {fileID: 0}
-  - name: Footstep (base a)
+  - name: Footstep (base)
     clip: {fileID: 8300000, guid: efb2f50a4933cb7408b7847151b759cd, type: 3}
     playOnAwake: 0
-    volume: 1
+    volume: 0.7
     pitch: 1
     source: {fileID: 0}
-  - name: Footstep (base b)
-    clip: {fileID: 8300000, guid: efb2f50a4933cb7408b7847151b759cd, type: 3}
-    playOnAwake: 0
-    volume: 1
-    pitch: 0.7
-    source: {fileID: 0}
-  - name: Footstep (gravel a)
+  - name: Footstep (gravel)
     clip: {fileID: 8300000, guid: 8366c8ca2613a624baf0f8a0387cfb08, type: 3}
     playOnAwake: 0
-    volume: 1
+    volume: 0.7
     pitch: 1
     source: {fileID: 0}
-  - name: Footstep (gravel b)
-    clip: {fileID: 8300000, guid: 8366c8ca2613a624baf0f8a0387cfb08, type: 3}
-    playOnAwake: 0
-    volume: 1
-    pitch: 0.7
-    source: {fileID: 0}
-  - name: Footstep (metal a)
+  - name: Footstep (bridge)
     clip: {fileID: 8300000, guid: 2454a06604e66f2499dc28c3f7cf8720, type: 3}
     playOnAwake: 0
     volume: 1
     pitch: 1
-    source: {fileID: 0}
-  - name: Footstep (metal b)
-    clip: {fileID: 8300000, guid: 2454a06604e66f2499dc28c3f7cf8720, type: 3}
-    playOnAwake: 0
-    volume: 1
-    pitch: 0.7
     source: {fileID: 0}
   - name: Laser Dissapate
     clip: {fileID: 8300000, guid: c70fbce8e9ca0554392fca20748918db, type: 3}

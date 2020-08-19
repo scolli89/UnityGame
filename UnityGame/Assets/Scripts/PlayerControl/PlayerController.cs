@@ -127,7 +127,8 @@ public class PlayerController : MonoBehaviour
     public bool allowUnder;
     public GameObject crosshair;
     public AudioManager audioManager;
-
+    private float soundTimer = 0f;
+    public string groundSound = "Base";
     public Animator crosshairAnimator;
     public GameObject dot;
     public GameObject previousDot;
@@ -223,8 +224,7 @@ public class PlayerController : MonoBehaviour
         toggleUI = false;
         UIisVisible = true;
 
-        killedBy = null; 
-
+        killedBy = null;
     }
 
     void Update()
@@ -563,7 +563,7 @@ public class PlayerController : MonoBehaviour
                 }
 
                 GameObject thisDot = Instantiate(dot, this.transform.position, Quaternion.identity);
-                thisDot.GetComponent<TrailDotController>().debug(audioManager);//audioManager = audioManager;
+                thisDot.GetComponent<TrailDotController>().audioManager = audioManager;
                 
 
                 //thisDot.transform.parent = this.gameObject.transform;
@@ -574,7 +574,8 @@ public class PlayerController : MonoBehaviour
                     //set previous dot's nextDot field to be thisDot. 
                     Vector2 pos = new Vector2((this.transform.position.x + previousDot.transform.position.x) / 2,
                     (this.transform.position.y + previousDot.transform.position.y) / 2);
-                    //Instantiate(dot, pos, Quaternion.identity);
+                    GameObject fillerDot = Instantiate(dot, pos, Quaternion.identity);
+                    fillerDot.GetComponent<TrailDotController>().audioManager = audioManager;
                 }
                 previousDot = thisDot;
             }
@@ -586,7 +587,33 @@ public class PlayerController : MonoBehaviour
             if (movementDirection.magnitude != 0)
             {
                 lastMovementDirection = movementDirection;
+                playWalkSound();
             }
+        }
+    }
+
+    private void playWalkSound(){
+        if(alive && !isAiming && repeatFootstep()){
+            if(groundSound == "Base"){
+                audioManager.playSound("Footstep (base)");
+            }
+            else if (groundSound == "Ground"){
+                audioManager.playSound("Footstep (gravel)");
+            }
+            else if (groundSound == "Bridge"){
+                audioManager.playSound("Footstep (bridge)");
+            }
+        }
+    }
+
+    private bool repeatFootstep(){
+        float playerMoveTimerMax = 0.33f;
+        if (soundTimer + playerMoveTimerMax < Time.time) {
+            soundTimer = Time.time;
+            return true;
+        }
+        else{
+            return false;
         }
     }
 
@@ -871,6 +898,7 @@ public class PlayerController : MonoBehaviour
     #region respawnFunction
     public void respawn()
     {
+        groundSound = "Base";
         movementSpeed = 0;
         alive = false;
         isDashing = false;
