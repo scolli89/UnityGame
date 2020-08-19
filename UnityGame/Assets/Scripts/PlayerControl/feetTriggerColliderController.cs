@@ -32,27 +32,53 @@ public class feetTriggerColliderController : MonoBehaviour
             // null catch 
             Start();
         }
+        #region Gameplay modifiers
         if (other.gameObject.CompareTag("DeathBox"))
         {
+            playerController.audioManager.playSound("Fall");
             playerController.respawn();
         }
 
-        if (other.gameObject.CompareTag("OverWallTrigger"))
+        else if (other.gameObject.CompareTag("OverWallTrigger"))
         {
-            playerController.feetPos = (PlayerController.DisplayLevel)DisplayLevel.overWall; 
+            playerController.feetPos = (PlayerController.DisplayLevel)DisplayLevel.overWall;
         }
 
-        if (other.gameObject.CompareTag("UnderWallTrigger"))
+        else if (other.gameObject.CompareTag("UnderWallTrigger"))
         {
-            playerController.feetPos = (PlayerController.DisplayLevel)DisplayLevel.underWall; 
+            playerController.feetPos = (PlayerController.DisplayLevel)DisplayLevel.underWall;
         }
+        #endregion
+
+        #region Sound effects
+        if (other.gameObject.CompareTag("Base"))
+        {
+            Debug.Log("TRANSITION: " + playerController.groundSound + "to Base");
+            playerController.groundSound = "Base";
+        }
+
+        else if (other.gameObject.CompareTag("Bridge"))
+        {
+            Debug.Log("TRANSITION: " + playerController.groundSound + "to Bridge");
+            playerController.groundSound = "Bridge";
+        }
+        #endregion
     }
 
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        
+    }
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("OverWallTrigger") || other.gameObject.CompareTag("UnderWallTrigger"))
         {
             playerController.feetPos = (PlayerController.DisplayLevel)DisplayLevel.noWall;
+        }
+
+        if (other.gameObject.CompareTag("Base") || other.gameObject.CompareTag("Bridge"))
+        {
+            playerController.groundSound = "Ground";
         }
     }
 

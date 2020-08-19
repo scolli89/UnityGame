@@ -107,7 +107,8 @@ public class PlayerController : MonoBehaviour
     public bool allowUnder;
     public GameObject crosshair;
     public AudioManager audioManager;
-
+    private float soundTimer = 0f;
+    public string groundSound = "Base";
     public Animator crosshairAnimator;
     public GameObject dot;
     public GameObject previousDot;
@@ -547,7 +548,11 @@ public class PlayerController : MonoBehaviour
                     rb.velocity = (d * rejection(movementDirection, dashingDirection) + dashingDirection) * dashSpeed;
                     //rb.velocity = (d * rejection(movementDirection, lastMovementDirection) + dashingDirection) * dashSpeed;
                 }
+
                 GameObject thisDot = Instantiate(dot, this.transform.position, Quaternion.identity);
+                thisDot.GetComponent<TrailDotController>().audioManager = audioManager;
+                
+
                 //thisDot.transform.parent = this.gameObject.transform;
 
                 if (previousDot != null)
@@ -556,7 +561,8 @@ public class PlayerController : MonoBehaviour
                     //set previous dot's nextDot field to be thisDot. 
                     Vector2 pos = new Vector2((this.transform.position.x + previousDot.transform.position.x) / 2,
                     (this.transform.position.y + previousDot.transform.position.y) / 2);
-                    Instantiate(dot, pos, Quaternion.identity);
+                    GameObject fillerDot = Instantiate(dot, pos, Quaternion.identity);
+                    fillerDot.GetComponent<TrailDotController>().audioManager = audioManager;
                 }
                 previousDot = thisDot;
             }
@@ -568,7 +574,33 @@ public class PlayerController : MonoBehaviour
             if (movementDirection.magnitude != 0)
             {
                 lastMovementDirection = movementDirection;
+                playWalkSound();
             }
+        }
+    }
+
+    private void playWalkSound(){
+        if(alive && !isAiming && repeatFootstep()){
+            if(groundSound == "Base"){
+                audioManager.playSound("Footstep (base)");
+            }
+            else if (groundSound == "Ground"){
+                audioManager.playSound("Footstep (gravel)");
+            }
+            else if (groundSound == "Bridge"){
+                audioManager.playSound("Footstep (bridge)");
+            }
+        }
+    }
+
+    private bool repeatFootstep(){
+        float playerMoveTimerMax = 0.33f;
+        if (soundTimer + playerMoveTimerMax < Time.time) {
+            soundTimer = Time.time;
+            return true;
+        }
+        else{
+            return false;
         }
     }
 
@@ -710,7 +742,11 @@ public class PlayerController : MonoBehaviour
             Vector2 iPosition = transform.position;
             iPosition = iPosition + shootingDirection * LASER_OFFSET; // this prevents it from hitting the player
 
+            audioManager.playSound("Laser Fire"); // sound effect
+
             GameObject laser = Instantiate(laserPrefab, iPosition, Quaternion.identity);
+            laser.GetComponent<LaserController>().audioManager = audioManager; // pass audiomanager to save on computing power
+
             LaserController laserController = laser.GetComponent<LaserController>();
             laserController.shooter = gameObject;
             laserController.velocity = shootingDirection * LASER_BASE_SPEED; // adjust velocity
@@ -849,6 +885,7 @@ public class PlayerController : MonoBehaviour
     #region respawnFunction
     public void respawn()
     {
+        groundSound = "Base";
         movementSpeed = 0;
         alive = false;
         isDashing = false;

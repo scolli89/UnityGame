@@ -19,6 +19,9 @@ TagManager:
   - SpaceMarble
   - MapMarker
   - PlayerFeet
+  - Ground
+  - Base
+  - Bridge
   layers:
   - Default
   - TransparentFX
