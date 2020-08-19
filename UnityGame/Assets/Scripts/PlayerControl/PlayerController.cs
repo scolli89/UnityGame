@@ -347,7 +347,7 @@ public class PlayerController : MonoBehaviour
         {
             setHealthAmount(health);
             setEnergyAmount(energy);
-            setAmmoAmount(ammoRemaining);
+            //setAmmoAmount(ammoRemaining);
             firstUpdate = false;
         }
 
@@ -365,7 +365,7 @@ public class PlayerController : MonoBehaviour
         if (ammoRemaining != lastAmmoRemaining)
         {
             lastAmmoRemaining = ammoRemaining;
-            setAmmoAmount(ammoRemaining);
+            //setAmmoAmount(ammoRemaining);
         }
         if (toggleUI)
         { // player wants to toggle the UI
