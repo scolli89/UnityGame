@@ -4,14 +4,16 @@ BUGS / ISSUES
 	> BUILDERS NEED TO BE ABLE SHOOT THROUGH THEIR OWN WALLS.
 
 What do we need to be "Done" and happy by next week? 
-	> Clean up player UI:
-		> No ammo bar, No health bar
-		> Just battery
+
+	> Return to main menu after a game ends. 
+
 	> Scoreboard
-		> After game -> must
-		> W: During game. 
+		> W: During game.
+
 	> Slow down fire rate. 
+
 	> Fix the existing classes
+
 	> Add atleast 4 classes that we kind of like:
 		> Turret -> Hardest part would be targeting only enemies-> Only game types are freeforall, just don't target the placer
 		> Teleporter -> Place the two parts? Or place one then press b again to teleport? destroyable? 
@@ -19,26 +21,28 @@ What do we need to be "Done" and happy by next week?
 			> Refraction shield ? -> bullets enter but get refracted at a strange angle, Bullets exit but get refracted too
 				> or bullets in refracted, bullets out not refracted : encourages use by a player. 
 		> will come back to this
-		> considering using fire types instead of powers	
+		> considering using fire types instead of powers
+	
 	> Fix when you are right up against a wall, shooting left or right, you shoot right into a wall.
+		> laser spawns on the wall
+			> If turn it off colliders
+		> Couch ferret makes games might have a video on this. 
+
 	> Fix When you are right up against a builder wall, able to shoot over/through it.
-	> We need at least 2 more PVP levels. Not counting the current Arena 1. So 
+
+	
 	> More sound effects
 		> Death
 		> Respawn
 		> Marble collection?
-		> Whoosh when dash
-		> Gravel cruch - steps
-		> Laser disapaite when hitting environment.
-		> Sploding sounds
-		> Charging laser: Charged Laser: Firing laser: 	
+		> Whoosh when dashs
 		> Menu noisies
 	Menu:
 		> Match modifiers:
 			> Time
 			> Score limit
 			> teams: Team attack?
-			> 
+			
 			
 		> Options: 
 			> Visual settings
@@ -53,13 +57,17 @@ What do we need to be "Done" and happy by next week?
 			> Game settings:
 				> W : Rumble
 				> W : Changable Controls. 
+
  		> Menu Responsivness :
-			> MEnu noises: Moving : Confirming
+			> Menu noises: Moving : Confirming
 			> Fix the highlight on the level selection,
+
 	> Music
 		> Some bopping free tunes. 
+
 	>Pause menu?
 		> fix the highlighting issuses
+
 	> W: Campaign
 		> Need Levels
 		> Adjust enemy ai to the specific level
@@ -77,7 +85,15 @@ What do we need to be "Done" and happy by next week?
 	> Scoreboard
 		> After game -> must
 		
+	> We need at least 2 more PVP levels. Not counting the current Arena 1. So 
+
+	> More sound effects
 	
+		> Gravel cruch - steps : > Even better/ bases/ bridges/ gravel sound effects. 
+		> Laser disapaite when hitting environment.
+		> Sploding sounds
+		> Charging laser: Charged Laser: Firing laser: 	
+		
 		
 	Menu:
 			
@@ -94,7 +110,9 @@ What do we need to be "Done" and happy by next week?
 	> Get the guy to interact with the environment. 
 		> Levers, Pressur plates, switches ? 
 		> HAving those things AAA do stuff
-
+	
+	> Have different arrangments of maps. 
+		> Like use the ground for fissure, but change up the collisions. 
 
 	
 >> Class Ideas
