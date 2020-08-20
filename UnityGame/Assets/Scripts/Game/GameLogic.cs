@@ -156,7 +156,6 @@ public class GameLogic : MonoBehaviour
             // game should be over here. As update will be called after 
             Debug.Log("Game Is Over");
             DisplayScoreBoard();
-
         }
     }
     public IEnumerator SpawnArcher(GameObject player)
@@ -220,7 +219,7 @@ public class GameLogic : MonoBehaviour
         // still have to count the spawn points somehow. 
         float z = UnityEngine.Random.value;
         z *= numSpawnPoints;
-        int c = (int)Mathf.RoundToInt(z);
+        int c = (int)Mathf.RoundToInt(z) - 1;
         GameObject y = this.transform.GetChild(c).gameObject;
 
 
