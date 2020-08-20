@@ -392,7 +392,8 @@ public class MainMenu : MonoBehaviour
     {
         start,
         arena1,
-        fissure,
+        Fissure,
+        Colosseum,
         end
     }
 }

@@ -148,9 +148,10 @@ public class ArenaGameDetails : MonoBehaviour
     }
     public enum Maps
     {
-        start,
+       start,
         arena1,
-        fissure,
+        Fissure,
+        Colosseum,
         end
     }
     #endregion

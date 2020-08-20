@@ -67,6 +67,26 @@ What do we need to be "Done" and happy by next week?
 		> Progress tracking/ game saving > Saving Game  progression_ 
 			> UNLOCKABLE LEVELS
 		> Boss battles ? 
+
+
+<<<<<<FINISHED >>>>>>>>>
+	> Clean up player UI:
+		> No ammo bar, No health bar
+		> Just battery
+
+	> Scoreboard
+		> After game -> must
+		
+	
+		
+	Menu:
+			
+	> Music
+		
+	>Pause menu?
+		
+	> W: Campaign
+		
 	
 
 >> Wishlist

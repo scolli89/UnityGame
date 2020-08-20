@@ -9,6 +9,7 @@ public class PlayerConfigurationManager : MonoBehaviour
 {
     const string PVPArena1 = "PVPArena1";
     const string PVPArena2 = "PVPArena2-Fissure";
+    const string PVPArena3 = "PVPArena3-Colosseum";
     const string TestArena = "Game";
     private List<PlayerConfiguration> playerConfigs;
     public static PlayerConfigurationManager Instance { get; private set; }
@@ -54,13 +55,16 @@ public class PlayerConfigurationManager : MonoBehaviour
             ArenaGameDetails a = g.GetComponent<ArenaGameDetails>();
             
 
-            if((MainMenu.Maps)a.mapName == MainMenu.Maps.fissure){
+            if((MainMenu.Maps)a.mapName == MainMenu.Maps.Fissure){
                 // if it is the fissure map
                 SceneManager.LoadScene(PVPArena2);
 
             }
             else if((MainMenu.Maps)a.mapName == MainMenu.Maps.arena1){
                 SceneManager.LoadScene(PVPArena1);
+            }
+            else if((MainMenu.Maps)a.mapName == MainMenu.Maps.Colosseum){
+                SceneManager.LoadScene(PVPArena3);
             }
             else {
                 SceneManager.LoadScene(PVPArena2);

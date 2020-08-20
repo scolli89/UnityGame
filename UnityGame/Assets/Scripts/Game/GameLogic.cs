@@ -66,22 +66,65 @@ public class GameLogic : MonoBehaviour
         }
         else if ((MainMenu.GameTypes)gameDetails.gameType == MainMenu.GameTypes.spaceMarbles)
         {
-
-            xmin = Mathf.Min(mapMarkers[0].transform.position.x, mapMarkers[1].transform.position.x);
-            xmax = Mathf.Max(mapMarkers[0].transform.position.x, mapMarkers[1].transform.position.x);
-            ymin = Mathf.Min(mapMarkers[0].transform.position.y, mapMarkers[1].transform.position.y);
-            ymax = Mathf.Max(mapMarkers[0].transform.position.y, mapMarkers[1].transform.position.y);
-
-
-
-            for (int i = 0; i < gameDetails.numberOfMarbles; i++)
+            /*
+            Spawning the marblesdepending on the map . 
+            */
+            if ((MainMenu.Maps)gameDetails.mapName == MainMenu.Maps.Fissure)
             {
-                // create marbles
 
-                var marble = Instantiate(RandomMarble(), RandomVector3(), Quaternion.identity, gameObject.transform);
-                marble.GetComponent<SpaceMarbleController>().setGameLogic(this);
+                xmin = Mathf.Min(mapMarkers[0].transform.position.x, mapMarkers[1].transform.position.x);
+                xmax = Mathf.Max(mapMarkers[0].transform.position.x, mapMarkers[1].transform.position.x);
+                ymin = Mathf.Min(mapMarkers[0].transform.position.y, mapMarkers[1].transform.position.y);
+                ymax = Mathf.Max(mapMarkers[0].transform.position.y, mapMarkers[1].transform.position.y);
 
+
+
+                for (int i = 0; i < gameDetails.numberOfMarbles; i++)
+                {
+                    // create marbles
+
+                    var marble = Instantiate(RandomMarble(), RandomVector3(), Quaternion.identity, gameObject.transform);
+                    marble.GetComponent<SpaceMarbleController>().setGameLogic(this);
+
+                }
             }
+
+            if ((MainMenu.Maps)gameDetails.mapName == MainMenu.Maps.Colosseum)
+            {
+                xmin = Mathf.Min(mapMarkers[0].transform.position.x, mapMarkers[1].transform.position.x, mapMarkers[2].transform.position.x);
+                xmax = Mathf.Max(mapMarkers[0].transform.position.x, mapMarkers[1].transform.position.x, mapMarkers[2].transform.position.x);
+                float radius = (xmax - xmin)/2; 
+                
+                for(int i = 0; i < gameDetails.numberOfMarbles; i++){
+                    // Vector3 ipos = new Vector3(0,0,0); 
+                    // //ipos += UnityEngine.Random.insideUnitCircle * diff; 
+                    // Vector2 p = UnityEngine.Random.insideUnitCircle * diff; 
+                    Vector2 center = new Vector2(mapMarkers[2].transform.position.x,mapMarkers[2].transform.position.y); 
+
+                    var marble = Instantiate(RandomMarble(),center + UnityEngine.Random.insideUnitCircle * radius,Quaternion.identity, gameObject.transform);
+                    marble.GetComponent<SpaceMarbleController>().setGameLogic(this);
+                }
+            }
+            else
+            {
+
+                xmin = Mathf.Min(mapMarkers[0].transform.position.x, mapMarkers[1].transform.position.x);
+                xmax = Mathf.Max(mapMarkers[0].transform.position.x, mapMarkers[1].transform.position.x);
+                ymin = Mathf.Min(mapMarkers[0].transform.position.y, mapMarkers[1].transform.position.y);
+                ymax = Mathf.Max(mapMarkers[0].transform.position.y, mapMarkers[1].transform.position.y);
+
+
+
+                for (int i = 0; i < gameDetails.numberOfMarbles; i++)
+                {
+                    // create marbles
+
+                    var marble = Instantiate(RandomMarble(), RandomVector3(), Quaternion.identity, gameObject.transform);
+                    marble.GetComponent<SpaceMarbleController>().setGameLogic(this);
+
+                }
+            }
+
 
 
         }
@@ -145,7 +188,7 @@ public class GameLogic : MonoBehaviour
     public GameObject RandomMarble()
     {
         int x = UnityEngine.Random.Range(0, marblePrefabs.Length - 1);
-        Debug.Log("Marble: " + x);
+//        Debug.Log("Marble: " + x);
         return marblePrefabs[x];
     }
     private void Update()
@@ -210,20 +253,6 @@ public class GameLogic : MonoBehaviour
     {
         //return spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Length)];
 
-
-        // SHOULD WORK FOR NOW
-        // NOT GREAT
-        // SORRY IT SUCKS. 
-
-        // what should we do: other priotities are bigger. O(n).
-        // spawn points are always the first x children if we have a count we can change the numChildren to numSpawnPoints. 
-        // still have to count the spawn points somehow. 
-        float z = UnityEngine.Random.value;
-        z *= numSpawnPoints;
-        int c = (int)Mathf.RoundToInt(z);
-        GameObject y = this.transform.GetChild(c).gameObject;
-
-
         GameObject g = this.transform.GetChild(UnityEngine.Random.Range(0, numSpawnPoints - 1)).gameObject;
 
 
@@ -279,7 +308,7 @@ public class GameLogic : MonoBehaviour
     public void DisplayScoreBoard()
     {
         ScoreBoardCanvas.SetActive(true);
-        
+
 
 
         if ((MainMenu.GameTypes)gameDetails.gameType == MainMenu.GameTypes.spaceMarbles)
@@ -292,9 +321,9 @@ public class GameLogic : MonoBehaviour
         for (int i = 0; i < gameDetails.players.Length; i++)
         {
             scoreBoardText.text += "Player " + i.ToString() + " scored " + gameDetails.players[i].score.ToString() + " points" + "\n";
-            
+
         }
-        
+
 
 
 

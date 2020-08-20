@@ -6,12 +6,11 @@ using UnityEngine;
 public class MultipleTargetCamera : MonoBehaviour
 {
     public List<Transform> targets;
-    public GameObject[] ptargets;
 
     public Vector3 offset;
     public float smoothTime = .5f;
 
-    public float minZoom = 25f;
+    public float minZoom = 45f;
     public float maxZoom = 5f;
 
     private Vector3 velocity;
@@ -19,7 +18,7 @@ public class MultipleTargetCamera : MonoBehaviour
 
     void Start()
     {
-        ptargets = GameObject.FindGameObjectsWithTag("Player");
+        GameObject[] ptargets = GameObject.FindGameObjectsWithTag("Player");
         foreach (GameObject ptarget in ptargets)
         {
             targets.Add(ptarget.transform);
@@ -29,6 +28,23 @@ public class MultipleTargetCamera : MonoBehaviour
         offset = new Vector3(0, 0, -1);
     }
 
+    void AddTargets()
+    {
+        if (targets.Count == 0)
+        {
+            GameObject[] ptargets = GameObject.FindGameObjectsWithTag("Player");
+            foreach (GameObject ptarget in ptargets)
+            {
+                targets.Add(ptarget.transform);
+            }
+            cam = GetComponent<Camera>();
+            //targets = Get;
+            offset = new Vector3(0, 0, -1);
+        }
+    }
+    void update(){
+        AddTargets(); 
+    }
     void LateUpdate()
     {
         if (targets.Count == 0)
