@@ -53,13 +53,11 @@ public class feetTriggerColliderController : MonoBehaviour
         #region Sound effects
         if (other.gameObject.CompareTag("Base"))
         {
-            Debug.Log("TRANSITION: " + playerController.groundSound + "to Base");
             playerController.groundSound = "Base";
         }
 
         else if (other.gameObject.CompareTag("Bridge"))
         {
-            Debug.Log("TRANSITION: " + playerController.groundSound + "to Bridge");
             playerController.groundSound = "Bridge";
         }
         #endregion

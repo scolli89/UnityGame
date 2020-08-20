@@ -15,8 +15,8 @@ What do we need to be "Done" and happy by next week?
 	> Fix the existing classes
 
 	> Add atleast 4 classes that we kind of like:
-		> Turret -> Hardest part would be targeting only enemies-> Only game types are freeforall, just don't target the placer
 		> Teleporter -> Place the two parts? Or place one then press b again to teleport? destroyable? 
+		> Turret -> Hardest part would be targeting only enemies-> Only game types are freeforall, just don't target the placer
 		> Bubble shield -> no bullets move in, no bullets move out. 
 			> Refraction shield ? -> bullets enter but get refracted at a strange angle, Bullets exit but get refracted too
 				> or bullets in refracted, bullets out not refracted : encourages use by a player. 
@@ -35,15 +35,13 @@ What do we need to be "Done" and happy by next week?
 		> Death
 		> Respawn
 		> Marble collection?
-		> Whoosh when dashs
+		> Whoosh when dash
 		> Menu noisies
 	Menu:
 		> Match modifiers:
 			> Time
 			> Score limit
-			> teams: Team attack?
-			
-			
+			> teams: Team attack?			
 		> Options: 
 			> Visual settings
 				> W: Resoultion -> drop down

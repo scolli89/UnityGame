@@ -199,7 +199,6 @@ public class GameLogic : MonoBehaviour
             // game should be over here. As update will be called after 
             Debug.Log("Game Is Over");
             DisplayScoreBoard();
-
         }
     }
     public IEnumerator SpawnArcher(GameObject player)
