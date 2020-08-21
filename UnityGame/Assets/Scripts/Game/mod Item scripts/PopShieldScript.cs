@@ -5,7 +5,7 @@ using UnityEngine;
 public class PopShieldScript : MonoBehaviour
 {
     // Start is called before the first frame update
-    float bubbleDuration = 0.5f;
+    public float bubbleDuration = 0.5f;
     void Start()
     {
         Destroy(this.gameObject,bubbleDuration);
