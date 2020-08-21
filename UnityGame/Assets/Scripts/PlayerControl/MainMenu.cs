@@ -250,8 +250,11 @@ public class MainMenu : MonoBehaviour
         GameObject g = new GameObject();
         ArenaGameDetails a = g.AddComponent<ArenaGameDetails>() as ArenaGameDetails;
         
-        a.gameType = (ArenaGameDetails.GameTypes) gameTypeSelected;
-        a.mapName = (ArenaGameDetails.Maps) mapSelected;  
+        //Removed the type cast. 
+        //a.gameType = (ArenaGameDetails.GameTypes) gameTypeSelected;
+        //a.mapName = (ArenaGameDetails.Maps) mapSelected; 
+        a.gameType = gameTypeSelected;
+        a.mapName = mapSelected;  
         g.tag = "ArenaGameDetailsObject"; 
         g.name = "GameDetails"; 
         DontDestroyOnLoadManager.DontDestroyOnLoad(g); 

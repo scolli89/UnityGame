@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameLogic : MonoBehaviour
@@ -12,6 +12,7 @@ public class GameLogic : MonoBehaviour
     // private GameObject[] spawnPoints;
 
     //private GameObject spawnPointPlacements;
+    const string MainMenuScene = "Menu";
     [SerializeField]
 
     private GameObject[] playerPrefabs;
@@ -34,6 +35,8 @@ public class GameLogic : MonoBehaviour
     private float xmax;
     private float ymin;
     private float ymax;
+    public float startEndGameTimer = 10f;
+    private float endGameTimer; 
 
     void Start()
     {
@@ -58,6 +61,7 @@ public class GameLogic : MonoBehaviour
         gameDetails = tom.GetComponent<ArenaGameDetails>();
         numSpawnPoints = this.transform.childCount;
 
+        
 
 
         if ((MainMenu.GameTypes)gameDetails.gameType == MainMenu.GameTypes.freeForAll)
@@ -198,7 +202,30 @@ public class GameLogic : MonoBehaviour
             gameOverMessageShown = true;
             // game should be over here. As update will be called after 
             Debug.Log("Game Is Over");
+            endGameTimer = startEndGameTimer; 
             DisplayScoreBoard();
+
+        }
+        else if(gameOverMessageShown){
+            //Game has ended, display is being shown
+            // count down timer 30 seconds
+            // after, 
+            
+            if(endGameTimer >= 0){
+                endGameTimer -= Time.deltaTime; 
+            }
+            else {
+                // time to reload the main menu scene
+                
+                GameObject gd = GameObject.Find("GameDetails");
+                GameObject audioManager = GameObject.Find("AudioManager");
+                GameObject playerConfigs = GameObject.Find("PlayerConfigurationManager"); 
+                Destroy(gd);
+                Destroy(audioManager);
+                Destroy(playerConfigs); 
+                SceneManager.LoadScene(MainMenuScene);
+            }
+
         }
     }
     public IEnumerator SpawnArcher(GameObject player)

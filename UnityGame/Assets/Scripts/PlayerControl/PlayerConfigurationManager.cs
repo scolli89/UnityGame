@@ -36,6 +36,7 @@ public class PlayerConfigurationManager : MonoBehaviour
     public void SetPlayerClass(int index, int classType)
     {
         // 0 = empty, 1 = builder, 2 = shock, 3 = healer aura, 4 = healer shot
+        // 5 = BubbleShield
         playerConfigs[index].PlayerClass = classType;
     }
 

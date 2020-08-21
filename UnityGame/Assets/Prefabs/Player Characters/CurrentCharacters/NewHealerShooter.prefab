@@ -176,7 +176,7 @@ MonoBehaviour:
   energyCount: 0
   endOfAiming: 0
   isAiming: 0
-  startAimTime: 0.05
+  startAimTime: 0.5
   shootFlag: 0
   LASER_DAMAGE: 2
   flashColor: {r: 0.93333334, g: 0.03137255, b: 0.03137255, a: 0.59607846}
@@ -202,6 +202,7 @@ MonoBehaviour:
   allowUnder: 1
   crosshair: {fileID: 2210797003761157850}
   audioManager: {fileID: 0}
+  groundSound: Base
   crosshairAnimator: {fileID: 601518170579771095}
   dot: {fileID: 2473964281525772922, guid: f9b48b4aebd00ea43832a0c3f02d0d77, type: 3}
   previousDot: {fileID: 0}
@@ -279,6 +280,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2210797003256736320}
     m_Modifications:
+    - target: {fileID: 2544198474728353030, guid: 8cf18114a9eba4944ac5e989ccfd1cca,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1609911555
+      objectReference: {fileID: 0}
+    - target: {fileID: 2544198474728353030, guid: 8cf18114a9eba4944ac5e989ccfd1cca,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 4718179796020425936, guid: 8cf18114a9eba4944ac5e989ccfd1cca,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -444,6 +455,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2210797003256736320}
     m_Modifications:
+    - target: {fileID: 5843533564205133335, guid: 2de3f201f029c774281bc8918009aeda,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1609911555
+      objectReference: {fileID: 0}
+    - target: {fileID: 5843533564205133335, guid: 2de3f201f029c774281bc8918009aeda,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 6163986706781573544, guid: 2de3f201f029c774281bc8918009aeda,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -527,12 +548,12 @@ PrefabInstance:
     - target: {fileID: 5416503141228188944, guid: 7b2b6112c54f7d84da8093a7b8561b45,
         type: 3}
       propertyPath: m_SortingLayerID
-      value: 2103540157
+      value: -1609911555
       objectReference: {fileID: 0}
     - target: {fileID: 5416503141228188944, guid: 7b2b6112c54f7d84da8093a7b8561b45,
         type: 3}
       propertyPath: m_SortingLayer
-      value: 5
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5416503141228188944, guid: 7b2b6112c54f7d84da8093a7b8561b45,
         type: 3}

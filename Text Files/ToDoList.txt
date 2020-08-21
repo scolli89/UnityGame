@@ -5,12 +5,13 @@ BUGS / ISSUES
 
 What do we need to be "Done" and happy by next week? 
 
-	> Return to main menu after a game ends. 
+	
+	
 
 	> Scoreboard
 		> W: During game.
 
-	> Slow down fire rate. 
+	 
 
 	> Fix the existing classes
 
@@ -76,12 +77,17 @@ What do we need to be "Done" and happy by next week?
 
 
 <<<<<<FINISHED >>>>>>>>>
+	> Slow down fire rate.
+		> Changed to 1/2 second
+
 	> Clean up player UI:
 		> No ammo bar, No health bar
 		> Just battery
+		> make player ui over top of everything
 
 	> Scoreboard
 		> After game -> must
+		> Return to main menu after a game ends. 
 		
 	> We need at least 2 more PVP levels. Not counting the current Arena 1. So 
 

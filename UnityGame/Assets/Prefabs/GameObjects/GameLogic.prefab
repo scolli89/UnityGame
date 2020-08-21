@@ -49,6 +49,7 @@ MonoBehaviour:
   - {fileID: 4684039335036393759, guid: 74b6c2586f49c424b845b2435fe84c69, type: 3}
   - {fileID: 8105924343843955941, guid: f70c67dbfeb45c64fa70cd45fd6ff039, type: 3}
   - {fileID: 2210797003256736326, guid: 45d9658302f49884ab62340478a69ab5, type: 3}
+  - {fileID: 5759774403993499724, guid: 6d4fd6603688a3f489e7d1f15c349ac8, type: 3}
   trailDots:
   - {fileID: 2689541635898732734, guid: ca1ae0ccaf280264ca5875674ee5c11a, type: 3}
   - {fileID: 8170576407584360832, guid: 88d30b20444b2fb4ca2fe94fec506558, type: 3}
@@ -57,4 +58,7 @@ MonoBehaviour:
   marblePrefabs:
   - {fileID: 8872903616012106854, guid: 384ecb56327663048bb166f89aa03afa, type: 3}
   mapMarkers: []
+  ScoreBoardCanvas: {fileID: 0}
+  scoreBoardText: {fileID: 0}
   respawnDelay: 5
+  startEndGameTimer: 10

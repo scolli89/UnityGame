@@ -15,8 +15,8 @@ public class ArenaGameDetails : MonoBehaviour
 
 
     #region members
-    public Maps mapName;
-    public GameTypes gameType;
+    public MainMenu.Maps mapName;
+    public MainMenu.GameTypes gameType;
 
 
     public List<Team> teams;
@@ -139,20 +139,20 @@ public class ArenaGameDetails : MonoBehaviour
 
 
     }
-    public enum GameTypes
-    {
-        start,
-        freeForAll,
-        spaceMarbles,
-        end
-    }
-    public enum Maps
-    {
-       start,
-        arena1,
-        Fissure,
-        Colosseum,
-        end
-    }
+    // public enum GameTypes
+    // {
+    //     start,
+    //     freeForAll,
+    //     spaceMarbles,
+    //     end
+    // }
+    // public enum Maps
+    // {
+    //    start,
+    //     arena1,
+    //     Fissure,
+    //     Colosseum,
+    //     end
+    // }
     #endregion
 }
