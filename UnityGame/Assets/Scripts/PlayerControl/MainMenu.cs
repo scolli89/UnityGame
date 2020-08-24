@@ -62,6 +62,7 @@ public class MainMenu : MonoBehaviour
     [Header("CampaignMenu And Buttons:")]
     public GameObject campaignMenu;
     public GameObject campaignFirstButton;
+    private Levels levelSelected = (Levels)1; 
 
 
     public class MenuNode
@@ -144,7 +145,7 @@ public class MainMenu : MonoBehaviour
 
     void Awake()
     {
-        
+
         MenuNode mainMenuNode = new MenuNode(MAIN_MENU_NODE_STRING, mainMenu, firstButton);
 
         MenuNode playMenuNode = new MenuNode(PLAY_MENU_NODE_STRING, mainMenuNode, playMenu, playFirstButton, playClosedButton);
@@ -153,14 +154,14 @@ public class MainMenu : MonoBehaviour
         MenuNode campaignMenuNode = new MenuNode(CAMPAIGN_MENU_NODE_STRING, playMenuNode, campaignMenu, campaignFirstButton, campaignClosedButton);
         MenuNode arenaMenuNode = new MenuNode(ARENA_MENU_NODE_STRING, playMenuNode, arenaMenu, arenaFirstButton, arenaClosedButton);
 
-        
+
 
         mainMenuNode.addChildMenuNode(playMenuNode);
         mainMenuNode.addChildMenuNode(optionsMenuNode);
 
         playMenuNode.addChildMenuNode(campaignMenuNode);
         playMenuNode.addChildMenuNode(arenaMenuNode);
-        
+
         // mainMenuNode.printNode();
 
         // playMenuNode.printNode();
@@ -181,7 +182,7 @@ public class MainMenu : MonoBehaviour
 
     void Start()
     {
-        
+
         // set default selected object
 
         activeMenuNode.SetActive(true);
@@ -195,7 +196,7 @@ public class MainMenu : MonoBehaviour
 
         if (activeMenuNode.menuName != MAIN_MENU_NODE_STRING && (Gamepad.current.bButton.wasPressedThisFrame || Keyboard.current.backspaceKey.wasPressedThisFrame))
         {
-            GoBack(); 
+            GoBack();
             // if (optionsMenu.activeSelf == true)
             // {
             //     CloseAndGoBack(optionsMenu, mainMenu, optionsClosedButton);
@@ -244,23 +245,47 @@ public class MainMenu : MonoBehaviour
     }
 
 
-    public void GoButtonOnClick()
+
+    public void GoButtonOnClick(int x)
     {
-       
-        GameObject g = new GameObject();
-        ArenaGameDetails a = g.AddComponent<ArenaGameDetails>() as ArenaGameDetails;
-        
-        //Removed the type cast. 
-        //a.gameType = (ArenaGameDetails.GameTypes) gameTypeSelected;
-        //a.mapName = (ArenaGameDetails.Maps) mapSelected; 
-        a.gameType = gameTypeSelected;
-        a.mapName = mapSelected;  
-        g.tag = "ArenaGameDetailsObject"; 
-        g.name = "GameDetails"; 
-        DontDestroyOnLoadManager.DontDestroyOnLoad(g); 
-        
-        // load the next scene
-        SceneManager.LoadScene("PlayerSetup");
+        if (x == 0)
+        {
+            //arena
+            GameObject g = new GameObject();
+            ArenaGameDetails a = g.AddComponent<ArenaGameDetails>() as ArenaGameDetails;
+
+            //Removed the type cast. 
+            //a.gameType = (ArenaGameDetails.GameTypes) gameTypeSelected;
+            //a.mapName = (ArenaGameDetails.Maps) mapSelected; 
+            a.gameType = gameTypeSelected;
+            a.mapName = mapSelected;
+            g.tag = "ArenaGameDetailsObject";
+            g.name = "GameDetails";
+            DontDestroyOnLoadManager.DontDestroyOnLoad(g);
+
+            // load the next scene
+            SceneManager.LoadScene("PlayerSetup");
+
+        }
+        else
+        {
+            //campaign
+            GameObject g = new GameObject();
+            //ArenaGameDetails a = g.AddComponent<ArenaGameDetails>() as ArenaGameDetails;
+            CampaignGameDetails a = g.AddComponent<CampaignGameDetails>() as CampaignGameDetails; 
+
+            
+            a.levelSelected = this.levelSelected;
+            //a.setEnemyCount(); 
+
+            g.tag = "CampaignGameDetailsObject";
+            g.name = "GameDetails";
+            DontDestroyOnLoadManager.DontDestroyOnLoad(g);
+
+            // load the next scene
+            SceneManager.LoadScene("PlayerSetup");
+        }
+
     }
     public void setMapText(int x)
     {
@@ -377,7 +402,7 @@ public class MainMenu : MonoBehaviour
 
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(activeMenuNode.firstSelectedButton);
-        
+
         if (activeMenuNode.menuName == ARENA_MENU_NODE_STRING)
         {
             mapSelectText.GetComponent<TextMeshProUGUI>().text = mapSelected.ToString();
@@ -399,4 +424,12 @@ public class MainMenu : MonoBehaviour
         Colosseum,
         end
     }
+
+    public enum Levels {
+        start, 
+        tutorial,
+        level1,
+        end
+    }
+
 }

@@ -9,7 +9,7 @@ public class RobotDroneController : MonoBehaviour
     [Space]
     [Header("Drone Statistics:")]
     public int droneId;
-    public int health = 3;
+    public int health = 1;
     public int shieldUses = 2;
     public bool shieldActive = false;
 
@@ -77,10 +77,11 @@ public class RobotDroneController : MonoBehaviour
     //private Drone _target;
     private PlayerController _playerTarget;
     private DroneState _currentState;
-    private EnemyGameManager enemyGameManager; 
+    private CampaignGameLogic gameLogic;
 
     void Start()
     {
+        Debug.Log("Ronot Drone Controller Start"); 
         animator = this.GetComponent<Animator>();
         rb = this.GetComponent<Rigidbody2D>();
         Random rnd = new Random();
@@ -88,11 +89,13 @@ public class RobotDroneController : MonoBehaviour
         //target = new Vector2(0, 0);
         //hasTarget = false;
         _currentState = DroneState.Wander;
-        enemyGameManager = this.gameObject.transform.parent.GetComponent<EnemyGameManager>(); 
-
-
-
+        // finds the gameLogic gameObject. then gets the script on it. 
+        gameLogic = GameObject.Find("CampaignGameLogic").GetComponent<CampaignGameLogic>();
+        Debug.Log(gameLogic);
+        players = gameLogic.GetPlayerGameObjects();
     }
+
+    // function initialize drones call from gamelogic
 
     // Update is called once per frame
     void Update()
@@ -167,7 +170,7 @@ public class RobotDroneController : MonoBehaviour
                         if (d < ATTACK_STOP_DISTANCE)
                         {
                             // stop chaisng, just attack
-                          //  Debug.Log("ENTERING ATTACK from chase");
+                            //  Debug.Log("ENTERING ATTACK from chase");
                             rb.velocity = Vector2.zero;
                             _currentState = DroneState.Attack;
                             return;
@@ -192,7 +195,7 @@ public class RobotDroneController : MonoBehaviour
                                 // decrease firerate to attack faster
                                 // chase and shoot. 
                                 rb.velocity = _direction * PURSUIT_SPEED;
-                                
+
 
                             }
                             else
@@ -235,7 +238,7 @@ public class RobotDroneController : MonoBehaviour
 
                         if (d >= ATTACK_STOP_DISTANCE)// && d <= AGGRO_DISTANCE)
                         {
-                           // Debug.Log("ENTERING Wander from attack");
+                            // Debug.Log("ENTERING Wander from attack");
                             _currentState = DroneState.Wander;
                             return;
 
@@ -249,7 +252,7 @@ public class RobotDroneController : MonoBehaviour
 
                         // }
                         // the stopped and attack
-                        else 
+                        else
                         {
                             rb.velocity = Vector2.zero;
                             if (fireCount <= fireRate)
@@ -300,6 +303,13 @@ public class RobotDroneController : MonoBehaviour
                 { // right now just the cannon. 
                     return true;
 
+                }
+                if (other.gameObject.CompareTag("DeathBox"))
+                {
+                    return true;
+
+                    // playerController.audioManager.playSound("Fall");
+                    // playerController.respawn();
                 }
 
                 if (other.CompareTag("Environment"))
@@ -361,6 +371,8 @@ public class RobotDroneController : MonoBehaviour
     {
         Vector2 mPos = new Vector2(transform.position.x, transform.position.y);
 
+        Debug.Log("COME BACK TO ME. PLAYERS is Not working");
+
         foreach (GameObject player in players)
         {
             Vector2 pPos = new Vector2(player.transform.position.x, player.transform.position.y);
@@ -391,35 +403,39 @@ public class RobotDroneController : MonoBehaviour
         */
 
 
-        
+
     }
 
     public void takeDamage(int damage)
     {
+        gameLogic.DroneDied();
 
-        if (damage < 0)
-        {
-            // if adding health
-            health -= damage;
-        }
-        else if (shieldActive)
-        {
-            // if shield is hit. 
-            DeactivateShield();
+        Destroy(this.gameObject);
+
+        // if (damage < 0)
+        // {
+        //     // if adding health
+        //     health -= damage;
+        // }
+        // else if (shieldActive)
+        // {
+        //     // if shield is hit. 
+        //     DeactivateShield();
 
 
-        }
-        else
-        {
-            //regular damange. 
-            health -= damage;
-        }
+        // }
+        // else
+        // {
+        //     //regular damange. 
+        //     health -= damage;
+        // }
 
-        if (health == 0)
-        {
-            enemyGameManager.subtractFromDronesRemaining(1);
-            Destroy(this.gameObject);
-        }
+        // if (health == 0)
+        // {
+        //     gameLogic.DroneDied();
+        //     //enemyGameManager.subtractFromDronesRemaining(1);
+        //     Destroy(this.gameObject);
+        // }
 
     }
 
@@ -514,9 +530,19 @@ public class RobotDroneController : MonoBehaviour
             rb.velocity = Vector2.zero;
             rb.velocity = movementDirection * PURSUIT_SPEED;
 
+
+        }
+        if (other.gameObject.CompareTag("DeathBox"))
+        {
+            takeDamage(1);
         }
     }
 }
+
+
+
+
+
 
 public enum DroneState
 {

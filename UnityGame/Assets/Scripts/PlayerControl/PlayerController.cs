@@ -136,7 +136,10 @@ public class PlayerController : MonoBehaviour
     private List<GameObject> playerUIGameObjects;
 
     private bool animateCrosshair;
-    private bool alive = true;
+    private bool isAlive = true;
+    public bool getIsAlive(){
+        return isAlive; 
+    }
     public GameObject killedBy;
 
     // todos
@@ -218,7 +221,7 @@ public class PlayerController : MonoBehaviour
     {
         //this is called once a frame. Tied to frame rate. 
         // get the change 
-        if (!PauseMenu.GameIsPaused || !alive)
+        if (!PauseMenu.GameIsPaused || !isAlive)
         {
             ProcessInputs(); // Aim() and AimPower are called within ProcessInputs. 
             Move(); // Move is called in FixedUpdate
@@ -395,7 +398,7 @@ public class PlayerController : MonoBehaviour
 
     public void setMovementDirection(Vector2 direction)
     {
-        if (alive)
+        if (isAlive)
         {
             movementDirection = direction;
             movementSpeed = Mathf.Clamp(movementDirection.magnitude, 0.0f, 1.0f);
@@ -404,7 +407,7 @@ public class PlayerController : MonoBehaviour
 
     public void setAimDirection(Vector3 mouse)
     {
-        if (alive)
+        if (isAlive)
         {
             usingMouse = true;
             mouse.z = 0.0f;
@@ -417,7 +420,7 @@ public class PlayerController : MonoBehaviour
     // called on hold of aim button
     public void setIsAiming()
     {
-        if (alive)
+        if (isAlive)
         {
             isAiming = true;
             animateCrosshair = true;
@@ -428,7 +431,7 @@ public class PlayerController : MonoBehaviour
     //called when aim button is released
     public void setIsFiring()
     {
-        if (alive)
+        if (isAlive)
         {
             animateCrosshair = false;
             isAiming = false;
@@ -440,7 +443,7 @@ public class PlayerController : MonoBehaviour
 
     public void setIsAimingPower()
     {
-        if (alive)
+        if (isAlive)
         {
             usingPower = true;
         }
@@ -448,7 +451,7 @@ public class PlayerController : MonoBehaviour
 
     public void setToggleUI()
     {
-        if (alive)
+        if (isAlive)
         {
             toggleUI = true;
         }
@@ -456,7 +459,7 @@ public class PlayerController : MonoBehaviour
 
     public void setIsFiringPower()
     {
-        if (alive)
+        if (isAlive)
         {
             usingPower = false;
             endUsingPower = true;
@@ -465,7 +468,7 @@ public class PlayerController : MonoBehaviour
     }
     public void setIsDashing()
     {
-        if (alive && isDashing == false)
+        if (isAlive && isDashing == false)
         {
             // if (energy > 1)
             // {
@@ -497,7 +500,7 @@ public class PlayerController : MonoBehaviour
     }
     public void setDualFire()
     {
-        if (alive && shootFlag == true)
+        if (isAlive && shootFlag == true)
         {
             isAiming = false;
             endOfAiming = true;
@@ -580,7 +583,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void playWalkSound(){
-        if(alive && !isAiming && repeatFootstep()){
+        if(isAlive && !isAiming && repeatFootstep()){
             if(groundSound == "Base"){
                 audioManager.playSound("Footstep (base)");
             }
@@ -684,7 +687,7 @@ public class PlayerController : MonoBehaviour
 
     public void AimDual(Vector2 direction)
     {
-        if (alive && direction != Vector2.zero)
+        if (isAlive && direction != Vector2.zero)
         {
             animateCrosshair = true;
             crosshair.SetActive(true);
@@ -887,7 +890,7 @@ public class PlayerController : MonoBehaviour
     {
         groundSound = "Base";
         movementSpeed = 0;
-        alive = false;
+        isAlive = false;
         isDashing = false;
         crosshair.SetActive(false);
 
@@ -906,7 +909,7 @@ public class PlayerController : MonoBehaviour
     public void enable(bool isEnabled)
     {
         //toggleUI = true;
-        alive = isEnabled;
+        isAlive = isEnabled;
         disableUI(isEnabled);
         spriteRenderer.enabled = isEnabled;
     }

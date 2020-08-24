@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 public class GameParticipant
     {
+        
         public PlayerController pc;
         public ArenaGameDetails.SelfColor selfColor;
         public int score;

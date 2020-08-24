@@ -11,6 +11,7 @@ public class PlayerConfigurationManager : MonoBehaviour
     const string PVPArena2 = "PVPArena2-Fissure";
     const string PVPArena3 = "PVPArena3-Colosseum";
     const string TestArena = "Game";
+    const string CampaignTutorial = "Campaign-Tutorial";
     private List<PlayerConfiguration> playerConfigs;
     public static PlayerConfigurationManager Instance { get; private set; }
 
@@ -52,24 +53,37 @@ public class PlayerConfigurationManager : MonoBehaviour
         if (playerConfigs.Count >= 1 && playerConfigs.All(p => p.IsReady == true))
         {
             //SceneManager.LoadScene("PVPArena1");
-            GameObject g = GameObject.FindWithTag("ArenaGameDetailsObject");
-            ArenaGameDetails a = g.GetComponent<ArenaGameDetails>();
-            
+            GameObject gameDetailsObject = GameObject.Find("GameDetails");
+            //GameObject g = GameObject.FindWithTag("ArenaGameDetailsObject");
+            if (gameDetailsObject.CompareTag("ArenaGameDetailsObject"))
+            {
+                // arena game
+                ArenaGameDetails arenaGameDetailsScript = gameDetailsObject.GetComponent<ArenaGameDetails>();
+                if ((MainMenu.Maps)arenaGameDetailsScript.mapName == MainMenu.Maps.Fissure)
+                {
+                    // if it is the fissure map
+                    SceneManager.LoadScene(PVPArena2);
 
-            if((MainMenu.Maps)a.mapName == MainMenu.Maps.Fissure){
-                // if it is the fissure map
-                SceneManager.LoadScene(PVPArena2);
-
+                }
+                else if ((MainMenu.Maps)arenaGameDetailsScript.mapName == MainMenu.Maps.arena1)
+                {
+                    SceneManager.LoadScene(PVPArena1);
+                }
+                else if ((MainMenu.Maps)arenaGameDetailsScript.mapName == MainMenu.Maps.Colosseum)
+                {
+                    SceneManager.LoadScene(PVPArena3);
+                }
+                else
+                {
+                    SceneManager.LoadScene(PVPArena2);
+                }
             }
-            else if((MainMenu.Maps)a.mapName == MainMenu.Maps.arena1){
-                SceneManager.LoadScene(PVPArena1);
-            }
-            else if((MainMenu.Maps)a.mapName == MainMenu.Maps.Colosseum){
-                SceneManager.LoadScene(PVPArena3);
-            }
-            else {
-                SceneManager.LoadScene(PVPArena2);
-            }            
+            else
+            {
+                //campaign game
+                CampaignGameDetails campaignGameDetails = gameObject.GetComponent<CampaignGameDetails>(); 
+                SceneManager.LoadScene(CampaignTutorial);
+            }   
         }
     }
 

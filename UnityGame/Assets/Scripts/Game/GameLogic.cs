@@ -356,41 +356,6 @@ public class GameLogic : MonoBehaviour
 
     }
 
-    private float[] noiseValues;
-    public void randomExample()
-    {
-        //UnityEngine.Random.InitState(42);
-        noiseValues = new float[10];
-        for (int i = 0; i < noiseValues.Length; i++)
-        {
-            noiseValues[i] = UnityEngine.Random.value;
-            Debug.Log(noiseValues[i]);
-        }
-    }
+   
 }
 
-// public class CupGame : MonoBehaviour{
-//     public int Score;
-//     public Text ScoreText;
-
-//     // Update is called once per frame
-//     void Update(){
-//         if(Score >= 5){
-//             YouWin();
-//         }
-
-//     }
-//     void YouWin(){
-//         ScoreText.text = "You Win!";
-//         Time.timeScale = 0f;
-//     }
-//     private void OnTriggerEnter2D(Collider2D other){
-//         Destroy(other.gameObject);
-//         AddScore();
-//     }
-
-//     void AddScore(){
-//         Score++;
-//         ScoreText.text = Score.ToString();
-//     }
-// }

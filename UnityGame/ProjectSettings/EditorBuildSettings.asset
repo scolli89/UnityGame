@@ -6,22 +6,22 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Menu.unity
+    path: Assets/Scenes/Menu/Menu.unity
     guid: 3b4921d96eeaabb4baed1cd77485f006
   - enabled: 1
-    path: Assets/Scenes/PlayerSetup.unity
+    path: Assets/Scenes/Menu/PlayerSetup.unity
     guid: a1c820a2bcef8b34097e1c633db483ce
   - enabled: 1
-    path: Assets/Scenes/PVPArena1.unity
-    guid: 8ac8fd242d9207644a8ef5bc737c7c16
-  - enabled: 0
-    path: Assets/Scenes/Game.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    path: Assets/Scenes/Campaign/Campaign-Tutorial.unity
+    guid: b111a1f1511359545ab84fb0c7370381
   - enabled: 1
-    path: Assets/Scenes/PVPArena2-Fissure.unity
+    path: Assets/Scenes/PVP/PVPArena1.unity
+    guid: 8ac8fd242d9207644a8ef5bc737c7c16
+  - enabled: 1
+    path: Assets/Scenes/PVP/PVPArena2-Fissure.unity
     guid: be6e72b8789767c4186a3eb29329eb01
   - enabled: 1
-    path: Assets/Scenes/PVPArena3-Colosseum.unity
+    path: Assets/Scenes/PVP/PVPArena3-Colosseum.unity
     guid: f2c8d42cdcacce341a5c8ebf24e50697
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: e873cd695692778419095896e06c6f4a,
