@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class CampaignGameLogic : MonoBehaviour
+public class CampaignGameLogic : GameLogic
 {
     // [SerializeField]
     // private GameObject[] spawnPoints;
@@ -32,6 +32,9 @@ public class CampaignGameLogic : MonoBehaviour
     GameObject[] players;
     public float startEndGameTimer = 10f;
     private float endGameTimer;
+    Transform[] robotDroneSpawnPoints;
+    GameObject robotDroneSpawnPointsParent;
+    public GameObject robotDronePrefab;
 
     void Start()
     {
@@ -41,8 +44,10 @@ public class CampaignGameLogic : MonoBehaviour
 
         GameObject campaignGameDetailsObject = GameObject.FindWithTag("CampaignGameDetailsObject");
         gameDetails = campaignGameDetailsObject.GetComponent<CampaignGameDetails>();
-        gameDetails.setEnemyCount();
+        //gameDetails.setEnemyCount();
         numSpawnPoints = this.transform.childCount;
+
+        SpawnDrones();
 
 
 
@@ -70,15 +75,15 @@ public class CampaignGameLogic : MonoBehaviour
             {
                 pc.dot = trailDots[pc.getPlayerIndex()];
             }
-
-
+            pc.gameType = "campaign";
+            pc.SetGameLogicObject(this.gameObject);
             // var player = Instantiate(playerPrefabs[playerConfigs[i].PlayerClass], 
             // this.transform.GetChild(i).position, this.transform.GetChild(i).rotation, gameObject.transform);
 
             players[i].GetComponent<InputHandler>().InitializePlayer(playerConfigs[i]);
         }
 
-        Debug.Log("Game Logic Players assigned");
+
         gameDetails.gameActive = true;
         gameDetails.initializeGame(players);
 
@@ -120,17 +125,33 @@ public class CampaignGameLogic : MonoBehaviour
 
         }
     }
-    public IEnumerator SpawnArcher(GameObject player)
+    public override IEnumerator SpawnArcher(GameObject player)
     {
-        // just respawn player at the beginning 
         PlayerController p = player.GetComponent<PlayerController>();
+        if (gameDetails.respawnsActive)
+        {
+            // game allows respawns
+            //PlayerController p = player.GetComponent<PlayerController>();
 
-        Transform spawnPoint = GetRandomSpawnPoint();
-        player.transform.position = spawnPoint.transform.position;
+            Transform spawnPoint = GetRandomSpawnPoint();
+            player.transform.position = spawnPoint.transform.position;
 
-        player.GetComponent<PlayerController>().enable(false);
-        yield return new WaitForSeconds(respawnDelay);
-        player.GetComponent<PlayerController>().enable(true);
+            //player.GetComponent<PlayerController>().enable(false);
+            p.enable(false);
+            yield return new WaitForSeconds(respawnDelay);
+            p.enable(true);
+            //player.GetComponent<PlayerController>().enable(true);
+
+        }
+        else
+        {
+            //respawns not active;
+            p.enable(false);
+
+        }
+        // just respawn player at the beginning 
+
+
     }
 
     Transform GetRandomSpawnPoint()
@@ -156,11 +177,15 @@ public class CampaignGameLogic : MonoBehaviour
     {
         gameDetails.enemyCount--;
     }
+    public void DroneDied(int playerIndex){
+        gameDetails.enemyCount--;
+        gameDetails.addScoreTo(playerIndex,1);
+    }
     public void DisplayScoreBoard()
     {
         ScoreBoardCanvas.SetActive(true);
 
-
+        scoreBoardText.text = gameDetails.endGameMessage;
         // TODO, DISPLAY RESULTS ON A CANVAS SO EVERYBODY CAN SEE THEM
         scoreBoardText.text += "\n";
         for (int i = 0; i < gameDetails.players.Length; i++)
@@ -172,9 +197,27 @@ public class CampaignGameLogic : MonoBehaviour
     }
     public GameObject[] GetPlayerGameObjects()
     {
-        Debug.Log("CampaignGameLogic.GetPlyaeGameObjects");
+        //Debug.Log("CampaignGameLogic.GetPlyaeGameObjects");
         return players;
     }
+
+    public void SpawnDrones()
+    {
+        robotDroneSpawnPointsParent = GameObject.Find("RobotDroneSpawnPoints");
+        int numOfDrones = robotDroneSpawnPointsParent.transform.childCount;
+        for (int i = 0; i < numOfDrones; i++)
+        {
+            GameObject drone = Instantiate(robotDronePrefab, robotDroneSpawnPointsParent.transform.GetChild(i).position, Quaternion.identity);
+            drone.GetComponent<RobotDroneController>().SetGameLogic(this);
+        }
+
+        gameDetails.setEnemyCount(numOfDrones);
+
+
+    }
+
+
+
 }
 
 // 10 robots.

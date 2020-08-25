@@ -79,6 +79,9 @@ public class RobotDroneController : MonoBehaviour
     private DroneState _currentState;
     private CampaignGameLogic gameLogic;
 
+    public void SetGameLogic(CampaignGameLogic gameLogic){
+        this.gameLogic = gameLogic;
+    }
     void Start()
     {
         Debug.Log("Ronot Drone Controller Start"); 
@@ -91,7 +94,7 @@ public class RobotDroneController : MonoBehaviour
         _currentState = DroneState.Wander;
         // finds the gameLogic gameObject. then gets the script on it. 
         gameLogic = GameObject.Find("CampaignGameLogic").GetComponent<CampaignGameLogic>();
-        Debug.Log(gameLogic);
+    
         players = gameLogic.GetPlayerGameObjects();
     }
 
@@ -371,7 +374,7 @@ public class RobotDroneController : MonoBehaviour
     {
         Vector2 mPos = new Vector2(transform.position.x, transform.position.y);
 
-        Debug.Log("COME BACK TO ME. PLAYERS is Not working");
+        //Debug.Log("COME BACK TO ME. PLAYERS is Not working");
 
         foreach (GameObject player in players)
         {
@@ -438,7 +441,10 @@ public class RobotDroneController : MonoBehaviour
         // }
 
     }
-
+    public void takeDamage(int damage,int playerIndex){
+        gameLogic.DroneDied(playerIndex);
+        Destroy(this.gameObject);
+    }
     void ActivateShield()
     {
         shieldUses--;

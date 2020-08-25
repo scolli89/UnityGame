@@ -5,9 +5,9 @@ using UnityEngine;
 public class SpaceMarbleController : MonoBehaviour
 {
     // Start is called before the first frame update
-    private GameLogic gameLogic;
+    private ArenaGameLogic gameLogic;
     
-    public void setGameLogic(GameLogic g){
+    public void setGameLogic(ArenaGameLogic g){
         this.gameLogic = g; 
     }
     

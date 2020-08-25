@@ -137,10 +137,13 @@ public class PlayerController : MonoBehaviour
 
     private bool animateCrosshair;
     private bool isAlive = true;
-    public bool getIsAlive(){
-        return isAlive; 
+    public bool getIsAlive()
+    {
+        return isAlive;
     }
     public GameObject killedBy;
+
+    public string gameType;
 
     // todos
     // 
@@ -170,10 +173,16 @@ public class PlayerController : MonoBehaviour
     //2. Mod
     //3. TriggerBoxFeet
     //4. TriggerBoxHead
+
+    public void SetGameLogicObject(GameObject gameLogic){
+        this.gameLogic = gameLogic;
+    }
+
+
     void Start()
     {
         //        Debug.Log("Player Start");
-        gameLogic = GameObject.Find("GameLogic");
+        //gameLogic = GameObject.Find("GameLogic");
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         displayLevel = DisplayLevel.overWall;
@@ -554,7 +563,7 @@ public class PlayerController : MonoBehaviour
 
                 GameObject thisDot = Instantiate(dot, this.transform.position, Quaternion.identity);
                 thisDot.GetComponent<TrailDotController>().audioManager = audioManager;
-                
+
 
                 //thisDot.transform.parent = this.gameObject.transform;
 
@@ -582,27 +591,35 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void playWalkSound(){
-        if(isAlive && !isAiming && repeatFootstep()){
-            if(groundSound == "Base"){
+    private void playWalkSound()
+    {
+        if (isAlive && !isAiming && repeatFootstep())
+        {
+            if (groundSound == "Base")
+            {
                 audioManager.playSound("Footstep (base)");
             }
-            else if (groundSound == "Ground"){
+            else if (groundSound == "Ground")
+            {
                 audioManager.playSound("Footstep (gravel)");
             }
-            else if (groundSound == "Bridge"){
+            else if (groundSound == "Bridge")
+            {
                 audioManager.playSound("Footstep (bridge)");
             }
         }
     }
 
-    private bool repeatFootstep(){
+    private bool repeatFootstep()
+    {
         float playerMoveTimerMax = 0.33f;
-        if (soundTimer + playerMoveTimerMax < Time.time) {
+        if (soundTimer + playerMoveTimerMax < Time.time)
+        {
             soundTimer = Time.time;
             return true;
         }
-        else{
+        else
+        {
             return false;
         }
     }
@@ -888,103 +905,130 @@ public class PlayerController : MonoBehaviour
     #region respawnFunction
     public void respawn()
     {
+        //
+        // if(gameType == "campaign"){
+        // run the same as below but with GetComponent<CampaignGameLogic>(); 
+        // }
+        // else {
+        //     groundSound = "Base";
+        // movementSpeed = 0;
+        // isAlive = false;
+        // isDashing = false;
+        // crosshair.SetActive(false);
+
+
+        // StartCoroutine(gameLogic.GetComponent<ArenaGameLogic>().SpawnArcher(this.gameObject));
+
+        // killedBy = null;
+
+        // ammoRemaining = DEFAULT_AMMO;
+        // energy = DEFAULT_ENERGY;
+        // health = DEFAULT_HEALTH;
+        // StartCoroutine(invincibility());
+        // }
         groundSound = "Base";
         movementSpeed = 0;
         isAlive = false;
         isDashing = false;
         crosshair.SetActive(false);
 
-
+       
+        
+       // Debug.Log(gl.startGameTimer); 
+       
         StartCoroutine(gameLogic.GetComponent<GameLogic>().SpawnArcher(this.gameObject));
-
+      
         killedBy = null;
 
         ammoRemaining = DEFAULT_AMMO;
         energy = DEFAULT_ENERGY;
         health = DEFAULT_HEALTH;
         StartCoroutine(invincibility());
-    }
-    #endregion
+    
 
-    public void enable(bool isEnabled)
-    {
-        //toggleUI = true;
-        isAlive = isEnabled;
-        disableUI(isEnabled);
-        spriteRenderer.enabled = isEnabled;
-    }
 
-    public void disableUI(bool isEnabled)
+}
+#endregion
+
+public void enable(bool isEnabled)
+{
+    //toggleUI = true;
+    isAlive = isEnabled;
+    disableUI(isEnabled);
+    spriteRenderer.enabled = isEnabled;
+}
+
+public void disableUI(bool isEnabled)
+{
+    for (int i = 0; i < playerUIGameObjects.Count; i++)
     {
-        for (int i = 0; i < playerUIGameObjects.Count; i++)
+        //OBSOLETE FOR THE AMMO BAR
+        // if (i == 1)
+        // {
+        //     // the ammo bar
+        //     playerUIGameObjects[i].transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = isEnabled;
+        //     playerUIGameObjects[i].transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = isEnabled;
+        // }
+        // else
+        if (i == 1)
         {
-            //OBSOLETE FOR THE AMMO BAR
-            // if (i == 1)
-            // {
-            //     // the ammo bar
-            //     playerUIGameObjects[i].transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = isEnabled;
-            //     playerUIGameObjects[i].transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = isEnabled;
-            // }
-            // else
-             if (i == 1)
-            {
-                // the animated class mod
-                playerUIGameObjects[i].GetComponent<Animator>().enabled = isEnabled;
-                playerUIGameObjects[i].GetComponent<SpriteRenderer>().enabled = isEnabled;
-            }
-            else
-            {
-                // the energy bar
-                playerUIGameObjects[i].GetComponent<SpriteRenderer>().enabled = isEnabled;
-            }
+            // the animated class mod
+            playerUIGameObjects[i].GetComponent<Animator>().enabled = isEnabled;
+            playerUIGameObjects[i].GetComponent<SpriteRenderer>().enabled = isEnabled;
+        }
+        else
+        {
+            // the energy bar
+            playerUIGameObjects[i].GetComponent<SpriteRenderer>().enabled = isEnabled;
         }
     }
+}
 
-    public IEnumerator invincibility()
+public IEnumerator invincibility()
+{
+    float temp = 0;
+    invincible = true;
+    while (temp < numberOfFlashes)
     {
-        float temp = 0;
-        invincible = true;
-        while (temp < numberOfFlashes)
-        {
-            spriteRenderer.color = flashColor;
-            yield return new WaitForSeconds(flashDuration);
-            spriteRenderer.color = regularColor;
-            yield return new WaitForSeconds(flashDuration);
-            temp++;
-        }
-        invincible = false;
+        spriteRenderer.color = flashColor;
+        yield return new WaitForSeconds(flashDuration);
+        spriteRenderer.color = regularColor;
+        yield return new WaitForSeconds(flashDuration);
+        temp++;
     }
+    invincible = false;
+}
 
-    public void rechargeEnergyFull()
-    {
-        laserBoltHealing = true;
+public void rechargeEnergyFull()
+{
+    laserBoltHealing = true;
 
-    }
-    public void setAmmoAmount(int n)
-    {
-        ammoController.setAmmo(n);
-    }
-    public void setEnergyAmount(int n)
-    {
-        energyBarController.setEnergy(n);
-    }
-    public void setHealthAmount(int n)
-    {
-        energyBarController.setHealth(n);
-    }
-    public void setHealth(int health)
-    {
-        this.health = health;
-    }
-    public int getHealth()
-    {
-        return health;
-    }
-    public enum DisplayLevel
-    {
-        //let us assume that the default position is being displayed over top of the wall. 
-        underWall,
-        overWall,
-        noWall
-    }
+}
+public void setAmmoAmount(int n)
+{
+    ammoController.setAmmo(n);
+}
+public void setEnergyAmount(int n)
+{
+    energyBarController.setEnergy(n);
+}
+public void setHealthAmount(int n)
+{
+    energyBarController.setHealth(n);
+}
+public void setHealth(int health)
+{
+    this.health = health;
+}
+public int getHealth()
+{
+    return health;
+}
+public enum DisplayLevel
+{
+    //let us assume that the default position is being displayed over top of the wall. 
+    underWall,
+    overWall,
+    noWall
+}
 }

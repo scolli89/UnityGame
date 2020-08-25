@@ -2,6 +2,7 @@ TODO List!
 BUGS / ISSUES
 	> ABLE TO CLIP THROUGH BRIDGE AND walk on water. 
 	> BUILDERS NEED TO BE ABLE SHOOT THROUGH THEIR OWN WALLS.
+	> Find a way to make the bubble shield collider better -> use the circule collider
 
 What do we need to be "Done" and happy by next week? 
 
@@ -19,7 +20,7 @@ What do we need to be "Done" and happy by next week?
 		> Teleporter -> Place the two parts? Or place one then press b again to teleport? destroyable? 
 		> Turret -> Hardest part would be targeting only enemies-> Only game types are freeforall, just don't target the placer
 		> Bubble shield -> no bullets move in, no bullets move out. 
-			> Refraction shield ? -> bullets enter but get refracted at a strange angle, Bullets exit but get refracted too
+			> W : Refraction shield ? -> bullets enter but get refracted at a strange angle, Bullets exit but get refracted too
 				> or bullets in refracted, bullets out not refracted : encourages use by a player. 
 		> will come back to this
 		> considering using fire types instead of powers

@@ -73,7 +73,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2103540157
-  m_SortingLayer: 1
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: e194a0bb91b1d1149b98ed52b2641be1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -171,26 +171,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8ebbfdc492b56e419b994e5eaa0c4ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  droneId: 0
   health: 3
   shieldUses: 1
   shieldActive: 0
-  shootingDirection: {x: 0, y: 0}
-  shootAtPlayer: 0
-  fireRate: 120
-  justFired: 0
-  LASER_BASE_SPEED: 10
-  ARROW_OFFSET: 1.2
+  fireRate: 500
+  LASER_BASE_SPEED: 50
+  LASER_OFFSET: 1.2
   behaviourType: 0
   DISTANCE_FROM_PLAYER: 10
-  FIRE_WAIT_TIME: 2
-  target: {x: 0, y: 0}
-  hasTarget: 0
+  AGGRO_DISTANCE: 10
+  ATTACK_DISTANCE: 7
+  ATTACK_STOP_DISTANCE: 5
+  WANDER_STOP_DISTACNE: 1.5
   moveCount: 0
   moveRate: 60
   PATROL_SPEED: 3
   PURSUIT_SPEED: 6
   magnitude: 0
-  STOP_DISTANCE: 5
   player: {fileID: 0}
   animator: {fileID: 0}
   players: []

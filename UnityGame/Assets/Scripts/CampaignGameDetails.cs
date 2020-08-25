@@ -25,6 +25,8 @@ public class CampaignGameDetails : MonoBehaviour
     public float gameTime;
     
     public bool levelCompleted;
+    public bool respawnsActive;
+    public string endGameMessage;
    
     #endregion
 
@@ -36,17 +38,21 @@ public class CampaignGameDetails : MonoBehaviour
         levelCompleted = false; 
         
         gameTime = 0f;
+        respawnsActive = false; 
         
     }
-    public void setEnemyCount(){
+    public void setEnemyCount(int enemyCount){
         //
-        enemyCount = GameObject.FindGameObjectsWithTag("Enemy").Length;
+        this.enemyCount = enemyCount;
+        // enemyCount = GameObject.FindGameObjectsWithTag("Enemy").Length;
+        Debug.Log("EnemyCount: "+enemyCount);
         // if(levelSelected == MainMenu.Levels.tutorial){
         //     enemyCount = 1; 
         // }else{
         //     enemyCount = 0; 
         // }
     }
+
     private void Update()
     {
         if (gameActive)
@@ -55,12 +61,14 @@ public class CampaignGameDetails : MonoBehaviour
                 // game is over?
                 // reload current scene? 
                 gameActive = false;
+                endGameMessage = "Lozar";
                 Debug.Log("Lozar"); 
             }
             else if (checkWinCondition())
             {
                 // game is over
                 gameActive = false;
+                endGameMessage = "Winnar"; 
                 Debug.Log("Winnar"); 
             }
             else
