@@ -65,6 +65,7 @@ public class RobotDroneController : MonoBehaviour
     [Header("Prefabs:")]
     public GameObject projectilePrefab;
     public GameObject shieldPrefab;
+    private SpriteRenderer spriteRenderer;
 
 
 
@@ -79,14 +80,16 @@ public class RobotDroneController : MonoBehaviour
     private DroneState _currentState;
     private CampaignGameLogic gameLogic;
 
-    public void SetGameLogic(CampaignGameLogic gameLogic){
+    public void SetGameLogic(CampaignGameLogic gameLogic)
+    {
         this.gameLogic = gameLogic;
     }
     void Start()
     {
-        Debug.Log("Ronot Drone Controller Start"); 
+        Debug.Log("Ronot Drone Controller Start");
         animator = this.GetComponent<Animator>();
         rb = this.GetComponent<Rigidbody2D>();
+        spriteRenderer = this.GetComponent<SpriteRenderer>(); 
         Random rnd = new Random();
         behaviourType = Random.Range(0, 1); // change for different behavior types. 
         //target = new Vector2(0, 0);
@@ -94,8 +97,11 @@ public class RobotDroneController : MonoBehaviour
         _currentState = DroneState.Wander;
         // finds the gameLogic gameObject. then gets the script on it. 
         gameLogic = GameObject.Find("CampaignGameLogic").GetComponent<CampaignGameLogic>();
-    
+
         players = gameLogic.GetPlayerGameObjects();
+
+
+
     }
 
     // function initialize drones call from gamelogic
@@ -441,7 +447,8 @@ public class RobotDroneController : MonoBehaviour
         // }
 
     }
-    public void takeDamage(int damage,int playerIndex){
+    public void takeDamage(int damage, int playerIndex)
+    {
         gameLogic.DroneDied(playerIndex);
         Destroy(this.gameObject);
     }
@@ -542,6 +549,18 @@ public class RobotDroneController : MonoBehaviour
         {
             takeDamage(1);
         }
+        if (other.gameObject.CompareTag("OverWallTrigger"))
+        {
+            spriteRenderer.sortingLayerName = "overWall";
+            //PlayerController.DisplayLevel.overWall.ToString();
+            //displayLevel.ToString();
+        }
+        else if (other.gameObject.CompareTag("UnderWallTrigger"))
+        {
+            spriteRenderer.sortingLayerName = "underWall";
+            //displayLevel.ToString();
+        }
+
     }
 }
 

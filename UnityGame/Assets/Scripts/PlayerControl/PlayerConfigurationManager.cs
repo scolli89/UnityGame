@@ -12,6 +12,7 @@ public class PlayerConfigurationManager : MonoBehaviour
     const string PVPArena3 = "PVPArena3-Colosseum";
     const string TestArena = "Game";
     const string CampaignTutorial = "Campaign-Tutorial";
+    const string LevelOne = "Campaign-Level-One";
     private List<PlayerConfiguration> playerConfigs;
     public static PlayerConfigurationManager Instance { get; private set; }
 
@@ -81,8 +82,17 @@ public class PlayerConfigurationManager : MonoBehaviour
             else
             {
                 //campaign game
-                CampaignGameDetails campaignGameDetails = gameObject.GetComponent<CampaignGameDetails>(); 
-                SceneManager.LoadScene(CampaignTutorial);
+
+                CampaignGameDetails campaignGameDetails = gameDetailsObject.GetComponent<CampaignGameDetails>(); 
+                Debug.Log(campaignGameDetails);
+                Debug.Log(campaignGameDetails.level.ToString());
+                if((MainMenu.Levels)campaignGameDetails.level == MainMenu.Levels.level1){
+                    SceneManager.LoadScene(LevelOne);
+                }
+                else {
+                    SceneManager.LoadScene(CampaignTutorial);
+                }
+                
             }   
         }
     }

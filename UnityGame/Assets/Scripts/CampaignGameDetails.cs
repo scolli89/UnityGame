@@ -15,7 +15,7 @@ public class CampaignGameDetails : MonoBehaviour
 
 
     #region members
-    public MainMenu.Levels levelSelected;
+    public MainMenu.Levels level;
 
     public int enemyCount; 
     public GameParticipant[] players;

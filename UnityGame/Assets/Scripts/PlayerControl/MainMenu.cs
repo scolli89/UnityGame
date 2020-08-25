@@ -62,7 +62,12 @@ public class MainMenu : MonoBehaviour
     [Header("CampaignMenu And Buttons:")]
     public GameObject campaignMenu;
     public GameObject campaignFirstButton;
-    private Levels levelSelected = (Levels)1; 
+    private Levels levelSelected = (Levels)1;
+    public GameObject increaseLevelBtn;
+    public GameObject decreaseLevelBtn;
+
+    public GameObject levelSelectedText;
+
 
 
     public class MenuNode
@@ -244,7 +249,19 @@ public class MainMenu : MonoBehaviour
         gameTypeText.GetComponent<TextMeshProUGUI>().text = gameTypeSelected.ToString();
     }
 
-
+    public void setLevelSelectText(int x)
+    {
+        levelSelected += x;
+        if (levelSelected >= Levels.end)
+        {
+            levelSelected -= Levels.end - 1;
+        }
+        else if (levelSelected <= Levels.start)
+        {
+            levelSelected = levelSelected + (int)Levels.end - 1;
+        }
+        levelSelectedText.GetComponent<TextMeshProUGUI>().text = levelSelected.ToString();
+    }
 
     public void GoButtonOnClick(int x)
     {
@@ -272,12 +289,12 @@ public class MainMenu : MonoBehaviour
             //campaign
             GameObject g = new GameObject();
             //ArenaGameDetails a = g.AddComponent<ArenaGameDetails>() as ArenaGameDetails;
-            CampaignGameDetails a = g.AddComponent<CampaignGameDetails>() as CampaignGameDetails; 
+            CampaignGameDetails a = g.AddComponent<CampaignGameDetails>() as CampaignGameDetails;
 
-            
-            a.levelSelected = this.levelSelected;
+
+            a.level = levelSelected;
             //a.setEnemyCount(); 
-
+            Debug.Log(a.level);
             g.tag = "CampaignGameDetailsObject";
             g.name = "GameDetails";
             DontDestroyOnLoadManager.DontDestroyOnLoad(g);
@@ -408,6 +425,9 @@ public class MainMenu : MonoBehaviour
             mapSelectText.GetComponent<TextMeshProUGUI>().text = mapSelected.ToString();
             gameTypeText.GetComponent<TextMeshProUGUI>().text = gameTypeSelected.ToString();
         }
+        else if(activeMenuNode.menuName == CAMPAIGN_MENU_NODE_STRING){
+            levelSelectedText.GetComponent<TextMeshProUGUI>().text = levelSelected.ToString(); 
+        }
     }
     public enum GameTypes
     {
@@ -425,8 +445,9 @@ public class MainMenu : MonoBehaviour
         end
     }
 
-    public enum Levels {
-        start, 
+    public enum Levels
+    {
+        start,
         tutorial,
         level1,
         end
