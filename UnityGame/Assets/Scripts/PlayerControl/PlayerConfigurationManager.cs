@@ -13,6 +13,7 @@ public class PlayerConfigurationManager : MonoBehaviour
     const string TestArena = "Game";
     const string CampaignTutorial = "Campaign-Tutorial";
     const string LevelOne = "Campaign-Level-One";
+    const string LevelTwo = "Campaign-Level-Two";
     private List<PlayerConfiguration> playerConfigs;
     public static PlayerConfigurationManager Instance { get; private set; }
 
@@ -88,6 +89,9 @@ public class PlayerConfigurationManager : MonoBehaviour
                 Debug.Log(campaignGameDetails.level.ToString());
                 if((MainMenu.Levels)campaignGameDetails.level == MainMenu.Levels.level1){
                     SceneManager.LoadScene(LevelOne);
+                }
+                else if((MainMenu.Levels)campaignGameDetails.level == MainMenu.Levels.level2){
+                    SceneManager.LoadScene(LevelTwo);
                 }
                 else {
                     SceneManager.LoadScene(CampaignTutorial);

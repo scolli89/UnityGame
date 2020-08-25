@@ -214,6 +214,7 @@ MonoBehaviour:
   toggleUI: 0
   UIisVisible: 0
   killedBy: {fileID: 0}
+  gameType: 
 --- !u!114 &5120685968796460511
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -289,6 +290,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: PlayerFeet
+      objectReference: {fileID: 0}
+    - target: {fileID: 2043179362702217141, guid: d2d3d9186b6d513498600e26ebb2cc54,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3374784457244334493, guid: d2d3d9186b6d513498600e26ebb2cc54,
         type: 3}
@@ -420,6 +426,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TriggerBoxHead
       objectReference: {fileID: 0}
+    - target: {fileID: 3831253354165725169, guid: d2862a10d37ed1b47b31a71adca99884,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d2862a10d37ed1b47b31a71adca99884, type: 3}
 --- !u!4 &4267811062189554422 stripped
@@ -549,6 +560,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SortingLayer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 975669674705711671, guid: 4ec0f4a8c64e1954995e8be9e27fd3bb,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4312862789596398982, guid: 4ec0f4a8c64e1954995e8be9e27fd3bb,
         type: 3}

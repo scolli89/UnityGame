@@ -450,6 +450,7 @@ public class MainMenu : MonoBehaviour
         start,
         tutorial,
         level1,
+        level2,
         end
     }
 

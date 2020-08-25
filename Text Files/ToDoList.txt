@@ -1,8 +1,9 @@
 TODO List! 
 BUGS / ISSUES
-	> ABLE TO CLIP THROUGH BRIDGE AND walk on water. 
 	> BUILDERS NEED TO BE ABLE SHOOT THROUGH THEIR OWN WALLS.
 	> Find a way to make the bubble shield collider better -> use the circule collider
+	> ai robots walk into walls taking shortest path to player
+	> when there are two players, the ai will only chase after one
 
 What do we need to be "Done" and happy by next week? 
 
@@ -31,7 +32,6 @@ What do we need to be "Done" and happy by next week?
 		> Couch ferret makes games might have a video on this. 
 
 	> Fix When you are right up against a builder wall, able to shoot over/through it.
-
 	
 	> More sound effects
 		> Death
