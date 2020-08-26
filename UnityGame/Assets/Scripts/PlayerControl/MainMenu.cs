@@ -198,33 +198,51 @@ public class MainMenu : MonoBehaviour
     }
     void Update()
     {
+        
 
-        if (activeMenuNode.menuName != MAIN_MENU_NODE_STRING && (Gamepad.current.bButton.wasPressedThisFrame || Keyboard.current.backspaceKey.wasPressedThisFrame))
+        if (activeMenuNode.menuName != MAIN_MENU_NODE_STRING)
         {
-            GoBack();
-            // if (optionsMenu.activeSelf == true)
-            // {
-            //     CloseAndGoBack(optionsMenu, mainMenu, optionsClosedButton);
-            //     //CloseOptionsMenu();
-            // }
-            // else if (playMenu.activeSelf == true)
-            // {
-            //     CloseAndGoBack(playMenu, mainMenu, playClosedButton);
-            //     //ClosePlayMenu();
-            // }
-            // else if (arenaMenu.activeSelf == true)
-            // {
-            //     CloseAndGoBack(arenaMenu, playMenu, arenaClosedButton);
-            //     //CloseArenaMenu();
-            // }
-            // else if (campaignMenu.activeSelf == true)
-            // {
-            //     CloseAndGoBack(campaignMenu, playMenu, campaignClosedButton);
-            //     //CloseCampaignMenu(); 
-            // }
-        }
 
+            if (Gamepad.current != null)
+            {
+                if ((Gamepad.current.bButton.wasPressedThisFrame) || (Keyboard.current.backspaceKey.wasPressedThisFrame))
+                {
+
+                    GoBack();
+                }
+            }
+            else
+            {
+                if (Keyboard.current.backspaceKey.wasPressedThisFrame)
+                {
+                    GoBack();
+                }
+
+            }
+        }
+        // if (optionsMenu.activeSelf == true)
+        // {
+        //     CloseAndGoBack(optionsMenu, mainMenu, optionsClosedButton);
+        //     //CloseOptionsMenu();
+        // }
+        // else if (playMenu.activeSelf == true)
+        // {
+        //     CloseAndGoBack(playMenu, mainMenu, playClosedButton);
+        //     //ClosePlayMenu();
+        // }
+        // else if (arenaMenu.activeSelf == true)
+        // {
+        //     CloseAndGoBack(arenaMenu, playMenu, arenaClosedButton);
+        //     //CloseArenaMenu();
+        // }
+        // else if (campaignMenu.activeSelf == true)
+        // {
+        //     CloseAndGoBack(campaignMenu, playMenu, campaignClosedButton);
+        //     //CloseCampaignMenu(); 
+        // }
     }
+
+
 
     public void StartGameSetUp()
     {
@@ -407,7 +425,7 @@ public class MainMenu : MonoBehaviour
 
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(activeMenuNode.goBackSelectedButton); // get my go back button
-        // change the active menu
+                                                                                        // change the active menu
         activeMenuNode = activeMenuNode.parentNode;
     }
 
@@ -425,8 +443,9 @@ public class MainMenu : MonoBehaviour
             mapSelectText.GetComponent<TextMeshProUGUI>().text = mapSelected.ToString();
             gameTypeText.GetComponent<TextMeshProUGUI>().text = gameTypeSelected.ToString();
         }
-        else if(activeMenuNode.menuName == CAMPAIGN_MENU_NODE_STRING){
-            levelSelectedText.GetComponent<TextMeshProUGUI>().text = levelSelected.ToString(); 
+        else if (activeMenuNode.menuName == CAMPAIGN_MENU_NODE_STRING)
+        {
+            levelSelectedText.GetComponent<TextMeshProUGUI>().text = levelSelected.ToString();
         }
     }
     public enum GameTypes

@@ -475,7 +475,7 @@ public class RobotDroneController : MonoBehaviour
         Vector2 iPosition = new Vector2(this.transform.position.x, this.transform.position.y);
         Vector2 shootingDirection = shootAt - iPosition;
         shootingDirection.Normalize();
-        iPosition += shootingDirection * LASER_OFFSET;
+        //iPosition += shootingDirection * LASER_OFFSET;
         GameObject arrow = Instantiate(projectilePrefab, iPosition, Quaternion.identity);
         //GameObject arrow = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
         LaserController arrowController = arrow.GetComponent<LaserController>();

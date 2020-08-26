@@ -156,7 +156,6 @@ MonoBehaviour:
   CROSSHAIR_DISTANCE: 5
   BUILDER_POWER_DISTANCE: 2
   AIMING_BASE_PENALTY: 0
-  LASER_OFFSET: 1.2
   HEALING_WAIT: 2
   playerIndex: 0
   ammoRemaining: 12
@@ -214,6 +213,7 @@ MonoBehaviour:
   toggleUI: 0
   UIisVisible: 0
   killedBy: {fileID: 0}
+  gameType: 
 --- !u!114 &2898733863395552146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -260,7 +260,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0030437708, y: 0.094362795}
+  m_Offset: {x: 0.0030437708, y: -0.29898554}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -271,7 +271,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.5044265, y: 1.3209988}
+  m_Size: {x: 0.5044265, y: 0.5343021}
   m_EdgeRadius: 0
 --- !u!1001 &732472784525959325
 PrefabInstance:
@@ -406,6 +406,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: PlayerFeet
+      objectReference: {fileID: 0}
+    - target: {fileID: 2505713315257981485, guid: d2d3d9186b6d513498600e26ebb2cc54,
+        type: 3}
+      propertyPath: m_Offset.y
+      value: -0.6
       objectReference: {fileID: 0}
     - target: {fileID: 3374784457244334493, guid: d2d3d9186b6d513498600e26ebb2cc54,
         type: 3}

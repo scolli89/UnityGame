@@ -5,6 +5,7 @@ using UnityEngine;
 public class BuilderWallController : MonoBehaviour
 {
 
+    public GameObject builder;
     public Sprite wallLow;
     public Sprite wallMed;
     public Sprite wallFull;

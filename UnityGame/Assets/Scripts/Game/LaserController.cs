@@ -29,6 +29,7 @@ public class LaserController : MonoBehaviour
 
                     TrailDotController t = other.GetComponent<TrailDotController>();
                     t.sploder = shooter;
+
                     t.setExplode();
 
                     break;
@@ -74,8 +75,8 @@ public class LaserController : MonoBehaviour
                     {
                         // player killed drone
                         PlayerController pc = shooter.GetComponent<PlayerController>();
-                        
-                        other.gameObject.GetComponent<RobotDroneController>().takeDamage(1,pc.getPlayerIndex());
+
+                        other.gameObject.GetComponent<RobotDroneController>().takeDamage(1, pc.getPlayerIndex());
                         break;
                     }
                     else
@@ -107,9 +108,21 @@ public class LaserController : MonoBehaviour
                 if (other.CompareTag("BuilderWall"))
                 {
                     // audioManager.playSound("Laser Dissapate");
-                    Destroy(gameObject);
-                    other.gameObject.GetComponent<BuilderWallController>().takeDamage(1);
-                    break;
+                    BuilderWallController wallController = other.gameObject.GetComponent<BuilderWallController>();
+
+                    if (wallController.builder == shooter)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Destroy(gameObject);
+                        //other.gameObject.GetComponent<BuilderWallController>().takeDamage(1);
+                        wallController.takeDamage(1);
+                        break;
+
+                    }
+
                 }
             }
         }

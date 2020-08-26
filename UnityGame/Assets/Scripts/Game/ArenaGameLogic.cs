@@ -36,7 +36,7 @@ public class ArenaGameLogic : GameLogic
     private float ymin;
     private float ymax;
     public float startEndGameTimer = 10f;
-    private float endGameTimer; 
+    private float endGameTimer;
 
     void Start()
     {
@@ -61,7 +61,7 @@ public class ArenaGameLogic : GameLogic
         gameDetails = tom.GetComponent<ArenaGameDetails>();
         numSpawnPoints = this.transform.childCount;
 
-        
+
 
 
         if ((MainMenu.GameTypes)gameDetails.gameType == MainMenu.GameTypes.freeForAll)
@@ -97,15 +97,16 @@ public class ArenaGameLogic : GameLogic
             {
                 xmin = Mathf.Min(mapMarkers[0].transform.position.x, mapMarkers[1].transform.position.x, mapMarkers[2].transform.position.x);
                 xmax = Mathf.Max(mapMarkers[0].transform.position.x, mapMarkers[1].transform.position.x, mapMarkers[2].transform.position.x);
-                float radius = (xmax - xmin)/2; 
-                
-                for(int i = 0; i < gameDetails.numberOfMarbles; i++){
+                float radius = (xmax - xmin) / 2;
+
+                for (int i = 0; i < gameDetails.numberOfMarbles; i++)
+                {
                     // Vector3 ipos = new Vector3(0,0,0); 
                     // //ipos += UnityEngine.Random.insideUnitCircle * diff; 
                     // Vector2 p = UnityEngine.Random.insideUnitCircle * diff; 
-                    Vector2 center = new Vector2(mapMarkers[2].transform.position.x,mapMarkers[2].transform.position.y); 
+                    Vector2 center = new Vector2(mapMarkers[2].transform.position.x, mapMarkers[2].transform.position.y);
 
-                    var marble = Instantiate(RandomMarble(),center + UnityEngine.Random.insideUnitCircle * radius,Quaternion.identity, gameObject.transform);
+                    var marble = Instantiate(RandomMarble(), center + UnityEngine.Random.insideUnitCircle * radius, Quaternion.identity, gameObject.transform);
                     marble.GetComponent<SpaceMarbleController>().setGameLogic(this);
                 }
             }
@@ -192,7 +193,7 @@ public class ArenaGameLogic : GameLogic
     public GameObject RandomMarble()
     {
         int x = UnityEngine.Random.Range(0, marblePrefabs.Length - 1);
-//        Debug.Log("Marble: " + x);
+        //        Debug.Log("Marble: " + x);
         return marblePrefabs[x];
     }
     private void Update()
@@ -202,27 +203,30 @@ public class ArenaGameLogic : GameLogic
             gameOverMessageShown = true;
             // game should be over here. As update will be called after 
             Debug.Log("Game Is Over");
-            endGameTimer = startEndGameTimer; 
+            endGameTimer = startEndGameTimer;
             DisplayScoreBoard();
 
         }
-        else if(gameOverMessageShown){
+        else if (gameOverMessageShown)
+        {
             //Game has ended, display is being shown
             // count down timer 30 seconds
             // after, 
-            
-            if(endGameTimer >= 0){
-                endGameTimer -= Time.deltaTime; 
+
+            if (endGameTimer >= 0)
+            {
+                endGameTimer -= Time.deltaTime;
             }
-            else {
+            else
+            {
                 // time to reload the main menu scene
-                
+
                 GameObject gd = GameObject.Find("GameDetails");
                 GameObject audioManager = GameObject.Find("AudioManager");
-                GameObject playerConfigs = GameObject.Find("PlayerConfigurationManager"); 
+                GameObject playerConfigs = GameObject.Find("PlayerConfigurationManager");
                 Destroy(gd);
                 Destroy(audioManager);
-                Destroy(playerConfigs); 
+                Destroy(playerConfigs);
                 SceneManager.LoadScene(MainMenuScene);
             }
 
@@ -235,25 +239,44 @@ public class ArenaGameLogic : GameLogic
         {
             PlayerController p = player.GetComponent<PlayerController>();
 
+
+            Debug.Log(p.killedBy.name);
+            Debug.Log(p.killedBy == p);
+
             // every kill in freefor all needs to be added to the killers score. 
 
             // player was killed by environment and not another player, 
             // player can die by trail. 
-            if (p.killedBy == null || p.killedBy == p)
+            if (p.killedBy == null)// || p.killedBy == p)
             {
                 gameDetails.addScoreTo(p.getPlayerIndex(), -1);
             }
-            // player was killed by another player
-            else
+            else 
             {
+                // player was killed by something
+                
+                PlayerController killerPlayerController = p.killedBy.GetComponent<PlayerController>();
+                int killerPlayerIndex = killerPlayerController.getPlayerIndex();
 
-                int killerPlayerIndex = p.killedBy.GetComponent<PlayerController>().getPlayerIndex();
 
-                // TODO MAKE A HIT FEED using the below concept
 
-                // Debug.Log(killerPlayerIndex.ToString() + "Killed" + p.getPlayerIndex().ToString());
-                gameDetails.addScoreTo(killerPlayerIndex, 1);
+                if (killerPlayerIndex != p.getPlayerIndex())
+                {
+                    // some one else killed him
+
+                    // TODO MAKE A HIT FEED using the below concept
+
+                    // Debug.Log(killerPlayerIndex.ToString() + "Killed" + p.getPlayerIndex().ToString());
+                    gameDetails.addScoreTo(killerPlayerIndex, 1);
+                }
+                else{
+                    // he killed himself
+                    gameDetails.addScoreTo(p.getPlayerIndex(), -1);
+                }
+
             }
+            // player was killed by another player
+
 
         }
         else if ((MainMenu.GameTypes)gameDetails.gameType == MainMenu.GameTypes.spaceMarbles)
@@ -356,6 +379,6 @@ public class ArenaGameLogic : GameLogic
 
     }
 
-   
+
 }
 

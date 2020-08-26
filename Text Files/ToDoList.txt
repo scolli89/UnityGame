@@ -1,9 +1,10 @@
 TODO List! 
 BUGS / ISSUES
 	> BUILDERS NEED TO BE ABLE SHOOT THROUGH THEIR OWN WALLS.
-	> Find a way to make the bubble shield collider better -> use the circule collider
+	> I HONESTLY THINK THAT IT IS FINE AS IS -> Find a way to make the bubble shield collider better -> use the circule collider
 	> ai robots walk into walls taking shortest path to player
 	> when there are two players, the ai will only chase after one
+	
 
 What do we need to be "Done" and happy by next week? 
 
@@ -12,6 +13,7 @@ What do we need to be "Done" and happy by next week?
 
 	> Scoreboard
 		> W: During game.
+		> W: Kill log. Who killed who and how.
 
 	 
 
@@ -31,7 +33,6 @@ What do we need to be "Done" and happy by next week?
 			> If turn it off colliders
 		> Couch ferret makes games might have a video on this. 
 
-	> Fix When you are right up against a builder wall, able to shoot over/through it.
 	
 	> More sound effects
 		> Death
@@ -78,6 +79,12 @@ What do we need to be "Done" and happy by next week?
 
 
 <<<<<<FINISHED >>>>>>>>>
+FIXED ISSUES:
+> new classes are not picking up marbles
+
+
+	> Fix When you are right up against a builder wall, able to shoot over/through it.
+
 	> Slow down fire rate.
 		> Changed to 1/2 second
 

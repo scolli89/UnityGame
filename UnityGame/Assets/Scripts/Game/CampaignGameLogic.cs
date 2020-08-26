@@ -185,7 +185,7 @@ public class CampaignGameLogic : GameLogic
         for (int i = 0; i < gameDetails.players.Length; i++)
         {
 
-            scoreBoardText.text += "Player " + i.ToString() + " scored " + gameDetails.players[i].score.ToString() + " points" + "\n";
+            scoreBoardText.text += "Player " + i.ToString() + " scored " + gameDetails.players[i].score.ToString() + " points";
             if (!gameDetails.players[i].pc.getIsAlive())
             {
                 scoreBoardText.text += "Died :( ";

@@ -6,6 +6,7 @@ public class BuilderClassBasic : PlayerClass
 {
     const int AMMO_REQUIRED = 2; 
     public GameObject classPrefab; 
+    const int NumberOfWallsBuilt = 3;
 
     void Start()
     { // like our contr
@@ -20,6 +21,7 @@ public class BuilderClassBasic : PlayerClass
         Vector2 aimDirection = v;
 
         Transform parentTransform = this.gameObject.transform.parent; 
+        GameObject builder = parentTransform.gameObject; 
         
         Vector2 buildOffset = new Vector2(parentTransform.position.x,parentTransform.position.y);
 
@@ -29,6 +31,9 @@ public class BuilderClassBasic : PlayerClass
         //iPosition.Normalize();
         
         GameObject wall = Instantiate(classPrefab, iPosition, Quaternion.identity);
+        BuilderTripleWallController wallController = wall.GetComponent<BuilderTripleWallController>();
+        wallController.numberOfWalls = NumberOfWallsBuilt;
+        wallController.setBuilderOnWalls(builder); 
         //wall.transform.Rotate(0, 0, Mathf.Atan2(aimDirection.y, aimDirection.x) *Mathf.Rad2Deg + 90 );
 
         //original

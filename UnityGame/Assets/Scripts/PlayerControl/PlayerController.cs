@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
 
     public float BUILDER_POWER_DISTANCE = 2.0f;
     public float AIMING_BASE_PENALTY = 0.1f;
-    public float LASER_OFFSET = 1.2f;
+    private float LASER_OFFSET = 0.5f;
     public float HEALING_WAIT = 2.0f;
 
     [SerializeField]
@@ -142,11 +142,13 @@ public class PlayerController : MonoBehaviour
     {
         return isAlive;
     }
-    public bool getInEndZone(){
+    public bool getInEndZone()
+    {
         return isInEndZone;
     }
-    public void setisInEndZone(bool isInEndZone){
-        this.isInEndZone = isInEndZone; 
+    public void setisInEndZone(bool isInEndZone)
+    {
+        this.isInEndZone = isInEndZone;
     }
     public GameObject killedBy;
 
@@ -768,10 +770,23 @@ public class PlayerController : MonoBehaviour
             Vector2 shootingDirection = crosshair.transform.localPosition;
             shootingDirection.Normalize();
             Vector2 iPosition = transform.position;
+            //Debug.Log("IPOsiition: " + iPosition.ToString());
             iPosition = iPosition + shootingDirection * LASER_OFFSET; // this prevents it from hitting the player
+
+
+
+            // this will only work if the triggerFeet box child is always child 3 of a new class.
+            GameObject feetTriggerPosition = this.gameObject.transform.GetChild(3).gameObject;
+            //Vector2 newIposition = new Vector2(feetTriggerPosition.transform.position.x, feetTriggerPosition.transform.position.y);
+           // Debug.Log(feetTriggerPosition.name + newIposition.ToString());
+
+            // Vector2 shootingDirection = newIposition -
+            //     new Vector2(crosshair.transform.localPosition.x, crosshair.transform.localPosition.y);
+            // shootingDirection.Normalize();
 
             audioManager.playSound("Laser Fire"); // sound effect
 
+            //GameObject laser = Instantiate(laserPrefab, iPosition, Quaternion.identity);
             GameObject laser = Instantiate(laserPrefab, iPosition, Quaternion.identity);
             laser.GetComponent<LaserController>().audioManager = audioManager; // pass audiomanager to save on computing power
 
