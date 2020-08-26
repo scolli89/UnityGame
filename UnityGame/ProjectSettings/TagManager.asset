@@ -23,6 +23,7 @@ TagManager:
   - Base
   - Bridge
   - CampaignGameDetailsObject
+  - EndZone
   layers:
   - Default
   - TransparentFX

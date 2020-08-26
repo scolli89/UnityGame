@@ -48,7 +48,13 @@ public class feetTriggerColliderController : MonoBehaviour
         {
             playerController.feetPos = (PlayerController.DisplayLevel)DisplayLevel.underWall;
         }
-        
+
+        else if (other.gameObject.CompareTag("EndZone"))
+        {
+            playerController.setisInEndZone(true);
+        }
+
+
         #endregion
 
         #region Sound effects
@@ -66,7 +72,7 @@ public class feetTriggerColliderController : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        
+
     }
     private void OnTriggerExit2D(Collider2D other)
     {
@@ -78,6 +84,10 @@ public class feetTriggerColliderController : MonoBehaviour
         if (other.gameObject.CompareTag("Base") || other.gameObject.CompareTag("Bridge"))
         {
             playerController.groundSound = "Ground";
+        }
+        if (other.gameObject.CompareTag("EndZone"))
+        {
+            playerController.setisInEndZone(false);
         }
     }
 

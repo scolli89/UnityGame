@@ -17,35 +17,39 @@ public class CampaignGameDetails : MonoBehaviour
     #region members
     public MainMenu.Levels level;
 
-    public int enemyCount; 
+    public int enemyCount;
     public GameParticipant[] players;
     public bool gameActive;
-  
+
     //static public SelfColor lastAssignedSelfColor = 0;
     public float gameTime;
-    
+
     public bool levelCompleted;
     public bool respawnsActive;
     public string endGameMessage;
-   
+    private int checkCount;
+    public int startCheckCount = 60;
+
     #endregion
 
     #region lifeCycleMethods
     private void Start()
     {
         gameActive = false;
-     
-        levelCompleted = false; 
-        
+
+        levelCompleted = false;
+
         gameTime = 0f;
-        respawnsActive = false; 
-        
+        respawnsActive = false;
+        checkCount = startCheckCount;
+
     }
-    public void setEnemyCount(int enemyCount){
+    public void setEnemyCount(int enemyCount)
+    {
         //
         this.enemyCount = enemyCount;
         // enemyCount = GameObject.FindGameObjectsWithTag("Enemy").Length;
-        Debug.Log("EnemyCount: "+enemyCount);
+        Debug.Log("EnemyCount: " + enemyCount);
         // if(levelSelected == MainMenu.Levels.tutorial){
         //     enemyCount = 1; 
         // }else{
@@ -57,36 +61,68 @@ public class CampaignGameDetails : MonoBehaviour
     {
         if (gameActive)
         {
-            if(checkLoseCondition()){
-                // game is over?
-                // reload current scene? 
-                gameActive = false;
-                endGameMessage = "Lozar";
-                Debug.Log("Lozar"); 
-            }
-            else if (checkWinCondition())
+            gameTime += Time.deltaTime;
+            // because of the loops, reduced checking frequency of win/lose to once every 60 frames
+            if (checkCount >= 0)
             {
-                // game is over
-                gameActive = false;
-                endGameMessage = "Winnar"; 
-                Debug.Log("Winnar"); 
+                checkCount--;
             }
             else
             {
-                gameTime += Time.deltaTime;
+                // check win conditions
+                checkCount = startCheckCount;
+                if (checkLoseCondition())
+                {
+                    // game is over?
+                    // reload current scene? 
+                    gameActive = false;
+                    endGameMessage = "Lozar";
+                    Debug.Log("Lozar");
+                }
+                else if (checkWinCondition())
+                {
+                    // game is over
+                    gameActive = false;
+                    endGameMessage = "Winnar";
+                    Debug.Log("Winnar");
+                }
+
             }
 
         }
     }
-    private bool checkWinCondition(){
-        return enemyCount <= 0;
+    private bool checkWinCondition()
+    {
+        int numPlayersToWin = players.Length;
+        int numInEndZone = 0;
+        foreach (GameParticipant player in players)
+        {
+            if (player.pc.getIsAlive())
+            {
+                if (player.pc.getInEndZone())
+                {
+                    // alive and in the endzone
+                    numInEndZone++;
+                }
+
+            }
+            else
+            {
+                // the player is dead
+                numPlayersToWin--;
+            }
+        }
+        return numInEndZone >= numPlayersToWin; //enemyCount <= 0;
     }
-    private bool checkLoseCondition(){
+    private bool checkLoseCondition()
+    {
         // worst case O(n);
         // worst case O(8);  
-        foreach (GameParticipant player in players){
+        foreach (GameParticipant player in players)
+        {
 
-            if (player.pc.getIsAlive()){
+            if (player.pc.getIsAlive())
+            {
                 return false; // as in atleast one person is alive. 
             }
         }
@@ -117,16 +153,16 @@ public class CampaignGameDetails : MonoBehaviour
 
     }
 
-// use it to count kills by players
+    // use it to count kills by players
     public void addScoreTo(int pi, int scoreIncrease)
     {
         if (gameActive)
         {
             players[pi].score += scoreIncrease;
-           // Debug.Log("Player " + pi + " Score : " + players[pi].score);
+            // Debug.Log("Player " + pi + " Score : " + players[pi].score);
         }
     }
-   
-  
-  
+
+
+
 }

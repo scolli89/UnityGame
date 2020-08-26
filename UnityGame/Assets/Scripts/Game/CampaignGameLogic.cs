@@ -22,8 +22,6 @@ public class CampaignGameLogic : GameLogic
     public GameObject ScoreBoardCanvas;
     public TextMeshProUGUI scoreBoardText;
 
-
-
     private int numSpawnPoints;
     public float respawnDelay = 3.0f;
     CampaignGameDetails gameDetails;
@@ -172,21 +170,27 @@ public class CampaignGameLogic : GameLogic
     {
         gameDetails.enemyCount--;
     }
-    public void DroneDied(int playerIndex){
+    public void DroneDied(int playerIndex)
+    {
         gameDetails.enemyCount--;
-        gameDetails.addScoreTo(playerIndex,1);
+        gameDetails.addScoreTo(playerIndex, 1);
     }
     public void DisplayScoreBoard()
     {
         ScoreBoardCanvas.SetActive(true);
 
         scoreBoardText.text = gameDetails.endGameMessage;
-        // TODO, DISPLAY RESULTS ON A CANVAS SO EVERYBODY CAN SEE THEM
+        scoreBoardText.text += "\n Game Time: " + gameDetails.gameTime.ToString();
         scoreBoardText.text += "\n";
         for (int i = 0; i < gameDetails.players.Length; i++)
         {
-            scoreBoardText.text += "Player " + i.ToString() + " scored " + gameDetails.players[i].score.ToString() + " points" + "\n";
 
+            scoreBoardText.text += "Player " + i.ToString() + " scored " + gameDetails.players[i].score.ToString() + " points" + "\n";
+            if (!gameDetails.players[i].pc.getIsAlive())
+            {
+                scoreBoardText.text += "Died :( ";
+            }
+            scoreBoardText.text += "\n";
         }
 
     }

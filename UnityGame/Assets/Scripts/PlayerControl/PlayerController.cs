@@ -137,9 +137,16 @@ public class PlayerController : MonoBehaviour
 
     private bool animateCrosshair;
     private bool isAlive = true;
+    private bool isInEndZone = false;
     public bool getIsAlive()
     {
         return isAlive;
+    }
+    public bool getInEndZone(){
+        return isInEndZone;
+    }
+    public void setisInEndZone(bool isInEndZone){
+        this.isInEndZone = isInEndZone; 
     }
     public GameObject killedBy;
 
@@ -174,7 +181,8 @@ public class PlayerController : MonoBehaviour
     //3. TriggerBoxFeet
     //4. TriggerBoxHead
 
-    public void SetGameLogicObject(GameObject gameLogic){
+    public void SetGameLogicObject(GameObject gameLogic)
+    {
         this.gameLogic = gameLogic;
     }
 
@@ -932,103 +940,103 @@ public class PlayerController : MonoBehaviour
         isDashing = false;
         crosshair.SetActive(false);
 
-       
-        
-       // Debug.Log(gl.startGameTimer); 
-       
+
+
+        // Debug.Log(gl.startGameTimer); 
+
         StartCoroutine(gameLogic.GetComponent<GameLogic>().SpawnArcher(this.gameObject));
-      
+
         killedBy = null;
 
         ammoRemaining = DEFAULT_AMMO;
         energy = DEFAULT_ENERGY;
         health = DEFAULT_HEALTH;
         StartCoroutine(invincibility());
-    
 
 
-}
-#endregion
 
-public void enable(bool isEnabled)
-{
-    //toggleUI = true;
-    isAlive = isEnabled;
-    disableUI(isEnabled);
-    spriteRenderer.enabled = isEnabled;
-}
+    }
+    #endregion
 
-public void disableUI(bool isEnabled)
-{
-    for (int i = 0; i < playerUIGameObjects.Count; i++)
+    public void enable(bool isEnabled)
     {
-        //OBSOLETE FOR THE AMMO BAR
-        // if (i == 1)
-        // {
-        //     // the ammo bar
-        //     playerUIGameObjects[i].transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = isEnabled;
-        //     playerUIGameObjects[i].transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = isEnabled;
-        // }
-        // else
-        if (i == 1)
+        //toggleUI = true;
+        isAlive = isEnabled;
+        disableUI(isEnabled);
+        spriteRenderer.enabled = isEnabled;
+    }
+
+    public void disableUI(bool isEnabled)
+    {
+        for (int i = 0; i < playerUIGameObjects.Count; i++)
         {
-            // the animated class mod
-            playerUIGameObjects[i].GetComponent<Animator>().enabled = isEnabled;
-            playerUIGameObjects[i].GetComponent<SpriteRenderer>().enabled = isEnabled;
-        }
-        else
-        {
-            // the energy bar
-            playerUIGameObjects[i].GetComponent<SpriteRenderer>().enabled = isEnabled;
+            //OBSOLETE FOR THE AMMO BAR
+            // if (i == 1)
+            // {
+            //     // the ammo bar
+            //     playerUIGameObjects[i].transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = isEnabled;
+            //     playerUIGameObjects[i].transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = isEnabled;
+            // }
+            // else
+            if (i == 1)
+            {
+                // the animated class mod
+                playerUIGameObjects[i].GetComponent<Animator>().enabled = isEnabled;
+                playerUIGameObjects[i].GetComponent<SpriteRenderer>().enabled = isEnabled;
+            }
+            else
+            {
+                // the energy bar
+                playerUIGameObjects[i].GetComponent<SpriteRenderer>().enabled = isEnabled;
+            }
         }
     }
-}
 
-public IEnumerator invincibility()
-{
-    float temp = 0;
-    invincible = true;
-    while (temp < numberOfFlashes)
+    public IEnumerator invincibility()
     {
-        spriteRenderer.color = flashColor;
-        yield return new WaitForSeconds(flashDuration);
-        spriteRenderer.color = regularColor;
-        yield return new WaitForSeconds(flashDuration);
-        temp++;
+        float temp = 0;
+        invincible = true;
+        while (temp < numberOfFlashes)
+        {
+            spriteRenderer.color = flashColor;
+            yield return new WaitForSeconds(flashDuration);
+            spriteRenderer.color = regularColor;
+            yield return new WaitForSeconds(flashDuration);
+            temp++;
+        }
+        invincible = false;
     }
-    invincible = false;
-}
 
-public void rechargeEnergyFull()
-{
-    laserBoltHealing = true;
+    public void rechargeEnergyFull()
+    {
+        laserBoltHealing = true;
 
-}
-public void setAmmoAmount(int n)
-{
-    ammoController.setAmmo(n);
-}
-public void setEnergyAmount(int n)
-{
-    energyBarController.setEnergy(n);
-}
-public void setHealthAmount(int n)
-{
-    energyBarController.setHealth(n);
-}
-public void setHealth(int health)
-{
-    this.health = health;
-}
-public int getHealth()
-{
-    return health;
-}
-public enum DisplayLevel
-{
-    //let us assume that the default position is being displayed over top of the wall. 
-    underWall,
-    overWall,
-    noWall
-}
+    }
+    public void setAmmoAmount(int n)
+    {
+        ammoController.setAmmo(n);
+    }
+    public void setEnergyAmount(int n)
+    {
+        energyBarController.setEnergy(n);
+    }
+    public void setHealthAmount(int n)
+    {
+        energyBarController.setHealth(n);
+    }
+    public void setHealth(int health)
+    {
+        this.health = health;
+    }
+    public int getHealth()
+    {
+        return health;
+    }
+    public enum DisplayLevel
+    {
+        //let us assume that the default position is being displayed over top of the wall. 
+        underWall,
+        overWall,
+        noWall
+    }
 }
