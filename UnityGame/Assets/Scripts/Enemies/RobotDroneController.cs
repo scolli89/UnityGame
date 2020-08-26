@@ -86,7 +86,7 @@ public class RobotDroneController : MonoBehaviour
     }
     void Start()
     {
-        Debug.Log("Ronot Drone Controller Start");
+        Debug.Log("Robot Drone Controller Start");
         animator = this.GetComponent<Animator>();
         rb = this.GetComponent<Rigidbody2D>();
         spriteRenderer = this.GetComponent<SpriteRenderer>(); 

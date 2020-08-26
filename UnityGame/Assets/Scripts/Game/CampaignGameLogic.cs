@@ -49,9 +49,6 @@ public class CampaignGameLogic : GameLogic
 
         SpawnDrones();
 
-
-
-
         // turn on the game details.
 
         var playerConfigs = PlayerConfigurationManager.Instance.GetPlayerConfigs().ToArray();
@@ -86,8 +83,6 @@ public class CampaignGameLogic : GameLogic
 
         gameDetails.gameActive = true;
         gameDetails.initializeGame(players);
-
-
     }
     private void Update()
     {

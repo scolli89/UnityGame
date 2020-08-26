@@ -294,7 +294,7 @@ public class MainMenu : MonoBehaviour
 
             a.level = levelSelected;
             //a.setEnemyCount(); 
-            Debug.Log(a.level);
+            //Debug.Log(a.level);
             g.tag = "CampaignGameDetailsObject";
             g.name = "GameDetails";
             DontDestroyOnLoadManager.DontDestroyOnLoad(g);

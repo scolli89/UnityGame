@@ -42,7 +42,8 @@ public class MultipleTargetCamera : MonoBehaviour
             offset = new Vector3(0, 0, -1);
         }
     }
-    void update(){
+    
+    void Update(){
         AddTargets(); 
     }
     void LateUpdate()

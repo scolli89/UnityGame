@@ -85,8 +85,8 @@ public class PlayerConfigurationManager : MonoBehaviour
                 //campaign game
 
                 CampaignGameDetails campaignGameDetails = gameDetailsObject.GetComponent<CampaignGameDetails>(); 
-                Debug.Log(campaignGameDetails);
-                Debug.Log(campaignGameDetails.level.ToString());
+                //Debug.Log(campaignGameDetails);
+                //Debug.Log(campaignGameDetails.level.ToString());
                 if((MainMenu.Levels)campaignGameDetails.level == MainMenu.Levels.level1){
                     SceneManager.LoadScene(LevelOne);
                 }

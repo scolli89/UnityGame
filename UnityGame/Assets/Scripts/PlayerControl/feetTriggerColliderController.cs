@@ -48,6 +48,7 @@ public class feetTriggerColliderController : MonoBehaviour
         {
             playerController.feetPos = (PlayerController.DisplayLevel)DisplayLevel.underWall;
         }
+        
         #endregion
 
         #region Sound effects
