@@ -154,6 +154,10 @@ public class PlayerController : MonoBehaviour
 
     public string gameType;
 
+    private bool isEMPed = false;
+    private float empLength = 0f;
+    
+
     // todos
     // 
     //decouple dash and energy
@@ -293,7 +297,17 @@ public class PlayerController : MonoBehaviour
         //         healingCount = 0;
         //     }
         // }
+        if(isEMPed){
 
+
+            if(empLength >= 0){
+                empLength -= Time.deltaTime; 
+            }
+            else {
+                empLength = 0;
+                isEMPed = false; 
+            }
+        }
 
         if (laserBoltHealing)
         {
@@ -545,7 +559,7 @@ public class PlayerController : MonoBehaviour
                 rb.velocity = shockDirection * PUSH_BACK_FORCE;
             }
         }
-        else if (isDashing)
+        else if (isDashing && !isEMPed)
         {
             if (dashTime <= 0)
             {
@@ -778,7 +792,7 @@ public class PlayerController : MonoBehaviour
             // this will only work if the triggerFeet box child is always child 3 of a new class.
             GameObject feetTriggerPosition = this.gameObject.transform.GetChild(3).gameObject;
             //Vector2 newIposition = new Vector2(feetTriggerPosition.transform.position.x, feetTriggerPosition.transform.position.y);
-           // Debug.Log(feetTriggerPosition.name + newIposition.ToString());
+            // Debug.Log(feetTriggerPosition.name + newIposition.ToString());
 
             // Vector2 shootingDirection = newIposition -
             //     new Vector2(crosshair.transform.localPosition.x, crosshair.transform.localPosition.y);
@@ -903,6 +917,21 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void setEmpEffect(float empLength)
+    {
+        if (isEMPed)
+        {
+            this.empLength += empLength;
+        }
+        else
+        {
+            isEMPed = true;
+            this.empLength = empLength;
+
+        }
+        energy = 0; 
+
+    }
     public void takeDamage(int damage)
     {
         // switch to one hit kills

@@ -240,8 +240,8 @@ public class ArenaGameLogic : GameLogic
             PlayerController p = player.GetComponent<PlayerController>();
 
 
-            Debug.Log(p.killedBy.name);
-            Debug.Log(p.killedBy == p);
+            // Debug.Log(p.killedBy.name);
+            // Debug.Log(p.killedBy == p);
 
             // every kill in freefor all needs to be added to the killers score. 
 

@@ -52,6 +52,8 @@ public class RobotDroneController : MonoBehaviour
     public float PURSUIT_SPEED = 3f;
     public float magnitude;
 
+    private bool isEMPed = false;
+    private float empLength = 0f;
 
 
     [Space]
@@ -89,7 +91,7 @@ public class RobotDroneController : MonoBehaviour
         Debug.Log("Robot Drone Controller Start");
         animator = this.GetComponent<Animator>();
         rb = this.GetComponent<Rigidbody2D>();
-        spriteRenderer = this.GetComponent<SpriteRenderer>(); 
+        spriteRenderer = this.GetComponent<SpriteRenderer>();
         Random rnd = new Random();
         behaviourType = Random.Range(0, 1); // change for different behavior types. 
         //target = new Vector2(0, 0);
@@ -127,8 +129,11 @@ public class RobotDroneController : MonoBehaviour
                         {
                             GetDestination();
                         }
+                        if (!isEMPed)
+                        {
+                            rb.velocity = _direction * PATROL_SPEED;// * Time.deltaTime;
+                        }
 
-                        rb.velocity = _direction * PATROL_SPEED;// * Time.deltaTime;
                         int count = 0;
                         while (IsPathBlocked())
                         {
@@ -196,6 +201,11 @@ public class RobotDroneController : MonoBehaviour
                             //chase the player 
                             _direction = targetPosition - currentPosition;
                             _direction.Normalize();
+
+                            if (!isEMPed)
+                            {
+                                rb.velocity = _direction * PATROL_SPEED;// * Time.deltaTime;
+                            }
 
 
                             if (fireCount <= fireRate)
@@ -291,7 +301,21 @@ public class RobotDroneController : MonoBehaviour
             }
         }
     }
-
+    void FixedUpdate()
+    {
+        if (isEMPed)
+        {
+            if (empLength >= 0)
+            {
+                empLength -= Time.deltaTime;
+            }
+            else
+            {
+                empLength = 0;
+                isEMPed = false;
+            }
+        }
+    }
     private bool IsPathBlocked()
     {
         Vector2 currentPosition = new Vector2(transform.position.x, transform.position.y);
@@ -415,6 +439,21 @@ public class RobotDroneController : MonoBehaviour
 
     }
 
+    public void setEmpEffect(float empLength)
+    {
+        if (isEMPed)
+        {
+            this.empLength += empLength;
+        }
+        else
+        {
+            isEMPed = true;
+            this.empLength = empLength;
+        }
+
+
+
+    }
     public void takeDamage(int damage)
     {
         gameLogic.DroneDied();
