@@ -33,6 +33,7 @@ public class CampaignGameLogic : GameLogic
     Transform[] robotDroneSpawnPoints;
     GameObject robotDroneSpawnPointsParent;
     public GameObject robotDronePrefab;
+    public GameObject cam;
 
     void Start()
     {
@@ -79,6 +80,7 @@ public class CampaignGameLogic : GameLogic
         }
 
 
+        cam = GameObject.FindWithTag("MainCamera");
         gameDetails.gameActive = true;
         gameDetails.initializeGame(players);
     }
@@ -91,7 +93,6 @@ public class CampaignGameLogic : GameLogic
             Debug.Log("Game Is Over");
             endGameTimer = startEndGameTimer;
             DisplayScoreBoard();
-
         }
         else if (gameOverMessageShown)
         {
@@ -115,7 +116,6 @@ public class CampaignGameLogic : GameLogic
                 Destroy(playerConfigs);
                 SceneManager.LoadScene(MainMenuScene);
             }
-
         }
     }
     public override IEnumerator SpawnArcher(GameObject player)
@@ -134,17 +134,14 @@ public class CampaignGameLogic : GameLogic
             yield return new WaitForSeconds(respawnDelay);
             p.enable(true);
             //player.GetComponent<PlayerController>().enable(true);
-
         }
         else
         {
             //respawns not active;
             p.enable(false);
-
+            cam.GetComponent<MultipleTargetCamera>().RemoveTargets(p.getPlayerIndex());
         }
         // just respawn player at the beginning 
-
-
     }
 
     Transform GetRandomSpawnPoint()

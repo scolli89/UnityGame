@@ -924,9 +924,6 @@ public class PlayerController : MonoBehaviour
         // isDashing = false;
         // crosshair.SetActive(false);
 
-
-        // StartCoroutine(gameLogic.GetComponent<ArenaGameLogic>().SpawnArcher(this.gameObject));
-
         // killedBy = null;
 
         // ammoRemaining = DEFAULT_AMMO;
@@ -952,9 +949,6 @@ public class PlayerController : MonoBehaviour
         energy = DEFAULT_ENERGY;
         health = DEFAULT_HEALTH;
         StartCoroutine(invincibility());
-
-
-
     }
     #endregion
 

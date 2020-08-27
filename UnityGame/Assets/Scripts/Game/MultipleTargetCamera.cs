@@ -6,6 +6,7 @@ using UnityEngine;
 public class MultipleTargetCamera : MonoBehaviour
 {
     public List<Transform> targets;
+    public Dictionary<int, int> playersInCamera;
 
     public Vector3 offset;
     public float smoothTime = .5f;
@@ -18,14 +19,8 @@ public class MultipleTargetCamera : MonoBehaviour
 
     void Start()
     {
-        GameObject[] ptargets = GameObject.FindGameObjectsWithTag("Player");
-        foreach (GameObject ptarget in ptargets)
-        {
-            targets.Add(ptarget.transform);
-        }
-        cam = GetComponent<Camera>();
-        //targets = Get;
-        offset = new Vector3(0, 0, -1);
+        playersInCamera = new Dictionary<int, int>();
+        AddTargets();
     }
 
     void AddTargets()
@@ -33,13 +28,20 @@ public class MultipleTargetCamera : MonoBehaviour
         if (targets.Count == 0)
         {
             GameObject[] ptargets = GameObject.FindGameObjectsWithTag("Player");
-            foreach (GameObject ptarget in ptargets)
+            for (int i = 0; i<ptargets.Length; i++)// (GameObject ptarget in ptargets)
             {
-                targets.Add(ptarget.transform);
+                targets.Add(ptargets[i].transform);
+                playersInCamera [i] = i;
             }
             cam = GetComponent<Camera>();
-            //targets = Get;
             offset = new Vector3(0, 0, -1);
+        }
+    }
+
+    public void RemoveTargets(int playerIndex){
+        targets.RemoveAt(playersInCamera[playerIndex]);
+        for (int i = playerIndex; i<playersInCamera.Count; i++){
+            playersInCamera[i] -= 1;
         }
     }
     
@@ -50,7 +52,6 @@ public class MultipleTargetCamera : MonoBehaviour
     {
         if (targets.Count == 0)
             return;
-
         centerCamera();
         zoomCamera();
     }
@@ -94,7 +95,6 @@ public class MultipleTargetCamera : MonoBehaviour
         {
             bounds.Encapsulate(targets[i].position);
         }
-
         return bounds.center;
     }
 }
