@@ -53,7 +53,7 @@ public class RobotDroneController : MonoBehaviour
     public float magnitude;
 
     private bool isEMPed = false;
-    private float empLength = 0f;
+    public float empLength = 0f;
 
 
     [Space]
@@ -125,44 +125,51 @@ public class RobotDroneController : MonoBehaviour
             {
                 case DroneState.Wander:
                     {
-                        if (NeedsDestination())
+                        if (isEMPed)
                         {
-                            GetDestination();
+                            Debug.Log("Robot Zapped");
                         }
-                        if (!isEMPed)
+                        else
                         {
-                            rb.velocity = _direction * PATROL_SPEED;// * Time.deltaTime;
-                        }
-
-                        int count = 0;
-                        while (IsPathBlocked())
-                        {
-
-                            //Debug.Log("Path Blocked");
-                            GetDestination();
-                            count++;
-                            if (count >= 100)
+                            if (NeedsDestination())
                             {
-                                count = 0;
-                                break;
+                                GetDestination();
                             }
+
+                            rb.velocity = _direction * PATROL_SPEED;// * Time.deltaTime;
+
+
+                            int count = 0;
+                            while (IsPathBlocked())
+                            {
+
+                                //Debug.Log("Path Blocked");
+                                GetDestination();
+                                count++;
+                                if (count >= 100)
+                                {
+                                    count = 0;
+                                    break;
+                                }
+                            }
+
+                            var targetToAggro = CheckForAggro();
+                            if (targetToAggro != null)
+                            {
+                                _playerTarget = targetToAggro.gameObject.GetComponent<PlayerController>();
+
+                                _currentState = DroneState.Chase;
+                                // assign direction 
+                                Vector2 targetPosition = new Vector2(_playerTarget.transform.position.x, _playerTarget.transform.position.y);
+                                Vector2 currentPosition = new Vector2(transform.position.x, transform.position.y);
+                                _direction = targetPosition - currentPosition;
+                                _direction.Normalize();
+                            }
+
+
+
+
                         }
-
-                        var targetToAggro = CheckForAggro();
-                        if (targetToAggro != null)
-                        {
-                            _playerTarget = targetToAggro.gameObject.GetComponent<PlayerController>();
-
-                            _currentState = DroneState.Chase;
-                            // assign direction 
-                            Vector2 targetPosition = new Vector2(_playerTarget.transform.position.x, _playerTarget.transform.position.y);
-                            Vector2 currentPosition = new Vector2(transform.position.x, transform.position.y);
-                            _direction = targetPosition - currentPosition;
-                            _direction.Normalize();
-                        }
-
-
-
 
                         break;
                     }
@@ -311,7 +318,8 @@ public class RobotDroneController : MonoBehaviour
             }
             else
             {
-                empLength = 0;
+                Debug.Log("Robo emp over");
+                //empLength = 0;
                 isEMPed = false;
             }
         }
@@ -444,12 +452,14 @@ public class RobotDroneController : MonoBehaviour
         if (isEMPed)
         {
             this.empLength += empLength;
+            
         }
         else
         {
             isEMPed = true;
             this.empLength = empLength;
         }
+        _currentState = DroneState.Wander;
 
 
 

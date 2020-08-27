@@ -45,6 +45,7 @@ public class EmpLaserScript : MonoBehaviour
             if (other.CompareTag("Enemy"))
             { // right now just the cannon. 
                 Destroy(gameObject);
+                other.GetComponent<RobotDroneController>().setEmpEffect(10f);
                 GameObject emp = Instantiate(empPrefab, transform.position, Quaternion.identity);
                 EmpScript empScript = emp.GetComponent<EmpScript>();
                 empScript.shooter = shooter;

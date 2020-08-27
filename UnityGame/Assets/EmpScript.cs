@@ -46,7 +46,7 @@ public class EmpScript : MonoBehaviour
         //audioManager.playSound("Explosion (trail)");
 
         // get all the hits in the area.
-        LayerMask lm = LayerMask.GetMask("Dots", "Player","BuilderWall");
+        LayerMask lm = LayerMask.GetMask("Dots", "Player","BuilderWall","Enemy");
 
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, EMP_RADIUS, lm);
 
