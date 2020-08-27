@@ -5,8 +5,11 @@ using UnityEngine;
 
 public class HealerClassBasic : PlayerClass
 {
-    const int AMMO_REQUIRED = 2; 
-    public GameObject classPrefab; 
+    const int AMMO_REQUIRED = 6;
+    public GameObject classPrefab;
+    private GameObject buffZone;
+    private float AuraDuration = 15f;
+    private float radius = 1f;
 
     void Start()
     { // like our contr
@@ -17,43 +20,80 @@ public class HealerClassBasic : PlayerClass
 
     public override void usePower(Vector2 v)//,GameObject g)
     {
-        Debug.Log("Healing peeps.");
-        Transform parentTransform = this.gameObject.transform.parent; 
-        
-        Vector2 iPosition = new Vector2(parentTransform.position.x,parentTransform.position.y);
+        if (buffZone != null)
+        {
+            BrakeysExplode(); 
+            Destroy(buffZone);
+        }
+        Transform parentTransform = this.gameObject.transform.parent;
+
+        Vector2 iPosition = new Vector2(parentTransform.position.x, parentTransform.position.y);
         //TIME TO BUILD 
         Vector2 aimDirection = v;
         //Vector2 iPosition = new Vector2(this.transform.position.x, this.transform.position.y);
-        
+
         //Vector2 iPosition = aimDirection + buildOffset;
         //iPosition.Normalize();
 
         //GameObject aura = Instantiate(classPrefab, iPosition, Quaternion.identity);
-        Transform aura = ((GameObject)Instantiate (classPrefab, iPosition, transform.rotation)).transform;
-        aura.parent = transform; 
+        buffZone = Instantiate(classPrefab, iPosition, transform.rotation);
+        Destroy(buffZone, AuraDuration);
+        //Transform aura = ((GameObject)Instantiate (classPrefab, iPosition, transform.rotation)).transform;
+        //aura.parent = transform; 
         PlayerController pc = this.gameObject.GetComponentInParent<PlayerController>();
-        pc.healing = true;  
-        
-    
+        pc.toggleShotBuff(true);
+        pc.healing = true;
+
+
 
     }
 
-    public override int getAmmoReq(){
+    public override int getAmmoReq()
+    {
         return AMMO_REQUIRED;
     }
-// 
+    // 
+    void BrakeysExplode()
+    {
+      
+        //audioManager.playSound("Explosion (trail)");
 
-// lets say im the bubble. 
-// bubble requirement is 3
-// basic wall is 1
-// i have 2
-// what happens when i use my power, do you default? 
+        // get all the hits in the area.
+        LayerMask lm = LayerMask.GetMask("Player");
 
-// lets just do one for now. 
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, radius, lm);
 
-// but we would then need another level of classes for each mod, orlike a funciton for 
-// useDefaultPower()
-// and getDefaultAmmoReq()
+        foreach (Collider2D hit in hits)
+        {
+
+            //add damange to the other gameObject. 
+
+            GameObject other = hit.gameObject;
+            Debug.Log(other.name);
+
+            if (other.CompareTag("Player"))
+            {
+               // Debug.Log("Debuffng player");
+                other.gameObject.GetComponent<PlayerController>().toggleShotBuff(false);
+                //break;
+            }
+            
+        }
+
+        Destroy(buffZone);
+
+    }
+    // lets say im the bubble. 
+    // bubble requirement is 3
+    // basic wall is 1
+    // i have 2
+    // what happens when i use my power, do you default? 
+
+    // lets just do one for now. 
+
+    // but we would then need another level of classes for each mod, orlike a funciton for 
+    // useDefaultPower()
+    // and getDefaultAmmoReq()
 
 }
 

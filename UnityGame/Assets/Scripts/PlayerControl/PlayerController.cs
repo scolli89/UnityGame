@@ -68,6 +68,7 @@ public class PlayerController : MonoBehaviour
     public bool shootFlag = false;
     public int LASER_DAMAGE = 3;
     private Vector2 aimDirection;
+    private bool shotBuff = false;
 
     [Space]
     [Header("I-frame variables: ")]
@@ -153,6 +154,10 @@ public class PlayerController : MonoBehaviour
     public GameObject killedBy;
 
     public string gameType;
+
+    private bool isEMPed = false;
+    private float empLength = 0f;
+
 
     // todos
     // 
@@ -293,7 +298,20 @@ public class PlayerController : MonoBehaviour
         //         healingCount = 0;
         //     }
         // }
+        if (isEMPed)
+        {
 
+
+            if (empLength >= 0)
+            {
+                empLength -= Time.deltaTime;
+            }
+            else
+            {
+                empLength = 0;
+                isEMPed = false;
+            }
+        }
 
         if (laserBoltHealing)
         {
@@ -545,7 +563,7 @@ public class PlayerController : MonoBehaviour
                 rb.velocity = shockDirection * PUSH_BACK_FORCE;
             }
         }
-        else if (isDashing)
+        else if (isDashing && !isEMPed)
         {
             if (dashTime <= 0)
             {
@@ -778,7 +796,7 @@ public class PlayerController : MonoBehaviour
             // this will only work if the triggerFeet box child is always child 3 of a new class.
             GameObject feetTriggerPosition = this.gameObject.transform.GetChild(3).gameObject;
             //Vector2 newIposition = new Vector2(feetTriggerPosition.transform.position.x, feetTriggerPosition.transform.position.y);
-           // Debug.Log(feetTriggerPosition.name + newIposition.ToString());
+            // Debug.Log(feetTriggerPosition.name + newIposition.ToString());
 
             // Vector2 shootingDirection = newIposition -
             //     new Vector2(crosshair.transform.localPosition.x, crosshair.transform.localPosition.y);
@@ -845,7 +863,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (other.gameObject.tag == "HealingAura")
         {
-            Debug.Log("Entering");
+//            Debug.Log("Entering");
             healing = true;
             //StartCoroutine("HealingPlayer");
         }
@@ -897,12 +915,27 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.tag == "HealingAura")
         {
-            Debug.Log("Leaving");
+//            Debug.Log("Leaving");
             healing = false;
             //StopCoroutine("HealingPlayer");
         }
     }
 
+    public void setEmpEffect(float empLength)
+    {
+        if (isEMPed)
+        {
+            this.empLength += empLength;
+        }
+        else
+        {
+            isEMPed = true;
+            this.empLength = empLength;
+
+        }
+        energy = 0;
+
+    }
     public void takeDamage(int damage)
     {
         // switch to one hit kills
@@ -1015,7 +1048,33 @@ public class PlayerController : MonoBehaviour
         }
         invincible = false;
     }
+    public void toggleShotBuff(bool x)
+    {
 
+        if (x)
+        {
+            if (!shotBuff)
+            {
+               // Debug.Log("Buffing");
+                shotBuff = x;
+                MOVEMENT_BASE_SPEED *= 0.5f;
+                startAimTime *= 0.25f;
+            }
+        }
+        else if (!x)
+        {
+            if (shotBuff)
+            {
+               // Debug.Log("Nerfing");
+                shotBuff = x;
+                MOVEMENT_BASE_SPEED *= 2.0f;
+                startAimTime *= 4.0f;
+
+            }
+        }
+
+
+    }
     public void rechargeEnergyFull()
     {
         laserBoltHealing = true;

@@ -8,14 +8,19 @@ BUGS / ISSUES
 
 What do we need to be "Done" and happy by next week? 
 
-	
+	> Healer shoot -> Emp gun, diasables other players powers. 
+			-> hits wall, creates and emp around him. 
+			- > disables dash. 
+			-> Secondary effect of slowing down the other player. 
+
+	> Healer field -> Speed boost? for you and every near you.
+			-> 
+			
 	
 
 	> Scoreboard
 		> W: During game.
 		> W: Kill log. Who killed who and how.
-
-	 
 
 	> Fix the existing classes
 

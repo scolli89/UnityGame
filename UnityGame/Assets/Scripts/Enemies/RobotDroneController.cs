@@ -52,6 +52,8 @@ public class RobotDroneController : MonoBehaviour
     public float PURSUIT_SPEED = 3f;
     public float magnitude;
 
+    private bool isEMPed = false;
+    public float empLength = 0f;
 
 
     [Space]
@@ -89,7 +91,7 @@ public class RobotDroneController : MonoBehaviour
         Debug.Log("Robot Drone Controller Start");
         animator = this.GetComponent<Animator>();
         rb = this.GetComponent<Rigidbody2D>();
-        spriteRenderer = this.GetComponent<SpriteRenderer>(); 
+        spriteRenderer = this.GetComponent<SpriteRenderer>();
         Random rnd = new Random();
         behaviourType = Random.Range(0, 1); // change for different behavior types. 
         //target = new Vector2(0, 0);
@@ -123,41 +125,51 @@ public class RobotDroneController : MonoBehaviour
             {
                 case DroneState.Wander:
                     {
-                        if (NeedsDestination())
+                        if (isEMPed)
                         {
-                            GetDestination();
+                            Debug.Log("Robot Zapped");
                         }
-
-                        rb.velocity = _direction * PATROL_SPEED;// * Time.deltaTime;
-                        int count = 0;
-                        while (IsPathBlocked())
+                        else
                         {
-
-                            //Debug.Log("Path Blocked");
-                            GetDestination();
-                            count++;
-                            if (count >= 100)
+                            if (NeedsDestination())
                             {
-                                count = 0;
-                                break;
+                                GetDestination();
                             }
+
+                            rb.velocity = _direction * PATROL_SPEED;// * Time.deltaTime;
+
+
+                            int count = 0;
+                            while (IsPathBlocked())
+                            {
+
+                                //Debug.Log("Path Blocked");
+                                GetDestination();
+                                count++;
+                                if (count >= 100)
+                                {
+                                    count = 0;
+                                    break;
+                                }
+                            }
+
+                            var targetToAggro = CheckForAggro();
+                            if (targetToAggro != null)
+                            {
+                                _playerTarget = targetToAggro.gameObject.GetComponent<PlayerController>();
+
+                                _currentState = DroneState.Chase;
+                                // assign direction 
+                                Vector2 targetPosition = new Vector2(_playerTarget.transform.position.x, _playerTarget.transform.position.y);
+                                Vector2 currentPosition = new Vector2(transform.position.x, transform.position.y);
+                                _direction = targetPosition - currentPosition;
+                                _direction.Normalize();
+                            }
+
+
+
+
                         }
-
-                        var targetToAggro = CheckForAggro();
-                        if (targetToAggro != null)
-                        {
-                            _playerTarget = targetToAggro.gameObject.GetComponent<PlayerController>();
-
-                            _currentState = DroneState.Chase;
-                            // assign direction 
-                            Vector2 targetPosition = new Vector2(_playerTarget.transform.position.x, _playerTarget.transform.position.y);
-                            Vector2 currentPosition = new Vector2(transform.position.x, transform.position.y);
-                            _direction = targetPosition - currentPosition;
-                            _direction.Normalize();
-                        }
-
-
-
 
                         break;
                     }
@@ -196,6 +208,11 @@ public class RobotDroneController : MonoBehaviour
                             //chase the player 
                             _direction = targetPosition - currentPosition;
                             _direction.Normalize();
+
+                            if (!isEMPed)
+                            {
+                                rb.velocity = _direction * PATROL_SPEED;// * Time.deltaTime;
+                            }
 
 
                             if (fireCount <= fireRate)
@@ -291,7 +308,22 @@ public class RobotDroneController : MonoBehaviour
             }
         }
     }
-
+    void FixedUpdate()
+    {
+        if (isEMPed)
+        {
+            if (empLength >= 0)
+            {
+                empLength -= Time.deltaTime;
+            }
+            else
+            {
+                Debug.Log("Robo emp over");
+                //empLength = 0;
+                isEMPed = false;
+            }
+        }
+    }
     private bool IsPathBlocked()
     {
         Vector2 currentPosition = new Vector2(transform.position.x, transform.position.y);
@@ -415,6 +447,23 @@ public class RobotDroneController : MonoBehaviour
 
     }
 
+    public void setEmpEffect(float empLength)
+    {
+        if (isEMPed)
+        {
+            this.empLength += empLength;
+            
+        }
+        else
+        {
+            isEMPed = true;
+            this.empLength = empLength;
+        }
+        _currentState = DroneState.Wander;
+
+
+
+    }
     public void takeDamage(int damage)
     {
         gameLogic.DroneDied();

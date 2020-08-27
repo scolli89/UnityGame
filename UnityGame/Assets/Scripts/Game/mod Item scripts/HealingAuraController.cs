@@ -10,7 +10,7 @@ public class HealingAuraController : MonoBehaviour
 
     void Start()
     {
-        Destroy(this.gameObject, AURA_DURATION);
+       // Destroy(this.gameObject, AURA_DURATION);
         
     }
 
