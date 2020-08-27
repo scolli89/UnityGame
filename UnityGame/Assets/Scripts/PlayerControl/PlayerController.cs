@@ -68,6 +68,7 @@ public class PlayerController : MonoBehaviour
     public bool shootFlag = false;
     public int LASER_DAMAGE = 3;
     private Vector2 aimDirection;
+    private bool shotBuff = false;
 
     [Space]
     [Header("I-frame variables: ")]
@@ -156,7 +157,7 @@ public class PlayerController : MonoBehaviour
 
     private bool isEMPed = false;
     private float empLength = 0f;
-    
+
 
     // todos
     // 
@@ -297,15 +298,18 @@ public class PlayerController : MonoBehaviour
         //         healingCount = 0;
         //     }
         // }
-        if(isEMPed){
+        if (isEMPed)
+        {
 
 
-            if(empLength >= 0){
-                empLength -= Time.deltaTime; 
+            if (empLength >= 0)
+            {
+                empLength -= Time.deltaTime;
             }
-            else {
+            else
+            {
                 empLength = 0;
-                isEMPed = false; 
+                isEMPed = false;
             }
         }
 
@@ -859,7 +863,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (other.gameObject.tag == "HealingAura")
         {
-            Debug.Log("Entering");
+//            Debug.Log("Entering");
             healing = true;
             //StartCoroutine("HealingPlayer");
         }
@@ -911,7 +915,7 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.tag == "HealingAura")
         {
-            Debug.Log("Leaving");
+//            Debug.Log("Leaving");
             healing = false;
             //StopCoroutine("HealingPlayer");
         }
@@ -929,7 +933,7 @@ public class PlayerController : MonoBehaviour
             this.empLength = empLength;
 
         }
-        energy = 0; 
+        energy = 0;
 
     }
     public void takeDamage(int damage)
@@ -1050,7 +1054,33 @@ public class PlayerController : MonoBehaviour
         }
         invincible = false;
     }
+    public void toggleShotBuff(bool x)
+    {
 
+        if (x)
+        {
+            if (!shotBuff)
+            {
+               // Debug.Log("Buffing");
+                shotBuff = x;
+                MOVEMENT_BASE_SPEED *= 0.5f;
+                startAimTime *= 0.25f;
+            }
+        }
+        else if (!x)
+        {
+            if (shotBuff)
+            {
+               // Debug.Log("Nerfing");
+                shotBuff = x;
+                MOVEMENT_BASE_SPEED *= 2.0f;
+                startAimTime *= 4.0f;
+
+            }
+        }
+
+
+    }
     public void rechargeEnergyFull()
     {
         laserBoltHealing = true;

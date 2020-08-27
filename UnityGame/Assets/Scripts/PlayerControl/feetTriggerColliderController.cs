@@ -53,6 +53,10 @@ public class feetTriggerColliderController : MonoBehaviour
         {
             playerController.setisInEndZone(true);
         }
+        else if (other.gameObject.CompareTag("HealingAura"))
+        {
+            playerController.toggleShotBuff(true);
+        }
 
 
         #endregion
@@ -88,6 +92,11 @@ public class feetTriggerColliderController : MonoBehaviour
         if (other.gameObject.CompareTag("EndZone"))
         {
             playerController.setisInEndZone(false);
+        }
+        else if (other.gameObject.CompareTag("HealingAura"))
+        {
+            //Debug.Log("OnTriggerExit");
+            playerController.toggleShotBuff(false);
         }
     }
 
