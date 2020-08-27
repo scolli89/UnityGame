@@ -120,7 +120,6 @@ public class CampaignGameDetails : MonoBehaviour
         // worst case O(8);  
         foreach (GameParticipant player in players)
         {
-
             if (player.pc.getIsAlive())
             {
                 return false; // as in atleast one person is alive. 
