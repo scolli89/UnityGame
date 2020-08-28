@@ -507,11 +507,13 @@ public class PlayerController : MonoBehaviour
     {
         if (isAlive && isDashing == false)
         {
+            
             // if (energy > 1)
             // {
             //energy--;
 
             isDashing = true;
+            animator.SetBool("Dashing", true);
             GameObject dashParticles = Instantiate(dashEffect, transform.position, Quaternion.identity);
             //garbage collection on dash particles
             Destroy(dashParticles, startDashTime);
@@ -569,6 +571,7 @@ public class PlayerController : MonoBehaviour
             {
                 dashingDirection = Vector2.zero;
                 isDashing = false;
+                animator.SetBool("Dashing", false);
                 dashTime = startDashTime;
                 rb.velocity = Vector2.zero;
                 previousDot = null;
@@ -669,6 +672,18 @@ public class PlayerController : MonoBehaviour
             animator.SetFloat("Horizontal", movementDirection.x);
             animator.SetFloat("Vertical", movementDirection.y);
         }
+        // if(isDashing){
+        //     animator.SetBool("Dashing", true);
+        // }else{
+        //     animator.SetBool("Dashing", false);
+        // }
+        if(isAiming){
+            animator.SetBool("Shooting", true);
+        }else{
+            animator.SetBool("Shooting", false);
+        }
+        animator.SetFloat("Speed", movementSpeed);
+        Debug.Log(movementSpeed);
         if (animateCrosshair)
         {
             float x = 1f / startAimTime;
@@ -677,7 +692,6 @@ public class PlayerController : MonoBehaviour
 
             crosshairAnimator.SetBool("AimFinished", shootFlag);
         }
-        animator.SetFloat("Speed", movementSpeed);
 
         if (headPos == DisplayLevel.noWall && feetPos == DisplayLevel.noWall)
         {
