@@ -136,7 +136,8 @@ public class TrailDotController : MonoBehaviour
                 //
                
                 
-                other.gameObject.GetComponent<PlayerController>().takeDamage(PLY_DMG,sploder);
+                //other.gameObject.GetComponent<PlayerController>().takeDamage(PLY_DMG,sploder);
+                other.gameObject.GetComponent<PlayerController>().takeDamage(PLY_DMG,this.gameObject);
                 break;
             }
             if (other.CompareTag("Enemy"))

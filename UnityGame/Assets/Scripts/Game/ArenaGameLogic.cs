@@ -24,6 +24,10 @@ public class ArenaGameLogic : GameLogic
 
     public GameObject ScoreBoardCanvas;
     public TextMeshProUGUI scoreBoardText;
+    public GameObject killLogCanvas;
+    public TextMeshProUGUI killLogText;
+    private List<string> killLog;
+    private int killLogMaxSize = 3;
 
 
     private int numSpawnPoints;
@@ -41,6 +45,10 @@ public class ArenaGameLogic : GameLogic
     void Start()
     {
         ScoreBoardCanvas.SetActive(false);
+
+        killLogCanvas.SetActive(true);
+        killLog = new List<string>();
+        //scoreBoardText.SetActive(false); 
         //randomExample();
         //getting map boundaries
 
@@ -234,11 +242,18 @@ public class ArenaGameLogic : GameLogic
     }
     public override IEnumerator SpawnArcher(GameObject player)
     {
+        // called when a player dies.
+        PlayerController p = player.GetComponent<PlayerController>();
+
+
+
+        int killerid = WriteToKillLog(p);
+
+
+
 
         if ((MainMenu.GameTypes)gameDetails.gameType == MainMenu.GameTypes.freeForAll)
         {
-            PlayerController p = player.GetComponent<PlayerController>();
-
 
             // Debug.Log(p.killedBy.name);
             // Debug.Log(p.killedBy == p);
@@ -247,14 +262,24 @@ public class ArenaGameLogic : GameLogic
 
             // player was killed by environment and not another player, 
             // player can die by trail. 
-            if (p.killedBy == null)// || p.killedBy == p)
+            if (killerid == -1 || killerid == p.getPlayerIndex())
             {
+
                 gameDetails.addScoreTo(p.getPlayerIndex(), -1);
             }
-            else 
+            else
+            {
+                gameDetails.addScoreTo(killerid, 1);
+            }
+            /*
+            if (p.killedBy == null)// || p.killedBy == p)
+            {
+                //player has no killer/ killed themselves
+                gameDetails.addScoreTo(p.getPlayerIndex(), -1);
+            }
+            else
             {
                 // player was killed by something
-                
                 PlayerController killerPlayerController = p.killedBy.GetComponent<PlayerController>();
                 int killerPlayerIndex = killerPlayerController.getPlayerIndex();
 
@@ -263,19 +288,17 @@ public class ArenaGameLogic : GameLogic
                 if (killerPlayerIndex != p.getPlayerIndex())
                 {
                     // some one else killed him
-
-                    // TODO MAKE A HIT FEED using the below concept
-
                     // Debug.Log(killerPlayerIndex.ToString() + "Killed" + p.getPlayerIndex().ToString());
                     gameDetails.addScoreTo(killerPlayerIndex, 1);
                 }
-                else{
+                else
+                {
                     // he killed himself
                     gameDetails.addScoreTo(p.getPlayerIndex(), -1);
                 }
 
             }
-            // player was killed by another player
+            */
 
 
         }
@@ -297,7 +320,90 @@ public class ArenaGameLogic : GameLogic
         yield return new WaitForSeconds(respawnDelay);
         player.GetComponent<PlayerController>().enable(true);
     }
+    public int WriteToKillLog(PlayerController p)
+    {
 
+
+        if (killLog.Count >= killLogMaxSize)
+        {
+            killLog.RemoveAt(0);
+        }
+
+
+        int deadId = p.getPlayerIndex();
+        string tempKillString = "Player  " + deadId.ToString();
+        int returnValue = 0;
+        bool explosiveDeath = false;
+
+        //Process the death
+        if (p.killedBy == null)
+        {
+            tempKillString += " jumped off a cliff.";
+            returnValue = -1;
+
+        }
+        else
+        {
+            int killerPlayerIndex;
+
+            if (p.killedBy.CompareTag("TrailDot"))
+            {
+                // death by trail dot. 
+                explosiveDeath = true;
+                killerPlayerIndex = p.killedBy.GetComponent<TrailDotController>().sploder.GetComponent<PlayerController>().getPlayerIndex();
+                // -> gets the controller of the exploded trail dot, 
+                //-> gets the one who exploded him
+                // -> gets the controller of the one who exploded him.
+                // -> returns the player index
+            }
+            else
+            {
+                // regular death by player
+                PlayerController killerPlayerController = p.killedBy.GetComponent<PlayerController>();
+
+                killerPlayerIndex = killerPlayerController.getPlayerIndex();
+            }
+
+
+            if (killerPlayerIndex != deadId)
+            {
+                if (explosiveDeath)
+                {
+                    tempKillString += " was 'sploded by Player ";
+                }
+                else
+                {
+                    tempKillString += " was killed by Player ";
+                }
+                tempKillString += killerPlayerIndex.ToString();
+
+            }
+            else
+            {
+                if(explosiveDeath){
+                    tempKillString += " 'sploded themselves.";
+                } else {
+                    tempKillString += "died.";
+                }
+                
+            }
+            returnValue = killerPlayerIndex;
+
+        }
+        Debug.Log(tempKillString);
+        //Add and display
+        killLog.Add(tempKillString);
+        killLogText.text = "";
+        for (int i = 0; i < killLog.Count; i++)
+        {
+            killLogText.text += killLog[i] + "\n";
+        }
+
+
+
+        return returnValue;
+
+    }
     Transform GetRandomSpawnPoint()
     {
         //return spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Length)];
@@ -357,6 +463,7 @@ public class ArenaGameLogic : GameLogic
     public void DisplayScoreBoard()
     {
         ScoreBoardCanvas.SetActive(true);
+        killLogCanvas.SetActive(false);
 
 
 

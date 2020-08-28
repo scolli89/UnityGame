@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 670833267551897329}
   - component: {fileID: 5759774403993499720}
   - component: {fileID: 1696299653912848676}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: NewPopShield
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -305,6 +305,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5416503141228188958, guid: 7b2b6112c54f7d84da8093a7b8561b45,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 5416503141228188959, guid: 7b2b6112c54f7d84da8093a7b8561b45,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -447,6 +452,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TriggerBoxHead
       objectReference: {fileID: 0}
+    - target: {fileID: 3831253354165725169, guid: d2862a10d37ed1b47b31a71adca99884,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d2862a10d37ed1b47b31a71adca99884, type: 3}
 --- !u!4 &4323277898774934510 stripped
@@ -531,6 +541,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PopShieldMod
+      objectReference: {fileID: 0}
+    - target: {fileID: 6501600568556516694, guid: 2bd81d493dfe38e4eb3d37853b5be5b0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2bd81d493dfe38e4eb3d37853b5be5b0, type: 3}
@@ -617,6 +632,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnergyBar
       objectReference: {fileID: 0}
+    - target: {fileID: 8854710050767591758, guid: 8cf18114a9eba4944ac5e989ccfd1cca,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8cf18114a9eba4944ac5e989ccfd1cca, type: 3}
 --- !u!4 &819901219576755080 stripped
@@ -636,6 +656,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TriggerBoxFeet
+      objectReference: {fileID: 0}
+    - target: {fileID: 2043179362702217141, guid: d2d3d9186b6d513498600e26ebb2cc54,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 2505713315257981485, guid: d2d3d9186b6d513498600e26ebb2cc54,
         type: 3}
