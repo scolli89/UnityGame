@@ -1,6 +1,6 @@
 TODO List! 
 BUGS / ISSUES
-	> BUILDERS NEED TO BE ABLE SHOOT THROUGH THEIR OWN WALLS.
+	
 	> I HONESTLY THINK THAT IT IS FINE AS IS -> Find a way to make the bubble shield collider better -> use the circule collider
 	> ai robots walk into walls taking shortest path to player
 	> when there are two players, the ai will only chase after one
@@ -8,21 +8,15 @@ BUGS / ISSUES
 
 What do we need to be "Done" and happy by next week? 
 
-	> Healer shoot -> Emp gun, diasables other players powers. 
-			-> hits wall, creates and emp around him. 
-			- > disables dash. 
-			-> Secondary effect of slowing down the other player. 
-
-	> Healer field -> Speed boost? for you and every near you.
-			-> 
-			
+	
+	
 	
 
 	> Scoreboard
 		> W: During game.
-		> W: Kill log. Who killed who and how.
+		
 
-	> Fix the existing classes
+	
 
 	> Add atleast 4 classes that we kind of like:
 		> Teleporter -> Place the two parts? Or place one then press b again to teleport? destroyable? 
@@ -31,6 +25,7 @@ What do we need to be "Done" and happy by next week?
 			> W : Refraction shield ? -> bullets enter but get refracted at a strange angle, Bullets exit but get refracted too
 				> or bullets in refracted, bullets out not refracted : encourages use by a player. 
 		> will come back to this
+		> Invisibility. 
 		> considering using fire types instead of powers
 	
 	> Fix when you are right up against a wall, shooting left or right, you shoot right into a wall.
@@ -66,8 +61,7 @@ What do we need to be "Done" and happy by next week?
 
  		> Menu Responsivness :
 			> Menu noises: Moving : Confirming
-			> Fix the highlight on the level selection,
-
+			> Fix the highlight on the level selection,s
 	> Music
 		> Some bopping free tunes. 
 
@@ -86,6 +80,18 @@ What do we need to be "Done" and happy by next week?
 <<<<<<FINISHED >>>>>>>>>
 FIXED ISSUES:
 > new classes are not picking up marbles
+> BUILDERS NEED TO BE ABLE SHOOT THROUGH THEIR OWN WALLS.
+> New classes were not able to die by the trail/ 
+TODO LIST:
+	> Fix the existing classes
+	> Healer shoot -> Emp gun, diasables other players powers. 
+			-> hits wall, creates and emp around him. 
+			- > disables dash. 
+			-> Secondary effect of slowing down the other player. 
+
+	> Healer field -> Speed boost? for you and every near you.
+			-> 
+			
 
 
 	> Fix When you are right up against a builder wall, able to shoot over/through it.
@@ -101,6 +107,7 @@ FIXED ISSUES:
 	> Scoreboard
 		> After game -> must
 		> Return to main menu after a game ends. 
+		> W: Kill log. Who killed who and how.
 		
 	> We need at least 2 more PVP levels. Not counting the current Arena 1. So 
 
