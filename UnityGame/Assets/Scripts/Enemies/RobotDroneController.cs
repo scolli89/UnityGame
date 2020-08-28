@@ -81,6 +81,7 @@ public class RobotDroneController : MonoBehaviour
     private PlayerController _playerTarget;
     private DroneState _currentState;
     private CampaignGameLogic gameLogic;
+    private AudioManager audioManager;
 
     public void SetGameLogic(CampaignGameLogic gameLogic)
     {
@@ -88,7 +89,7 @@ public class RobotDroneController : MonoBehaviour
     }
     void Start()
     {
-        Debug.Log("Robot Drone Controller Start");
+        //Debug.Log("Robot Drone Controller Start");
         animator = this.GetComponent<Animator>();
         rb = this.GetComponent<Rigidbody2D>();
         spriteRenderer = this.GetComponent<SpriteRenderer>();
@@ -99,11 +100,10 @@ public class RobotDroneController : MonoBehaviour
         _currentState = DroneState.Wander;
         // finds the gameLogic gameObject. then gets the script on it. 
         gameLogic = GameObject.Find("CampaignGameLogic").GetComponent<CampaignGameLogic>();
+        
 
         players = gameLogic.GetPlayerGameObjects();
-
-
-
+        audioManager = FindObjectOfType<AudioManager>();
     }
 
     // function initialize drones call from gamelogic
@@ -345,12 +345,11 @@ public class RobotDroneController : MonoBehaviour
                     return true;
 
                 }
+
                 if (other.gameObject.CompareTag("DeathBox"))
                 {
+                    audioManager.playSound("Fall");
                     return true;
-
-                    // playerController.audioManager.playSound("Fall");
-                    // playerController.respawn();
                 }
 
                 if (other.CompareTag("Environment"))
@@ -525,13 +524,15 @@ public class RobotDroneController : MonoBehaviour
         Vector2 shootingDirection = shootAt - iPosition;
         shootingDirection.Normalize();
         //iPosition += shootingDirection * LASER_OFFSET;
-        GameObject arrow = Instantiate(projectilePrefab, iPosition, Quaternion.identity);
+        GameObject laser = Instantiate(projectilePrefab, iPosition, Quaternion.identity);
         //GameObject arrow = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
-        LaserController arrowController = arrow.GetComponent<LaserController>();
+        LaserController arrowController = laser.GetComponent<LaserController>();
+        laser.GetComponent<LaserController>().audioManager = audioManager;
+
         arrowController.shooter = this.gameObject;
         arrowController.velocity = shootingDirection * LASER_BASE_SPEED; // adjust velocity
-        arrow.transform.Rotate(0, 0, Mathf.Atan2(shootingDirection.y, shootingDirection.x) * Mathf.Rad2Deg);
-        Destroy(arrow, 2.0f);
+        laser.transform.Rotate(0, 0, Mathf.Atan2(shootingDirection.y, shootingDirection.x) * Mathf.Rad2Deg);
+        Destroy(laser, 2.0f);
     }
 
 
