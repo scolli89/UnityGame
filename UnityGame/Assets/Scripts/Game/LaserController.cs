@@ -23,6 +23,15 @@ public class LaserController : MonoBehaviour
             if (other != shooter)
             { // do the interaction here. 
               //Debug.Log("laser:"+other.tag);
+                if (other.CompareTag("Switch"))
+                {
+                    Debug.Log("Hit Switch");
+                    audioManager.playSound("Laser Dissapate");
+                    other.gameObject.GetComponent<SwitchScript>().ToggleSwitch();
+                    Destroy(this.gameObject);
+                    break;
+
+                }
                 if (other.CompareTag("TrailDot"))
                 {
 
@@ -54,16 +63,16 @@ public class LaserController : MonoBehaviour
                     // have it look like the plasma is splashing aroud the players shield, especially if it isn't visiable, when hitting it. 
                     // https://www.youtube.com/watch?v=FFzyHDrgDc0
                     //
-                    
+
                     audioManager.playSound("Laser Hit");
-                    
+
                     Destroy(gameObject);
                     other.gameObject.GetComponent<PlayerController>().takeDamage(1, shooter);
                     break;
                 }
                 if (other.CompareTag("Enemy"))
                 { // right now just the cannon.
-                    audioManager.playSound("Laser Hit"); 
+                    audioManager.playSound("Laser Hit");
                     Destroy(gameObject);
                     if (shooter.CompareTag("Player"))
                     {
@@ -101,7 +110,7 @@ public class LaserController : MonoBehaviour
                 }
                 if (other.CompareTag("BuilderWall"))
                 {
-                    audioManager.playSound("Laser Dissapate");
+
                     BuilderWallController wallController = other.gameObject.GetComponent<BuilderWallController>();
 
                     if (wallController.builder == shooter)
@@ -110,14 +119,15 @@ public class LaserController : MonoBehaviour
                     }
                     else
                     {
+                        audioManager.playSound("Laser Dissapate");
                         Destroy(gameObject);
                         //other.gameObject.GetComponent<BuilderWallController>().takeDamage(1);
                         wallController.takeDamage(1);
                         break;
 
                     }
-
                 }
+
             }
         }
         transform.position = newPosition;
