@@ -177,7 +177,7 @@ public class CampaignGameLogic : GameLogic
         ScoreBoardCanvas.SetActive(true);
 
         scoreBoardText.text = gameDetails.endGameMessage;
-        scoreBoardText.text += "\n Game Time: " + gameDetails.gameTime.ToString();
+        scoreBoardText.text += "\nGame Time: " + gameDetails.gameTime.ToString();
         scoreBoardText.text += "\n";
         for (int i = 0; i < gameDetails.players.Length; i++)
         {
@@ -185,7 +185,7 @@ public class CampaignGameLogic : GameLogic
             scoreBoardText.text += "Player " + i.ToString() + " scored " + gameDetails.players[i].score.ToString() + " points";
             if (!gameDetails.players[i].pc.getIsAlive())
             {
-                scoreBoardText.text += "Died :( ";
+                scoreBoardText.text += " Died :( ";
             }
             scoreBoardText.text += "\n";
         }

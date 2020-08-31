@@ -14,6 +14,7 @@ public class PlayerConfigurationManager : MonoBehaviour
     const string CampaignTutorial = "Campaign-Tutorial";
     const string LevelOne = "Campaign-Level-One";
     const string LevelTwo = "Campaign-Level-Two";
+    const string LevelThree = "Campaign-Level-Three";
     private List<PlayerConfiguration> playerConfigs;
     public static PlayerConfigurationManager Instance { get; private set; }
 
@@ -84,20 +85,27 @@ public class PlayerConfigurationManager : MonoBehaviour
             {
                 //campaign game
 
-                CampaignGameDetails campaignGameDetails = gameDetailsObject.GetComponent<CampaignGameDetails>(); 
+                CampaignGameDetails campaignGameDetails = gameDetailsObject.GetComponent<CampaignGameDetails>();
                 //Debug.Log(campaignGameDetails);
                 //Debug.Log(campaignGameDetails.level.ToString());
-                if((MainMenu.Levels)campaignGameDetails.level == MainMenu.Levels.level1){
+                if ((MainMenu.Levels)campaignGameDetails.level == MainMenu.Levels.level1)
+                {
                     SceneManager.LoadScene(LevelOne);
                 }
-                else if((MainMenu.Levels)campaignGameDetails.level == MainMenu.Levels.level2){
+                else if ((MainMenu.Levels)campaignGameDetails.level == MainMenu.Levels.level2)
+                {
                     SceneManager.LoadScene(LevelTwo);
                 }
-                else {
+                else if ((MainMenu.Levels)campaignGameDetails.level == MainMenu.Levels.level3)
+                {
+                    SceneManager.LoadScene(LevelThree);
+                }
+                else
+                {
                     SceneManager.LoadScene(CampaignTutorial);
                 }
-                
-            }   
+
+            }
         }
     }
 
