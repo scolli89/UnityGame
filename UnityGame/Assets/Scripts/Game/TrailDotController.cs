@@ -106,7 +106,7 @@ public class TrailDotController : MonoBehaviour
         GameObject i = Instantiate(explosionEffect, transform.position, transform.rotation);
         Destroy(i,0.4f);
         // get all the hits in the area.
-        LayerMask lm = LayerMask.GetMask("Dots", "Player");
+        LayerMask lm = LayerMask.GetMask("Dots", "Player","Enemy");
         //lm.value = 768; 
         //lm = (1<<9) | (1<<8); 
         
