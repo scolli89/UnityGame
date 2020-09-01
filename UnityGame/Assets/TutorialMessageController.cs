@@ -17,15 +17,15 @@ public class TutorialMessageController : MonoBehaviour
     private string[] tutorialMessages = {
         "Welcome To Spacey Spacey Shoot Shoot",
     "You Spawn at the blue bases. Be careful not to fall off the cliff",
-    "Use WASD or the Left stick to move",
-    "Use GamePad South/ A,X/ Left Click to shoot",
+    "Use WASD, the d-pad, or the Left stick to move",
+    "Use A/Cross on your controller, or Left Click to shoot",
     "Shoot Switches to open stuff.",
-    "Use GamePad East/ B, Circle/ Right Click to use your power",
-    "Each Classes power is different! Some might be better for different situations.",
-    "Use GamePad West/ X, Square/ Left Shift to dash.",
+    "Use B/Circle or Right Click to use your power",
+    "Each Class' power is different! Some might be better for different situations.",
+    "Use X/Square, Lb/L1, or Left Shift to dash.",
     "Moving while Dashing can change your trajectory.",
-    "Be careful, those trails you leave are explosive!",
-    "Stand in the Red Bases to complete a level."
+    "Be careful, those trails you leave are explosive! They will blow up when shot!",
+    "Stand in the Red Bases with your team to complete a level."
      };
 
     void Start()
