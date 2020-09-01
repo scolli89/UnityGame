@@ -201,6 +201,7 @@ public class CampaignGameLogic : GameLogic
     {
         robotDroneSpawnPointsParent = GameObject.Find("RobotDroneSpawnPoints");
         int numOfDrones = robotDroneSpawnPointsParent.transform.childCount;
+        Debug.Log("Num of Drones: "+ numOfDrones);
         for (int i = 0; i < numOfDrones; i++)
         {
             GameObject drone = Instantiate(robotDronePrefab, robotDroneSpawnPointsParent.transform.GetChild(i).position, Quaternion.identity);

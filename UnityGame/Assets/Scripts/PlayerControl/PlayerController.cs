@@ -683,7 +683,7 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("Shooting", false);
         }
         animator.SetFloat("Speed", movementSpeed);
-        Debug.Log(movementSpeed);
+        //Debug.Log(movementSpeed);
         if (animateCrosshair)
         {
             float x = 1f / startAimTime;

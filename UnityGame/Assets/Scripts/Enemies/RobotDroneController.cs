@@ -100,7 +100,7 @@ public class RobotDroneController : MonoBehaviour
         _currentState = DroneState.Wander;
         // finds the gameLogic gameObject. then gets the script on it. 
         gameLogic = GameObject.Find("CampaignGameLogic").GetComponent<CampaignGameLogic>();
-        
+
 
         players = gameLogic.GetPlayerGameObjects();
         audioManager = FindObjectOfType<AudioManager>();
@@ -348,7 +348,8 @@ public class RobotDroneController : MonoBehaviour
 
                 if (other.gameObject.CompareTag("DeathBox"))
                 {
-                    audioManager.playSound("Fall");
+                    //Debug.Log("Falling");
+
                     return true;
                 }
 
@@ -451,7 +452,7 @@ public class RobotDroneController : MonoBehaviour
         if (isEMPed)
         {
             this.empLength += empLength;
-            
+
         }
         else
         {
@@ -597,6 +598,8 @@ public class RobotDroneController : MonoBehaviour
         }
         if (other.gameObject.CompareTag("DeathBox"))
         {
+            Debug.Log("Robot Falling");
+            audioManager.playSound("Fall");
             takeDamage(1);
         }
         if (other.gameObject.CompareTag("OverWallTrigger"))
