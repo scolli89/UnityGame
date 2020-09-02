@@ -2432,6 +2432,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3773734124751343110, guid: 61a0a4e60ec8e4c43b10ca6472f2e81d,
         type: 3}
+      propertyPath: marblePrefabs.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3773734124751343110, guid: 61a0a4e60ec8e4c43b10ca6472f2e81d,
+        type: 3}
       propertyPath: spawnPointPlacements
       value: 
       objectReference: {fileID: 0}
@@ -2465,6 +2470,30 @@ PrefabInstance:
       propertyPath: mapMarkers.Array.data[1]
       value: 
       objectReference: {fileID: 342765902}
+    - target: {fileID: 3773734124751343110, guid: 61a0a4e60ec8e4c43b10ca6472f2e81d,
+        type: 3}
+      propertyPath: marblePrefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 8516739554446547426, guid: 028d081d1a5ce6b49934316f1985c3d3,
+        type: 3}
+    - target: {fileID: 3773734124751343110, guid: 61a0a4e60ec8e4c43b10ca6472f2e81d,
+        type: 3}
+      propertyPath: marblePrefabs.Array.data[2]
+      value: 
+      objectReference: {fileID: 6170054859180664307, guid: 0bbbb8d12a9751f4bae3b91aa0079ee6,
+        type: 3}
+    - target: {fileID: 3773734124751343110, guid: 61a0a4e60ec8e4c43b10ca6472f2e81d,
+        type: 3}
+      propertyPath: marblePrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 7644463429301898029, guid: 287134572e3e320478d57997dbbcab5c,
+        type: 3}
+    - target: {fileID: 3773734124751343110, guid: 61a0a4e60ec8e4c43b10ca6472f2e81d,
+        type: 3}
+      propertyPath: marblePrefabs.Array.data[4]
+      value: 
+      objectReference: {fileID: 8989991408066750211, guid: 1a01cb4b50053294f8d98150d8c06365,
+        type: 3}
     - target: {fileID: 3773734124751343111, guid: 61a0a4e60ec8e4c43b10ca6472f2e81d,
         type: 3}
       propertyPath: m_Name
