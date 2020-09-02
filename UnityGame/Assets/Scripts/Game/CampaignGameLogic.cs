@@ -18,6 +18,7 @@ public class CampaignGameLogic : GameLogic
     private GameObject[] playerPrefabs;
     [SerializeField]
     public GameObject[] trailDots;
+    public Sprite[] playerShadowSprites; 
 
     public GameObject ScoreBoardCanvas;
     public TextMeshProUGUI scoreBoardText;
@@ -71,6 +72,17 @@ public class CampaignGameLogic : GameLogic
             {
                 pc.dot = trailDots[pc.getPlayerIndex()];
             }
+
+            if (pc.getPlayerIndex() >= playerShadowSprites.Length)
+            {
+                // modulus operator to loop around, just in case. 
+                pc.setShadowSprite(playerShadowSprites[pc.getPlayerIndex() % playerShadowSprites.Length]);
+            }
+            else
+            {
+                pc.setShadowSprite(playerShadowSprites[pc.getPlayerIndex()]);
+            }
+
             pc.gameType = "campaign";
             pc.SetGameLogicObject(this.gameObject);
             // var player = Instantiate(playerPrefabs[playerConfigs[i].PlayerClass], 
@@ -201,7 +213,7 @@ public class CampaignGameLogic : GameLogic
     {
         robotDroneSpawnPointsParent = GameObject.Find("RobotDroneSpawnPoints");
         int numOfDrones = robotDroneSpawnPointsParent.transform.childCount;
-        Debug.Log("Num of Drones: "+ numOfDrones);
+        Debug.Log("Num of Drones: " + numOfDrones);
         for (int i = 0; i < numOfDrones; i++)
         {
             GameObject drone = Instantiate(robotDronePrefab, robotDroneSpawnPointsParent.transform.GetChild(i).position, Quaternion.identity);
