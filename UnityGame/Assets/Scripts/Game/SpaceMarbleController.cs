@@ -22,6 +22,7 @@ public class SpaceMarbleController : MonoBehaviour
 
         }
         if(other.CompareTag("DeathBox")){
+            
             Destroy(this.gameObject);
         }
     }

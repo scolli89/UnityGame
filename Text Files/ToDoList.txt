@@ -42,8 +42,6 @@ What do we need to be "Done" and happy by next week?
 		> Menu noisies
 	Menu:
 		> Match modifiers:
-			> Time
-			> Score limit
 			> teams: Team attack?			
 		> Options: 
 			> Visual settings
@@ -120,6 +118,9 @@ TODO LIST:
 		
 		
 	Menu:
+		 Match modifiers:
+			> Time
+			> Marble limit
 			
 	> Music
 		

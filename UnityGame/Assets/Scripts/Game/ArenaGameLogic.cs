@@ -21,6 +21,9 @@ public class ArenaGameLogic : GameLogic
     [SerializeField]
     public GameObject[] marblePrefabs;
     public GameObject[] mapMarkers;
+    
+    [SerializeField]
+    public Sprite[] playerShadowSprites; 
 
     public GameObject ScoreBoardCanvas;
     public TextMeshProUGUI scoreBoardText;
@@ -163,12 +166,22 @@ public class ArenaGameLogic : GameLogic
             pc.setPlayerIndex(i);//playerConfigs[i].PlayerIndex); 
             if (pc.getPlayerIndex() >= trailDots.Length)
             {
-                pc.dot = trailDots[pc.getPlayerIndex() - trailDots.Length];
+                pc.dot = trailDots[pc.getPlayerIndex() % trailDots.Length];
             }
             else
             {
                 pc.dot = trailDots[pc.getPlayerIndex()];
             }
+
+            if(pc.getPlayerIndex() >= playerShadowSprites.Length){
+                // modulus operator to loop around, just in case. 
+                pc.setShadowSprite(playerShadowSprites[pc.getPlayerIndex() % playerShadowSprites.Length]); 
+            }
+            else{
+                pc.setShadowSprite(playerShadowSprites[pc.getPlayerIndex()]); 
+            }
+            
+
             pc.SetGameLogicObject(this.gameObject);
 
             // var player = Instantiate(playerPrefabs[playerConfigs[i].PlayerClass], 
@@ -201,7 +214,7 @@ public class ArenaGameLogic : GameLogic
     }
     public GameObject RandomMarble()
     {
-        int x = UnityEngine.Random.Range(0, marblePrefabs.Length - 1);
+        int x = UnityEngine.Random.Range(0, marblePrefabs.Length);// - 1);
         //        Debug.Log("Marble: " + x);
         return marblePrefabs[x];
     }

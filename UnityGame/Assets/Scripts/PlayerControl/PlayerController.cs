@@ -101,6 +101,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     public Animator animator;
     public SpriteRenderer spriteRenderer;
+    public SpriteRenderer spriteRendererShadow;
     public DisplayLevel displayLevel;
     public DisplayLevel lastDisplayLevel;
     public DisplayLevel feetPos = DisplayLevel.noWall;
@@ -200,6 +201,8 @@ public class PlayerController : MonoBehaviour
         //gameLogic = GameObject.Find("GameLogic");
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRendererShadow = this.gameObject.transform.GetChild(5).GetComponent<SpriteRenderer>();
+
         displayLevel = DisplayLevel.overWall;
         allowUnder = true;
         //lastDisplayLevel = displayLevel; 
@@ -433,6 +436,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    #region controllerCalls
     public void setMovementDirection(Vector2 direction)
     {
         if (isAlive)
@@ -507,7 +511,7 @@ public class PlayerController : MonoBehaviour
     {
         if (isAlive && isDashing == false)
         {
-            
+
             // if (energy > 1)
             // {
             //energy--;
@@ -548,6 +552,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    #endregion
     void Move()
     {
         if (isShocked)
@@ -677,9 +682,12 @@ public class PlayerController : MonoBehaviour
         // }else{
         //     animator.SetBool("Dashing", false);
         // }
-        if(isAiming){
+        if (isAiming)
+        {
             animator.SetBool("Shooting", true);
-        }else{
+        }
+        else
+        {
             animator.SetBool("Shooting", false);
         }
         animator.SetFloat("Speed", movementSpeed);
@@ -877,7 +885,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (other.gameObject.tag == "HealingAura")
         {
-//            Debug.Log("Entering");
+            //            Debug.Log("Entering");
             healing = true;
             //StartCoroutine("HealingPlayer");
         }
@@ -929,7 +937,7 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.tag == "HealingAura")
         {
-//            Debug.Log("Leaving");
+            //            Debug.Log("Leaving");
             healing = false;
             //StopCoroutine("HealingPlayer");
         }
@@ -962,7 +970,7 @@ public class PlayerController : MonoBehaviour
 
     public void takeDamage(int damage, GameObject kb)
     {
-        
+
         if (invincible)
         {
             return;
@@ -999,6 +1007,7 @@ public class PlayerController : MonoBehaviour
         isAlive = false;
         isDashing = false;
         crosshair.SetActive(false);
+        
 
 
 
@@ -1011,7 +1020,9 @@ public class PlayerController : MonoBehaviour
         ammoRemaining = DEFAULT_AMMO;
         energy = DEFAULT_ENERGY;
         health = DEFAULT_HEALTH;
+
         StartCoroutine(invincibility());
+
     }
     #endregion
 
@@ -1021,6 +1032,7 @@ public class PlayerController : MonoBehaviour
         isAlive = isEnabled;
         disableUI(isEnabled);
         spriteRenderer.enabled = isEnabled;
+        spriteRendererShadow.enabled = isEnabled;
     }
 
     public void disableUI(bool isEnabled)
@@ -1070,7 +1082,7 @@ public class PlayerController : MonoBehaviour
         {
             if (!shotBuff)
             {
-               // Debug.Log("Buffing");
+                // Debug.Log("Buffing");
                 shotBuff = x;
                 MOVEMENT_BASE_SPEED *= 0.5f;
                 startAimTime *= 0.25f;
@@ -1080,7 +1092,7 @@ public class PlayerController : MonoBehaviour
         {
             if (shotBuff)
             {
-               // Debug.Log("Nerfing");
+                // Debug.Log("Nerfing");
                 shotBuff = x;
                 MOVEMENT_BASE_SPEED *= 2.0f;
                 startAimTime *= 4.0f;
@@ -1115,6 +1127,17 @@ public class PlayerController : MonoBehaviour
     {
         return health;
     }
+
+    public void setShadowSprite(Sprite shadowSprite)
+    {
+        if (spriteRendererShadow == null)
+        {
+            spriteRendererShadow = this.gameObject.transform.GetChild(5).GetComponent<SpriteRenderer>();
+        }
+        spriteRendererShadow.sprite = shadowSprite;
+    }
+
+
     public enum DisplayLevel
     {
         //let us assume that the default position is being displayed over top of the wall. 

@@ -59,7 +59,18 @@ MonoBehaviour:
   marblePrefabs:
   - {fileID: 8872903616012106854, guid: 384ecb56327663048bb166f89aa03afa, type: 3}
   mapMarkers: []
+  playerShadowSprites:
+  - {fileID: -4383518147868752147, guid: 7602226852940c34faba58f57f741d7d, type: 3}
+  - {fileID: -233296520831776341, guid: 7e094a1de4e4df341ad2eb4a7a406b36, type: 3}
+  - {fileID: -3845833894355187508, guid: de2424cc828177d40af01777462abd0e, type: 3}
+  - {fileID: 2080348324386501315, guid: 27507e224f1cc4d42be4e8d45b5762f0, type: 3}
+  - {fileID: -2160646208085061021, guid: 342a8b5b8f904f7499012dcec7edcd6a, type: 3}
+  - {fileID: -5321964832220991122, guid: a42653412fedd4041845848f416fa9d2, type: 3}
+  - {fileID: 4182442168389257091, guid: 950a3c07a2581a94b9fcbc78d94dd493, type: 3}
+  - {fileID: 4146036570838735456, guid: e07aab7eac2da2840b9cb01d2cea20e1, type: 3}
   ScoreBoardCanvas: {fileID: 0}
   scoreBoardText: {fileID: 0}
+  killLogCanvas: {fileID: 0}
+  killLogText: {fileID: 0}
   respawnDelay: 5
   startEndGameTimer: 10
