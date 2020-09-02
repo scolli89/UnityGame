@@ -573,6 +573,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a1c98b6f9727ec47a42fa45152cf4f4, type: 3}
+--- !u!1 &342765902 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5818766407614447616, guid: 6a1c98b6f9727ec47a42fa45152cf4f4,
+    type: 3}
+  m_PrefabInstance: {fileID: 342765901}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &342765903 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3389543133101760606, guid: 6a1c98b6f9727ec47a42fa45152cf4f4,
+    type: 3}
+  m_PrefabInstance: {fileID: 342765901}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &416348673
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2415,6 +2427,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3773734124751343110, guid: 61a0a4e60ec8e4c43b10ca6472f2e81d,
         type: 3}
+      propertyPath: mapMarkers.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3773734124751343110, guid: 61a0a4e60ec8e4c43b10ca6472f2e81d,
+        type: 3}
       propertyPath: spawnPointPlacements
       value: 
       objectReference: {fileID: 0}
@@ -2438,6 +2455,16 @@ PrefabInstance:
       propertyPath: killLogCanvas
       value: 
       objectReference: {fileID: 4496560255404777057}
+    - target: {fileID: 3773734124751343110, guid: 61a0a4e60ec8e4c43b10ca6472f2e81d,
+        type: 3}
+      propertyPath: mapMarkers.Array.data[0]
+      value: 
+      objectReference: {fileID: 342765903}
+    - target: {fileID: 3773734124751343110, guid: 61a0a4e60ec8e4c43b10ca6472f2e81d,
+        type: 3}
+      propertyPath: mapMarkers.Array.data[1]
+      value: 
+      objectReference: {fileID: 342765902}
     - target: {fileID: 3773734124751343111, guid: 61a0a4e60ec8e4c43b10ca6472f2e81d,
         type: 3}
       propertyPath: m_Name

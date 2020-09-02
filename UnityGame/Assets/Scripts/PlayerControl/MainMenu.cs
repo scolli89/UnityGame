@@ -18,7 +18,9 @@ public class MainMenu : MonoBehaviour
     private const string PLAY_MENU_NODE_STRING = "Play Menu Node";
     private const string OPTIONS_MENU_NODE_STRING = "Options Menu Node";
     private const string ARENA_MENU_NODE_STRING = "Arena Menu Node";
+    private const string ARENA_OPTIONS_MENU_NODE_STRING = "Arean Options Menu Node";
     private const string CAMPAIGN_MENU_NODE_STRING = "Campaign Menu Node";
+
 
     private MenuNode activeMenuNode;
     private GameObject selectedButton;
@@ -62,6 +64,16 @@ public class MainMenu : MonoBehaviour
     private float timeLimitArena = 60f;
     public GameObject increaseTimeLimitBtn;
     public GameObject decreaseTimeLimitBtn;
+
+    public GameObject marbleLimitText;
+    private int marbleLimit = 50;
+    [Space]
+    [Header("Arena Options Menu")]
+    public GameObject arenaOptionsMenu;
+    public GameObject arenaOptionsFirstButton;
+    public GameObject arenaOptionsClosedButton;
+    //   MenuNode arenaOptionsMenuNode = new MenuNode(ARENA_OPTIONS_MENU_NODE_STRING,arenaMenuNode,
+    //     arenaOptionsMenu,arenaOptionsFirstButton,arenaOptionsClosedButton);
 
     [Space]
     [Header("CampaignMenu And Buttons:")]
@@ -164,13 +176,18 @@ public class MainMenu : MonoBehaviour
         MenuNode campaignMenuNode = new MenuNode(CAMPAIGN_MENU_NODE_STRING, playMenuNode, campaignMenu, campaignFirstButton, campaignClosedButton);
         MenuNode arenaMenuNode = new MenuNode(ARENA_MENU_NODE_STRING, playMenuNode, arenaMenu, arenaFirstButton, arenaClosedButton);
 
-
+        MenuNode arenaOptionsMenuNode = new MenuNode(ARENA_OPTIONS_MENU_NODE_STRING, arenaMenuNode,
+        arenaOptionsMenu, arenaOptionsFirstButton, arenaOptionsClosedButton);
 
         mainMenuNode.addChildMenuNode(playMenuNode);
         mainMenuNode.addChildMenuNode(optionsMenuNode);
 
         playMenuNode.addChildMenuNode(campaignMenuNode);
         playMenuNode.addChildMenuNode(arenaMenuNode);
+
+        arenaMenuNode.addChildMenuNode(arenaOptionsMenuNode);
+
+
 
         // mainMenuNode.printNode();
 
@@ -186,6 +203,7 @@ public class MainMenu : MonoBehaviour
         optionsMenuNode.SetActive(false);
         campaignMenuNode.SetActive(false);
         arenaMenuNode.SetActive(false);
+        arenaOptionsMenuNode.SetActive(false);
 
     }
 
@@ -288,16 +306,24 @@ public class MainMenu : MonoBehaviour
 
     public void setTimeLimitText(float x)
     {
-        timeLimitArena += x;
-        if (timeLimitArena <= 30f)
+        if (x == 999f)
         {
-            //games cannot be less than 30 seconds.
-            timeLimitArena = 30f;
+            timeLimitArena = UnityEngine.Random.Range(30, 1200);
         }
-        else if (timeLimitArena >= 1200f)
+        else
         {
-            // games cannot be longer than 20 minutes.
-            timeLimitArena = 1200F;
+            timeLimitArena += x;
+            if (timeLimitArena <= 30f)
+            {
+                //games cannot be less than 30 seconds.
+                timeLimitArena = 30f;
+            }
+            else if (timeLimitArena >= 1200f)
+            {
+                // games cannot be longer than 20 minutes.
+                timeLimitArena = 1200F;
+            }
+
         }
 
 
@@ -308,6 +334,29 @@ public class MainMenu : MonoBehaviour
 
         timeLimitText.GetComponent<TextMeshProUGUI>().text = mins.ToString() + ":" + seconds.ToString();
         //timeLimitArena.ToString(); 
+    }
+
+    public void setMarbleLimitText(int x)
+    {
+        if (x == 999)
+        {
+            //randomize number of marbles.
+            marbleLimit = UnityEngine.Random.Range(1, 300);
+        }
+        else
+        {
+            marbleLimit += x;
+            if (marbleLimit <= 0)
+            {
+                marbleLimit = 1;
+            }
+            else if (marbleLimit > 300)
+            {
+                marbleLimit = 300;
+            }
+        }
+
+        marbleLimitText.GetComponent<TextMeshProUGUI>().text = marbleLimit.ToString();
     }
     public void GoButtonOnClick(int x)
     {
@@ -322,6 +371,8 @@ public class MainMenu : MonoBehaviour
             //a.mapName = (ArenaGameDetails.Maps) mapSelected; 
             a.gameType = gameTypeSelected;
             a.mapName = mapSelected;
+            a.startGameTime = timeLimitArena;
+            a.numberOfMarbles = marbleLimit;
             g.tag = "ArenaGameDetailsObject";
             g.name = "GameDetails";
             DontDestroyOnLoadManager.DontDestroyOnLoad(g);
@@ -457,10 +508,12 @@ public class MainMenu : MonoBehaviour
         activeMenuNode = activeMenuNode.parentNode;
     }
 
-    public void GoForward(int ChildNum)
+    public void GoForward(int childNum)
     {
+        activeMenuNode.printName();
+        Debug.Log("Going to child: " + childNum);
         activeMenuNode.SetActive(false);
-        activeMenuNode = activeMenuNode.childrenMenu[ChildNum];
+        activeMenuNode = activeMenuNode.childrenMenu[childNum];
         activeMenuNode.SetActive(true);
 
         EventSystem.current.SetSelectedGameObject(null);
@@ -470,7 +523,6 @@ public class MainMenu : MonoBehaviour
         {
             mapSelectText.GetComponent<TextMeshProUGUI>().text = mapSelected.ToString();
             gameTypeText.GetComponent<TextMeshProUGUI>().text = gameTypeSelected.ToString();
-            timeLimitText.GetComponent<TextMeshProUGUI>().text = Mathf.Floor(timeLimitArena / 60f).ToString() + ":" + (timeLimitArena % 60f).ToString(); ;
 
 
 
@@ -479,6 +531,12 @@ public class MainMenu : MonoBehaviour
         {
             levelSelectedText.GetComponent<TextMeshProUGUI>().text = levelSelected.ToString();
         }
+        else if (activeMenuNode.menuName == ARENA_OPTIONS_MENU_NODE_STRING)
+        {
+            timeLimitText.GetComponent<TextMeshProUGUI>().text = Mathf.Floor(timeLimitArena / 60f).ToString() + ":" + (timeLimitArena % 60f).ToString(); ;
+            marbleLimitText.GetComponent<TextMeshProUGUI>().text = marbleLimit.ToString(); 
+        }
+
     }
     public enum GameTypes
     {

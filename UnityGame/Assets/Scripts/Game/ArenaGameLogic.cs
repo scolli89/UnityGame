@@ -120,14 +120,15 @@ public class ArenaGameLogic : GameLogic
             }
             else
             {
-
+                
                 xmin = Mathf.Min(mapMarkers[0].transform.position.x, mapMarkers[1].transform.position.x);
                 xmax = Mathf.Max(mapMarkers[0].transform.position.x, mapMarkers[1].transform.position.x);
                 ymin = Mathf.Min(mapMarkers[0].transform.position.y, mapMarkers[1].transform.position.y);
                 ymax = Mathf.Max(mapMarkers[0].transform.position.y, mapMarkers[1].transform.position.y);
 
 
-
+                int temp = gameDetails.numberOfMarbles;
+                Debug.Log("Number of marbles: "+ temp);
                 for (int i = 0; i < gameDetails.numberOfMarbles; i++)
                 {
                     // create marbles

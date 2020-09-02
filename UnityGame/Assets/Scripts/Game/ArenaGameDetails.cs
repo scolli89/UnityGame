@@ -23,16 +23,16 @@ public class ArenaGameDetails : MonoBehaviour
 
     public GameParticipant[] players;
     public bool gameActive;
-    public int numberOfMarbles = 50; 
+    public int numberOfMarbles;// = 50; 
     static public SelfColor lastAssignedSelfColor = 0;
     public float gameTime;
-    public float startGameTime = 60.0f;
+    public float startGameTime;// = 60.0f;
     #endregion
 
     #region lifeCycleMethods
     private void Start()
     {
-        numberOfMarbles = 50; //10;
+        //numberOfMarbles = 50; //10;
         gameActive = false;
         
         teams = new List<Team>(); // 
