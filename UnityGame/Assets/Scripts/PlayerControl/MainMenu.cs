@@ -58,6 +58,11 @@ public class MainMenu : MonoBehaviour
     public GameObject increaseMapBtn;
     public GameObject decreaseMapBtn;
 
+    public GameObject timeLimitText;
+    private float timeLimitArena = 60f;
+    public GameObject increaseTimeLimitBtn;
+    public GameObject decreaseTimeLimitBtn;
+
     [Space]
     [Header("CampaignMenu And Buttons:")]
     public GameObject campaignMenu;
@@ -198,7 +203,7 @@ public class MainMenu : MonoBehaviour
     }
     void Update()
     {
-        
+
 
         if (activeMenuNode.menuName != MAIN_MENU_NODE_STRING)
         {
@@ -281,6 +286,29 @@ public class MainMenu : MonoBehaviour
         levelSelectedText.GetComponent<TextMeshProUGUI>().text = levelSelected.ToString();
     }
 
+    public void setTimeLimitText(float x)
+    {
+        timeLimitArena += x;
+        if (timeLimitArena <= 30f)
+        {
+            //games cannot be less than 30 seconds.
+            timeLimitArena = 30f;
+        }
+        else if (timeLimitArena >= 1200f)
+        {
+            // games cannot be longer than 20 minutes.
+            timeLimitArena = 1200F;
+        }
+
+
+        float mins = Mathf.Floor(timeLimitArena / 60f);
+
+        float seconds = timeLimitArena % 60f;
+
+
+        timeLimitText.GetComponent<TextMeshProUGUI>().text = mins.ToString() + ":" + seconds.ToString();
+        //timeLimitArena.ToString(); 
+    }
     public void GoButtonOnClick(int x)
     {
         if (x == 0)
@@ -442,6 +470,10 @@ public class MainMenu : MonoBehaviour
         {
             mapSelectText.GetComponent<TextMeshProUGUI>().text = mapSelected.ToString();
             gameTypeText.GetComponent<TextMeshProUGUI>().text = gameTypeSelected.ToString();
+            timeLimitText.GetComponent<TextMeshProUGUI>().text = Mathf.Floor(timeLimitArena / 60f).ToString() + ":" + (timeLimitArena % 60f).ToString(); ;
+
+
+
         }
         else if (activeMenuNode.menuName == CAMPAIGN_MENU_NODE_STRING)
         {
