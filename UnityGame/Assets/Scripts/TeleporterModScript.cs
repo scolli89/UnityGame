@@ -9,6 +9,7 @@ public class TeleporterModScript : PlayerClass
     public GameObject greenPanel;
     public GameObject purplePanelPrefab;
     public GameObject greenPanelPrefab;
+    public Sprite panelColor;
 
     private int AMMO_REQUIRED = 5;
     private bool firstPanel = true;
@@ -44,9 +45,11 @@ public class TeleporterModScript : PlayerClass
         if (panelCount == 0)
         {  // no panels have been placed
 
-            
+
             panelCount++;
             oldPanel = Instantiate(purplePanelPrefab, iPosition, transform.rotation);
+            SetPanelColor(oldPanel);
+
             oldPanelScript = oldPanel.GetComponent<TeleporterScript>();
             Debug.Log(oldPanel);
             Debug.Log(oldPanelScript);
@@ -58,9 +61,10 @@ public class TeleporterModScript : PlayerClass
 
             panelCount++;
             newPanel = Instantiate(greenPanelPrefab, iPosition, transform.rotation);
+            SetPanelColor(newPanel);
             newPanelScript = newPanel.GetComponent<TeleporterScript>();
-            Debug.Log(newPanel == null);
-            Debug.Log(oldPanelScript);
+
+
             oldPanelScript.setSisterPanel(newPanel);
             newPanelScript.setSisterPanel(oldPanel);
             //oldPanelScript.setBothSisters(newPanelScript);
@@ -81,12 +85,12 @@ public class TeleporterModScript : PlayerClass
             if (purplePanelNext)
             {
                 newPanel = Instantiate(purplePanelPrefab, iPosition, transform.rotation);
-
+                SetPanelColor(newPanel);
             }
             else
             {
                 newPanel = Instantiate(greenPanelPrefab, iPosition, transform.rotation);
-
+                SetPanelColor(newPanel);
             }
             newPanelScript = newPanel.GetComponent<TeleporterScript>();
             oldPanelScript.setBothSisters(newPanelScript);
@@ -96,6 +100,10 @@ public class TeleporterModScript : PlayerClass
         }
     }
 
+    private void SetPanelColor(GameObject panel)
+    {
+        panel.transform.GetChild(1).gameObject.GetComponent<SpriteRenderer>().sprite = panelColor;
+    }
     public override int getAmmoReq()
     {
         // this way, the teleporter can use their power

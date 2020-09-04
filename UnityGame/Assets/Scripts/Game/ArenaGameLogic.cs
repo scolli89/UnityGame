@@ -21,10 +21,13 @@ public class ArenaGameLogic : GameLogic
     [SerializeField]
     public GameObject[] marblePrefabs;
     public GameObject[] mapMarkers;
+
+
     
     [SerializeField]
     public Sprite[] playerShadowSprites; 
 
+    public Sprite[] playerTeleporterPanels; 
     public GameObject ScoreBoardCanvas;
     public TextMeshProUGUI scoreBoardText;
     public GameObject killLogCanvas;

@@ -18,7 +18,9 @@ public class CampaignGameLogic : GameLogic
     private GameObject[] playerPrefabs;
     [SerializeField]
     public GameObject[] trailDots;
-    public Sprite[] playerShadowSprites; 
+    public Sprite[] playerShadowSprites;
+    public Sprite[] playerTeleporterPanels;
+    public GameObject[] portals; 
 
     public GameObject ScoreBoardCanvas;
     public TextMeshProUGUI scoreBoardText;
@@ -81,6 +83,17 @@ public class CampaignGameLogic : GameLogic
             else
             {
                 pc.setShadowSprite(playerShadowSprites[pc.getPlayerIndex()]);
+            }
+
+            if(playerConfigs[i].PlayerClass == 7){
+                // for teleporters
+                //TeleporterModScript temp = 
+                players[i].transform.GetChild(2).GetComponent<TeleporterModScript>().panelColor = playerTeleporterPanels[i];
+                // temp.purplePanel = portals[0];
+                // temp.greenPanel = portals[1]; 
+                // temp.purplePanel.transform.GetChild(1).GetComponent<SpriteRenderer>().sprite = playerTeleporterPanels[i];
+                // temp.greenPanel.transform.GetChild(1).GetComponent<SpriteRenderer>().sprite = playerTeleporterPanels[i];
+
             }
 
             pc.gameType = "campaign";

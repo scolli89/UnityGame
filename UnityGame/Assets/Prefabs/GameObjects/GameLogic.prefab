@@ -69,6 +69,15 @@ MonoBehaviour:
   - {fileID: -5321964832220991122, guid: a42653412fedd4041845848f416fa9d2, type: 3}
   - {fileID: 4182442168389257091, guid: 950a3c07a2581a94b9fcbc78d94dd493, type: 3}
   - {fileID: 4146036570838735456, guid: e07aab7eac2da2840b9cb01d2cea20e1, type: 3}
+  playerTeleporterPanels:
+  - {fileID: 21300000, guid: d2c25a33308262b47b9ce28bfeb984cb, type: 3}
+  - {fileID: 21300000, guid: 94dbf033f5b3c194795147d90808c4bd, type: 3}
+  - {fileID: 21300000, guid: df8a8970473072d4fbd374d2b8674558, type: 3}
+  - {fileID: 21300000, guid: d2fa0d6b3a4777346962fb5ebbecc03d, type: 3}
+  - {fileID: 21300000, guid: 501eb0b4cee62a2469beb4689bdfc608, type: 3}
+  - {fileID: 21300000, guid: 83b6222ae9de6c345a0238afb67332bb, type: 3}
+  - {fileID: 21300000, guid: 8b6e555fe5089334aa8807d0fda62ab5, type: 3}
+  - {fileID: 21300000, guid: 72a5f07906c0e8b40833ec35f97aeedf, type: 3}
   ScoreBoardCanvas: {fileID: 0}
   scoreBoardText: {fileID: 0}
   killLogCanvas: {fileID: 0}
