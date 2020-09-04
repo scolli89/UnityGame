@@ -77,21 +77,50 @@ public class TeleporterScript : MonoBehaviour
         // }
     }
 
+    public GameObject teleportLaser(GameObject laser)
+    {
+        if (sisterPanel != null)
+        {
+            if (teleportCoolDown <= 0)
+            {
+                particles.SetActive(false);
+                teleportCoolDown = startTeleportCoolDown;
+                sisterScript.coolDownReset();
+                return sisterPanel;
+            }
+
+            // hopefully teleports us. 
+
+        }
+        else
+        {
+            Debug.Log("No sister");
+
+        }
+        return null;
+
+
+
+
+    }
     public void coolDownReset()
     {
-        if(particles == null){
-            Start(); 
+        if (particles == null)
+        {
+            Start();
         }
         particles.SetActive(false);
         teleportCoolDown = startTeleportCoolDown;
     }
-    private void teleporting(GameObject other)
+    private GameObject teleporting(GameObject other)
     {
         other.transform.position = sisterPanel.transform.position;
+        Debug.Log("NEW POSITION: " + other.transform.position);
         particles.SetActive(false);
 
         teleportCoolDown = startTeleportCoolDown;
         sisterScript.coolDownReset();
+        return sisterPanel;
     }
     public void setSisterPanel(GameObject newPanel)
     {
@@ -110,7 +139,7 @@ public class TeleporterScript : MonoBehaviour
 
     }
 
-    
+
     // add shooting through teleporters. 
     // add being able to blow up with dash trail. 
 

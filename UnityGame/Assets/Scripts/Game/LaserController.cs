@@ -25,7 +25,15 @@ public class LaserController : MonoBehaviour
               //Debug.Log("laser:"+other.tag);
                 if (other.CompareTag("Teleporter"))
                 {
-                    other.GetComponent<TeleporterScript>().teleportLaser(this);
+                    Debug.Log("LaserController Teleporting");
+                    Debug.Log("Before teleporting: " + transform.position);
+                    GameObject temp = other.GetComponent<TeleporterScript>().teleportLaser(this.gameObject);
+                    if(temp != null){
+                        newPosition = temp.transform.position;
+                    }
+                    
+                    break;
+                    
                 }
                 if (other.CompareTag("Switch"))
                 {

@@ -25,6 +25,7 @@ TagManager:
   - CampaignGameDetailsObject
   - EndZone
   - Switch
+  - Teleporter
   layers:
   - Default
   - TransparentFX
