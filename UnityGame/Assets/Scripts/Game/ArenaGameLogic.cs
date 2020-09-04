@@ -181,6 +181,8 @@ public class ArenaGameLogic : GameLogic
                 pc.setShadowSprite(playerShadowSprites[pc.getPlayerIndex()]); 
             }
             
+            // check if he is a teleporter. 
+            // give unique teleporter prefabs to him 
 
             pc.SetGameLogicObject(this.gameObject);
 

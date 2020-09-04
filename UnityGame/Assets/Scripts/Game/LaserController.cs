@@ -23,6 +23,10 @@ public class LaserController : MonoBehaviour
             if (other != shooter)
             { // do the interaction here. 
               //Debug.Log("laser:"+other.tag);
+                if (other.CompareTag("Teleporter"))
+                {
+                    other.GetComponent<TeleporterScript>().teleportLaser(this);
+                }
                 if (other.CompareTag("Switch"))
                 {
                     Debug.Log("Hit Switch");
