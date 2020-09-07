@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5444223619398014844}
   - component: {fileID: 4030804508616537892}
   - component: {fileID: 5985671534708746798}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: MarbleParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4764,7 +4764,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6211596857023977502}
   - component: {fileID: 2242115263687987345}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4849,7 +4849,7 @@ GameObject:
   - component: {fileID: 4883067401231883967}
   - component: {fileID: 3983419053136336303}
   - component: {fileID: 1710823513753671710}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: PurplePortal
   m_TagString: Teleporter
   m_Icon: {fileID: 0}

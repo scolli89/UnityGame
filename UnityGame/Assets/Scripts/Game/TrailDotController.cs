@@ -106,7 +106,7 @@ public class TrailDotController : MonoBehaviour
         GameObject i = Instantiate(explosionEffect, transform.position, transform.rotation);
         Destroy(i,0.4f);
         // get all the hits in the area.
-        LayerMask lm = LayerMask.GetMask("Dots", "Player","Enemy");
+        LayerMask lm = LayerMask.GetMask("Dots", "Player","Enemy","Teleporter");
         //lm.value = 768; 
         //lm = (1<<9) | (1<<8); 
         
@@ -145,6 +145,12 @@ public class TrailDotController : MonoBehaviour
                 Destroy(gameObject);
                 other.gameObject.GetComponent<RobotDroneController>().takeDamage(WALL_DMG);
                 break;
+            }
+            if(other.CompareTag("Teleporter"))
+            {
+                Destroy(gameObject);
+                Destroy(other.gameObject);
+                //other.gameObject.GetComponent<TeleporterScript>().explodePanel(); 
             }
             if (other.CompareTag("Environment"))
             {

@@ -32,6 +32,14 @@ public class EmpLaserScript : MonoBehaviour
                 break;
 
             }
+            if(other.CompareTag("Teleporter")){
+
+
+                Destroy(gameObject);
+                //other.gameObject.GetComponent<TeleporterScript>().explodePanel();
+                Destroy(other.gameObject);
+                break;
+            }
             if (other.CompareTag("Player"))
             {
                 other.GetComponent<PlayerController>().setEmpEffect(10f);

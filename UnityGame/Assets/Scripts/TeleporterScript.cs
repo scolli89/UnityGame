@@ -7,6 +7,7 @@ public class TeleporterScript : MonoBehaviour
     // Start is called before the first frame update
     private GameObject sisterPanel;
     TeleporterScript sisterScript;
+    private TeleporterModScript modScript;
     public float startTeleportCoolDown = 2f;
     private float teleportCoolDown;
     private GameObject particles;
@@ -139,7 +140,20 @@ public class TeleporterScript : MonoBehaviour
 
     }
 
-
+    public void setModScript(TeleporterModScript modScript){
+        this.modScript = modScript; 
+    }
+    public void explodePanel()
+    {
+        Debug.Log("explodePanel called");
+        //modScript.DestroyThisPanel(this);
+        
+    }
+    private void OnDestroy()
+    {
+        Debug.Log("Panel on destroy called");
+       modScript.DestroyThisPanel(this);
+    }
     // add shooting through teleporters. 
     // add being able to blow up with dash trail. 
 

@@ -23,11 +23,11 @@ public class ArenaGameLogic : GameLogic
     public GameObject[] mapMarkers;
 
 
-    
-    [SerializeField]
-    public Sprite[] playerShadowSprites; 
 
-    public Sprite[] playerTeleporterPanels; 
+    [SerializeField]
+    public Sprite[] playerShadowSprites;
+
+    public Sprite[] playerTeleporterPanels;
     public GameObject ScoreBoardCanvas;
     public TextMeshProUGUI scoreBoardText;
     public GameObject killLogCanvas;
@@ -126,7 +126,7 @@ public class ArenaGameLogic : GameLogic
             }
             else
             {
-                
+
                 xmin = Mathf.Min(mapMarkers[0].transform.position.x, mapMarkers[1].transform.position.x);
                 xmax = Mathf.Max(mapMarkers[0].transform.position.x, mapMarkers[1].transform.position.x);
                 ymin = Mathf.Min(mapMarkers[0].transform.position.y, mapMarkers[1].transform.position.y);
@@ -134,7 +134,7 @@ public class ArenaGameLogic : GameLogic
 
 
                 int temp = gameDetails.numberOfMarbles;
-                Debug.Log("Number of marbles: "+ temp);
+                Debug.Log("Number of marbles: " + temp);
                 for (int i = 0; i < gameDetails.numberOfMarbles; i++)
                 {
                     // create marbles
@@ -176,14 +176,27 @@ public class ArenaGameLogic : GameLogic
                 pc.dot = trailDots[pc.getPlayerIndex()];
             }
 
-            if(pc.getPlayerIndex() >= playerShadowSprites.Length){
+            if (pc.getPlayerIndex() >= playerShadowSprites.Length)
+            {
                 // modulus operator to loop around, just in case. 
-                pc.setShadowSprite(playerShadowSprites[pc.getPlayerIndex() % playerShadowSprites.Length]); 
+                pc.setShadowSprite(playerShadowSprites[pc.getPlayerIndex() % playerShadowSprites.Length]);
             }
-            else{
-                pc.setShadowSprite(playerShadowSprites[pc.getPlayerIndex()]); 
+            else
+            {
+                pc.setShadowSprite(playerShadowSprites[pc.getPlayerIndex()]);
             }
-            
+
+            if (playerConfigs[i].PlayerClass == 7)
+            {
+                // for teleporters
+                //TeleporterModScript temp = 
+                players[i].transform.GetChild(2).GetComponent<TeleporterModScript>().panelColor = playerTeleporterPanels[i];
+                // temp.purplePanel = portals[0];
+                // temp.greenPanel = portals[1]; 
+                // temp.purplePanel.transform.GetChild(1).GetComponent<SpriteRenderer>().sprite = playerTeleporterPanels[i];
+                // temp.greenPanel.transform.GetChild(1).GetComponent<SpriteRenderer>().sprite = playerTeleporterPanels[i];
+
+            }
             // check if he is a teleporter. 
             // give unique teleporter prefabs to him 
 
@@ -399,12 +412,15 @@ public class ArenaGameLogic : GameLogic
             }
             else
             {
-                if(explosiveDeath){
+                if (explosiveDeath)
+                {
                     tempKillString += " 'sploded themselves.";
-                } else {
+                }
+                else
+                {
                     tempKillString += "died.";
                 }
-                
+
             }
             returnValue = killerPlayerIndex;
 
