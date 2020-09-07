@@ -8,7 +8,7 @@ public class EmpShooterModScript : PlayerClass
 
     const float LASER_OFFSET = 1.2f;
     const float ARROW_BASE_SPEED = 50f;
-    const int AMMO_REQUIRED = 0; // 4;
+    const int AMMO_REQUIRED =  4;
     public GameObject classPrefab;
     public override void usePower(Vector2 v)//,GameObject g)
     {
