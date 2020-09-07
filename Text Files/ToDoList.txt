@@ -19,14 +19,15 @@ What do we need to be "Done" and happy by next week?
 	
 
 	> Add atleast 4 classes that we kind of like:
-		> Teleporter -> Place the two parts? Or place one then press b again to teleport? destroyable? 
+		
 		> Turret -> Hardest part would be targeting only enemies-> Only game types are freeforall, just don't target the placer
-		> Bubble shield -> no bullets move in, no bullets move out. 
-			> W : Refraction shield ? -> bullets enter but get refracted at a strange angle, Bullets exit but get refracted too
+		> W : Refraction shield ? -> bullets enter but get refracted at a strange angle, Bullets exit but get refracted too
 				> or bullets in refracted, bullets out not refracted : encourages use by a player. 
 		> will come back to this
 		> Invisibility. 
 		> considering using fire types instead of powers
+		> mine
+		> Trap
 	
 	> Fix when you are right up against a wall, shooting left or right, you shoot right into a wall.
 		> laser spawns on the wall
@@ -82,13 +83,17 @@ FIXED ISSUES:
 > New classes were not able to die by the trail/ 
 TODO LIST:
 	> Fix the existing classes
-	> Healer shoot -> Emp gun, diasables other players powers. 
+		> Healer shoot -> Emp gun, diasables other players powers. 
 			-> hits wall, creates and emp around him. 
 			- > disables dash. 
 			-> Secondary effect of slowing down the other player. 
 
-	> Healer field -> Speed boost? for you and every near you.
+		> Healer field -> Speed boost? for you and every near you.
 			-> 
+	> Add a couple new classes.
+		> Bubble shield -> no bullets move in, no bullets move out. 
+		> ALSO : pop shield. 
+		> Teleporter -> Place the two parts? Or place one then press b again to teleport? destroyable? 	
 			
 
 
