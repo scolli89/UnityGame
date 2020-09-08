@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6071778577397313255}
   - component: {fileID: 5703777568402621985}
   m_Layer: 0
-  m_Name: Ground -1 (1)
+  m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16466,7 +16466,7 @@ GameObject:
   - component: {fileID: 3579365610469296136}
   - component: {fileID: 2672765834696238440}
   - component: {fileID: 7841233699476889482}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Pit
   m_TagString: DeathBox
   m_Icon: {fileID: 0}
@@ -20811,7 +20811,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 24
-      m_TileSpriteIndex: 24
+      m_TileSpriteIndex: 36
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -20946,7 +20946,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 25
-      m_TileSpriteIndex: 25
+      m_TileSpriteIndex: 35
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -23939,12 +23939,10 @@ Tilemap:
   - m_RefCount: 8
     m_Data: {fileID: -3384258421493341899, guid: de8bb211c6cce454f9122d59744102bf,
       type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: 7359937105743757037, guid: de8bb211c6cce454f9122d59744102bf,
-      type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: 3627484455532399798, guid: de8bb211c6cce454f9122d59744102bf,
-      type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 33
     m_Data: {fileID: -95101433606779552, guid: de8bb211c6cce454f9122d59744102bf, type: 3}
   - m_RefCount: 4
@@ -23969,10 +23967,12 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  - m_RefCount: 1
+    m_Data: {fileID: 3627484455532399798, guid: de8bb211c6cce454f9122d59744102bf,
+      type: 3}
+  - m_RefCount: 1
+    m_Data: {fileID: 7359937105743757037, guid: de8bb211c6cce454f9122d59744102bf,
+      type: 3}
   m_TileMatrixArray:
   - m_RefCount: 813
     m_Data:
@@ -24351,7 +24351,7 @@ GameObject:
   m_Component:
   - component: {fileID: 679695123459648236}
   - component: {fileID: 679695123459648237}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Level3-The Divide
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24408,8 +24408,8 @@ GameObject:
   - component: {fileID: 679695124967623789}
   - component: {fileID: 679695124967623786}
   - component: {fileID: 679695124967623787}
-  m_Layer: 0
-  m_Name: Collision 1
+  m_Layer: 12
+  m_Name: Collision
   m_TagString: Environment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

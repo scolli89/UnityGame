@@ -730,7 +730,7 @@ GameObject:
   - component: {fileID: 3434497910495227790}
   - component: {fileID: 4256515125784642286}
   - component: {fileID: 8274263878628702220}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Pit
   m_TagString: DeathBox
   m_Icon: {fileID: 0}
@@ -27000,8 +27000,8 @@ GameObject:
   - component: {fileID: 1687579601051888619}
   - component: {fileID: 1687579601051888620}
   - component: {fileID: 1687579601051888621}
-  m_Layer: 0
-  m_Name: Collision 1
+  m_Layer: 12
+  m_Name: Collision
   m_TagString: Environment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27888,7 +27888,7 @@ GameObject:
   - component: {fileID: 5352235530693232993}
   - component: {fileID: 5846337329062273447}
   m_Layer: 0
-  m_Name: Ground -1 (1)
+  m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4884341204539126341}
   - component: {fileID: 6389485796884650627}
   m_Layer: 0
-  m_Name: Ground -1 (1)
+  m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6000,8 +6000,8 @@ GameObject:
   - component: {fileID: 2226224199768133839}
   - component: {fileID: 2226224199768133832}
   - component: {fileID: 2226224199768133833}
-  m_Layer: 0
-  m_Name: Collision 1
+  m_Layer: 12
+  m_Name: Collision
   m_TagString: Environment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
