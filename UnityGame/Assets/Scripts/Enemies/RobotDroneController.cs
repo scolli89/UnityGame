@@ -26,7 +26,7 @@ public class RobotDroneController : MonoBehaviour
     [Header("Movement:")]
     public float AGGRO_DISTANCE = 7f;
     public float moveRate = 60f;
-    private bool isEMPed = false;
+    public bool isEMPed = false;
     public float empLength = 0f;
 
 
@@ -54,7 +54,7 @@ public class RobotDroneController : MonoBehaviour
 
     // private Vector2 _destination;
     private Vector2 _direction;
-    public Transform target = null;
+    public Vector2 target = Vector2.zero;
     // //private Drone _target;
     // private PlayerController _playerTarget;
     // private DroneState _currentState;
@@ -106,11 +106,9 @@ public class RobotDroneController : MonoBehaviour
 
         // look for the player, if we get null, we didn't find them
         target = CheckForAggro();
-        if(target == null){
+        if(target == Vector2.zero){
             // find random point in circle around our drone and set that as target
-            GameObject temp = new GameObject(); 
-            temp.transform.position = (Vector2)this.transform.position + Random.insideUnitCircle * 5;
-            target = temp.transform;
+            target = (Vector2)this.transform.position + Random.insideUnitCircle * 5;
             if(cancelFire == true){
                 CancelInvoke("fireAtPlayer");
                 cancelFire = false;
@@ -149,7 +147,7 @@ public class RobotDroneController : MonoBehaviour
 
     void UpdatePath(){
         if(seeker.IsDone())
-            seeker.StartPath(rb.position, target.position, OnPathComplete);
+            seeker.StartPath(rb.position, target, OnPathComplete);
     }
 
     void OnPathComplete(Path p){
@@ -160,14 +158,14 @@ public class RobotDroneController : MonoBehaviour
     }
 
     void fireAtPlayer(){
-        Vector2 targetPosition = new Vector2(target.transform.position.x, target.transform.position.y);
+        Vector2 targetPosition = new Vector2(target.x, target.y);
         Vector2 currentPosition = new Vector2(transform.position.x, transform.position.y);
         float d = Vector2.Distance(currentPosition, targetPosition);
 
         shoot(targetPosition);
     }
 
-    private Transform CheckForAggro()
+    private Vector2 CheckForAggro()
     {
         Vector2 mPos = new Vector2(transform.position.x, transform.position.y);
 
@@ -186,11 +184,11 @@ public class RobotDroneController : MonoBehaviour
             if (Vector2.Distance(mPos, pPos) <= AGGRO_DISTANCE && pc.getIsAlive())
             {
                 // comparing between players who are closer. 
-                return player.transform;
+                return player.transform.position;
             }
         }
 
-        return null;
+        return Vector2.zero;
     }
 
     public void setEmpEffect(float empLength)
@@ -279,19 +277,5 @@ public class RobotDroneController : MonoBehaviour
             spriteRenderer.sortingLayerName = "underWall";
             //displayLevel.ToString();
         }
-
     }
-}
-
-
-
-
-
-
-public enum DroneState
-{
-    Wander,
-    Chase,
-    Attack
-
 }
