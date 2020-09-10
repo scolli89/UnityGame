@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Pathfinding;
 
 public class RobotDroneController : MonoBehaviour
 {
@@ -22,44 +23,18 @@ public class RobotDroneController : MonoBehaviour
     public float LASER_OFFSET = 1.2f;
 
     [Space]
-    [Header("Behaviour Attributes:")]
-
-    /*
-    behaviorTypes::
-    0 -> Defensive, non aggressive. 
-    1 -> Aggressive. 
-    2 -> ?
-    3 -> ?
-    */
-    public int behaviourType = 0;
-
-    public float DISTANCE_FROM_PLAYER = 1.0f;
-
-    public float AGGRO_DISTANCE = 10f;
-
-    public float ATTACK_DISTANCE = 7f;
-    public float ATTACK_STOP_DISTANCE = 5f;
-    public float WANDER_STOP_DISTACNE = 1.5f;
-
-
-
-
-    [Space]
     [Header("Movement:")]
-    public float moveCount;
+    public float AGGRO_DISTANCE = 7f;
     public float moveRate = 60f;
-    public float PATROL_SPEED = 1f;
-    public float PURSUIT_SPEED = 3f;
-    public float magnitude;
-
-    private bool isEMPed = false;
+    public bool isEMPed = false;
     public float empLength = 0f;
 
 
     [Space]
     [Header("References:")]
+    Path path;
+    private Seeker seeker;
     private Rigidbody2D rb;
-    public GameObject player; // shouldn't need this. 
     public Animator animator;
     public GameObject[] players;
 
@@ -69,17 +44,20 @@ public class RobotDroneController : MonoBehaviour
     public GameObject shieldPrefab;
     private SpriteRenderer spriteRenderer;
 
-
-
     [Space]
     [Header("Drone Script:")]
+    private bool cancelFire = false;
+    public float nextWaypointDistance = 3f;
+    int currentWaypoint = 0;
+    bool reachedEndOfPath = false;
     private float STOPPING_DISTANCE = 5f;
 
-    private Vector2 _destination;
+    // private Vector2 _destination;
     private Vector2 _direction;
-    //private Drone _target;
-    private PlayerController _playerTarget;
-    private DroneState _currentState;
+    public Vector2 target = Vector2.zero;
+    // //private Drone _target;
+    // private PlayerController _playerTarget;
+    // private DroneState _currentState;
     private CampaignGameLogic gameLogic;
     private AudioManager audioManager;
 
@@ -91,230 +69,32 @@ public class RobotDroneController : MonoBehaviour
     {
         //Debug.Log("Robot Drone Controller Start");
         animator = this.GetComponent<Animator>();
-        rb = this.GetComponent<Rigidbody2D>();
         spriteRenderer = this.GetComponent<SpriteRenderer>();
-        Random rnd = new Random();
-        behaviourType = Random.Range(0, 1); // change for different behavior types. 
-        //target = new Vector2(0, 0);
-        //hasTarget = false;
-        _currentState = DroneState.Wander;
+
+        rb = this.GetComponent<Rigidbody2D>();
+        seeker = this.GetComponent<Seeker>();
+        
         // finds the gameLogic gameObject. then gets the script on it. 
         gameLogic = GameObject.Find("CampaignGameLogic").GetComponent<CampaignGameLogic>();
-
-
         players = gameLogic.GetPlayerGameObjects();
+
         audioManager = FindObjectOfType<AudioManager>();
+
+        InvokeRepeating("UpdatePath", 0f, .5f);
     }
 
-    // function initialize drones call from gamelogic
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (!PauseMenu.GameIsPaused)
-        {
-            /* robot drone scans for a valid target. 
-            passes a valid target to Move
-            move based on behaviourType and target
-            drone scans for a valid target. 
-            passes a valid target to Combat 
-            combat based on behaviourType and target
-            */
-            updateStats();
-            switch (_currentState)
-            {
-                case DroneState.Wander:
-                    {
-                        if (isEMPed)
-                        {
-                            Debug.Log("Robot Zapped");
-                        }
-                        else
-                        {
-                            if (NeedsDestination())
-                            {
-                                GetDestination();
-                            }
-
-                            rb.velocity = _direction * PATROL_SPEED;// * Time.deltaTime;
-
-
-                            int count = 0;
-                            while (IsPathBlocked())
-                            {
-
-                                //Debug.Log("Path Blocked");
-                                GetDestination();
-                                count++;
-                                if (count >= 100)
-                                {
-                                    count = 0;
-                                    break;
-                                }
-                            }
-
-                            var targetToAggro = CheckForAggro();
-                            if (targetToAggro != null)
-                            {
-                                _playerTarget = targetToAggro.gameObject.GetComponent<PlayerController>();
-
-                                _currentState = DroneState.Chase;
-                                // assign direction 
-                                Vector2 targetPosition = new Vector2(_playerTarget.transform.position.x, _playerTarget.transform.position.y);
-                                Vector2 currentPosition = new Vector2(transform.position.x, transform.position.y);
-                                _direction = targetPosition - currentPosition;
-                                _direction.Normalize();
-                            }
-
-
-
-
-                        }
-
-                        break;
-                    }
-                case DroneState.Chase:
-                    {
-                        if (_playerTarget == null)
-                        {
-                            //target died. 
-                            Debug.Log("Entering Wander from chase");
-                            _currentState = DroneState.Wander;
-                            return;
-                        }
-
-
-                        Vector2 targetPosition = new Vector2(_playerTarget.transform.position.x, _playerTarget.transform.position.y);
-                        Vector2 currentPosition = new Vector2(transform.position.x, transform.position.y);
-
-                        float d = Vector2.Distance(currentPosition, targetPosition);
-                        if (d < ATTACK_STOP_DISTANCE)
-                        {
-                            // stop chaisng, just attack
-                            //  Debug.Log("ENTERING ATTACK from chase");
-                            rb.velocity = Vector2.zero;
-                            _currentState = DroneState.Attack;
-                            return;
-                        }
-                        else if (d >= AGGRO_DISTANCE)
-                        {
-                            //lost the target. 
-                            //Debug.Log("ENTERING Wander from chase ");
-                            _currentState = DroneState.Wander;
-                            return;
-                        }
-                        else
-                        {
-                            //chase the player 
-                            _direction = targetPosition - currentPosition;
-                            _direction.Normalize();
-
-                            if (!isEMPed)
-                            {
-                                rb.velocity = _direction * PATROL_SPEED;// * Time.deltaTime;
-                            }
-
-
-                            if (fireCount <= fireRate)
-                            {
-                                fireCount++;
-                                // decrease firerate to attack faster
-                                // chase and shoot. 
-                                rb.velocity = _direction * PURSUIT_SPEED;
-
-
-                            }
-                            else
-                            {
-                                // this ties the shield generating to the same interval as firing. 
-                                fireCount = 0;
-                                if (health == 1 && !shieldActive && shieldUses > 0)
-                                {
-                                    // need to stop first
-                                    //rb.velocity = Vector2.zero;
-                                    // wait?
-                                    ActivateShield();
-                                }
-                                else
-                                {
-                                    // shooting, 
-                                    // need to stop first
-                                    //rb.velocity = Vector2.zero;
-                                    //wait? 
-                                    Vector2 at = new Vector2(_playerTarget.transform.position.x, _playerTarget.transform.position.y);
-                                    shoot(at);
-                                }
-                            }
-
-                        }
-                        break;
-                    }
-                case DroneState.Attack:
-                    {
-                        if (_playerTarget == null)
-                        { //
-                          // should check if the target is still alive.
-                          // and if not, should revert back to wandering. 
-                            _currentState = DroneState.Wander;
-                            return;
-                        }
-                        Vector2 targetPosition = new Vector2(_playerTarget.transform.position.x, _playerTarget.transform.position.y);
-                        Vector2 currentPosition = new Vector2(transform.position.x, transform.position.y);
-                        float d = Vector2.Distance(currentPosition, targetPosition);
-
-                        if (d >= ATTACK_STOP_DISTANCE)// && d <= AGGRO_DISTANCE)
-                        {
-                            // Debug.Log("ENTERING Wander from attack");
-                            _currentState = DroneState.Wander;
-                            return;
-
-                            // _currentState = DroneState.Chase;
-                            // return;
-                        }
-                        // else if (d >= AGGRO_DISTANCE)
-                        // {
-                        //     _currentState = DroneState.Wander;
-                        //     return;
-
-                        // }
-                        // the stopped and attack
-                        else
-                        {
-                            rb.velocity = Vector2.zero;
-                            if (fireCount <= fireRate)
-                            {
-                                fireCount++;
-                                // decrease firerate to attack faster
-                            }
-                            else
-                            {
-                                // this ties the shield generating to the same interval as firing. 
-                                fireCount = 0;
-                                if (health == 1 && !shieldActive && shieldUses > 0)
-                                {
-                                    ActivateShield();
-                                }
-                                else
-                                {
-                                    Vector2 at = new Vector2(_playerTarget.transform.position.x, _playerTarget.transform.position.y);
-                                    shoot(at);
-                                }
-                            }
-                        }
-
-
-                        break;
-                    }
-            }
-        }
-    }
     void FixedUpdate()
     {
-        if (isEMPed)
-        {
+        if (PauseMenu.GameIsPaused){
+            return;
+        }
+
+        // if Emped, don't do anything until timer is up
+        if (isEMPed){
             if (empLength >= 0)
             {
                 empLength -= Time.deltaTime;
+                return;
             }
             else
             {
@@ -323,92 +103,69 @@ public class RobotDroneController : MonoBehaviour
                 isEMPed = false;
             }
         }
-    }
-    private bool IsPathBlocked()
-    {
-        Vector2 currentPosition = new Vector2(transform.position.x, transform.position.y);
-        Vector2 newPosition = currentPosition + _direction;
-        RaycastHit2D[] hits = Physics2D.LinecastAll(currentPosition, newPosition);
-        foreach (RaycastHit2D hit in hits)
-        {
-            GameObject other = hit.collider.gameObject;
-            if (other != this.gameObject)
-            {
-                if (other.CompareTag("Player"))
-                {
-                    // should set target to player. 
-                    return false;
 
-                }
-                if (other.CompareTag("Enemy"))
-                { // right now just the cannon. 
-                    return true;
-
-                }
-
-                if (other.gameObject.CompareTag("DeathBox"))
-                {
-                    //Debug.Log("Falling");
-
-                    return true;
-                }
-
-                if (other.CompareTag("Environment"))
-                {
-                    return true;
-
-                }
-                if (other.CompareTag("Shockwave"))
-                {
-                    return true;
-                }
-                if (other.CompareTag("BuilderWall"))
-                {
-
-                    return true;
-
-                }
+        // look for the player, if we get null, we didn't find them
+        target = CheckForAggro();
+        if(target == Vector2.zero){
+            // find random point in circle around our drone and set that as target
+            target = (Vector2)this.transform.position + Random.insideUnitCircle * 5;
+            if(cancelFire == true){
+                CancelInvoke("fireAtPlayer");
+                cancelFire = false;
             }
-
         }
-        return false;
-
-    }
-    private bool NeedsDestination()
-    {
-        if (_destination == Vector2.zero)
-        {
-            // if the destination is not set, it needs a destinantion. 
-            return true;
+        else{
+            if(cancelFire != true){
+                InvokeRepeating("fireAtPlayer", 0, fireRate);
+            }
+            cancelFire = true;
         }
 
-
-        var distance = Vector2.Distance(
-            new Vector2(transform.position.x, transform.position.y),
-             _destination);
-
-        if (distance <= WANDER_STOP_DISTACNE)
-        {
-            return true;
+        // error catch
+        if(path==null){
+            return;
+        }else if(currentWaypoint >= path.vectorPath.Count){
+            // if we get to the last waypoint in the path, we reached the end of the path
+            reachedEndOfPath = true;
+            return;
+        }else{
+            reachedEndOfPath = false;
         }
 
-        return false;
-    }
-    private void GetDestination()
-    {
-        // getting a random destination on the board
-        Vector2 transformXY = new Vector2(transform.position.x, transform.position.y);
-        _destination = new Vector2(
-             transformXY.x + (transform.forward.x * 4f) +
-             UnityEngine.Random.Range(-4.5f, 4.5f),
-             transformXY.y + (transform.forward.z * 4f) +
-             UnityEngine.Random.Range(-4.5f, 4.5f));
+        // direction is next waypoint along the path
+        _direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
+        // move the drone towards direction
+        rb.AddForce(_direction * moveRate * Time.deltaTime);
 
-        _direction = _destination - transformXY;
-        _direction.Normalize();
+        // calculate distance from current position to next waypoint
+        float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
+        // move up waypoint array when close enough
+        if(distance < nextWaypointDistance){
+            currentWaypoint++;
+        }
     }
 
-    private Transform CheckForAggro()
+    void UpdatePath(){
+        if(seeker.IsDone())
+            seeker.StartPath(rb.position, target, OnPathComplete);
+    }
+
+    void OnPathComplete(Path p){
+        if(!p.error){
+            path = p;
+            currentWaypoint = 0;
+        }
+    }
+
+    void fireAtPlayer(){
+        Vector2 targetPosition = new Vector2(target.x, target.y);
+        Vector2 currentPosition = new Vector2(transform.position.x, transform.position.y);
+        float d = Vector2.Distance(currentPosition, targetPosition);
+
+        shoot(targetPosition);
+    }
+
+    private Vector2 CheckForAggro()
     {
         Vector2 mPos = new Vector2(transform.position.x, transform.position.y);
 
@@ -423,28 +180,15 @@ public class RobotDroneController : MonoBehaviour
             //      < DISTANCE_FROM_PLAYER)
 
 
-
-            if (Vector2.Distance(mPos, pPos) <= AGGRO_DISTANCE)
+            PlayerController pc = player.GetComponent<PlayerController>();
+            if (Vector2.Distance(mPos, pPos) <= AGGRO_DISTANCE && pc.getIsAlive())
             {
                 // comparing between players who are closer. 
-                return player.transform;
+                return player.transform.position;
             }
         }
 
-
-        return null;
-    }
-
-    void updateStats()
-    {
-        /*
-            ADD UI FOR ENEMY HEALTH? 
-            // MAYBE MAKE THAT A PASSIVE ABILITY FOR PLAYERS to be ableto see. Think vide game: the Surge
-
-        */
-
-
-
+        return Vector2.zero;
     }
 
     public void setEmpEffect(float empLength)
@@ -459,42 +203,13 @@ public class RobotDroneController : MonoBehaviour
             isEMPed = true;
             this.empLength = empLength;
         }
-        _currentState = DroneState.Wander;
-
-
-
+        //_currentState = DroneState.Wander;
     }
     public void takeDamage(int damage)
     {
         gameLogic.DroneDied();
 
         Destroy(this.gameObject);
-
-        // if (damage < 0)
-        // {
-        //     // if adding health
-        //     health -= damage;
-        // }
-        // else if (shieldActive)
-        // {
-        //     // if shield is hit. 
-        //     DeactivateShield();
-
-
-        // }
-        // else
-        // {
-        //     //regular damange. 
-        //     health -= damage;
-        // }
-
-        // if (health == 0)
-        // {
-        //     gameLogic.DroneDied();
-        //     //enemyGameManager.subtractFromDronesRemaining(1);
-        //     Destroy(this.gameObject);
-        // }
-
     }
     public void takeDamage(int damage, int playerIndex)
     {
@@ -536,54 +251,6 @@ public class RobotDroneController : MonoBehaviour
         Destroy(laser, 2.0f);
     }
 
-
-
-
-
-    //////////////////////////////////
-
-
-    void Combat(bool hasTarget)
-    {
-        /*
-        remove later
-        */
-        behaviourType = 1;
-        if (behaviourType == 0)
-        {
-            if ((health == 1 || health == 2) && !shieldActive && shieldUses > 0)
-            {
-                ActivateShield();
-            }
-        }
-        else if (behaviourType == 1)
-        {
-            if (hasTarget)
-            {
-
-                if (fireCount <= fireRate)
-                {
-                    fireCount++;
-                    // decrease firerate to attack faster
-                }
-                else
-                {
-                    fireCount = 0;
-                    // shoot(target);
-                }
-
-            }
-
-        }
-
-        if (health == 1 && !shieldActive && shieldUses > 0)
-        {
-            ActivateShield();
-        }
-
-
-    }
-
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.tag == "Enemy")
@@ -592,9 +259,6 @@ public class RobotDroneController : MonoBehaviour
             Vector2 movementDirection;// = Vector2.zero;
             movementDirection = new Vector2(this.transform.position.x - other.transform.position.x, this.transform.position.y - other.transform.position.y);
             rb.velocity = Vector2.zero;
-            rb.velocity = movementDirection * PURSUIT_SPEED;
-
-
         }
         if (other.gameObject.CompareTag("DeathBox"))
         {
@@ -613,19 +277,5 @@ public class RobotDroneController : MonoBehaviour
             spriteRenderer.sortingLayerName = "underWall";
             //displayLevel.ToString();
         }
-
     }
-}
-
-
-
-
-
-
-public enum DroneState
-{
-    Wander,
-    Chase,
-    Attack
-
 }
