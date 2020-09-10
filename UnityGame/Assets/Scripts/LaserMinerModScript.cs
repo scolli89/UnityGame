@@ -38,9 +38,10 @@ public class LaserMinerModScript : PlayerClass
         mineList.Add(newMineScript);
         if (mineList.Count > MAX_MINES)
         {
+            Debug.Log("Destroying Mine");
             LaserMineScript destroyMine = mineList[0];
             mineList.RemoveAt(0); 
-            Destroy(destroyMine);
+            Destroy(destroyMine.gameObject);
         }
 
         // Array[4]: [] [] [] [] 
@@ -51,7 +52,6 @@ public class LaserMinerModScript : PlayerClass
 
     public override int getAmmoReq()
     {
-
         return AMMO_REQUIRED;
     }
 

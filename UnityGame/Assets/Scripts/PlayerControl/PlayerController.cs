@@ -115,14 +115,9 @@ public class PlayerController : MonoBehaviour
     public GameObject dot;
     public GameObject previousDot;
     public float DESTROY_DOT_TIME = 7f;
-
-
     private AmmoController ammoController;
-
     private EnergyBarController energyBarController;
-
     private PlayerClass playerClass;
-
     private bool firstUpdate = true;
 
     [Space]
@@ -561,7 +556,7 @@ public class PlayerController : MonoBehaviour
             {
                 shockDirection = Vector2.zero;
                 isShocked = false;
-                shockTime = startShockTime;
+                //shockTime = startShockTime;
                 rb.velocity = Vector2.zero;
             }
             else
@@ -872,6 +867,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void setIsShocked(float nShockTime, Vector2 nShockDirection)
+    {
+        isShocked = true;
+        shockTime = nShockTime;
+        shockDirection = nShockDirection;
+    }
+
+
     //hurt box
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -897,17 +900,11 @@ public class PlayerController : MonoBehaviour
         }
         if (other.gameObject.tag == "Shockwave")
         {// || other.gameObject.tag == "Enemey"){
-            Debug.Log("PUSH BACK");
+            Debug.Log("ON trigger enter shocked");
 
-            isShocked = true;
-            shockDirection = -movementDirection;
-        }
-    }
+           // isShocked = true;
+            //shockDirection = -movementDirection;
 
-    private void OnTriggerStay2D(Collider2D other)
-    {
-        if (other.gameObject.tag == "Shockwave")
-        {// || other.gameObject.tag == "Enemy"){
             isShocked = true;
             Vector2 shockWavePosition = new Vector2(other.transform.position.x, other.transform.position.y);
             Vector2 myPosition = new Vector2(transform.position.x, transform.position.y);
@@ -919,8 +916,38 @@ public class PlayerController : MonoBehaviour
 
             Vector2 difference = myPosition - shockWavePosition;
 
-            shockDirection = difference;//-lastMovementDirection;
+           // shockDirection = difference;//-lastMovementDirection;
+
+            setIsShocked(startShockTime, difference);
+
+
+
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "Shockwave")
+        {// || other.gameObject.tag == "Enemy"){
+            Debug.Log("OnTriggerStay Shocked");
+            //isShocked = true;
+            Vector2 shockWavePosition = new Vector2(other.transform.position.x, other.transform.position.y);
+            Vector2 myPosition = new Vector2(transform.position.x, transform.position.y);
+            /*
+            right - up; 
+            <1,0> - <0,1>
+            = <1,-1>; 
+            */
+
+            Vector2 difference = myPosition - shockWavePosition;
+
+            //shockDirection = difference;//-lastMovementDirection;
             Debug.Log(shockDirection);
+
+
+            setIsShocked(startShockTime, difference);
+
+
             // Vector2 otherPosition = new Vector2(other.gameObject.transform.position.x,  other.gameObject.transform.position.y);
             // Vector2 thisPosition = new Vector2(this.gameObject.transform.position.x,this.gameObject.transform.position.x);
             // Vector2 forceDirection =  thisPosition - otherPosition;
@@ -1007,7 +1034,7 @@ public class PlayerController : MonoBehaviour
         isAlive = false;
         isDashing = false;
         crosshair.SetActive(false);
-        
+
 
 
 

@@ -25,9 +25,9 @@ public class ShockwaveScript : MonoBehaviour
         
     }
     private void OnTriggerEnter2D(Collider2D other) {
-        if(other.gameObject.tag == "bullet"){
-            Debug.Log("Shock box bullets");
-            Destroy(other.gameObject);
-        }
+        // if(other.gameObject.tag == "bullet"){
+        //     Debug.Log("Shock box bullets");
+        //     Destroy(other.gameObject);
+        // }
     }
 }
